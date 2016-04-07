@@ -27,13 +27,13 @@
                 android:text="My places"/>
 
             <Button
-                android:id="@+id/btn_add_favorite"
+                android:id="@+id/addFavoriteButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Add favorite"/>
 
             <Button
-                android:id="@+id/btn_add_map_marker"
+                android:id="@+id/addMapMarkerButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Add map marker"/>
@@ -47,25 +47,25 @@
                 android:text="Audio/video plugin"/>
 
             <Button
-                android:id="@+id/btn_start_audio_rec"
+                android:id="@+id/startAudioRecButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Start audio recording"/>
 
             <Button
-                android:id="@+id/btn_start_video_rec"
+                android:id="@+id/startVideoRecButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Start video recording"/>
 
             <Button
-                android:id="@+id/btn_stop_rec"
+                android:id="@+id/stopRecButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Stop recording"/>
 
             <Button
-                android:id="@+id/btn_take_photo"
+                android:id="@+id/takePhotoButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Take photo"/>
@@ -79,13 +79,13 @@
                 android:text="GPX recording"/>
 
             <Button
-                android:id="@+id/btn_start_gpx_rec"
+                android:id="@+id/startGpxRecButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Start gpx recording"/>
 
             <Button
-                android:id="@+id/btn_stop_gpx_rec"
+                android:id="@+id/stopGpxRecButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Stop gpx recording"/>
@@ -99,13 +99,13 @@
                 android:text="GPX display/navigation"/>
 
             <Button
-                android:id="@+id/btn_show_gpx"
+                android:id="@+id/showGpxButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Show gpx"/>
 
             <Button
-                android:id="@+id/btn_navigate_gpx"
+                android:id="@+id/navigateGpxButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Navigate gpx"/>
@@ -119,13 +119,13 @@
                 android:text="Navigation"/>
 
             <Button
-                android:id="@+id/btn_navigate"
+                android:id="@+id/navigateButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Navigate"/>
 
             <Button
-                android:id="@+id/btn_get_info"
+                android:id="@+id/getInfoButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="Get info"/>
