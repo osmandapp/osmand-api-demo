@@ -8,4 +8,40 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextAppearance.ListItemTitle" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.ListItemTitle.Category">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="row_item_style" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">60dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.ListItemTitle</item>
+    </style>
+
+    <style name="divider_style">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/divider_color</item>
+    </style>
+
+    <style name="short_divider_style">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginLeft">56dp</item>
+        <item name="android:layout_marginStart">56dp</item>
+        <item name="android:background">@color/divider_color</item>
+    </style>
+
+    <style name="categoryStyle">
+        <item name="android:textAppearance">@style/TextAppearance.ListItemTitle.Category</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
 </resources>

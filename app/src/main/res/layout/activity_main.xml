@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<ScrollView
     android:id="@+id/main_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,131 +7,195 @@
     android:layout_height="match_parent"
     tools:context="net.osmand.osmandapidemo.MainActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:text="My places"
+            style="@style/categoryStyle"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="My places"/>
+        <View
+            style="@style/divider_style"
+            android:layout_width="match_parent"/>
 
-            <Button
-                android:id="@+id/addFavoriteButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Add favorite"/>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/addFavoriteButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add favorite"/>
 
-            <Button
-                android:id="@+id/addMapMarkerButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Add map marker"/>
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="wrap_content"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="Audio/video plugin"/>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/addMapMarkerButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add map marker"/>
 
-            <Button
-                android:id="@+id/startAudioRecButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Start audio recording"/>
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
 
-            <Button
-                android:id="@+id/startVideoRecButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Start video recording"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Audio/video plugin"
+            style="@style/categoryStyle"/>
 
-            <Button
-                android:id="@+id/stopRecButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Stop recording"/>
+        <View
+            style="@style/divider_style"
+            android:layout_width="match_parent"/>
 
-            <Button
-                android:id="@+id/takePhotoButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Take photo"/>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/startAudioRecButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start audio recording"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="GPX recording"/>
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
 
-            <Button
-                android:id="@+id/startGpxRecButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Start gpx recording"/>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/startVideoRecButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start video recording"/>
 
-            <Button
-                android:id="@+id/stopGpxRecButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Stop gpx recording"/>
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="GPX display/navigation"/>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/stopRecButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stop recording"/>
 
-            <Button
-                android:id="@+id/showGpxButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Show gpx"/>
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
 
-            <Button
-                android:id="@+id/navigateGpxButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Navigate gpx"/>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/takePhotoButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Take photo"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="Navigation"/>
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
 
-            <Button
-                android:id="@+id/navigateButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Navigate"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GPX recording"
+            style="@style/categoryStyle"/>
 
-            <Button
-                android:id="@+id/getInfoButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Get info"/>
+        <View
+            style="@style/divider_style"
+            android:layout_width="match_parent"/>
 
-        </LinearLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/startGpxRecButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start gpx recording"/>
 
-    </ScrollView>
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
 
-</FrameLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/stopGpxRecButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stop gpx recording"/>
+
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GPX display/navigation"
+            style="@style/categoryStyle"/>
+
+        <View
+            style="@style/divider_style"
+            android:layout_width="match_parent"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/showGpxButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show gpx"/>
+
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/navigateGpxButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Navigate gpx"/>
+
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Navigation"
+            style="@style/categoryStyle"/>
+
+        <View
+            style="@style/divider_style"
+            android:layout_width="match_parent"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/navigateButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Navigate"/>
+
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/getInfoButton"
+            style="@style/row_item_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get info"/>
+
+        <View
+            style="@style/short_divider_style"
+            android:layout_width="match_parent"/>
+
+    </LinearLayout>
+
+</ScrollView>
