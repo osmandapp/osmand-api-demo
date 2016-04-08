@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#e68200</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="divider_color">#F0F0F0</color>
+    <color name="dividerColor">#F0F0F0</color>
+    <color name="windowBackgroundColor">#EAEAEA</color>
+    <color name="itemBackgroundColor">#FFF</color>
 </resources>

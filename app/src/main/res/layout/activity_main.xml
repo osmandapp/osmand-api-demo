@@ -13,12 +13,30 @@
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My places"
-            style="@style/categoryStyle"/>
+            style="@style/categoryStyle"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.ListItemTitle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="OsmAnd Service"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <include layout="@layout/card_top_divider"/>
+
+        <TextView
+            style="@style/categoryStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My places"/>
 
         <View
             style="@style/divider_style"
@@ -42,15 +60,15 @@
             android:layout_height="wrap_content"
             android:text="Add map marker"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+        <include layout="@layout/card_bottom_divider"/>
+
+        <include layout="@layout/card_top_divider"/>
 
         <TextView
+            style="@style/categoryStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Audio/video plugin"
-            style="@style/categoryStyle"/>
+            android:text="Audio/video plugin"/>
 
         <View
             style="@style/divider_style"
@@ -96,15 +114,15 @@
             android:layout_height="wrap_content"
             android:text="Take photo"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+        <include layout="@layout/card_bottom_divider"/>
+
+        <include layout="@layout/card_top_divider"/>
 
         <TextView
+            style="@style/categoryStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GPX recording"
-            style="@style/categoryStyle"/>
+            android:text="GPX recording"/>
 
         <View
             style="@style/divider_style"
@@ -128,15 +146,15 @@
             android:layout_height="wrap_content"
             android:text="Stop gpx recording"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+        <include layout="@layout/card_bottom_divider"/>
+
+        <include layout="@layout/card_top_divider"/>
 
         <TextView
+            style="@style/categoryStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GPX display/navigation"
-            style="@style/categoryStyle"/>
+            android:text="GPX display/navigation"/>
 
         <View
             style="@style/divider_style"
@@ -160,15 +178,15 @@
             android:layout_height="wrap_content"
             android:text="Navigate gpx"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+        <include layout="@layout/card_bottom_divider"/>
+
+        <include layout="@layout/card_top_divider"/>
 
         <TextView
+            style="@style/categoryStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Navigation"
-            style="@style/categoryStyle"/>
+            android:text="Navigation"/>
 
         <View
             style="@style/divider_style"
@@ -196,6 +214,7 @@
             style="@style/short_divider_style"
             android:layout_width="match_parent"/>
 
+        <include layout="@layout/card_bottom_divider"/>
     </LinearLayout>
 
 </ScrollView>

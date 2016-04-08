@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+            <item name="android:windowBackground">@color/windowBackgroundColor</item>
+            <item name="android:colorBackground">@color/windowBackgroundColor</item>
     </style>
 
     <style name="TextAppearance.ListItemTitle" parent="TextAppearance.AppCompat.Subhead">
@@ -22,18 +25,19 @@
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:textAppearance">@style/TextAppearance.ListItemTitle</item>
+        <item name="android:background">@color/itemBackgroundColor</item>
     </style>
 
     <style name="divider_style">
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/divider_color</item>
+        <item name="android:background">@color/dividerColor</item>
     </style>
 
     <style name="short_divider_style">
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_marginLeft">56dp</item>
         <item name="android:layout_marginStart">56dp</item>
-        <item name="android:background">@color/divider_color</item>
+        <item name="android:background">@color/dividerColor</item>
     </style>
 
     <style name="categoryStyle">
@@ -42,6 +46,7 @@
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/itemBackgroundColor</item>
     </style>
 
 </resources>
