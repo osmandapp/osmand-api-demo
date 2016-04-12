@@ -143,7 +143,7 @@ public class OsmAndHelper {
 		//		new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName)));
 	}
 
-	public void navigate(String startLat, String startLon, String destLat, String destLon) {
+	public void navigate(String startLat, String startLon, Double destLat, Double destLon) {
 		// test navigate
 		Uri uri = Uri.parse(getUriString(NAVIGATE).append("?start_lat=").append(startLat)
 				.append("&start_lon=").append(startLon)
@@ -151,6 +151,7 @@ public class OsmAndHelper {
 				.append("&dest_lat=").append(destLat)
 				.append("&dest_lon=").append(destLon)
 				.append("&dest_name=Finish").append("&profile=bicycle").toString());
+		sendRequest(uri);
 	}
 
 	private StringBuilder getUriString(String command){
