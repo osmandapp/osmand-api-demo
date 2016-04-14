@@ -4,13 +4,13 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -19,35 +19,56 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*;
 
-public class MainActivity : AppCompatActivity() {
-
+public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
+    var mOsmAndHelper: OsmAndHelper? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API)
+        mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
 
         setContentView(R.layout.activity_main)
 
-        addFavoriteButton.setOnClickListener({ mOsmAndHelper.addFavorite(LAT, LON) })
-        addMapMarkerButton.setOnClickListener({ mOsmAndHelper.addMapMarker(LAT, LON) })
-        startAudioRecButton.setOnClickListener({ mOsmAndHelper.recordAudio(LAT, LON) })
-        startVideoRecButton.setOnClickListener({ mOsmAndHelper.recordVideo(LAT, LON) })
-        stopRecButton.setOnClickListener({ mOsmAndHelper.stopAvRec() })
-        takePhotoButton.setOnClickListener({ mOsmAndHelper.recordPhoto(LAT, LON) })
-        startGpxRecButton.setOnClickListener({ mOsmAndHelper.startGpxRec() })
-        stopGpxRecButton.setOnClickListener({ mOsmAndHelper.stopGpxRec() })
-        showGpxButton.setOnClickListener({ mOsmAndHelper.showGpx() })
-        navigateGpxButton.setOnClickListener({ mOsmAndHelper.navigateGpx() })
-        navigateButton.setOnClickListener({
-            object : SelectLocationDialogFragment() {
-                override fun locationSelectedCallback(lat: Double, lon: Double, latStart: Double, lonStart: Double) {
-                    mOsmAndHelper.navigate(latStart, lonStart, lat, lon)
-                    Log.d("dickbut","dickbut")
-                }
-
-                override fun getTitle(): String = "Navigate to"
-            }.show(supportFragmentManager, null)
+        addFavoriteButton.setOnClickListener({
+            getLocationSelectorInstance("Add favourite",
+                    { lat, lon, latStart, lonStart ->
+                        mOsmAndHelper!!.addFavorite(lat, lon)
+                    }).show(supportFragmentManager, null)
         })
-        getInfoButton.setOnClickListener({ mOsmAndHelper.getInfo() })
+        addMapMarkerButton.setOnClickListener({
+            getLocationSelectorInstance("Add map marker",
+                    { lat, lon, latStart, lonStart ->
+                        mOsmAndHelper!!.addMapMarker(lat, lon)
+                    }).show(supportFragmentManager, null)
+        })
+        startAudioRecButton.setOnClickListener({
+            getLocationSelectorInstance("Start audio recording",
+                    { lat, lon, latStart, lonStart ->
+                        mOsmAndHelper!!.recordAudio(lat, lon)
+                    }).show(supportFragmentManager, null)
+        })
+        startVideoRecButton.setOnClickListener({
+            getLocationSelectorInstance("Start video recording",
+                    { lat, lon, latStart, lonStart ->
+                        mOsmAndHelper!!.recordVideo(lat, lon)
+                    }).show(supportFragmentManager, null)
+        })
+        takePhotoButton.setOnClickListener({
+            getLocationSelectorInstance("Take photo",
+                    { lat, lon, latStart, lonStart ->
+                        mOsmAndHelper!!.recordPhoto(lat, lon)
+                    }).show(supportFragmentManager, null)
+        })
+        stopRecButton.setOnClickListener({ mOsmAndHelper!!.stopAvRec() })
+        startGpxRecButton.setOnClickListener({ mOsmAndHelper!!.startGpxRec() })
+        stopGpxRecButton.setOnClickListener({ mOsmAndHelper!!.stopGpxRec() })
+        showGpxButton.setOnClickListener({ mOsmAndHelper!!.showGpx() })
+        navigateGpxButton.setOnClickListener({ mOsmAndHelper!!.navigateGpx() })
+        navigateButton.setOnClickListener({
+            getLocationSelectorInstance("Navigate to",
+                    { lat, lon, latStart, lonStart ->
+                        mOsmAndHelper!!.navigate(latStart, lonStart, lat, lon)
+                    }).show(supportFragmentManager, null)
+        })
+        getInfoButton.setOnClickListener({ mOsmAndHelper!!.getInfo() })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -66,15 +87,19 @@ public class MainActivity : AppCompatActivity() {
                         sb.append(key).append("=").append(`val`)
                     }
                 }
-
-                val builder = AlertDialog.Builder(this)
-                builder.setMessage(sb.toString())
-                builder.setPositiveButton("OK", null)
-                builder.create().show()
+                val args = Bundle()
+                args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
+                val infoDialog = OsmAndInfoDialog()
+                infoDialog.arguments = args
+                infoDialog.show(supportFragmentManager, null)
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun osmandMissing() {
+        OsmAndMissingDialogFragment().show(supportFragmentManager, null);
     }
 
     private fun resultCodeStr(resultCode: Int): String {
@@ -89,6 +114,17 @@ public class MainActivity : AppCompatActivity() {
         return "" + resultCode
     }
 
+    private fun getLocationSelectorInstance(title: String, callback: (Double, Double, Double, Double) -> Unit)
+            : SelectLocationDialogFragment {
+        return object : SelectLocationDialogFragment() {
+            override fun locationSelectedCallback(lat: Double, lon: Double, latStart: Double, lonStart: Double) {
+                callback(lat, lon, latStart, lonStart)
+            }
+
+            override fun getTitle(): String = title
+        }
+    }
+
     companion object {
         val REQUEST_OSMAND_API = 101
 
@@ -99,8 +135,6 @@ public class MainActivity : AppCompatActivity() {
         val RESULT_CODE_ERROR_GPX_NOT_FOUND = 20
         val RESULT_CODE_ERROR_INVALID_PROFILE = 30
 
-        private val LAT = "44.98062"
-        private val LON = "34.09258"
         private val GPX_NAME = "xxx.gpx"
     }
 }
@@ -154,4 +188,32 @@ abstract class SelectLocationDialogFragment : DialogFragment() {
     abstract fun locationSelectedCallback(lat: Double, lon: Double, latStart: Double, lonStart: Double)
 
     abstract fun getTitle(): String
+}
+
+class OsmAndMissingDialogFragment : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(activity)
+        builder.setView(R.layout.dialog_install_osm_and)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Install", { dialogInterface, i ->
+                    val intent = Intent()
+                    intent.data = Uri.parse("market://details?id=net.osmand.plus")
+                    startActivity(intent)
+                })
+        return builder.create()
+    }
+}
+
+class OsmAndInfoDialog :DialogFragment() {
+    companion object {
+        const val INFO_KEY = "info_key"
+    }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val message = arguments.getString(INFO_KEY)
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage(message)
+        builder.setTitle("OsmAnd info:")
+        builder.setPositiveButton("OK", null)
+        return super.onCreateDialog(savedInstanceState)
+    }
 }

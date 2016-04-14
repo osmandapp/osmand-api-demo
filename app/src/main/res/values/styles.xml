@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -7,8 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-            <item name="android:windowBackground">@color/windowBackgroundColor</item>
-            <item name="android:colorBackground">@color/windowBackgroundColor</item>
+        <item name="android:windowBackground">@color/windowBackgroundColor</item>
+        <item name="android:colorBackground">@color/windowBackgroundColor</item>
     </style>
 
     <style name="TextAppearance.ListItemTitle" parent="TextAppearance.AppCompat.Subhead">
@@ -36,7 +36,7 @@
     <style name="short_divider_style">
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_marginLeft">56dp</item>
-        <item name="android:layout_marginStart">56dp</item>
+        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">56dp</item>
         <item name="android:background">@color/dividerColor</item>
     </style>
 

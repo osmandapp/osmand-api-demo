@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">OsmAnd API Demo</string>
+    <string name="osmand_logo">OsmAnd logo</string>
+    <string name="install_osmand_dialog_message">You need to install some version of OsmAnd, so you can test Intents API</string>
+    <string name="install_osmand">Install OsmAnd</string>
 </resources>

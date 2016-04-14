@@ -2,8 +2,10 @@ package net.osmand.osmandapidemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
+
+import java.util.List;
 
 public class OsmAndHelper {
 	private static final String PREFIX = "osmand.api://";
@@ -57,10 +59,12 @@ public class OsmAndHelper {
 
 	private final int mRequestCode;
 	private final Activity mActivity;
+	private final OnOsmandMissingListener mOsmandMissingListener;
 
-	public OsmAndHelper(Activity activity, int requestCode) {
+	public OsmAndHelper(Activity activity, int requestCode, OnOsmandMissingListener listener) {
 		this.mRequestCode = requestCode;
 		mActivity = activity;
+		mOsmandMissingListener = listener;
 	}
 
 	public void getInfo() {
@@ -69,19 +73,19 @@ public class OsmAndHelper {
 		sendRequest(uri);
 	}
 
-	public void recordAudio(String lat, String lon) {
+	public void recordAudio(double lat, double lon) {
 		// test record audio
 		Uri uri = Uri.parse(getUriString(RECORD_AUDIO).append("?lat=").append(lat)
 				.append("&lon=").append(lon).toString());
 		sendRequest(uri);
 	}
-	public void recordVideo(String lat, String lon) {
+	public void recordVideo(double lat, double lon) {
 		// test record video
 		Uri uri = Uri.parse(getUriString(RECORD_VIDEO).append("?lat=").append(lat)
 				.append("&lon=").append(lon).toString());
 		sendRequest(uri);
 	}
-	public void recordPhoto(String lat, String lon) {
+	public void recordPhoto(double lat, double lon) {
 		// test record photo
 		Uri uri = Uri.parse(getUriString(RECORD_PHOTO).append("?lat=").append(lat)
 				.append("&lon=").append(lon).toString());
@@ -93,14 +97,14 @@ public class OsmAndHelper {
 		sendRequest(uri);
 	}
 
-	public void addMapMarker(String lat, String lon) {
+	public void addMapMarker(double lat, double lon) {
 		// test marker
 		Uri uri = Uri.parse(getUriString(ADD_MAP_MARKER).append("?lat=").append(lat)
 				.append("&lon=").append(lon).append("&name=Marker").toString());
 		sendRequest(uri);
 	}
 
-	public void addFavorite(String lat, String lon) {
+	public void addFavorite(double lat, double lon) {
 		// test favorite
 		Uri uri = Uri.parse(getUriString(ADD_FAVORITE).append("?lat=").append(lat)
 				.append("&lon=").append(lon).append("&name=Favorite&desc=Description&category=test2&color=red&visible=true").toString());
@@ -143,7 +147,7 @@ public class OsmAndHelper {
 		//		new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName)));
 	}
 
-	public void navigate(Double startLat, Double startLon, Double destLat, Double destLon) {
+	public void navigate(double startLat, double startLon, double destLat, double destLon) {
 		// test navigate
 		Uri uri = Uri.parse(getUriString(NAVIGATE).append("?start_lat=").append(startLat)
 				.append("&start_lon=").append(startLon)
@@ -162,6 +166,18 @@ public class OsmAndHelper {
 
 	private void sendRequest(Uri uri) {
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		mActivity.startActivityForResult(intent, mRequestCode);
+		PackageManager packageManager = mActivity.getPackageManager();
+		List activities = packageManager.queryIntentActivities(intent,
+				PackageManager.MATCH_DEFAULT_ONLY);
+		boolean isIntentSafe = activities.size() > 0;
+		if (isIntentSafe) {
+			mActivity.startActivityForResult(intent, mRequestCode);
+		} else {
+			mOsmandMissingListener.osmandMissing();
+		}
+	}
+
+	public interface OnOsmandMissingListener {
+		void osmandMissing();
 	}
 }

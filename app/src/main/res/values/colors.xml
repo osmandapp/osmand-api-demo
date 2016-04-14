@@ -8,4 +8,5 @@
     <color name="windowBackgroundColor">#EAEAEA</color>
     <color name="itemBackgroundColor">#FFF</color>
     <color name="iconColor">#727272</color>
+    <color name="dialogTitleBackgroundColor">#2f7af5</color>
 </resources>
