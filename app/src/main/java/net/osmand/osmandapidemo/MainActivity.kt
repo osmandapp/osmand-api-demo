@@ -2,7 +2,6 @@ package net.osmand.osmandapidemo
 
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -102,8 +101,6 @@ public class MainActivity : AppCompatActivity() {
 
         private val LAT = "44.98062"
         private val LON = "34.09258"
-        private val DEST_LAT = "44.97799"
-        private val DEST_LON = "34.10286"
         private val GPX_NAME = "xxx.gpx"
     }
 }
@@ -147,7 +144,7 @@ abstract class SelectLocationDialogFragment : DialogFragment() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(getTitle())
                 .setAdapter(CitiesAdapter(activity), { dialogInterface, i ->
-                    locationSelectedCallback(CITIES[i].lat, CITIES[i].lon, CITIES[i].lonStart,
+                    locationSelectedCallback(CITIES[i].lat, CITIES[i].lon, CITIES[i].latStart,
                             CITIES[i].lonStart)
                 })
                 .setNegativeButton("Cancel", null)
