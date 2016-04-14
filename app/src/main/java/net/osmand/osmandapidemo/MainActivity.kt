@@ -4,10 +4,15 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +40,9 @@ public class MainActivity : AppCompatActivity() {
         navigateGpxButton.setOnClickListener({ mOsmAndHelper.navigateGpx() })
         navigateButton.setOnClickListener({
             object : SelectLocationDialogFragment() {
-                override fun locationSelectedCallback(lat: Double, lon: Double) {
-                    mOsmAndHelper.navigate(LAT, LON, lat, lon)
+                override fun locationSelectedCallback(lat: Double, lon: Double, latStart: Double, lonStart: Double) {
+                    mOsmAndHelper.navigate(latStart, lonStart, lat, lon)
+                    Log.d("dickbut","dickbut")
                 }
 
                 override fun getTitle(): String = "Navigate to"
@@ -103,24 +109,35 @@ public class MainActivity : AppCompatActivity() {
 }
 
 val CITIES = arrayOf(
-        Location("Bruxelles - Brussel", 50.8465565, 4.351697),
-        Location("London", 51.5073219, -0.1276474),
-        Location("Paris", 48.8566101, 2.3514992),
-        Location("Budapest", 47.4983815, 19.0404707),
-        Location("Moscow", 55.7506828, 37.6174976),
-        Location("Beijing", 39.9059631, 116.391248),
-        Location("Tokyo", 35.6828378, 139.7589667),
-        Location("Washington", 38.8949549, -77.0366456),
-        Location("Ottawa", 45.4210328, -75.6900219),
-        Location("Panama", 8.9710438, -79.5340599))
+        Location("Bruxelles - Brussel", 50.8465565, 4.351697, 50.83477, 4.4068823),
+        Location("London", 51.5073219, -0.1276474, 51.52753, -0.07244986),
+        Location("Paris", 48.8566101, 2.3514992, 48.87588, 2.428313),
+        Location("Budapest", 47.4983815, 19.0404707, 47.48031, 19.067793),
+        Location("Moscow", 55.7506828, 37.6174976, 55.769417, 37.698547),
+        Location("Beijing", 39.9059631, 116.391248, 39.88707, 116.43207),
+        Location("Tokyo", 35.6828378, 139.7589667, 35.72936, 139.703),
+        Location("Washington", 38.8949549, -77.0366456, 38.91373, -77.02069),
+        Location("Ottawa", 45.4210328, -75.6900219, 45.386864, -75.783356),
+        Location("Panama", 8.9710438, -79.5340599, 8.992735, -79.5157))
+
 
 class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, android.R.layout.simple_list_item_1, CITIES) {
     val mInflater = LayoutInflater.from(context)
+    val icon: Drawable;
+
+    init {
+        icon = ContextCompat.getDrawable(context, R.drawable.ic_action_street_name);
+        DrawableCompat.wrap(icon)
+        icon.mutate()
+        icon.setTint(ContextCompat.getColor(context, R.color.iconColor))
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = (convertView ?: mInflater.inflate(android.R.layout.simple_list_item_1, parent, false)) as TextView
         view.text = getItem(position).name
-        //        view.setCompoundDrawablesWithIntrinsicBounds()
+        view.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                8f, context.resources.displayMetrics).toInt()
+        view.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
         return view
     }
 }
@@ -130,13 +147,14 @@ abstract class SelectLocationDialogFragment : DialogFragment() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(getTitle())
                 .setAdapter(CitiesAdapter(activity), { dialogInterface, i ->
-                    locationSelectedCallback(CITIES[i].lat, CITIES[i].lon)
+                    locationSelectedCallback(CITIES[i].lat, CITIES[i].lon, CITIES[i].lonStart,
+                            CITIES[i].lonStart)
                 })
                 .setNegativeButton("Cancel", null)
         return builder.create()
     }
 
-    abstract fun locationSelectedCallback(lat: Double, lon: Double)
+    abstract fun locationSelectedCallback(lat: Double, lon: Double, latStart: Double, lonStart: Double)
 
     abstract fun getTitle(): String
 }

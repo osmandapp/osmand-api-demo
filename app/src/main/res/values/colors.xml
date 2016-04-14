@@ -7,4 +7,5 @@
     <color name="dividerColor">#F0F0F0</color>
     <color name="windowBackgroundColor">#EAEAEA</color>
     <color name="itemBackgroundColor">#FFF</color>
+    <color name="iconColor">#727272</color>
 </resources>
