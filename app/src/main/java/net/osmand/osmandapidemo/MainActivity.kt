@@ -145,7 +145,6 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     }
 
     companion object {
-        val REQUEST_INFO = 1;
         val REQUEST_OSMAND_API = 101
         private val GPX_NAME = "xxx.gpx"
     }
@@ -161,7 +160,10 @@ val CITIES = arrayOf(
         Location("Tokyo", 35.6828378, 139.7589667, 35.72936, 139.703),
         Location("Washington", 38.8949549, -77.0366456, 38.91373, -77.02069),
         Location("Ottawa", 45.4210328, -75.6900219, 45.386864, -75.783356),
-        Location("Panama", 8.9710438, -79.5340599, 8.992735, -79.5157))
+        Location("Panama", 8.9710438, -79.5340599, 8.992735, -79.5157),
+        Location("Minsk", 53.9072394 ,27.5863608, 53.9022545, 27.5619212),
+        Location("Amsterdam", 52.3704312 ,4.8904288, 52.3693012, 4.9013307)
+)
 
 
 class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, R.layout.simple_list_layout, CITIES) {
