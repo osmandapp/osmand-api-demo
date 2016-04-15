@@ -1,5 +1,6 @@
 package net.osmand.osmandapidemo
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -73,26 +74,24 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_OSMAND_API && resultCode == RESULT_OK) {
-            val view = findViewById(R.id.main_view)
-            if (view != null) {
-                val sb = StringBuilder()
-                sb.append("ResultCode=").append(resultCodeStr(resultCode))
-                val extras = data!!.extras
-                if (extras != null && extras.size() > 0) {
-                    for (key in data.extras.keySet()) {
-                        val `val` = extras.get(key)
-                        if (sb.length > 0) {
-                            sb.append("\n")
-                        }
-                        sb.append(key).append("=").append(`val`)
+            val sb = StringBuilder()
+            sb.append("ResultCode=").append(resultCodeStr(resultCode))
+            val extras = data!!.extras
+            if (extras != null && extras.size() > 0) {
+                for (key in data.extras.keySet()) {
+                    val `val` = extras.get(key)
+                    if (sb.length > 0) {
+                        sb.append("\n")
                     }
+                    sb.append(key).append("=").append(`val`)
                 }
-                val args = Bundle()
-                args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
-                val infoDialog = OsmAndInfoDialog()
-                infoDialog.arguments = args
-                infoDialog.show(supportFragmentManager, null)
             }
+            val args = Bundle()
+            args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
+            val infoDialog = OsmAndInfoDialog()
+            infoDialog.arguments = args
+            supportFragmentManager.beginTransaction()
+                    .add(infoDialog, null).commitAllowingStateLoss()
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
@@ -104,12 +103,14 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
     private fun resultCodeStr(resultCode: Int): String {
         when (resultCode) {
-            RESULT_CODE_OK -> return "OK"
-            RESULT_CODE_ERROR_UNKNOWN -> return "Unknown error"
-            RESULT_CODE_ERROR_NOT_IMPLEMENTED -> return "Feature is not implemented"
-            RESULT_CODE_ERROR_GPX_NOT_FOUND -> return "GPX not found"
-            RESULT_CODE_ERROR_INVALID_PROFILE -> return "Invalid profile"
-            RESULT_CODE_ERROR_PLUGIN_INACTIVE -> return "Plugin inactive"
+            Activity.RESULT_OK -> return "OK"
+            Activity.RESULT_CANCELED -> return "Canceled"
+            Activity.RESULT_FIRST_USER -> return "First user"
+            OsmAndHelper.RESULT_CODE_ERROR_UNKNOWN -> return "Unknown error"
+            OsmAndHelper.RESULT_CODE_ERROR_NOT_IMPLEMENTED -> return "Feature is not implemented"
+            OsmAndHelper.RESULT_CODE_ERROR_GPX_NOT_FOUND -> return "GPX not found"
+            OsmAndHelper.RESULT_CODE_ERROR_INVALID_PROFILE -> return "Invalid profile"
+            OsmAndHelper.RESULT_CODE_ERROR_PLUGIN_INACTIVE -> return "Plugin inactive"
         }
         return "" + resultCode
     }
@@ -126,15 +127,8 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     }
 
     companion object {
+        val REQUEST_INFO = 1;
         val REQUEST_OSMAND_API = 101
-
-        val RESULT_CODE_OK = 0
-        val RESULT_CODE_ERROR_UNKNOWN = -1
-        val RESULT_CODE_ERROR_NOT_IMPLEMENTED = -2
-        val RESULT_CODE_ERROR_PLUGIN_INACTIVE = 10
-        val RESULT_CODE_ERROR_GPX_NOT_FOUND = 20
-        val RESULT_CODE_ERROR_INVALID_PROFILE = 30
-
         private val GPX_NAME = "xxx.gpx"
     }
 }
@@ -204,16 +198,17 @@ class OsmAndMissingDialogFragment : DialogFragment() {
     }
 }
 
-class OsmAndInfoDialog :DialogFragment() {
+class OsmAndInfoDialog : DialogFragment() {
     companion object {
         const val INFO_KEY = "info_key"
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val message = arguments.getString(INFO_KEY)
         val builder = AlertDialog.Builder(activity)
         builder.setMessage(message)
         builder.setTitle("OsmAnd info:")
         builder.setPositiveButton("OK", null)
-        return super.onCreateDialog(savedInstanceState)
+        return builder.create()
     }
 }

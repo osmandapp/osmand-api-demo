@@ -10,6 +10,17 @@ import java.util.List;
 public class OsmAndHelper {
 	private static final String PREFIX = "osmand.api://";
 
+	// Result codes
+	// RESULT_OK == -1
+	// RESULT_CANCELED == 0
+	// RESULT_FIRST_USER == 1
+	// from Activity
+	public static final int RESULT_CODE_ERROR_UNKNOWN = -3;
+	public static final int RESULT_CODE_ERROR_NOT_IMPLEMENTED = -2;
+	public static final int RESULT_CODE_ERROR_PLUGIN_INACTIVE = 10;
+	public static final int RESULT_CODE_ERROR_GPX_NOT_FOUND = 20;
+	public static final int RESULT_CODE_ERROR_INVALID_PROFILE = 30;
+
 	// Information
 	private static final String GET_INFO = "get_info";
 
@@ -165,13 +176,17 @@ public class OsmAndHelper {
 	}
 
 	private void sendRequest(Uri uri) {
+		sendRequest(uri, mRequestCode);
+	}
+
+	private void sendRequest(Uri uri, int requestCode) {
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		PackageManager packageManager = mActivity.getPackageManager();
 		List activities = packageManager.queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
 		boolean isIntentSafe = activities.size() > 0;
 		if (isIntentSafe) {
-			mActivity.startActivityForResult(intent, mRequestCode);
+			mActivity.startActivityForResult(intent, requestCode);
 		} else {
 			mOsmandMissingListener.osmandMissing();
 		}
