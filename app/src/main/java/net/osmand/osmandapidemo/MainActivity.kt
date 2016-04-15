@@ -160,7 +160,7 @@ class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, android.
         icon = ContextCompat.getDrawable(context, R.drawable.ic_action_street_name);
         DrawableCompat.wrap(icon)
         icon.mutate()
-        icon.setTint(ContextCompat.getColor(context, R.color.iconColor))
+        DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.iconColor))
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
