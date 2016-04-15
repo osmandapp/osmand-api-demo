@@ -4,8 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OsmAndHelper {
 	private static final String PREFIX = "osmand.api://";
@@ -80,57 +86,79 @@ public class OsmAndHelper {
 
 	public void getInfo() {
 		// test get info
-		Uri uri = Uri.parse(getUriString(GET_INFO).toString());
+		Uri uri = Uri.parse(getUriString(GET_INFO, null));
 		sendRequest(uri);
 	}
 
 	public void recordAudio(double lat, double lon) {
 		// test record audio
-		Uri uri = Uri.parse(getUriString(RECORD_AUDIO).append("?lat=").append(lat)
-				.append("&lon=").append(lon).toString());
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_LAT, String.valueOf(lat));
+		params.put(PARAM_LON, String.valueOf(lon));
+		Uri uri = Uri.parse(getUriString(RECORD_AUDIO, params));
 		sendRequest(uri);
 	}
+
 	public void recordVideo(double lat, double lon) {
 		// test record video
-		Uri uri = Uri.parse(getUriString(RECORD_VIDEO).append("?lat=").append(lat)
-				.append("&lon=").append(lon).toString());
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_LAT, String.valueOf(lat));
+		params.put(PARAM_LON, String.valueOf(lon));
+		Uri uri = Uri.parse(getUriString(RECORD_VIDEO, params));
 		sendRequest(uri);
 	}
+
 	public void recordPhoto(double lat, double lon) {
 		// test record photo
-		Uri uri = Uri.parse(getUriString(RECORD_PHOTO).append("?lat=").append(lat)
-				.append("&lon=").append(lon).toString());
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_LAT, String.valueOf(lat));
+		params.put(PARAM_LON, String.valueOf(lon));
+		Uri uri = Uri.parse(getUriString(RECORD_PHOTO, params));
 		sendRequest(uri);
 	}
+
 	public void stopAvRec() {
 		// test stop recording
-		Uri uri = Uri.parse(getUriString(STOP_AV_REC).toString());
+		Uri uri = Uri.parse(getUriString(STOP_AV_REC, null));
 		sendRequest(uri);
 	}
 
-	public void addMapMarker(double lat, double lon) {
+	public void addMapMarker(double lat, double lon, String name) {
 		// test marker
-		Uri uri = Uri.parse(getUriString(ADD_MAP_MARKER).append("?lat=").append(lat)
-				.append("&lon=").append(lon).append("&name=Marker").toString());
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_LAT, String.valueOf(lat));
+		params.put(PARAM_LON, String.valueOf(lon));
+		params.put(PARAM_NAME, name);
+		Uri uri = Uri.parse(getUriString(ADD_MAP_MARKER, params));
 		sendRequest(uri);
 	}
 
-	public void addFavorite(double lat, double lon) {
+	// TODO covert color to set
+	public void addFavorite(double lat, double lon, String name,
+							String description, String category, String color,
+							boolean visible) {
 		// test favorite
-		Uri uri = Uri.parse(getUriString(ADD_FAVORITE).append("?lat=").append(lat)
-				.append("&lon=").append(lon).append("&name=Favorite&desc=Description&category=test2&color=red&visible=true").toString());
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_LAT, String.valueOf(lat));
+		params.put(PARAM_LON, String.valueOf(lon));
+		params.put(PARAM_NAME, name);
+		params.put(PARAM_DESC, description);
+		params.put(PARAM_CATEGORY, category);
+		params.put(PARAM_COLOR, color);
+		params.put(PARAM_VISIBLE, String.valueOf(visible));
+		Uri uri = Uri.parse(getUriString(ADD_FAVORITE, params));
 		sendRequest(uri);
 	}
 
 	public void startGpxRec() {
 		// test start gpx recording
-		Uri uri = Uri.parse(getUriString(START_GPX_REC).toString());
+		Uri uri = Uri.parse(getUriString(START_GPX_REC, null));
 		sendRequest(uri);
 	}
 
 	public void stopGpxRec() {
 		// test stop gpx recording
-		Uri uri = Uri.parse(getUriString(STOP_GPX_REC).toString());
+		Uri uri = Uri.parse(getUriString(STOP_GPX_REC, null));
 		sendRequest(uri);
 	}
 
@@ -140,39 +168,54 @@ public class OsmAndHelper {
 		//uri = Uri.parse("osmand.api://show_gpx?path=" + URLEncoder.encode(gpx.getAbsolutePath(), "UTF-8"));
 
 		// test show gpx (data)
-		Uri uri = Uri.parse(getUriString(SHOW_GPX).toString());
+		Uri uri = Uri.parse(getUriString(SHOW_GPX, null));
 		sendRequest(uri);
 		//intent.putExtra("data", AndroidUtils.getFileAsString(
 		//		new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName)));
 	}
 
-	public void navigateGpx() {
+	public void navigateGpx(boolean force, String path) {
 		// test navigate gpx (path)
 		//File gpx = new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName);
 		//uri = Uri.parse("osmand.api://navigate_gpx?force=true&path=" + URLEncoder.encode(gpx.getAbsolutePath(), "UTF-8"));
 
-		// test navigate gpx (data)
-		Uri uri = Uri.parse(getUriString(NAVIGATE_GPX).append("?force=true").toString());
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_FORCE, String.valueOf(force));
+		params.put(PARAM_PATH, path);
+		Uri uri = Uri.parse(getUriString(NAVIGATE_GPX, params));
 		sendRequest(uri);
 		//intent.putExtra("data", AndroidUtils.getFileAsString(
 		//		new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName)));
 	}
 
-	public void navigate(double startLat, double startLon, double destLat, double destLon) {
+	public void navigate(String startName, double startLat, double startLon,
+						 String destName, double destLat, double destLon,
+						 String profile) {
 		// test navigate
-		Uri uri = Uri.parse(getUriString(NAVIGATE).append("?start_lat=").append(startLat)
-				.append("&start_lon=").append(startLon)
-				.append("&start_name=Start")
-				.append("&dest_lat=").append(destLat)
-				.append("&dest_lon=").append(destLon)
-				.append("&dest_name=Finish").append("&profile=bicycle").toString());
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_START_LAT, String.valueOf(startLat));
+		params.put(PARAM_START_LON, String.valueOf(startLon));
+		params.put(PARAM_START_NAME, startName);
+		params.put(PARAM_DEST_LAT, String.valueOf(destLat));
+		params.put(PARAM_DEST_LON, String.valueOf(destLon));
+		params.put(PARAM_DEST_NAME, destName);
+		params.put(PARAM_PROFILE, profile);
+		Uri uri = Uri.parse(getUriString(NAVIGATE, params));
 		sendRequest(uri);
 	}
 
-	private StringBuilder getUriString(String command){
+	private String getUriString(@NonNull @NotNull String command,
+								@Nullable Map<String, String> parameters) {
 		StringBuilder stringBuilder = new StringBuilder(PREFIX);
 		stringBuilder.append(command);
-		return stringBuilder;
+		if (parameters != null && parameters.size() > 0) {
+			stringBuilder.append("?");
+			for (String key : parameters.keySet()) {
+				stringBuilder.append(key).append("=").append(parameters.get(key)).append("&");
+			}
+			stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+		}
+		return stringBuilder.toString();
 	}
 
 	private void sendRequest(Uri uri) {
