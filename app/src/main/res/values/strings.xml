@@ -3,4 +3,22 @@
     <string name="osmand_logo">OsmAnd logo</string>
     <string name="install_osmand_dialog_message">You need to install some version of OsmAnd, so you can test Intents API</string>
     <string name="install_osmand">Install OsmAnd</string>
+    <string name="osmand_service">OsmAnd Service</string>
+    <string name="my_places">My places</string>
+    <string name="add_favorite">Add favorite</string>
+    <string name="add_map_marker">Add map marker</string>
+    <string name="audio_video_plugin">Audio/video plugin</string>
+    <string name="start_audio_recording">Start audio recording</string>
+    <string name="start_video_recording">Start video recording</string>
+    <string name="stop_recording">Stop recording</string>
+    <string name="take_photo">Take photo</string>
+    <string name="gpx_recording">GPX recording</string>
+    <string name="start_gpx_recording">Start gpx recording</string>
+    <string name="stop_gpx_recording">Stop gpx recording</string>
+    <string name="gpx_display_navigation">GPX display/navigation</string>
+    <string name="show_gpx">Show gpx</string>
+    <string name="navigate_gpx">Navigate gpx</string>
+    <string name="navigation">Navigation</string>
+    <string name="navigate">Navigate</string>
+    <string name="get_info">Get info</string>
 </resources>

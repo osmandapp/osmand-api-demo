@@ -24,6 +24,7 @@
         <item name="android:minHeight">60dp</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
+        <item name="android:drawablePadding">32dp</item>
         <item name="android:textAppearance">@style/TextAppearance.ListItemTitle</item>
         <item name="android:background">@color/itemBackgroundColor</item>
     </style>

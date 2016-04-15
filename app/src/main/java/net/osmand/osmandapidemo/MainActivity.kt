@@ -70,6 +70,18 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     }).show(supportFragmentManager, null)
         })
         getInfoButton.setOnClickListener({ mOsmAndHelper!!.getInfo() })
+        paintDrawable(R.drawable.ic_action_fav_dark)
+        paintDrawable(R.drawable.ic_action_flag_dark)
+        paintDrawable(R.drawable.ic_action_micro_dark)
+        paintDrawable(R.drawable.ic_action_video_dark)
+        paintDrawable(R.drawable.ic_action_rec_stop)
+        paintDrawable(R.drawable.ic_action_photo_dark)
+        paintDrawable(R.drawable.ic_action_play)
+        paintDrawable(R.drawable.ic_action_rec_stop)
+        paintDrawable(R.drawable.ic_action_polygom_dark)
+        paintDrawable(R.drawable.ic_action_gdirections_dark)
+        paintDrawable(R.drawable.ic_action_gdirections_dark)
+        paintDrawable(R.drawable.ic_action_gabout_dark)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -99,6 +111,12 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
     override fun osmandMissing() {
         OsmAndMissingDialogFragment().show(supportFragmentManager, null);
+    }
+
+    fun paintDrawable(drawableRes: Int){
+        val icon = ContextCompat.getDrawable(this, drawableRes);
+        val compatIcon = DrawableCompat.wrap(icon)
+        DrawableCompat.setTint(compatIcon, ContextCompat.getColor(this, R.color.iconColor))
     }
 
     private fun resultCodeStr(resultCode: Int): String {
@@ -146,19 +164,18 @@ val CITIES = arrayOf(
         Location("Panama", 8.9710438, -79.5340599, 8.992735, -79.5157))
 
 
-class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, android.R.layout.simple_list_item_1, CITIES) {
+class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, R.layout.simple_list_layout, CITIES) {
     val mInflater = LayoutInflater.from(context)
     val icon: Drawable;
 
     init {
-        icon = ContextCompat.getDrawable(context, R.drawable.ic_action_street_name);
-        DrawableCompat.wrap(icon)
-        icon.mutate()
+        val tempIcon = ContextCompat.getDrawable(context, R.drawable.ic_action_street_name);
+        icon = DrawableCompat.wrap(tempIcon)
         DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.iconColor))
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = (convertView ?: mInflater.inflate(android.R.layout.simple_list_item_1, parent, false)) as TextView
+        val view = (convertView ?: mInflater.inflate(R.layout.simple_list_layout, parent, false)) as TextView
         view.text = getItem(position).name
         view.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 8f, context.resources.displayMetrics).toInt()
