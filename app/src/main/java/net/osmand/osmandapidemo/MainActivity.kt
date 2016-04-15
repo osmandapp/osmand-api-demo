@@ -30,43 +30,49 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
         addFavoriteButton.setOnClickListener({
             getLocationSelectorInstance("Add favourite",
-                    { lat, lon, latStart, lonStart ->
-                        mOsmAndHelper!!.addFavorite(lat, lon)
+                    { location ->
+                        mOsmAndHelper!!.addFavorite(location.lat, location.lon, location.name,
+                                location.name + " city", "Cities", "red", true);
                     }).show(supportFragmentManager, null)
         })
         addMapMarkerButton.setOnClickListener({
             getLocationSelectorInstance("Add map marker",
-                    { lat, lon, latStart, lonStart ->
-                        mOsmAndHelper!!.addMapMarker(lat, lon)
+                    { location ->
+                        mOsmAndHelper!!.addMapMarker(location.lat, location.lon, location.name)
                     }).show(supportFragmentManager, null)
         })
         startAudioRecButton.setOnClickListener({
             getLocationSelectorInstance("Start audio recording",
-                    { lat, lon, latStart, lonStart ->
-                        mOsmAndHelper!!.recordAudio(lat, lon)
+                    { location ->
+                        mOsmAndHelper!!.recordAudio(location.lat, location.lon)
                     }).show(supportFragmentManager, null)
         })
         startVideoRecButton.setOnClickListener({
             getLocationSelectorInstance("Start video recording",
-                    { lat, lon, latStart, lonStart ->
-                        mOsmAndHelper!!.recordVideo(lat, lon)
+                    { location ->
+                        mOsmAndHelper!!.recordVideo(location.lat, location.lon)
                     }).show(supportFragmentManager, null)
         })
         takePhotoButton.setOnClickListener({
             getLocationSelectorInstance("Take photo",
-                    { lat, lon, latStart, lonStart ->
-                        mOsmAndHelper!!.recordPhoto(lat, lon)
+                    { location ->
+                        mOsmAndHelper!!.recordPhoto(location.lat, location.lon)
                     }).show(supportFragmentManager, null)
         })
         stopRecButton.setOnClickListener({ mOsmAndHelper!!.stopAvRec() })
         startGpxRecButton.setOnClickListener({ mOsmAndHelper!!.startGpxRec() })
         stopGpxRecButton.setOnClickListener({ mOsmAndHelper!!.stopGpxRec() })
         showGpxButton.setOnClickListener({ mOsmAndHelper!!.showGpx() })
-        navigateGpxButton.setOnClickListener({ mOsmAndHelper!!.navigateGpx() })
+        navigateGpxButton.setOnClickListener({
+            // TODO implement
+//            mOsmAndHelper!!.navigateGpx()
+        })
         navigateButton.setOnClickListener({
             getLocationSelectorInstance("Navigate to",
-                    { lat, lon, latStart, lonStart ->
-                        mOsmAndHelper!!.navigate(latStart, lonStart, lat, lon)
+                    { location ->
+                        mOsmAndHelper!!.navigate(location.name + " start",
+                                location.latStart, location.lonStart,
+                                location.name + " finish", location.lat, location.lon, "bicycle")
                     }).show(supportFragmentManager, null)
         })
         getInfoButton.setOnClickListener({ mOsmAndHelper!!.getInfo() })
@@ -133,11 +139,11 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         return "" + resultCode
     }
 
-    private fun getLocationSelectorInstance(title: String, callback: (Double, Double, Double, Double) -> Unit)
+    private fun getLocationSelectorInstance(title: String, callback: (Location) -> Unit)
             : SelectLocationDialogFragment {
         return object : SelectLocationDialogFragment() {
-            override fun locationSelectedCallback(lat: Double, lon: Double, latStart: Double, lonStart: Double) {
-                callback(lat, lon, latStart, lonStart)
+            override fun locationSelectedCallback(location: Location) {
+                callback(location)
             }
 
             override fun getTitle(): String = title
@@ -191,14 +197,13 @@ abstract class SelectLocationDialogFragment : DialogFragment() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(getTitle())
                 .setAdapter(CitiesAdapter(activity), { dialogInterface, i ->
-                    locationSelectedCallback(CITIES[i].lat, CITIES[i].lon, CITIES[i].latStart,
-                            CITIES[i].lonStart)
+                    locationSelectedCallback(CITIES[i])
                 })
                 .setNegativeButton("Cancel", null)
         return builder.create()
     }
 
-    abstract fun locationSelectedCallback(lat: Double, lon: Double, latStart: Double, lonStart: Double)
+    abstract fun locationSelectedCallback(location: Location)
 
     abstract fun getTitle(): String
 }
