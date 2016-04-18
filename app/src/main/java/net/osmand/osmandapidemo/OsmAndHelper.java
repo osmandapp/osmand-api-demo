@@ -165,16 +165,23 @@ public class OsmAndHelper {
 		sendRequest(uri);
 	}
 
-	public void showGpx() {
+	public void showGpxFile(File file) {
 		// test show gpx (path)
-		//File gpx = new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName);
-		//uri = Uri.parse("osmand.api://show_gpx?path=" + URLEncoder.encode(gpx.getAbsolutePath(), "UTF-8"));
-
-		// test show gpx (data)
-		Uri uri = Uri.parse(getUriString(SHOW_GPX, null));
+		Map<String, String> params = new HashMap<>();
+		try {
+			params.put(PARAM_PATH, URLEncoder.encode(file.getAbsolutePath(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+		Uri uri = Uri.parse(getUriString(SHOW_GPX, params));
 		sendRequest(uri);
-		//intent.putExtra("data", AndroidUtils.getFileAsString(
-		//		new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName)));
+	}
+
+	public void showRawGpx(String data) {
+		// test show gpx (data)
+		Map<String, String> params = new HashMap<>();
+		Uri uri = Uri.parse(getUriString(SHOW_GPX, params));
+		sendRequest(uri, mRequestCode, data);
 	}
 
 	public void navigateGpxFile(boolean force, File file) {

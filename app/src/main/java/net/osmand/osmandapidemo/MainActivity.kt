@@ -81,17 +81,8 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         stopRecButton.setOnClickListener({ mOsmAndHelper!!.stopAvRec() })
         startGpxRecButton.setOnClickListener({ mOsmAndHelper!!.startGpxRec() })
         stopGpxRecButton.setOnClickListener({ mOsmAndHelper!!.stopGpxRec() })
-        showGpxButton.setOnClickListener({ mOsmAndHelper!!.showGpx() })
-        navigateGpxButton.setOnClickListener({
-            var intent = Intent(Intent.ACTION_GET_CONTENT);
-            intent.type = "*/*";
-            intent = Intent.createChooser(intent, "Choose a file")
-            if (mOsmAndHelper!!.isIntentSafe(intent)) {
-                startActivityForResult(intent, REQUEST_FILE);
-            } else {
-                Toast.makeText(this, "You need an app capable of selecting files like ES Explorer", Toast.LENGTH_LONG).show()
-            }
-        })
+        showGpxButton.setOnClickListener({ requestChooseGpx(REQUEST_SHOW_GPX_FILE) })
+        navigateGpxButton.setOnClickListener({ requestChooseGpx(REQUEST_NAVIGATE_GPX_FILE) })
         navigateButton.setOnClickListener({
             getLocationSelectorInstance("Navigate to",
                     { location ->
@@ -126,26 +117,44 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     supportFragmentManager.beginTransaction()
                             .add(infoDialog, null).commitAllowingStateLoss()
                 }
-                REQUEST_FILE -> {
-                    data!!
-                    try {
-                        val gpxParceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
-                        val fileDescriptor = gpxParceDescriptor.fileDescriptor
-                        val inputStreamReader = InputStreamReader(FileInputStream(fileDescriptor))
-                        val bufferedReader = BufferedReader(inputStreamReader)
-                        val stringBuilder = StringBuilder()
-                        bufferedReader.lineSequence().forEach { string -> stringBuilder.append(string) }
-                        inputStreamReader.close()
-                        mOsmAndHelper!!.navigateRawGpx(true, stringBuilder.toString());
-                    } catch (e: NullPointerException) {
-                        Log.e(TAG, "", e)
-                    } catch (e: FileNotFoundException) {
-                        Log.e(TAG, "", e)
-                    }
+                REQUEST_NAVIGATE_GPX_FILE -> {
+                    handleGpxFile(data!!, { data -> mOsmAndHelper!!.navigateRawGpx(true, data) })
                 }
+                REQUEST_SHOW_GPX_FILE -> {
+                    handleGpxFile(data!!, { data -> mOsmAndHelper!!.showRawGpx(data) })
+                }
+                else -> super.onActivityResult(requestCode, resultCode, data)
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    fun handleGpxFile(data: Intent, action: (String) -> Unit) {
+        try {
+            val gpxParceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
+            val fileDescriptor = gpxParceDescriptor.fileDescriptor
+            val inputStreamReader = InputStreamReader(FileInputStream(fileDescriptor))
+            val bufferedReader = BufferedReader(inputStreamReader)
+            val stringBuilder = StringBuilder()
+            bufferedReader.lineSequence().forEach { string: String -> stringBuilder.append(string) }
+            inputStreamReader.close()
+            action(stringBuilder.toString());
+        } catch (e: NullPointerException) {
+            Log.e(TAG, "", e)
+        } catch (e: FileNotFoundException) {
+            Log.e(TAG, "", e)
+        }
+    }
+
+    private fun requestChooseGpx(requestCode: Int) {
+        var intent = Intent(Intent.ACTION_GET_CONTENT);
+        intent.type = "*/*";
+        intent = Intent.createChooser(intent, "Choose a file")
+        if (mOsmAndHelper!!.isIntentSafe(intent)) {
+            startActivityForResult(intent, requestCode);
+        } else {
+            Toast.makeText(this, "You need an app capable of selecting files like ES Explorer", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -187,8 +196,8 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     companion object {
         private val TAG = "MainActivity"
         val REQUEST_OSMAND_API = 101
-        val REQUEST_FILE = 102
-        private val GPX_NAME = "xxx.gpx"
+        val REQUEST_NAVIGATE_GPX_FILE = 102
+        val REQUEST_SHOW_GPX_FILE = 103
     }
 }
 
