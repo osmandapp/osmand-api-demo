@@ -95,28 +95,28 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == REQUEST_OSMAND_API) {
+            val sb = StringBuilder()
+            sb.append("ResultCode=").append(resultCodeStr(resultCode))
+            val extras = data!!.extras
+            if (extras != null && extras.size() > 0) {
+                for (key in data.extras.keySet()) {
+                    val `val` = extras.get(key)
+                    if (sb.length > 0) {
+                        sb.append("\n")
+                    }
+                    sb.append(key).append("=").append(`val`)
+                }
+            }
+            val args = Bundle()
+            args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
+            val infoDialog = OsmAndInfoDialog()
+            infoDialog.arguments = args
+            supportFragmentManager.beginTransaction()
+                    .add(infoDialog, null).commitAllowingStateLoss()
+        }
         if (resultCode == RESULT_OK) {
             when (requestCode) {
-                REQUEST_OSMAND_API -> {
-                    val sb = StringBuilder()
-                    sb.append("ResultCode=").append(resultCodeStr(resultCode))
-                    val extras = data!!.extras
-                    if (extras != null && extras.size() > 0) {
-                        for (key in data.extras.keySet()) {
-                            val `val` = extras.get(key)
-                            if (sb.length > 0) {
-                                sb.append("\n")
-                            }
-                            sb.append(key).append("=").append(`val`)
-                        }
-                    }
-                    val args = Bundle()
-                    args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
-                    val infoDialog = OsmAndInfoDialog()
-                    infoDialog.arguments = args
-                    supportFragmentManager.beginTransaction()
-                            .add(infoDialog, null).commitAllowingStateLoss()
-                }
                 REQUEST_NAVIGATE_GPX_FILE -> {
                     handleGpxFile(data!!, { data -> mOsmAndHelper!!.navigateRawGpx(true, data) })
                 }
