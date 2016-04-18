@@ -34,37 +34,47 @@
 
         <include layout="@layout/card_top_divider"/>
 
-        <TextView
-            style="@style/categoryStyle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/my_places"/>
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@color/itemBackgroundColor">
 
-        <View
-            style="@style/divider_style"
-            android:layout_width="match_parent"/>
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_places"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/addFavoriteButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_fav_dark"
-            android:drawableStart="@drawable/ic_action_fav_dark"
-            android:text="@string/add_favorite"/>
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="wrap_content"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/addFavoriteButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_fav_dark"
+                android:drawableStart="@drawable/ic_action_fav_dark"
+                android:drawableTint="@color/iconColor"
+                android:text="@string/add_favorite"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/addMapMarkerButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_flag_dark"
-            android:drawableStart="@drawable/ic_action_flag_dark"
-            android:text="@string/add_map_marker"/>
+            <View
+                style="@style/short_divider_style"
+                android:layout_width="wrap_content"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/addMapMarkerButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:drawableStart="@drawable/ic_action_flag_dark"
+                android:text="@string/add_map_marker"/>
+
+        </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
 
