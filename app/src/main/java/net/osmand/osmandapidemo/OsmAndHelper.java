@@ -9,6 +9,9 @@ import android.support.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,18 +177,25 @@ public class OsmAndHelper {
 		//		new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName)));
 	}
 
-	public void navigateGpx(boolean force, String path) {
-		// test navigate gpx (path)
-		//File gpx = new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName);
-		//uri = Uri.parse("osmand.api://navigate_gpx?force=true&path=" + URLEncoder.encode(gpx.getAbsolutePath(), "UTF-8"));
-
+	public void navigateGpxFile(boolean force, File file) {
+		// test navigate gpx (file)
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_FORCE, String.valueOf(force));
-		params.put(PARAM_PATH, path);
+		try {
+			params.put(PARAM_PATH, URLEncoder.encode(file.getAbsolutePath(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 		Uri uri = Uri.parse(getUriString(NAVIGATE_GPX, params));
 		sendRequest(uri);
-		//intent.putExtra("data", AndroidUtils.getFileAsString(
-		//		new File(app.getAppPath(IndexConstants.GPX_INDEX_DIR), gpxName)));
+	}
+
+	public void navigateRawGpx(boolean force, String data) {
+		// test navigate gpx (data)
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_FORCE, String.valueOf(force));
+		Uri uri = Uri.parse(getUriString(NAVIGATE_GPX, params));
+		sendRequest(uri, mRequestCode, data);
 	}
 
 	public void navigate(String startName, double startLat, double startLon,
@@ -223,7 +233,14 @@ public class OsmAndHelper {
 	}
 
 	private void sendRequest(Uri uri, int requestCode) {
+		sendRequest(uri, requestCode, null);
+	}
+
+	private void sendRequest(Uri uri, int requestCode, String data) {
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		if (data != null) {
+			intent.putExtra(PARAM_DATA, data);
+		}
 		if (isIntentSafe(intent)) {
 			mActivity.startActivityForResult(intent, requestCode);
 		} else {

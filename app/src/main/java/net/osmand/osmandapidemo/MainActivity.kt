@@ -12,19 +12,38 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*;
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.InputStreamReader
 
 public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     var mOsmAndHelper: OsmAndHelper? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
+
+        paintDrawable(R.drawable.ic_action_fav_dark)
+        paintDrawable(R.drawable.ic_action_flag_dark)
+        paintDrawable(R.drawable.ic_action_micro_dark)
+        paintDrawable(R.drawable.ic_action_video_dark)
+        paintDrawable(R.drawable.ic_action_rec_stop)
+        paintDrawable(R.drawable.ic_action_photo_dark)
+        paintDrawable(R.drawable.ic_action_play)
+        paintDrawable(R.drawable.ic_action_rec_stop)
+        paintDrawable(R.drawable.ic_action_polygom_dark)
+        paintDrawable(R.drawable.ic_action_gdirections_dark)
+        paintDrawable(R.drawable.ic_action_gdirections_dark)
+        paintDrawable(R.drawable.ic_action_gabout_dark)
 
         setContentView(R.layout.activity_main)
 
@@ -64,15 +83,14 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         stopGpxRecButton.setOnClickListener({ mOsmAndHelper!!.stopGpxRec() })
         showGpxButton.setOnClickListener({ mOsmAndHelper!!.showGpx() })
         navigateGpxButton.setOnClickListener({
-            // TODO implement
-            val intent = Intent(Intent.ACTION_GET_CONTENT);
-            intent.type = "file/*";
+            var intent = Intent(Intent.ACTION_GET_CONTENT);
+            intent.type = "*/*";
+            intent = Intent.createChooser(intent, "Choose a file")
             if (mOsmAndHelper!!.isIntentSafe(intent)) {
                 startActivityForResult(intent, REQUEST_FILE);
             } else {
-
+                Toast.makeText(this, "You need an app capable of selecting files like ES Explorer", Toast.LENGTH_LONG).show()
             }
-            //            mOsmAndHelper!!.navigateGpx()
         })
         navigateButton.setOnClickListener({
             getLocationSelectorInstance("Navigate to",
@@ -83,18 +101,6 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     }).show(supportFragmentManager, null)
         })
         getInfoButton.setOnClickListener({ mOsmAndHelper!!.getInfo() })
-        paintDrawable(R.drawable.ic_action_fav_dark)
-        paintDrawable(R.drawable.ic_action_flag_dark)
-        paintDrawable(R.drawable.ic_action_micro_dark)
-        paintDrawable(R.drawable.ic_action_video_dark)
-        paintDrawable(R.drawable.ic_action_rec_stop)
-        paintDrawable(R.drawable.ic_action_photo_dark)
-        paintDrawable(R.drawable.ic_action_play)
-        paintDrawable(R.drawable.ic_action_rec_stop)
-        paintDrawable(R.drawable.ic_action_polygom_dark)
-        paintDrawable(R.drawable.ic_action_gdirections_dark)
-        paintDrawable(R.drawable.ic_action_gdirections_dark)
-        paintDrawable(R.drawable.ic_action_gabout_dark)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -120,9 +126,23 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     supportFragmentManager.beginTransaction()
                             .add(infoDialog, null).commitAllowingStateLoss()
                 }
-//                REQUEST_FILE -> {
-//                    asdf
-//                }
+                REQUEST_FILE -> {
+                    data!!
+                    try {
+                        val gpxParceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
+                        val fileDescriptor = gpxParceDescriptor.fileDescriptor
+                        val inputStreamReader = InputStreamReader(FileInputStream(fileDescriptor))
+                        val bufferedReader = BufferedReader(inputStreamReader)
+                        val stringBuilder = StringBuilder()
+                        bufferedReader.lineSequence().forEach { string -> stringBuilder.append(string) }
+                        inputStreamReader.close()
+                        mOsmAndHelper!!.navigateRawGpx(true, stringBuilder.toString());
+                    } catch (e: NullPointerException) {
+                        Log.e(TAG, "", e)
+                    } catch (e: FileNotFoundException) {
+                        Log.e(TAG, "", e)
+                    }
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
@@ -135,7 +155,6 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
     fun paintDrawable(drawableRes: Int) {
         val icon = ContextCompat.getDrawable(this, drawableRes);
-        DrawableCompat.setTint(icon, ContextCompat.getColor(this, R.color.iconColor))
         val compatIcon = DrawableCompat.wrap(icon)
         DrawableCompat.setTint(compatIcon, ContextCompat.getColor(this, R.color.iconColor))
     }
@@ -166,6 +185,7 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     }
 
     companion object {
+        private val TAG = "MainActivity"
         val REQUEST_OSMAND_API = 101
         val REQUEST_FILE = 102
         private val GPX_NAME = "xxx.gpx"
