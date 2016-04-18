@@ -65,7 +65,14 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         showGpxButton.setOnClickListener({ mOsmAndHelper!!.showGpx() })
         navigateGpxButton.setOnClickListener({
             // TODO implement
-//            mOsmAndHelper!!.navigateGpx()
+            val intent = Intent(Intent.ACTION_GET_CONTENT);
+            intent.type = "file/*";
+            if (mOsmAndHelper!!.isIntentSafe(intent)) {
+                startActivityForResult(intent, REQUEST_FILE);
+            } else {
+
+            }
+            //            mOsmAndHelper!!.navigateGpx()
         })
         navigateButton.setOnClickListener({
             getLocationSelectorInstance("Navigate to",
@@ -91,25 +98,32 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_OSMAND_API && resultCode == RESULT_OK) {
-            val sb = StringBuilder()
-            sb.append("ResultCode=").append(resultCodeStr(resultCode))
-            val extras = data!!.extras
-            if (extras != null && extras.size() > 0) {
-                for (key in data.extras.keySet()) {
-                    val `val` = extras.get(key)
-                    if (sb.length > 0) {
-                        sb.append("\n")
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                REQUEST_OSMAND_API -> {
+                    val sb = StringBuilder()
+                    sb.append("ResultCode=").append(resultCodeStr(resultCode))
+                    val extras = data!!.extras
+                    if (extras != null && extras.size() > 0) {
+                        for (key in data.extras.keySet()) {
+                            val `val` = extras.get(key)
+                            if (sb.length > 0) {
+                                sb.append("\n")
+                            }
+                            sb.append(key).append("=").append(`val`)
+                        }
                     }
-                    sb.append(key).append("=").append(`val`)
+                    val args = Bundle()
+                    args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
+                    val infoDialog = OsmAndInfoDialog()
+                    infoDialog.arguments = args
+                    supportFragmentManager.beginTransaction()
+                            .add(infoDialog, null).commitAllowingStateLoss()
                 }
+//                REQUEST_FILE -> {
+//                    asdf
+//                }
             }
-            val args = Bundle()
-            args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
-            val infoDialog = OsmAndInfoDialog()
-            infoDialog.arguments = args
-            supportFragmentManager.beginTransaction()
-                    .add(infoDialog, null).commitAllowingStateLoss()
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
@@ -119,8 +133,9 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         OsmAndMissingDialogFragment().show(supportFragmentManager, null);
     }
 
-    fun paintDrawable(drawableRes: Int){
+    fun paintDrawable(drawableRes: Int) {
         val icon = ContextCompat.getDrawable(this, drawableRes);
+        DrawableCompat.setTint(icon, ContextCompat.getColor(this, R.color.iconColor))
         val compatIcon = DrawableCompat.wrap(icon)
         DrawableCompat.setTint(compatIcon, ContextCompat.getColor(this, R.color.iconColor))
     }
@@ -152,6 +167,7 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
     companion object {
         val REQUEST_OSMAND_API = 101
+        val REQUEST_FILE = 102
         private val GPX_NAME = "xxx.gpx"
     }
 }
@@ -167,8 +183,8 @@ val CITIES = arrayOf(
         Location("Washington", 38.8949549, -77.0366456, 38.91373, -77.02069),
         Location("Ottawa", 45.4210328, -75.6900219, 45.386864, -75.783356),
         Location("Panama", 8.9710438, -79.5340599, 8.992735, -79.5157),
-        Location("Minsk", 53.9072394 ,27.5863608, 53.9022545, 27.5619212),
-        Location("Amsterdam", 52.3704312 ,4.8904288, 52.3693012, 4.9013307)
+        Location("Minsk", 53.9072394, 27.5863608, 53.9022545, 27.5619212),
+        Location("Amsterdam", 52.3704312, 4.8904288, 52.3693012, 4.9013307)
 )
 
 

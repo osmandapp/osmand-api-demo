@@ -224,15 +224,18 @@ public class OsmAndHelper {
 
 	private void sendRequest(Uri uri, int requestCode) {
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		PackageManager packageManager = mActivity.getPackageManager();
-		List activities = packageManager.queryIntentActivities(intent,
-				PackageManager.MATCH_DEFAULT_ONLY);
-		boolean isIntentSafe = activities.size() > 0;
-		if (isIntentSafe) {
+		if (isIntentSafe(intent)) {
 			mActivity.startActivityForResult(intent, requestCode);
 		} else {
 			mOsmandMissingListener.osmandMissing();
 		}
+	}
+
+	public boolean isIntentSafe(Intent intent) {
+		PackageManager packageManager = mActivity.getPackageManager();
+		List activities = packageManager.queryIntentActivities(intent,
+				PackageManager.MATCH_DEFAULT_ONLY);
+		return activities.size() > 0;
 	}
 
 	public interface OnOsmandMissingListener {
