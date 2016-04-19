@@ -78,8 +78,16 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     }).show(supportFragmentManager, null)
         })
         stopRecButton.setOnClickListener({ mOsmAndHelper!!.stopAvRec() })
-        startGpxRecButton.setOnClickListener({ mOsmAndHelper!!.startGpxRec() })
-        stopGpxRecButton.setOnClickListener({ mOsmAndHelper!!.stopGpxRec() })
+        startGpxRecButton.setOnClickListener({ object : CloseAfterCommandDialogFragment(){
+            override fun shouldClose(close: Boolean) {
+                mOsmAndHelper!!.startGpxRec(close)
+            }
+        }.show(supportFragmentManager, null)})
+        stopGpxRecButton.setOnClickListener({ object : CloseAfterCommandDialogFragment(){
+            override fun shouldClose(close: Boolean) {
+                mOsmAndHelper!!.stopGpxRec(close)
+            }
+        }.show(supportFragmentManager, null)})
         showGpxButton.setOnClickListener({
             object : OpenGpxDialogFragment() {
                 override fun sendAsRawData() {
@@ -356,4 +364,16 @@ abstract class OpenGpxDialogFragment : DialogFragment() {
 
     abstract fun sendAsRawData()
     abstract fun sendAsUri()
+}
+
+abstract class CloseAfterCommandDialogFragment : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage("Close OsmAnd immediately after execution of command?")
+        builder.setNeutralButton("Close", { dialogInterface, i -> shouldClose(true) })
+        builder.setPositiveButton("Don't close", { dialogInterface, i -> shouldClose(false) })
+        return builder.create()
+    }
+
+    abstract fun shouldClose(close: Boolean)
 }

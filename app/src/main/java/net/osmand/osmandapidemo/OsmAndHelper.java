@@ -79,6 +79,8 @@ public class OsmAndHelper {
 	public static final String PARAM_TIME_LEFT = "time_left";
 	public static final String PARAM_DISTANCE_LEFT = "time_distance_left";
 
+	public static final String PARAM_CLOSE_AFTER_COMMAND = "close_after_command";
+
 	private final int mRequestCode;
 	private final Activity mActivity;
 	private final OnOsmandMissingListener mOsmandMissingListener;
@@ -148,14 +150,18 @@ public class OsmAndHelper {
 		sendRequest(new IntentBuilder(ADD_FAVORITE).setParams(params));
 	}
 
-	public void startGpxRec() {
+	public void startGpxRec(boolean closeAfterCommand) {
 		// test start gpx recording
-		sendRequest(new IntentBuilder(START_GPX_REC));
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(closeAfterCommand));
+		sendRequest(new IntentBuilder(START_GPX_REC).setParams(params));
 	}
 
-	public void stopGpxRec() {
+	public void stopGpxRec(boolean closeAfterCommand) {
 		// test stop gpx recording
-		sendRequest(new IntentBuilder(STOP_GPX_REC));
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(closeAfterCommand));
+		sendRequest(new IntentBuilder(STOP_GPX_REC).setParams(params));
 	}
 
 	public void showGpxFile(File file) {
