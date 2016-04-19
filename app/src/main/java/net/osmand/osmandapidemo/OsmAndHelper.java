@@ -1,6 +1,7 @@
 package net.osmand.osmandapidemo;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -179,10 +180,8 @@ public class OsmAndHelper {
 		// test show gpx (uri)
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_URI, "true");
-		Map<String, String> extraData = new HashMap<>();
-		extraData.put(Intent.EXTRA_STREAM, gpxUri.toString());
-		sendRequest(new IntentBuilder(SHOW_GPX).setParams(params)
-				.setExtraData(extraData).setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION));
+		sendRequest(new IntentBuilder(SHOW_GPX).setParams(params).setGpxUri(gpxUri)
+				.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION));
 	}
 
 	public void navigateGpxFile(boolean force, File file) {
@@ -209,7 +208,11 @@ public class OsmAndHelper {
 
 	public void navigateGpxUri(boolean force, Uri gpxUri) {
 		// test navigate gpx (uri)
-
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_URI, "true");
+		params.put(PARAM_FORCE, String.valueOf(force));
+		sendRequest(new IntentBuilder(NAVIGATE_GPX).setParams(params).setGpxUri(gpxUri)
+				.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION));
 	}
 
 	public void navigate(String startName, double startLat, double startLon,
@@ -236,6 +239,10 @@ public class OsmAndHelper {
 			for (String key : extraData.keySet()) {
 				intent.putExtra(key, extraData.get(key));
 			}
+		}
+		if (intentBuilder.getGpxUri() != null) {
+			ClipData clipData = ClipData.newRawUri("Gpx", intentBuilder.getGpxUri());
+			intent.setClipData(clipData);
 		}
 		if (isIntentSafe(intent)) {
 			mActivity.startActivityForResult(intent, mRequestCode);
