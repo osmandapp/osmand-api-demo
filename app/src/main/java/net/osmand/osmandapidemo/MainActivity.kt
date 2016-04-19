@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -23,10 +24,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*;
-import java.io.BufferedReader
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.InputStreamReader
+import java.io.*
 
 public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     var mOsmAndHelper: OsmAndHelper? = null
@@ -76,14 +74,34 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         takePhotoButton.setOnClickListener({
             getLocationSelectorInstance("Take photo",
                     { location ->
-                        mOsmAndHelper!!.recordPhoto(location.lat, location.lon)
+                        mOsmAndHelper!!.takePhoto(location.lat, location.lon)
                     }).show(supportFragmentManager, null)
         })
         stopRecButton.setOnClickListener({ mOsmAndHelper!!.stopAvRec() })
         startGpxRecButton.setOnClickListener({ mOsmAndHelper!!.startGpxRec() })
         stopGpxRecButton.setOnClickListener({ mOsmAndHelper!!.stopGpxRec() })
-        showGpxButton.setOnClickListener({ requestChooseGpx(REQUEST_SHOW_GPX_FILE) })
-        navigateGpxButton.setOnClickListener({ requestChooseGpx(REQUEST_NAVIGATE_GPX_FILE) })
+        showGpxButton.setOnClickListener({
+            object : OpenGpxDialogFragment() {
+                override fun sendAsRawData() {
+                    requestChooseGpx(REQUEST_SHOW_GPX_RAW_DATA)
+                }
+
+                override fun sendAsUri() {
+                    requestChooseGpx(REQUEST_SHOW_GPX_URI)
+                }
+            }.show(supportFragmentManager, null)
+        })
+        navigateGpxButton.setOnClickListener({
+            object : OpenGpxDialogFragment() {
+                override fun sendAsRawData() {
+                    requestChooseGpx(REQUEST_NAVIGATE_GPX_RAW_DATA)
+                }
+
+                override fun sendAsUri() {
+                    requestChooseGpx(REQUEST_NAVIGATE_GPX_URI)
+                }
+            }.show(supportFragmentManager, null)
+        })
         navigateButton.setOnClickListener({
             getLocationSelectorInstance("Navigate to",
                     { location ->
@@ -99,14 +117,16 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         if (requestCode == REQUEST_OSMAND_API) {
             val sb = StringBuilder()
             sb.append("ResultCode = <b>").append(resultCodeStr(resultCode)).append("</b>")
-            val extras = data!!.extras
-            if (extras != null && extras.size() > 0) {
-                for (key in data.extras.keySet()) {
-                    val value = extras.get(key)
-                    if (sb.length > 0) {
-                        sb.append("<br>")
+            if (data != null) {
+                val extras = data.extras
+                if (extras != null && extras.size() > 0) {
+                    for (key in data.extras.keySet()) {
+                        val value = extras.get(key)
+                        if (sb.length > 0) {
+                            sb.append("<br>")
+                        }
+                        sb.append(key).append(" = <b>").append(value).append("</b>")
                     }
-                    sb.append(key).append(" = <b>").append(value).append("</b>")
                 }
             }
             val args = Bundle()
@@ -118,11 +138,17 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         }
         if (resultCode == RESULT_OK) {
             when (requestCode) {
-                REQUEST_NAVIGATE_GPX_FILE -> {
+                REQUEST_NAVIGATE_GPX_RAW_DATA -> {
                     handleGpxFile(data!!, { data -> mOsmAndHelper!!.navigateRawGpx(true, data) })
                 }
-                REQUEST_SHOW_GPX_FILE -> {
+                REQUEST_NAVIGATE_GPX_URI -> {
+                    handleGpxUri(data!!, { data -> mOsmAndHelper!!.navigateGpxUri(true, data) })
+                }
+                REQUEST_SHOW_GPX_RAW_DATA -> {
                     handleGpxFile(data!!, { data -> mOsmAndHelper!!.showRawGpx(data) })
+                }
+                REQUEST_SHOW_GPX_URI -> {
+                    handleGpxUri(data!!, { data -> mOsmAndHelper!!.showGpxUri(data) })
                 }
                 else -> super.onActivityResult(requestCode, resultCode, data)
             }
@@ -145,6 +171,37 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
             Log.e(TAG, "", e)
         } catch (e: FileNotFoundException) {
             Log.e(TAG, "", e)
+        }
+    }
+
+    fun handleGpxUri(data: Intent, action: (Uri) -> Unit) {
+        try {
+            val gpxParceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
+            val fileDescriptor = gpxParceDescriptor.fileDescriptor
+            val inputStream = FileInputStream(fileDescriptor)
+            val sharedDir = File(cacheDir, "share")
+            if (!sharedDir.exists()) {
+                sharedDir.mkdir()
+            }
+            val file = File(sharedDir, "shared.gpx")
+            file.copyInputStreamToFile(inputStream)
+            inputStream.close()
+            val fileUri = FileProvider.getUriForFile(this, AUTHORITY, file);
+            Log.d(TAG, "fileUri=" + fileUri)
+            Log.d(TAG, "file=" + file.readLines())
+            action(fileUri);
+        } catch (e: NullPointerException) {
+            Log.e(TAG, "", e)
+        } catch (e: FileNotFoundException) {
+            Log.e(TAG, "", e)
+        }
+    }
+
+    fun File.copyInputStreamToFile(inputStream: InputStream) {
+        inputStream.use { input ->
+            this.outputStream().use { fileOut ->
+                Log.d(TAG, input.copyTo(fileOut).toString())
+            }
         }
     }
 
@@ -198,9 +255,12 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
     companion object {
         private val TAG = "MainActivity"
-        val REQUEST_OSMAND_API = 101
-        val REQUEST_NAVIGATE_GPX_FILE = 102
-        val REQUEST_SHOW_GPX_FILE = 103
+        val REQUEST_OSMAND_API = 1001
+        val REQUEST_NAVIGATE_GPX_RAW_DATA = 1002
+        val REQUEST_SHOW_GPX_RAW_DATA = 1003
+        val REQUEST_NAVIGATE_GPX_URI = 1004
+        val REQUEST_SHOW_GPX_URI = 1005
+        val AUTHORITY = "net.osmand.osmandapidemo.fileprovider"
     }
 }
 
@@ -283,4 +343,17 @@ class OsmAndInfoDialog : DialogFragment() {
         builder.setPositiveButton("OK", null)
         return builder.create()
     }
+}
+
+abstract class OpenGpxDialogFragment : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage("Send GPX to OsmAnd as raw data or as URI")
+        builder.setNeutralButton("As raw data", { dialogInterface, i -> sendAsRawData() })
+        builder.setPositiveButton("As URI", { dialogInterface, i -> sendAsUri() })
+        return builder.create()
+    }
+
+    abstract fun sendAsRawData()
+    abstract fun sendAsUri()
 }

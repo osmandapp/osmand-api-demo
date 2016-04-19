@@ -62,6 +62,7 @@ public class OsmAndHelper {
 	public static final String PARAM_VISIBLE = "visible";
 
 	public static final String PARAM_PATH = "path";
+	public static final String PARAM_URI = "uri";
 	public static final String PARAM_DATA = "data";
 	public static final String PARAM_FORCE = "force";
 
@@ -89,8 +90,7 @@ public class OsmAndHelper {
 
 	public void getInfo() {
 		// test get info
-		Uri uri = Uri.parse(getUriString(GET_INFO, null));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(GET_INFO));
 	}
 
 	public void recordAudio(double lat, double lon) {
@@ -98,8 +98,7 @@ public class OsmAndHelper {
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_LAT, String.valueOf(lat));
 		params.put(PARAM_LON, String.valueOf(lon));
-		Uri uri = Uri.parse(getUriString(RECORD_AUDIO, params));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(RECORD_AUDIO).setParams(params));
 	}
 
 	public void recordVideo(double lat, double lon) {
@@ -107,23 +106,20 @@ public class OsmAndHelper {
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_LAT, String.valueOf(lat));
 		params.put(PARAM_LON, String.valueOf(lon));
-		Uri uri = Uri.parse(getUriString(RECORD_VIDEO, params));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(RECORD_VIDEO).setParams(params));
 	}
 
-	public void recordPhoto(double lat, double lon) {
+	public void takePhoto(double lat, double lon) {
 		// test record photo
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_LAT, String.valueOf(lat));
 		params.put(PARAM_LON, String.valueOf(lon));
-		Uri uri = Uri.parse(getUriString(RECORD_PHOTO, params));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(RECORD_PHOTO).setParams(params));
 	}
 
 	public void stopAvRec() {
 		// test stop recording
-		Uri uri = Uri.parse(getUriString(STOP_AV_REC, null));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(STOP_AV_REC));
 	}
 
 	public void addMapMarker(double lat, double lon, String name) {
@@ -132,8 +128,7 @@ public class OsmAndHelper {
 		params.put(PARAM_LAT, String.valueOf(lat));
 		params.put(PARAM_LON, String.valueOf(lon));
 		params.put(PARAM_NAME, name);
-		Uri uri = Uri.parse(getUriString(ADD_MAP_MARKER, params));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(ADD_MAP_MARKER).setParams(params));
 	}
 
 	// TODO covert color to set
@@ -149,20 +144,17 @@ public class OsmAndHelper {
 		params.put(PARAM_CATEGORY, category);
 		params.put(PARAM_COLOR, color);
 		params.put(PARAM_VISIBLE, String.valueOf(visible));
-		Uri uri = Uri.parse(getUriString(ADD_FAVORITE, params));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(ADD_FAVORITE).setParams(params));
 	}
 
 	public void startGpxRec() {
 		// test start gpx recording
-		Uri uri = Uri.parse(getUriString(START_GPX_REC, null));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(START_GPX_REC));
 	}
 
 	public void stopGpxRec() {
 		// test stop gpx recording
-		Uri uri = Uri.parse(getUriString(STOP_GPX_REC, null));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(STOP_GPX_REC));
 	}
 
 	public void showGpxFile(File file) {
@@ -173,15 +165,24 @@ public class OsmAndHelper {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
-		Uri uri = Uri.parse(getUriString(SHOW_GPX, params));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(SHOW_GPX).setParams(params));
 	}
 
 	public void showRawGpx(String data) {
 		// test show gpx (data)
+		Map<String, String> extraData = new HashMap<>();
+		extraData.put(PARAM_DATA, data);
+		sendRequest(new IntentBuilder(SHOW_GPX).setExtraData(extraData));
+	}
+
+	public void showGpxUri(Uri gpxUri) {
+		// test show gpx (uri)
 		Map<String, String> params = new HashMap<>();
-		Uri uri = Uri.parse(getUriString(SHOW_GPX, params));
-		sendRequest(uri, mRequestCode, data);
+		params.put(PARAM_URI, "true");
+		Map<String, String> extraData = new HashMap<>();
+		extraData.put(Intent.EXTRA_STREAM, gpxUri.toString());
+		sendRequest(new IntentBuilder(SHOW_GPX).setParams(params)
+				.setExtraData(extraData).setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION));
 	}
 
 	public void navigateGpxFile(boolean force, File file) {
@@ -193,16 +194,22 @@ public class OsmAndHelper {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
-		Uri uri = Uri.parse(getUriString(NAVIGATE_GPX, params));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(NAVIGATE_GPX).setParams(params));
 	}
 
 	public void navigateRawGpx(boolean force, String data) {
 		// test navigate gpx (data)
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_FORCE, String.valueOf(force));
-		Uri uri = Uri.parse(getUriString(NAVIGATE_GPX, params));
-		sendRequest(uri, mRequestCode, data);
+		Map<String, String> extraData = new HashMap<>();
+		extraData.put(PARAM_DATA, data);
+		sendRequest(new IntentBuilder(NAVIGATE_GPX).setParams(params)
+				.setExtraData(extraData));
+	}
+
+	public void navigateGpxUri(boolean force, Uri gpxUri) {
+		// test navigate gpx (uri)
+
 	}
 
 	public void navigate(String startName, double startLat, double startLon,
@@ -217,39 +224,21 @@ public class OsmAndHelper {
 		params.put(PARAM_DEST_LON, String.valueOf(destLon));
 		params.put(PARAM_DEST_NAME, destName);
 		params.put(PARAM_PROFILE, profile);
-		Uri uri = Uri.parse(getUriString(NAVIGATE, params));
-		sendRequest(uri);
+		sendRequest(new IntentBuilder(NAVIGATE_GPX).setParams(params));
 	}
 
-	private String getUriString(@NonNull @NotNull String command,
-								@Nullable Map<String, String> parameters) {
-		StringBuilder stringBuilder = new StringBuilder(PREFIX);
-		stringBuilder.append(command);
-		if (parameters != null && parameters.size() > 0) {
-			stringBuilder.append("?");
-			for (String key : parameters.keySet()) {
-				stringBuilder.append(key).append("=").append(parameters.get(key)).append("&");
-			}
-			stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
-		}
-		return stringBuilder.toString();
-	}
-
-	private void sendRequest(Uri uri) {
-		sendRequest(uri, mRequestCode);
-	}
-
-	private void sendRequest(Uri uri, int requestCode) {
-		sendRequest(uri, requestCode, null);
-	}
-
-	private void sendRequest(Uri uri, int requestCode, String data) {
+	private void sendRequest(IntentBuilder intentBuilder) {
+		Uri uri = intentBuilder.getUri();
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		if (data != null) {
-			intent.putExtra(PARAM_DATA, data);
+		intent.addFlags(intentBuilder.getFlags());
+		Map<String, String> extraData = intentBuilder.getExtraData();
+		if (extraData != null) {
+			for (String key : extraData.keySet()) {
+				intent.putExtra(key, extraData.get(key));
+			}
 		}
 		if (isIntentSafe(intent)) {
-			mActivity.startActivityForResult(intent, requestCode);
+			mActivity.startActivityForResult(intent, mRequestCode);
 		} else {
 			mOsmandMissingListener.osmandMissing();
 		}
@@ -264,5 +253,71 @@ public class OsmAndHelper {
 
 	public interface OnOsmandMissingListener {
 		void osmandMissing();
+	}
+
+	private static class IntentBuilder {
+		final String command;
+		Map<String, String> params;
+		Map<String, String> extraData;
+		int flags;
+		Uri gpxUri;
+
+		public IntentBuilder(String command) {
+			this.command = command;
+		}
+
+		public IntentBuilder setExtraData(Map<String, String> extraData) {
+			this.extraData = extraData;
+			return this;
+		}
+
+		public IntentBuilder setFlags(int flags) {
+			this.flags = flags;
+			return this;
+		}
+
+		public IntentBuilder setGpxUri(Uri gpxUri) {
+			this.gpxUri = gpxUri;
+			return this;
+		}
+
+		public IntentBuilder setParams(Map<String, String> params) {
+			this.params = params;
+			return this;
+		}
+
+		public Map<String, String> getParams() {
+			return params;
+		}
+
+		public Uri getUri() {
+			return Uri.parse(getUriString(command, params));
+		}
+
+		public Map<String, String> getExtraData() {
+			return extraData;
+		}
+
+		public int getFlags() {
+			return flags;
+		}
+
+		public Uri getGpxUri() {
+			return gpxUri;
+		}
+
+		private static String getUriString(@NonNull @NotNull String command,
+										   @Nullable Map<String, String> parameters) {
+			StringBuilder stringBuilder = new StringBuilder(PREFIX);
+			stringBuilder.append(command);
+			if (parameters != null && parameters.size() > 0) {
+				stringBuilder.append("?");
+				for (String key : parameters.keySet()) {
+					stringBuilder.append(key).append("=").append(parameters.get(key)).append("&");
+				}
+				stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+			}
+			return stringBuilder.toString();
+		}
 	}
 }
