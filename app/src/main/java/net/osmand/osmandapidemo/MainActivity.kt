@@ -6,18 +6,22 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.ColorInt
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.AppCompatButton
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*;
@@ -31,21 +35,20 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
-
-        paintDrawable(R.drawable.ic_action_fav_dark)
-        paintDrawable(R.drawable.ic_action_flag_dark)
-        paintDrawable(R.drawable.ic_action_micro_dark)
-        paintDrawable(R.drawable.ic_action_video_dark)
-        paintDrawable(R.drawable.ic_action_rec_stop)
-        paintDrawable(R.drawable.ic_action_photo_dark)
-        paintDrawable(R.drawable.ic_action_play)
-        paintDrawable(R.drawable.ic_action_rec_stop)
-        paintDrawable(R.drawable.ic_action_polygom_dark)
-        paintDrawable(R.drawable.ic_action_gdirections_dark)
-        paintDrawable(R.drawable.ic_action_gdirections_dark)
-        paintDrawable(R.drawable.ic_action_gabout_dark)
-
         setContentView(R.layout.activity_main)
+
+        setDrawable(addFavoriteButton, R.drawable.ic_action_fav_dark)
+        setDrawable(addMapMarkerButton, R.drawable.ic_action_flag_dark)
+        setDrawable(startAudioRecButton, R.drawable.ic_action_micro_dark)
+        setDrawable(startVideoRecButton, R.drawable.ic_action_video_dark)
+        setDrawable(stopRecButton, R.drawable.ic_action_rec_stop)
+        setDrawable(takePhotoButton, R.drawable.ic_action_photo_dark)
+        setDrawable(startGpxRecButton, R.drawable.ic_action_play)
+        setDrawable(stopGpxRecButton, R.drawable.ic_action_rec_stop)
+        setDrawable(showGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(navigateGpxButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(navigateButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(getInfoButton, R.drawable.ic_action_gabout_dark)
 
         addFavoriteButton.setOnClickListener({
             getLocationSelectorInstance("Add favourite",
@@ -162,10 +165,12 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         OsmAndMissingDialogFragment().show(supportFragmentManager, null);
     }
 
-    fun paintDrawable(drawableRes: Int) {
+    fun setDrawable(button: Button, drawableRes: Int) {
         val icon = ContextCompat.getDrawable(this, drawableRes);
+        DrawableCompat.setTint(icon, ContextCompat.getColor(this, R.color.iconColor))
         val compatIcon = DrawableCompat.wrap(icon)
         DrawableCompat.setTint(compatIcon, ContextCompat.getColor(this, R.color.iconColor))
+        button.setCompoundDrawablesWithIntrinsicBounds(compatIcon, null, null, null)
     }
 
     private fun resultCodeStr(resultCode: Int): String {

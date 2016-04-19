@@ -37,9 +37,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/itemBackgroundColor"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:background="@color/itemBackgroundColor">
+            android:orientation="vertical">
 
             <TextView
                 style="@style/categoryStyle"
@@ -56,10 +56,8 @@
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_fav_dark"
-                android:drawableStart="@drawable/ic_action_fav_dark"
-                android:drawableTint="@color/iconColor"
-                android:text="@string/add_favorite"/>
+                android:text="@string/add_favorite"
+                tools:drawableLeft="@drawable/ic_action_fav_dark"/>
 
             <View
                 style="@style/short_divider_style"
@@ -70,9 +68,8 @@
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:drawableStart="@drawable/ic_action_flag_dark"
-                android:text="@string/add_map_marker"/>
+                android:text="@string/add_map_marker"
+                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
 
         </LinearLayout>
 
@@ -80,175 +77,197 @@
 
         <include layout="@layout/card_top_divider"/>
 
-        <TextView
-            style="@style/categoryStyle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/audio_video_plugin"/>
+            android:background="@color/itemBackgroundColor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <View
-            style="@style/divider_style"
-            android:layout_width="match_parent"/>
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/audio_video_plugin"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/startAudioRecButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_micro_dark"
-            android:drawableStart="@drawable/ic_action_micro_dark"
-            android:text="@string/start_audio_recording"/>
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/startAudioRecButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/start_audio_recording"
+                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/startVideoRecButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_video_dark"
-            android:drawableStart="@drawable/ic_action_video_dark"
-            android:text="@string/start_video_recording"/>
+            <View
+                style="@style/short_divider_style"
+                android:layout_width="match_parent"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/startVideoRecButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/start_video_recording"
+                tools:drawableLeft="@drawable/ic_action_video_dark"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/stopRecButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_rec_stop"
-            android:drawableStart="@drawable/ic_action_rec_stop"
-            android:text="@string/stop_recording"/>
+            <View
+                style="@style/short_divider_style"
+                android:layout_width="match_parent"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/stopRecButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/stop_recording"
+                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/takePhotoButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_photo_dark"
-            android:drawableStart="@drawable/ic_action_photo_dark"
-            android:text="@string/take_photo"/>
+            <View
+                style="@style/short_divider_style"
+                android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/takePhotoButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/take_photo"
+                tools:drawableLeft="@drawable/ic_action_photo_dark"/>
+        </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
 
         <include layout="@layout/card_top_divider"/>
 
-        <TextView
-            style="@style/categoryStyle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/gpx_recording"/>
+            android:background="@color/itemBackgroundColor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <View
-            style="@style/divider_style"
-            android:layout_width="match_parent"/>
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gpx_recording"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/startGpxRecButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_play"
-            android:drawableStart="@drawable/ic_action_play"
-            android:text="@string/start_gpx_recording"/>
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/startGpxRecButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/start_gpx_recording"
+                tools:drawableLeft="@drawable/ic_action_play"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/stopGpxRecButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_rec_stop"
-            android:drawableStart="@drawable/ic_action_rec_stop"
-            android:text="@string/stop_gpx_recording"/>
+            <View
+                style="@style/short_divider_style"
+                android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/stopGpxRecButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/stop_gpx_recording"
+                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+        </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
 
         <include layout="@layout/card_top_divider"/>
 
-        <TextView
-            style="@style/categoryStyle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/gpx_display_navigation"/>
+            android:background="@color/itemBackgroundColor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <View
-            style="@style/divider_style"
-            android:layout_width="match_parent"/>
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gpx_display_navigation"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/showGpxButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_polygom_dark"
-            android:drawableStart="@drawable/ic_action_polygom_dark"
-            android:text="@string/show_gpx"/>
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/showGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_gpx"
+                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/navigateGpxButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_gdirections_dark"
-            android:drawableStart="@drawable/ic_action_gdirections_dark"
-            android:text="@string/navigate_gpx"/>
+            <View
+                style="@style/short_divider_style"
+                android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/navigateGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/navigate_gpx"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+        </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
 
         <include layout="@layout/card_top_divider"/>
 
-        <TextView
-            style="@style/categoryStyle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/navigation"/>
+            android:background="@color/itemBackgroundColor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <View
-            style="@style/divider_style"
-            android:layout_width="match_parent"/>
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/navigation"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/navigateButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_gdirections_dark"
-            android:drawableStart="@drawable/ic_action_gdirections_dark"
-            android:text="@string/navigate"/>
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/navigateButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/navigate"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/getInfoButton"
-            style="@style/row_item_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_gabout_dark"
-            android:drawableStart="@drawable/ic_action_gabout_dark"
-            android:text="@string/get_info"/>
+            <View
+                style="@style/short_divider_style"
+                android:layout_width="match_parent"/>
 
-        <View
-            style="@style/short_divider_style"
-            android:layout_width="match_parent"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/getInfoButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/get_info"
+                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+            <View
+                style="@style/short_divider_style"
+                android:layout_width="match_parent"/>
+        </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
     </LinearLayout>
