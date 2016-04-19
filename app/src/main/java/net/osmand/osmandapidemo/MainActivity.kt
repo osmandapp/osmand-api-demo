@@ -6,15 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.ColorInt
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.AppCompatButton
+import android.text.Html
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -98,17 +96,17 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == REQUEST_OSMAND_API) {
+        if (requestCode == REQUEST_OSMAND_API) {
             val sb = StringBuilder()
-            sb.append("ResultCode=").append(resultCodeStr(resultCode))
+            sb.append("ResultCode = <b>").append(resultCodeStr(resultCode)).append("</b>")
             val extras = data!!.extras
             if (extras != null && extras.size() > 0) {
                 for (key in data.extras.keySet()) {
-                    val `val` = extras.get(key)
+                    val value = extras.get(key)
                     if (sb.length > 0) {
-                        sb.append("\n")
+                        sb.append("<br>")
                     }
-                    sb.append(key).append("=").append(`val`)
+                    sb.append(key).append(" = <b>").append(value).append("</b>")
                 }
             }
             val args = Bundle()
@@ -280,7 +278,7 @@ class OsmAndInfoDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val message = arguments.getString(INFO_KEY)
         val builder = AlertDialog.Builder(activity)
-        builder.setMessage(message)
+        builder.setMessage(Html.fromHtml(message))
         builder.setTitle("OsmAnd info:")
         builder.setPositiveButton("OK", null)
         return builder.create()
