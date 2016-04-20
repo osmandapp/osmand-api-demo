@@ -48,8 +48,6 @@ Add map marker at given location.
 ##### URI parameter: PARAM_LON - longitude.
 ##### URI parameter: PARAM_NAME - name.
  
-Add favourite at given location
-
 #### Command: ADD_FAVORITE
 Add favourite at given location
 
@@ -104,7 +102,7 @@ Navigate GPX file.
 In current implementation it is recommended way to share file if your app supports API 15.
 
 ##### URI parameter: PARAM_FORCE - Stop previous navigation if active.
-###### Extra parameter: PARAM_DATA - Raw contents of GPX file.
+##### Extra parameter: PARAM_DATA - Raw contents of GPX file.
 
 #### Command: NAVIGATE_GPX
 @TargetApi(16)
