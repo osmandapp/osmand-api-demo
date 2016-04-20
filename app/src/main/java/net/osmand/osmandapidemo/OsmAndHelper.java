@@ -1,5 +1,6 @@
 package net.osmand.osmandapidemo;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -91,50 +92,105 @@ public class OsmAndHelper {
 		mOsmandMissingListener = listener;
 	}
 
+	/**
+	 * Simply requests data about OsmAnd status.
+	 * Data returned as extras. Each key value pair as separate entity.
+	 */
 	public void getInfo() {
-		// test get info
-		sendRequest(new IntentBuilder(GET_INFO));
+		sendRequest(new OsmAndIntentBuilder(GET_INFO));
 	}
 
+	/**
+	 * Request to start recording audio note for given location.
+	 * Audio video notes plugin must be enabled. Otherwise OsmAnd will return
+	 * RESULT_CODE_ERROR_PLUGIN_INACTIVE.
+	 *
+	 * @param lat - latitude. Sent as URI parameter.
+	 * @param lon - longitude. Sent as URI parameter.
+	 */
 	public void recordAudio(double lat, double lon) {
 		// test record audio
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_LAT, String.valueOf(lat));
 		params.put(PARAM_LON, String.valueOf(lon));
-		sendRequest(new IntentBuilder(RECORD_AUDIO).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(RECORD_AUDIO).setParams(params));
 	}
 
+	/**
+	 * Request to start recording video note for given location.
+	 * Audio video notes plugin must be enabled. Otherwise OsmAnd will return
+	 * RESULT_CODE_ERROR_PLUGIN_INACTIVE.
+	 *
+	 * @param lat - latitude. Sent as URI parameter.
+	 * @param lon - longitude. Sent as URI parameter.
+	 */
 	public void recordVideo(double lat, double lon) {
 		// test record video
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_LAT, String.valueOf(lat));
 		params.put(PARAM_LON, String.valueOf(lon));
-		sendRequest(new IntentBuilder(RECORD_VIDEO).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(RECORD_VIDEO).setParams(params));
 	}
 
+	/**
+	 * Request to take photo for given location.
+	 * Audio video notes plugin must be enabled. Otherwise OsmAnd will return
+	 * RESULT_CODE_ERROR_PLUGIN_INACTIVE.
+	 *
+	 * @param lat - latitude. Sent as URI parameter.
+	 * @param lon - longitude. Sent as URI parameter.
+	 */
 	public void takePhoto(double lat, double lon) {
 		// test record photo
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_LAT, String.valueOf(lat));
 		params.put(PARAM_LON, String.valueOf(lon));
-		sendRequest(new IntentBuilder(RECORD_PHOTO).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(RECORD_PHOTO).setParams(params));
 	}
 
+	/**
+	 * Stop recording audio or video.
+	 * Audio video notes plugin must be enabled. Otherwise OsmAnd will return
+	 * RESULT_CODE_ERROR_PLUGIN_INACTIVE.
+	 */
 	public void stopAvRec() {
 		// test stop recording
-		sendRequest(new IntentBuilder(STOP_AV_REC));
+		sendRequest(new OsmAndIntentBuilder(STOP_AV_REC));
 	}
 
+	/**
+	 * Add map marker at given location.
+	 *
+	 * @param lat  - latitude. Sent as URI parameter.
+	 * @param lon  - longitude. Sent as URI parameter.
+	 * @param name - name. Sent as URI parameter.
+	 */
 	public void addMapMarker(double lat, double lon, String name) {
 		// test marker
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_LAT, String.valueOf(lat));
 		params.put(PARAM_LON, String.valueOf(lon));
 		params.put(PARAM_NAME, name);
-		sendRequest(new IntentBuilder(ADD_MAP_MARKER).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(ADD_MAP_MARKER).setParams(params));
 	}
 
 	// TODO covert color to set
+
+	/**
+	 * Add favourite at given location
+	 *
+	 * @param lat         - latitude. Sent as URI parameter.
+	 * @param lon         - longitude. Sent as URI parameter.
+	 * @param name        - name of favourite item. Sent as URI parameter.
+	 * @param description - description of favourite item. Sent as URI parameter.
+	 * @param category    - category of favourite item. Sent as URI parameter.
+	 *                    Symbols that are not safe for directory name will be removed.
+	 * @param color       - color of favourite item. Can be one of: "red", "orange", "yellow",
+	 *                    "lightgreen", "green", "lightblue", "blue", "purple", "pink", "brown".
+	 *                    Sent as URI parameter.
+	 * @param visible     - should favourite item be visible after creation.
+	 *                    Sent as URI parameter.
+	 */
 	public void addFavorite(double lat, double lon, String name,
 							String description, String category, String color,
 							boolean visible) {
@@ -147,23 +203,41 @@ public class OsmAndHelper {
 		params.put(PARAM_CATEGORY, category);
 		params.put(PARAM_COLOR, color);
 		params.put(PARAM_VISIBLE, String.valueOf(visible));
-		sendRequest(new IntentBuilder(ADD_FAVORITE).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(ADD_FAVORITE).setParams(params));
 	}
 
+	/**
+	 * Start recording GPX track.
+	 *
+	 * @param closeAfterCommand - true if OsmAnd should be close immediately after executing
+	 *                          command. Sent as URI parameter.
+	 */
 	public void startGpxRec(boolean closeAfterCommand) {
 		// test start gpx recording
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(closeAfterCommand));
-		sendRequest(new IntentBuilder(START_GPX_REC).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(START_GPX_REC).setParams(params));
 	}
 
+	/**
+	 * Stop recording GPX track.
+	 *
+	 * @param closeAfterCommand - true if OsmAnd should be close immediately after executing
+	 *                          command. Sent as URI parameter.
+	 */
 	public void stopGpxRec(boolean closeAfterCommand) {
 		// test stop gpx recording
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(closeAfterCommand));
-		sendRequest(new IntentBuilder(STOP_GPX_REC).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(STOP_GPX_REC).setParams(params));
 	}
 
+	/**
+	 * Show GPX file on map.
+	 *
+	 * @param file - File which represents GPX track. OsmAnd must have rights to access location.
+	 *             Sent as URI parameter.
+	 */
 	public void showGpxFile(File file) {
 		// test show gpx (path)
 		Map<String, String> params = new HashMap<>();
@@ -172,24 +246,45 @@ public class OsmAndHelper {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
-		sendRequest(new IntentBuilder(SHOW_GPX).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(SHOW_GPX).setParams(params));
 	}
 
+	/**
+	 * Show GPX file on map.
+	 * In current implementation it is recommended way to share file if your app supports API 15.
+	 *
+	 * @param data - Raw contents of GPX file. Sent as intent's extra string parameter.
+	 */
 	public void showRawGpx(String data) {
 		// test show gpx (data)
 		Map<String, String> extraData = new HashMap<>();
 		extraData.put(PARAM_DATA, data);
-		sendRequest(new IntentBuilder(SHOW_GPX).setExtraData(extraData));
+		sendRequest(new OsmAndIntentBuilder(SHOW_GPX).setExtraData(extraData));
 	}
 
+	@TargetApi(16)
+	/**
+	 * Show GPX file on map.
+	 * Recommended way to share file.
+	 * In current implementation it is recommended way to share file if your app supports API 16
+	 * and above.
+	 * @param gpxUri - URI created by FileProvider. Sent as ClipData.
+	 */
 	public void showGpxUri(Uri gpxUri) {
 		// test show gpx (uri)
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_URI, "true");
-		sendRequest(new IntentBuilder(SHOW_GPX).setParams(params).setGpxUri(gpxUri)
+		sendRequest(new OsmAndIntentBuilder(SHOW_GPX).setParams(params).setGpxUri(gpxUri)
 				.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION));
 	}
 
+	/**
+	 * Navigate GPX file.
+	 *
+	 * @param file  - File which represents GPX track. OsmAnd must have rights to access location.
+	 *              Sent as URI parameter.
+	 * @param force - Stop previous navigation if active. Sent as URI parameter.
+	 */
 	public void navigateGpxFile(boolean force, File file) {
 		// test navigate gpx (file)
 		Map<String, String> params = new HashMap<>();
@@ -199,31 +294,61 @@ public class OsmAndHelper {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
-		sendRequest(new IntentBuilder(NAVIGATE_GPX).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(NAVIGATE_GPX).setParams(params));
 	}
 
+	/**
+	 * Navigate GPX file.
+	 * In current implementation it is recommended way to share file if your app supports API 15.
+	 *
+	 * @param data - Raw contents of GPX file. Sent as intent's extra string parameter.
+	 * @param force - Stop previous navigation if active. Sent as URI parameter.
+	 */
 	public void navigateRawGpx(boolean force, String data) {
 		// test navigate gpx (data)
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_FORCE, String.valueOf(force));
 		Map<String, String> extraData = new HashMap<>();
 		extraData.put(PARAM_DATA, data);
-		sendRequest(new IntentBuilder(NAVIGATE_GPX).setParams(params)
+		sendRequest(new OsmAndIntentBuilder(NAVIGATE_GPX).setParams(params)
 				.setExtraData(extraData));
 	}
 
+	@TargetApi(16)
+	/**
+	 * Navigate GPX file.
+	 * Recommended way to share file.
+	 * In current implementation it is recommended way to share file if your app supports API 16
+	 * and above.
+	 * @param gpxUri - URI created by FileProvider. Sent as ClipData.
+	 * @param force - Stop previous navigation if active. Sent as URI parameter.
+	 */
 	public void navigateGpxUri(boolean force, Uri gpxUri) {
 		// test navigate gpx (uri)
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_URI, "true");
 		params.put(PARAM_FORCE, String.valueOf(force));
-		sendRequest(new IntentBuilder(NAVIGATE_GPX).setParams(params).setGpxUri(gpxUri)
+		sendRequest(new OsmAndIntentBuilder(NAVIGATE_GPX).setParams(params).setGpxUri(gpxUri)
 				.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION));
 	}
 
+	/**
+	 * Navigate from one location to another.
+	 *
+	 * @param startName - Name of starting point. Sent as URI parameter.
+	 * @param startLat  - Start latitude. Sent as URI parameter.
+	 * @param startLon  - Start longitude. Sent as URI parameter.
+	 * @param destName  - Name of destination point. Sent as URI parameter.
+	 * @param destLat   - Destination latitude. Sent as URI parameter.
+	 * @param destLon   - Destination longitude. Sent as URI parameter.
+	 * @param profile   - Map profile can be one of: "default", "car", "bicycle",
+	 *                  "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
+	 *                  Sent as URI parameter.
+	 * @param force - Stop previous navigation if active. Sent as URI parameter.
+	 */
 	public void navigate(String startName, double startLat, double startLon,
 						 String destName, double destLat, double destLon,
-						 String profile) {
+						 String profile, boolean force) {
 		// test navigate
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_START_LAT, String.valueOf(startLat));
@@ -233,10 +358,16 @@ public class OsmAndHelper {
 		params.put(PARAM_DEST_LON, String.valueOf(destLon));
 		params.put(PARAM_DEST_NAME, destName);
 		params.put(PARAM_PROFILE, profile);
-		sendRequest(new IntentBuilder(NAVIGATE_GPX).setParams(params));
+		params.put(PARAM_FORCE, String.valueOf(force));
+		sendRequest(new OsmAndIntentBuilder(NAVIGATE).setParams(params));
 	}
 
-	private void sendRequest(IntentBuilder intentBuilder) {
+	/**
+	 * Creates intent and executes request.
+	 *
+	 * @param intentBuilder - contains intent parameters.
+	 */
+	private void sendRequest(OsmAndIntentBuilder intentBuilder) {
 		Uri uri = intentBuilder.getUri();
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		intent.addFlags(intentBuilder.getFlags());
@@ -257,6 +388,12 @@ public class OsmAndHelper {
 		}
 	}
 
+	/**
+	 * Convenience method to validate if intent can be handled.
+	 *
+	 * @param intent - intent to be checked
+	 * @return true if activity that can handle intent was found. False otherwise.
+	 */
 	public boolean isIntentSafe(Intent intent) {
 		PackageManager packageManager = mActivity.getPackageManager();
 		List activities = packageManager.queryIntentActivities(intent,
@@ -268,33 +405,33 @@ public class OsmAndHelper {
 		void osmandMissing();
 	}
 
-	private static class IntentBuilder {
+	private static class OsmAndIntentBuilder {
 		final String command;
 		Map<String, String> params;
 		Map<String, String> extraData;
 		int flags;
 		Uri gpxUri;
 
-		public IntentBuilder(String command) {
+		public OsmAndIntentBuilder(String command) {
 			this.command = command;
 		}
 
-		public IntentBuilder setExtraData(Map<String, String> extraData) {
+		public OsmAndIntentBuilder setExtraData(Map<String, String> extraData) {
 			this.extraData = extraData;
 			return this;
 		}
 
-		public IntentBuilder setFlags(int flags) {
+		public OsmAndIntentBuilder setFlags(int flags) {
 			this.flags = flags;
 			return this;
 		}
 
-		public IntentBuilder setGpxUri(Uri gpxUri) {
+		public OsmAndIntentBuilder setGpxUri(Uri gpxUri) {
 			this.gpxUri = gpxUri;
 			return this;
 		}
 
-		public IntentBuilder setParams(Map<String, String> params) {
+		public OsmAndIntentBuilder setParams(Map<String, String> params) {
 			this.params = params;
 			return this;
 		}

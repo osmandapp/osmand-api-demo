@@ -115,7 +115,8 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     { location ->
                         mOsmAndHelper!!.navigate(location.name + " start",
                                 location.latStart, location.lonStart,
-                                location.name + " finish", location.lat, location.lon, "bicycle")
+                                location.name + " finish", location.lat, location.lon,
+                                "bicycle", true)
                     }).show(supportFragmentManager, null)
         })
         getInfoButton.setOnClickListener({ mOsmAndHelper!!.getInfo() })
