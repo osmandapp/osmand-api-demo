@@ -234,9 +234,9 @@ public class OsmAndHelper {
 
 	/**
 	 * Show GPX file on map.
+	 * OsmAnd must have rights to access location. Not recommended.
 	 *
-	 * @param file - File which represents GPX track. OsmAnd must have rights to access location.
-	 *             Sent as URI parameter.
+	 * @param file - File which represents GPX track. Sent as URI parameter.
 	 */
 	public void showGpxFile(File file) {
 		// test show gpx (path)
@@ -280,9 +280,9 @@ public class OsmAndHelper {
 
 	/**
 	 * Navigate GPX file.
+	 * OsmAnd must have rights to access location. Not recommended.
 	 *
-	 * @param file  - File which represents GPX track. OsmAnd must have rights to access location.
-	 *              Sent as URI parameter.
+	 * @param file  - File which represents GPX track. Sent as URI parameter.
 	 * @param force - Stop previous navigation if active. Sent as URI parameter.
 	 */
 	public void navigateGpxFile(boolean force, File file) {
@@ -301,7 +301,7 @@ public class OsmAndHelper {
 	 * Navigate GPX file.
 	 * In current implementation it is recommended way to share file if your app supports API 15.
 	 *
-	 * @param data - Raw contents of GPX file. Sent as intent's extra string parameter.
+	 * @param data  - Raw contents of GPX file. Sent as intent's extra string parameter.
 	 * @param force - Stop previous navigation if active. Sent as URI parameter.
 	 */
 	public void navigateRawGpx(boolean force, String data) {
@@ -344,7 +344,7 @@ public class OsmAndHelper {
 	 * @param profile   - Map profile can be one of: "default", "car", "bicycle",
 	 *                  "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
 	 *                  Sent as URI parameter.
-	 * @param force - Stop previous navigation if active. Sent as URI parameter.
+	 * @param force     - Stop previous navigation if active. Sent as URI parameter.
 	 */
 	public void navigate(String startName, double startLat, double startLon,
 						 String destName, double destLat, double destLon,
