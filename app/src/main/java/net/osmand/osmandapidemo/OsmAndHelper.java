@@ -26,11 +26,11 @@ public class OsmAndHelper {
 	// RESULT_CANCELED == 0
 	// RESULT_FIRST_USER == 1
 	// from Activity
-	public static final int RESULT_CODE_ERROR_UNKNOWN = -3;
-	public static final int RESULT_CODE_ERROR_NOT_IMPLEMENTED = -2;
-	public static final int RESULT_CODE_ERROR_PLUGIN_INACTIVE = 10;
-	public static final int RESULT_CODE_ERROR_GPX_NOT_FOUND = 20;
-	public static final int RESULT_CODE_ERROR_INVALID_PROFILE = 30;
+	public static final int RESULT_CODE_ERROR_UNKNOWN = 1001;
+	public static final int RESULT_CODE_ERROR_NOT_IMPLEMENTED = 1002;
+	public static final int RESULT_CODE_ERROR_PLUGIN_INACTIVE = 1003;
+	public static final int RESULT_CODE_ERROR_GPX_NOT_FOUND = 1004;
+	public static final int RESULT_CODE_ERROR_INVALID_PROFILE = 1005;
 
 	// Information
 	private static final String GET_INFO = "get_info";
