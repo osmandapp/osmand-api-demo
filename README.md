@@ -80,10 +80,10 @@ OsmAnd must have rights to access location. Not recommended.
 Show GPX file on map.
 In current implementation it is recommended way to share file if your app supports API 15.
 
-## Extra parameter: PARAM_DATA Raw contents of GPX file. Sent as intent's extra string parameter.
+##### Extra parameter: PARAM_DATA Raw contents of GPX file. Sent as intent's extra string parameter.
 
-@TargetApi(16)
 #### Command: SHOW_GPX
+@TargetApi(16)
 Show GPX file on map.
 Recommended way to share file.
 In current implementation it is recommended way to share file if your app supports API 16
@@ -104,10 +104,10 @@ Navigate GPX file.
 In current implementation it is recommended way to share file if your app supports API 15.
 
 ##### URI parameter: PARAM_FORCE - Stop previous navigation if active.
-## Extra parameter: PARAM_DATA - Raw contents of GPX file.
+###### Extra parameter: PARAM_DATA - Raw contents of GPX file.
 
-@TargetApi(16)
 #### Command: NAVIGATE_GPX
+@TargetApi(16)
 Navigate GPX file.
 Recommended way to share file.
 In current implementation it is recommended way to share file if your app supports API 16
