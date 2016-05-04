@@ -35,8 +35,9 @@
 
     <style name="short_divider_style">
         <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginLeft">56dp</item>
-        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">56dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">48dp</item>
+        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">48dp</item>
         <item name="android:background">@color/dividerColor</item>
     </style>
 

@@ -39,9 +39,7 @@
                 android:text="@string/add_favorite"
                 tools:drawableLeft="@drawable/ic_action_fav_dark"/>
 
-            <View
-                style="@style/short_divider_style"
-                android:layout_width="wrap_content"/>
+            <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/addMapMarkerButton"
@@ -82,9 +80,7 @@
                 android:text="@string/start_audio_recording"
                 tools:drawableLeft="@drawable/ic_action_micro_dark"/>
 
-            <View
-                style="@style/short_divider_style"
-                android:layout_width="match_parent"/>
+            <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/startVideoRecButton"
@@ -94,9 +90,7 @@
                 android:text="@string/start_video_recording"
                 tools:drawableLeft="@drawable/ic_action_video_dark"/>
 
-            <View
-                style="@style/short_divider_style"
-                android:layout_width="match_parent"/>
+            <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/stopRecButton"
@@ -106,9 +100,7 @@
                 android:text="@string/stop_recording"
                 tools:drawableLeft="@drawable/ic_action_rec_stop"/>
 
-            <View
-                style="@style/short_divider_style"
-                android:layout_width="match_parent"/>
+            <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/takePhotoButton"
@@ -148,9 +140,7 @@
                 android:text="@string/start_gpx_recording"
                 tools:drawableLeft="@drawable/ic_action_play"/>
 
-            <View
-                style="@style/short_divider_style"
-                android:layout_width="match_parent"/>
+            <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/stopGpxRecButton"
@@ -190,9 +180,7 @@
                 android:text="@string/show_gpx"
                 tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
-            <View
-                style="@style/short_divider_style"
-                android:layout_width="match_parent"/>
+            <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/navigateGpxButton"
@@ -232,9 +220,7 @@
                 android:text="@string/navigate"
                 tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
-            <View
-                style="@style/short_divider_style"
-                android:layout_width="match_parent"/>
+            <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/getInfoButton"
@@ -244,9 +230,7 @@
                 android:text="@string/get_info"
                 tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
-            <View
-                style="@style/short_divider_style"
-                android:layout_width="match_parent"/>
+            <View style="@style/short_divider_style"/>
         </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
