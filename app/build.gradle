@@ -10,8 +10,8 @@ android {
         applicationId "net.osmand.osmandapidemo"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode System.getenv("APK_NUMBER_VERSION") ? System.getenv("APK_NUMBER_VERSION").toInteger() : 100
+	versionName System.getenv("APK_VERSION")? System.getenv("APK_VERSION").toString(): "1.0-dev"
     }
     signingConfigs {
 		development {
@@ -34,6 +34,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     sourceSets {
