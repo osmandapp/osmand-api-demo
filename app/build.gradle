@@ -38,7 +38,10 @@ android {
         }
     }
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        main {
+            aidl.srcDirs = ["src"]
+            java.srcDirs = ["src"]
+        }
     }
 }
 

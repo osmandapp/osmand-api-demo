@@ -7,6 +7,8 @@
     <string name="my_places">My places</string>
     <string name="add_favorite">Add favorite</string>
     <string name="add_map_marker">Add map marker</string>
+    <string name="update_map_marker">Update map marker</string>
+    <string name="remove_map_marker">Remove map marker</string>
     <string name="audio_video_plugin">Audio/video plugin</string>
     <string name="start_audio_recording">Start audio recording</string>
     <string name="start_video_recording">Start video recording</string>
@@ -21,4 +23,10 @@
     <string name="navigation">Navigation</string>
     <string name="navigate">Navigate</string>
     <string name="get_info">Get info</string>
+    <string name="add_map_widget_1">Add widget 1</string>
+    <string name="add_map_widget_2">Add widget 2</string>
+    <string name="modify_map_widget_1">Modify widget 1</string>
+    <string name="modify_map_widget_2">Modify widget 2</string>
+    <string name="remove_map_widget_1">Remove widget 1</string>
+    <string name="remove_map_widget_2">Remove widget 2</string>
 </resources>

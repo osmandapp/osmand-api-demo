@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
@@ -24,13 +25,19 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*;
+import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper
+import main.java.net.osmand.osmandapidemo.OsmAndHelper
 import java.io.*
 
 public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
+    var counter = 0
+    var delay : Long = 5000
     var mOsmAndHelper: OsmAndHelper? = null
+    var mAidlHelper: OsmAndAidlHelper? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
+        mAidlHelper = OsmAndAidlHelper(this, this)
         setContentView(R.layout.activity_main)
 
         setDrawable(addFavoriteButton, R.drawable.ic_action_fav_dark)
@@ -45,6 +52,103 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         setDrawable(navigateGpxButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(navigateButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(getInfoButton, R.drawable.ic_action_gabout_dark)
+
+
+        // AIDL
+
+        aidlAddMapMarkerButton.setOnClickListener({
+            getLocationSelectorInstance("Add map marker",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.addMapMarker(location.lat, location.lon, location.name)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        aidlUpdateMapMarkerButton.setOnClickListener({
+            getLocationSelectorInstance("Update map marker",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.updateMapMarker(location.lat, location.lon, location.name,
+                                    location.lat, location.lon, location.name + " " + counter++)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        aidlRemoveMapMarkerButton.setOnClickListener({
+            getLocationSelectorInstance("Remove map marker",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.removeMapMarker(location.lat, location.lon, location.name)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        val startDemoIntent = packageManager.getLaunchIntentForPackage("net.osmand.osmandapidemo")
+        startDemoIntent?.addCategory(Intent.CATEGORY_LAUNCHER)
+
+        aidlAddFirstWidgetButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.addMapWidget(
+                        "111",
+                        "ic_action_speed",
+                        "AIDL Speed",
+                        "widget_speed_day",
+                        "widget_speed_night",
+                        "10", "km/h", 50, startDemoIntent)
+            }, delay)
+        })
+
+        aidlAddSecondWidgetButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.addMapWidget(
+                        "222",
+                        "ic_action_time",
+                        "AIDL Time",
+                        "widget_time_day",
+                        "widget_time_night",
+                        getTimeStr(), "", 51, startDemoIntent)
+            }, delay)
+        })
+
+        aidlModifyFirstWidgetButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.addMapWidget(
+                        "111",
+                        "ic_action_speed",
+                        "AIDL Speed",
+                        "widget_speed_day",
+                        "widget_speed_night",
+                        "1" + counter++, "km/h", 50, startDemoIntent)
+            }, delay)
+        })
+
+        aidlModifySecondWidgetButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.addMapWidget(
+                        "222",
+                        "ic_action_time",
+                        "AIDL Time",
+                        "widget_time_day",
+                        "widget_time_night",
+                        getTimeStr(), "", 51, startDemoIntent)
+            }, delay)
+        })
+
+        aidlRemoveFirstWidgetButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.removeMapWidget("111")
+            }, delay)
+        })
+
+        aidlRemoveSecondWidgetButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.removeMapWidget("222")
+            }, delay)
+        })
+
+
+        // Intents
 
         addFavoriteButton.setOnClickListener({
             getLocationSelectorInstance("Add favourite",
@@ -166,6 +270,11 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         }
     }
 
+    override fun onDestroy() {
+        mAidlHelper!!.cleanupResources();
+        super.onDestroy()
+    }
+
     fun handleGpxFile(data: Intent, action: (String) -> Unit) {
         try {
             val gpxParceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
@@ -235,6 +344,14 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         val compatIcon = DrawableCompat.wrap(icon)
         DrawableCompat.setTint(compatIcon, ContextCompat.getColor(this, R.color.iconColor))
         button.setCompoundDrawablesWithIntrinsicBounds(compatIcon, null, null, null)
+    }
+
+    private fun getTimeStr(): String {
+        val time = System.currentTimeMillis()
+        val seconds = (time / 1000) % 60
+        val minutes = time / (1000 * 60) % 60
+        val hours = time / (1000 * 60 * 60) % 24
+        return String.format("%d:%02d:%02d", hours, minutes, seconds)
     }
 
     private fun resultCodeStr(resultCode: Int): String {

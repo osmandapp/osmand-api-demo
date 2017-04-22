@@ -1,4 +1,4 @@
-package net.osmand.osmandapidemo;
+package main.java.net.osmand.osmandapidemo;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
