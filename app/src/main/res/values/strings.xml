@@ -25,8 +25,13 @@
     <string name="get_info">Get info</string>
     <string name="add_map_widget_1">Add widget 1</string>
     <string name="add_map_widget_2">Add widget 2</string>
-    <string name="modify_map_widget_1">Modify widget 1</string>
-    <string name="modify_map_widget_2">Modify widget 2</string>
+    <string name="modify_map_widget_1">Update widget 1</string>
+    <string name="modify_map_widget_2">Update widget 2</string>
     <string name="remove_map_widget_1">Remove widget 1</string>
     <string name="remove_map_widget_2">Remove widget 2</string>
+    <string name="add_layer">Add layer</string>
+    <string name="remove_layer">Remove layer</string>
+    <string name="add_point">Add point</string>
+    <string name="update_point">Update point</string>
+    <string name="remove_point">Remove point</string>
 </resources>

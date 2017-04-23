@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -27,10 +28,11 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*;
 import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper
 import main.java.net.osmand.osmandapidemo.OsmAndHelper
+import net.osmand.aidl.ALatLon
 import java.io.*
 
 public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
-    var counter = 0
+    var counter = 1
     var delay : Long = 5000
     var mOsmAndHelper: OsmAndHelper? = null
     var mAidlHelper: OsmAndAidlHelper? = null
@@ -113,7 +115,7 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
         aidlModifyFirstWidgetButton.setOnClickListener({
             Handler().postDelayed({
-                mAidlHelper!!.addMapWidget(
+                mAidlHelper!!.updateMapWidget(
                         "111",
                         "ic_action_speed",
                         "AIDL Speed",
@@ -125,7 +127,7 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
         aidlModifySecondWidgetButton.setOnClickListener({
             Handler().postDelayed({
-                mAidlHelper!!.addMapWidget(
+                mAidlHelper!!.updateMapWidget(
                         "222",
                         "ic_action_time",
                         "AIDL Time",
@@ -145,6 +147,57 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
             Handler().postDelayed({
                 mAidlHelper!!.removeMapWidget("222")
             }, delay)
+        })
+
+        aidlAddLayerButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.addMapLayer("layer_1", "OSMO Layer", 5.5f, null)
+            }, delay)
+        })
+
+        aidlRemoveLayerButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.removeMapLayer("layer_1")
+            }, delay)
+        })
+
+        aidlAddPointButton.setOnClickListener({
+            getLocationSelectorInstance("Add map point",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.addMapPoint(
+                                    "layer_1",
+                                    "id_" + location.name,
+                                    location.name.substring(0, 1),
+                                    location.name,
+                                    Color.GREEN,
+                                    ALatLon(location.lat, location.lon))
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        aidlUpdatePointButton.setOnClickListener({
+            getLocationSelectorInstance("Update map point",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.addMapPoint(
+                                    "layer_1",
+                                    "id_" + location.name,
+                                    location.name.substring(1, 2),
+                                    location.name,
+                                    Color.RED,
+                                    ALatLon(location.lat, location.lon))
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        aidlRemovePointButton.setOnClickListener({
+            getLocationSelectorInstance("Remove map point",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.removeMapPoint("layer_1", "id_" + location.name)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
         })
 
 

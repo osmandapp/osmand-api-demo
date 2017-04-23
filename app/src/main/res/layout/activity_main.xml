@@ -105,6 +105,48 @@
                 android:text="@string/remove_map_widget_2"
                 tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
+            <View android:layout_width="match_parent" style="@style/divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlAddLayerButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_layer"
+                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlAddPointButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_point"
+                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlUpdatePointButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update_point"
+                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlRemovePointButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remove_point"
+                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlRemoveLayerButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remove_layer"
+                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
         </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>

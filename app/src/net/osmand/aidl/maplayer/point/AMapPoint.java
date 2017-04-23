@@ -66,7 +66,7 @@ public class AMapPoint implements Parcelable {
 	private void readFromParcel(Parcel in) {
 		id = in.readString();
 		shortName = in.readString();
-		shortName = in.readString();
+		fullName = in.readString();
 		color = in.readInt();
 		location = in.readParcelable(ALatLon.class.getClassLoader());
 	}
