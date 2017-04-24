@@ -19,6 +19,9 @@
     <string name="stop_gpx_recording">Stop gpx recording</string>
     <string name="gpx_display_navigation">GPX display/navigation</string>
     <string name="show_gpx">Show gpx</string>
+    <string name="hide_gpx">Hide gpx</string>
+    <string name="import_gpx">Import gpx</string>
+    <string name="get_active_gpx_list">Get active gpx list</string>
     <string name="navigate_gpx">Navigate gpx</string>
     <string name="navigation">Navigation</string>
     <string name="navigate">Navigate</string>
@@ -34,4 +37,5 @@
     <string name="add_point">Add point</string>
     <string name="update_point">Update point</string>
     <string name="remove_point">Remove point</string>
+    <string name="set_map_location">Set map location</string>
 </resources>

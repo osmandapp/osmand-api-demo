@@ -25,10 +25,10 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*;
+import kotlinx.android.synthetic.main.activity_main.*
 import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper
 import main.java.net.osmand.osmandapidemo.OsmAndHelper
-import net.osmand.aidl.ALatLon
+import net.osmand.aidl.map.ALatLon
 import java.io.*
 
 public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
@@ -170,8 +170,10 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                                     "id_" + location.name,
                                     location.name.substring(0, 1),
                                     location.name,
+                                    "City",
                                     Color.GREEN,
-                                    ALatLon(location.lat, location.lon))
+                                    ALatLon(location.lat, location.lon),
+                                    listOf("Big city", "Population: ..."))
                         }, delay)
                     }).show(supportFragmentManager, null)
         })
@@ -185,8 +187,10 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                                     "id_" + location.name,
                                     location.name.substring(1, 2),
                                     location.name,
+                                    "City",
                                     Color.RED,
-                                    ALatLon(location.lat, location.lon))
+                                    ALatLon(location.lat, location.lon),
+                                    listOf("Big city", "Population: unknown"))
                         }, delay)
                     }).show(supportFragmentManager, null)
         })
@@ -200,6 +204,60 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     }).show(supportFragmentManager, null)
         })
 
+        aidlImportGpxButton.setOnClickListener({
+            object : OpenGpxDialogFragment() {
+                override fun sendAsRawData() {
+                    requestChooseGpx(REQUEST_SHOW_GPX_RAW_DATA_AIDL)
+                }
+
+                override fun sendAsUri() {
+                    requestChooseGpx(REQUEST_SHOW_GPX_URI_AIDL)
+                }
+            }.show(supportFragmentManager, null)
+        })
+
+        aidlShowGpxButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.showGpx(GPX_FILE_NAME)
+            }, delay)
+        })
+
+        aidlHideGpxButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.hideGpx(GPX_FILE_NAME)
+            }, delay)
+        })
+
+        aidlGetActiveGpxButton.setOnClickListener({
+            val activeGpxFiles = mAidlHelper!!.activeGpxFiles;
+            val sb = StringBuilder()
+            if (activeGpxFiles != null) {
+                for (gpxFile in activeGpxFiles) {
+                    if (sb.length > 0) {
+                        sb.append("<br>")
+                    }
+                    sb.append(gpxFile.fileName)
+                }
+            }
+            if (sb.length == 0) {
+                sb.append("No active files found")
+            }
+            val args = Bundle()
+            args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
+            val infoDialog = OsmAndInfoDialog()
+            infoDialog.arguments = args
+            supportFragmentManager.beginTransaction()
+                    .add(infoDialog, null).commitAllowingStateLoss()
+        })
+
+        aidlSetMapLocationButton.setOnClickListener({
+            getLocationSelectorInstance("Set map location",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.setMapLocation(location.lat, location.lon, 16, true)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
 
         // Intents
 
@@ -315,6 +373,12 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                 }
                 REQUEST_SHOW_GPX_URI -> {
                     handleGpxUri(data!!, { data -> mOsmAndHelper!!.showGpxUri(data) })
+                }
+                REQUEST_SHOW_GPX_RAW_DATA_AIDL -> {
+                    handleGpxFile(data!!, { data -> mAidlHelper!!.importGpxFromData(data, GPX_FILE_NAME) })
+                }
+                REQUEST_SHOW_GPX_URI_AIDL -> {
+                    handleGpxUri(data!!, { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME) })
                 }
                 else -> super.onActivityResult(requestCode, resultCode, data)
             }
@@ -439,7 +503,10 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         val REQUEST_SHOW_GPX_RAW_DATA = 1003
         val REQUEST_NAVIGATE_GPX_URI = 1004
         val REQUEST_SHOW_GPX_URI = 1005
+        val REQUEST_SHOW_GPX_RAW_DATA_AIDL = 1006
+        val REQUEST_SHOW_GPX_URI_AIDL = 1007
         val AUTHORITY = "net.osmand.osmandapidemo.fileprovider"
+        val GPX_FILE_NAME = "aild_test.gpx"
     }
 }
 

@@ -147,6 +147,50 @@
                 android:text="@string/remove_layer"
                 tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
+            <View android:layout_width="match_parent" style="@style/divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlImportGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/import_gpx"
+                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlShowGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_gpx"
+                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlHideGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hide_gpx"
+                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlGetActiveGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/get_active_gpx_list"
+                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+            <View android:layout_width="match_parent" style="@style/divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlSetMapLocationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/set_map_location"
+                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
         </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
