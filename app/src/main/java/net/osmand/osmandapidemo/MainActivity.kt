@@ -39,7 +39,7 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
-        mAidlHelper = OsmAndAidlHelper(this, this)
+        mAidlHelper = OsmAndAidlHelper(this.application, this)
         setContentView(R.layout.activity_main)
 
         setDrawable(addFavoriteButton, R.drawable.ic_action_fav_dark)

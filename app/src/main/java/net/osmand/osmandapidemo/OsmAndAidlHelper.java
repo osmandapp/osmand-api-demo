@@ -1,6 +1,6 @@
 package main.java.net.osmand.osmandapidemo;
 
-import android.app.Activity;
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +44,7 @@ public class OsmAndAidlHelper {
 
 	private static final String OSMAND_PACKAGE_NAME = "net.osmand.plus";
 
-	private final Activity mActivity;
+	private final Application app;
 	private final OnOsmandMissingListener mOsmandMissingListener;
 	private IOsmAndAidlInterface mIOsmAndAidlInterface;
 
@@ -60,19 +60,19 @@ public class OsmAndAidlHelper {
 			// service through an IDL interface, so get a client-side
 			// representation of that from the raw service object.
 			mIOsmAndAidlInterface = IOsmAndAidlInterface.Stub.asInterface(service);
-			Toast.makeText(mActivity, "OsmAnd service connected", Toast.LENGTH_SHORT).show();
+			Toast.makeText(app, "OsmAnd service connected", Toast.LENGTH_SHORT).show();
 		}
 		public void onServiceDisconnected(ComponentName className) {
 			// This is called when the connection with the service has been
 			// unexpectedly disconnected -- that is, its process crashed.
 			mIOsmAndAidlInterface = null;
-			Toast.makeText(mActivity, "OsmAnd service disconnected", Toast.LENGTH_SHORT).show();
+			Toast.makeText(app, "OsmAnd service disconnected", Toast.LENGTH_SHORT).show();
 		}
 	};
 
-	public OsmAndAidlHelper(Activity activity, OnOsmandMissingListener listener) {
-		mActivity = activity;
-		mOsmandMissingListener = listener;
+	public OsmAndAidlHelper(Application application, OnOsmandMissingListener listener) {
+		this.app = application;
+		this.mOsmandMissingListener = listener;
 		bindService();
 	}
 
@@ -80,12 +80,12 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface == null) {
 			Intent intent = new Intent("net.osmand.aidl.OsmandAidlService");
 			intent.setPackage(OSMAND_PACKAGE_NAME);
-			boolean res = mActivity.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+			boolean res = app.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 			if (res) {
-				Toast.makeText(mActivity, "OsmAnd service bind", Toast.LENGTH_SHORT).show();
+				Toast.makeText(app, "OsmAnd service bind", Toast.LENGTH_SHORT).show();
 				return true;
 			} else {
-				Toast.makeText(mActivity, "OsmAnd service NOT bind", Toast.LENGTH_SHORT).show();
+				Toast.makeText(app, "OsmAnd service NOT bind", Toast.LENGTH_SHORT).show();
 				mOsmandMissingListener.osmandMissing();
 				return false;
 			}
@@ -96,7 +96,7 @@ public class OsmAndAidlHelper {
 
 	public void cleanupResources() {
 		if (mIOsmAndAidlInterface != null) {
-			mActivity.unbindService(mConnection);
+			app.unbindService(mConnection);
 		}
 	}
 
@@ -386,7 +386,7 @@ public class OsmAndAidlHelper {
 	public boolean importGpxFromUri(Uri gpxUri, String fileName) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				mActivity.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 				return mIOsmAndAidlInterface.importGpx(new ImportGpxParams(gpxUri, fileName));
 			} catch (RemoteException e) {
 				e.printStackTrace();
