@@ -42,7 +42,9 @@ import main.java.net.osmand.osmandapidemo.OsmAndHelper.OnOsmandMissingListener;
 
 public class OsmAndAidlHelper {
 
-	private static final String OSMAND_PACKAGE_NAME = "net.osmand.plus";
+	private static final String OSMAND_FREE_PACKAGE_NAME = "net.osmand";
+	private static final String OSMAND_PLUS_PACKAGE_NAME = "net.osmand.plus";
+	private static final String OSMAND_PACKAGE_NAME = OSMAND_PLUS_PACKAGE_NAME;
 
 	private final Application app;
 	private final OnOsmandMissingListener mOsmandMissingListener;

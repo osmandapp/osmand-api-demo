@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -368,23 +369,27 @@ public class OsmAndHelper {
 	 * @param intentBuilder - contains intent parameters.
 	 */
 	private void sendRequest(OsmAndIntentBuilder intentBuilder) {
+		try {
 		Uri uri = intentBuilder.getUri();
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		intent.addFlags(intentBuilder.getFlags());
-		Map<String, String> extraData = intentBuilder.getExtraData();
-		if (extraData != null) {
-			for (String key : extraData.keySet()) {
-				intent.putExtra(key, extraData.get(key));
+			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			intent.addFlags(intentBuilder.getFlags());
+			Map<String, String> extraData = intentBuilder.getExtraData();
+			if (extraData != null) {
+				for (String key : extraData.keySet()) {
+					intent.putExtra(key, extraData.get(key));
+				}
 			}
-		}
-		if (intentBuilder.getGpxUri() != null) {
-			ClipData clipData = ClipData.newRawUri("Gpx", intentBuilder.getGpxUri());
-			intent.setClipData(clipData);
-		}
-		if (isIntentSafe(intent)) {
-			mActivity.startActivityForResult(intent, mRequestCode);
-		} else {
-			mOsmandMissingListener.osmandMissing();
+			if (intentBuilder.getGpxUri() != null) {
+				ClipData clipData = ClipData.newRawUri("Gpx", intentBuilder.getGpxUri());
+				intent.setClipData(clipData);
+			}
+			if (isIntentSafe(intent)) {
+				mActivity.startActivityForResult(intent, mRequestCode);
+			} else {
+				mOsmandMissingListener.osmandMissing();
+			}
+		} catch (Exception e) {
+			Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
 
