@@ -58,6 +58,16 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
         // AIDL
 
+        aidlAddFavoriteButton.setOnClickListener({
+            getLocationSelectorInstance("Add favourite",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.addFavorite(location.lat, location.lon, location.name,
+                                    location.name + " city", "Cities", "red", true);
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
         aidlAddMapMarkerButton.setOnClickListener({
             getLocationSelectorInstance("Add map marker",
                     { location ->
