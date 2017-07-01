@@ -11,6 +11,8 @@ import android.os.RemoteException;
 import android.widget.Toast;
 
 import net.osmand.aidl.IOsmAndAidlInterface;
+import net.osmand.aidl.favorite.AFavorite;
+import net.osmand.aidl.favorite.AddFavoriteParams;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
@@ -100,6 +102,31 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			app.unbindService(mConnection);
 		}
+	}
+
+	/**
+	 * Add favorite at given location with given params.
+	 *
+	 * @param lat         - latitude.
+	 * @param lon         - longitude.
+	 * @param name        - name of favorite item.
+	 * @param description - description of favorite item.
+	 * @param category    - category of favorite item.
+	 * @param color       - color of favorite item. Can be one of: "red", "orange", "yellow",
+	 *                    "lightgreen", "green", "lightblue", "blue", "purple", "pink", "brown".
+	 * @param visible     - should favorite item be visible after creation.
+	 */
+	public boolean addFavorite(double lat, double lon, String name, String description,
+							   String category, String color, boolean visible) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				AFavorite favorite = new AFavorite(lat, lon, name, description, category, color, visible);
+				return mIOsmAndAidlInterface.addFavorite(new AddFavoriteParams(favorite));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 
 	/**
