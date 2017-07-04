@@ -142,10 +142,11 @@ public class OsmAndAidlHelper {
 	 * @param lonNew         - longitude (new favorite).
 	 * @param nameNew        - name of favorite item (new favorite).
 	 * @param descriptionNew - description of favorite item (new favorite).
-	 * @param categoryNew    - category of favorite item (new favorite).
-	 * @param colorNew       - color of favorite item (new favorite). Can be one of: "red", "orange", "yellow",
+	 * @param categoryNew    - category of favorite item (new favorite). Use only to create a new category,
+	 *                       not to update an existing one.
+	 * @param colorNew       - color of new category. Can be one of: "red", "orange", "yellow",
 	 *                       "lightgreen", "green", "lightblue", "blue", "purple", "pink", "brown".
-	 * @param visibleNew     - should favorite item (new favorite) be visible after creation.
+	 * @param visibleNew     - should new category be visible after creation.
 	 */
 	public boolean updateFavorite(double latPrev, double lonPrev, String namePrev, String categoryPrev,
 								  double latNew, double lonNew, String nameNew, String descriptionNew,
