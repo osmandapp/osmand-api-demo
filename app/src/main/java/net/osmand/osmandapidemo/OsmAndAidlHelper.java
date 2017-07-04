@@ -130,6 +130,14 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Remove favorite at given location with given params.
+	 *
+	 * @param lat      - latitude.
+	 * @param lon      - longitude.
+	 * @param name     - name of favorite item.
+	 * @param category - category of favorite item.
+	 */
 	public boolean removeFavorite(double lat, double lon, String name, String category) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
