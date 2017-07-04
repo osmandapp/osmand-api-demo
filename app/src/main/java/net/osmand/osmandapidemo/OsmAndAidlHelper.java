@@ -13,6 +13,7 @@ import android.widget.Toast;
 import net.osmand.aidl.IOsmAndAidlInterface;
 import net.osmand.aidl.favorite.AFavorite;
 import net.osmand.aidl.favorite.AddFavoriteParams;
+import net.osmand.aidl.favorite.RemoveFavoriteParams;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
@@ -122,6 +123,26 @@ public class OsmAndAidlHelper {
 			try {
 				AFavorite favorite = new AFavorite(lat, lon, name, description, category, color, visible);
 				return mIOsmAndAidlInterface.addFavorite(new AddFavoriteParams(favorite));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Remove favorite at given location with given params.
+	 *
+	 * @param lat      - latitude.
+	 * @param lon      - longitude.
+	 * @param name     - name of favorite item.
+	 * @param category - category of favorite item.
+	 */
+	public boolean removeFavorite(double lat, double lon, String name, String category) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				AFavorite favorite = new AFavorite(lat, lon, name, "", category, "", false);
+				return mIOsmAndAidlInterface.removeFavorite(new RemoveFavoriteParams(favorite));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
