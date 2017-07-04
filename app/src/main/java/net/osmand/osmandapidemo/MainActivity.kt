@@ -68,6 +68,16 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     }).show(supportFragmentManager, null)
         })
 
+        aidlUpdateFavoriteButton.setOnClickListener({
+            getLocationSelectorInstance("Update favourite",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.updateFavorite(location.lat, location.lon, location.name, "Cities",
+                                    location.lat, location.lon, location.name, location.name + " city", "Cities", "yellow", true)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
         aidlRemoveFavoriteButton.setOnClickListener({
             getLocationSelectorInstance("Remove favourite",
                     { location ->

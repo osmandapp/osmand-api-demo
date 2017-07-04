@@ -14,6 +14,7 @@ import net.osmand.aidl.IOsmAndAidlInterface;
 import net.osmand.aidl.favorite.AFavorite;
 import net.osmand.aidl.favorite.AddFavoriteParams;
 import net.osmand.aidl.favorite.RemoveFavoriteParams;
+import net.osmand.aidl.favorite.UpdateFavoriteParams;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
@@ -123,6 +124,38 @@ public class OsmAndAidlHelper {
 			try {
 				AFavorite favorite = new AFavorite(lat, lon, name, description, category, color, visible);
 				return mIOsmAndAidlInterface.addFavorite(new AddFavoriteParams(favorite));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Update favorite at given location with given params.
+	 *
+	 * @param latPrev        - latitude (current favorite).
+	 * @param lonPrev        - longitude (current favorite).
+	 * @param namePrev       - name of favorite item (current favorite).
+	 * @param categoryPrev   - category of favorite item (current favorite).
+	 * @param latNew         - latitude (new favorite).
+	 * @param lonNew         - longitude (new favorite).
+	 * @param nameNew        - name of favorite item (new favorite).
+	 * @param descriptionNew - description of favorite item (new favorite).
+	 * @param categoryNew    - category of favorite item (new favorite). Use only to create a new category,
+	 *                       not to update an existing one.
+	 * @param colorNew       - color of new category. Can be one of: "red", "orange", "yellow",
+	 *                       "lightgreen", "green", "lightblue", "blue", "purple", "pink", "brown".
+	 * @param visibleNew     - should new category be visible after creation.
+	 */
+	public boolean updateFavorite(double latPrev, double lonPrev, String namePrev, String categoryPrev,
+								  double latNew, double lonNew, String nameNew, String descriptionNew,
+								  String categoryNew, String colorNew, boolean visibleNew) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				AFavorite favoritePrev = new AFavorite(latPrev, lonPrev, namePrev, "", categoryPrev, "", false);
+				AFavorite favoriteNew = new AFavorite(latNew, lonNew, nameNew, descriptionNew, categoryNew, colorNew, visibleNew);
+				return mIOsmAndAidlInterface.updateFavorite(new UpdateFavoriteParams(favoritePrev, favoriteNew));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
