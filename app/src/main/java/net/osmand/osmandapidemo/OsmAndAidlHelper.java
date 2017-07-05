@@ -18,6 +18,7 @@ import net.osmand.aidl.favorite.UpdateFavoriteParams;
 import net.osmand.aidl.favorite.group.AFavoriteGroup;
 import net.osmand.aidl.favorite.group.AddFavoriteGroupParams;
 import net.osmand.aidl.favorite.group.RemoveFavoriteGroupParams;
+import net.osmand.aidl.favorite.group.UpdateFavoriteGroupParams;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
@@ -130,6 +131,30 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
+	 * Update favorite group with given params.
+	 *
+	 * @param namePrev    - group name (current).
+	 * @param colorPrev   - group color (current).
+	 * @param visiblePrev - group visibility (current).
+	 * @param nameNew     - group name (new).
+	 * @param colorNew    - group color (new).
+	 * @param visibleNew  - group visibility (new).
+	 */
+	public boolean updateFavoriteGroup(String namePrev, String colorPrev, boolean visiblePrev,
+									   String nameNew, String colorNew, boolean visibleNew) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				AFavoriteGroup favoriteGroupPrev = new AFavoriteGroup(namePrev, colorPrev, visiblePrev);
+				AFavoriteGroup favoriteGroupNew = new AFavoriteGroup(nameNew, colorNew, visibleNew);
+				return mIOsmAndAidlInterface.updateFavoriteGroup(new UpdateFavoriteGroupParams(favoriteGroupPrev, favoriteGroupNew));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Remove favorite group with given name.
 	 *
 	 * @param name - name of favorite group.
@@ -183,7 +208,8 @@ public class OsmAndAidlHelper {
 	 * @param nameNew        - name of favorite item (new favorite).
 	 * @param descriptionNew - description of favorite item (new favorite).
 	 * @param categoryNew    - category of favorite item (new favorite). Use only to create a new category,
-	 *                       not to update an existing one.
+	 *                       not to update an existing one. If you want to  update an existing category,
+	 *                       use the {@link #updateFavoriteGroup(String, String, boolean, String, String, boolean)} method.
 	 * @param colorNew       - color of new category. Can be one of: "red", "orange", "yellow",
 	 *                       "lightgreen", "green", "lightblue", "blue", "purple", "pink", "brown".
 	 * @param visibleNew     - should new category be visible after creation.

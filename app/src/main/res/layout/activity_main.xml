@@ -265,6 +265,14 @@
                 tools:drawableLeft="@drawable/ic_action_flag_dark" />
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlUpdateFavoriteGroupButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update_favorite_group"
+                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlRemoveFavoriteGroupButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"

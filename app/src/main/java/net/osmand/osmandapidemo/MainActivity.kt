@@ -64,6 +64,12 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
             }, delay)
         })
 
+        aidlUpdateFavoriteGroupButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.updateFavoriteGroup("New group", "purple", false, "New group 1", "red", true)
+            }, delay)
+        })
+
         aidlRemoveFavoriteGroupButton.setOnClickListener({
             Handler().postDelayed({
                 mAidlHelper!!.removeFavoriteGroup("New group")
