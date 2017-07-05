@@ -58,6 +58,12 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
         // AIDL
 
+        aidlAddFavoriteGroupButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.addFavoriteGroup("New group", "purple", false)
+            }, delay)
+        })
+
         aidlAddFavoriteButton.setOnClickListener({
             getLocationSelectorInstance("Add favourite",
                     { location ->

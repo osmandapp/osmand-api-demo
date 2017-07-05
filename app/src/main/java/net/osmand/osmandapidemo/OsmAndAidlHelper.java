@@ -15,6 +15,8 @@ import net.osmand.aidl.favorite.AFavorite;
 import net.osmand.aidl.favorite.AddFavoriteParams;
 import net.osmand.aidl.favorite.RemoveFavoriteParams;
 import net.osmand.aidl.favorite.UpdateFavoriteParams;
+import net.osmand.aidl.favorite.group.AFavoriteGroup;
+import net.osmand.aidl.favorite.group.AddFavoriteGroupParams;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
@@ -104,6 +106,26 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			app.unbindService(mConnection);
 		}
+	}
+
+	/**
+	 * Add favorite group with given params.
+	 *
+	 * @param name    - group name.
+	 * @param color   - group color. Can be one of: "red", "orange", "yellow",
+	 *                "lightgreen", "green", "lightblue", "blue", "purple", "pink", "brown".
+	 * @param visible - group visibility.
+	 */
+	public boolean addFavoriteGroup(String name, String color, boolean visible) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				AFavoriteGroup favoriteGroup = new AFavoriteGroup(name, color, visible);
+				return mIOsmAndAidlInterface.addFavoriteGroup(new AddFavoriteGroupParams(favoriteGroup));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 
 	/**
