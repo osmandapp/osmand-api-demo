@@ -110,6 +110,17 @@ public class OsmAndAidlHelper {
 		}
 	}
 
+	public boolean refreshMap() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.refreshMap();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Add favorite group with given params.
 	 *

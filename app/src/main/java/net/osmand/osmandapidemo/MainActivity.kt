@@ -58,6 +58,12 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
         // AIDL
 
+        aidlRefreshMapButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.refreshMap()
+            }, delay)
+        })
+
         aidlAddFavoriteGroupButton.setOnClickListener({
             Handler().postDelayed({
                 mAidlHelper!!.addFavoriteGroup("New group", "purple", false)
