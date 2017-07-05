@@ -17,6 +17,7 @@ import net.osmand.aidl.favorite.RemoveFavoriteParams;
 import net.osmand.aidl.favorite.UpdateFavoriteParams;
 import net.osmand.aidl.favorite.group.AFavoriteGroup;
 import net.osmand.aidl.favorite.group.AddFavoriteGroupParams;
+import net.osmand.aidl.favorite.group.RemoveFavoriteGroupParams;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
@@ -121,6 +122,23 @@ public class OsmAndAidlHelper {
 			try {
 				AFavoriteGroup favoriteGroup = new AFavoriteGroup(name, color, visible);
 				return mIOsmAndAidlInterface.addFavoriteGroup(new AddFavoriteGroupParams(favoriteGroup));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Remove favorite group with given name.
+	 *
+	 * @param name - name of favorite group.
+	 */
+	public boolean removeFavoriteGroup(String name) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				AFavoriteGroup favoriteGroup = new AFavoriteGroup(name, "", false);
+				return mIOsmAndAidlInterface.removeFavoriteGroup(new RemoveFavoriteGroupParams(favoriteGroup));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
