@@ -40,4 +40,8 @@
     <string name="update_point">Update point</string>
     <string name="remove_point">Remove point</string>
     <string name="set_map_location">Set map location</string>
+    <string name="add_favorite_group">Add favorite group</string>
+    <string name="remove_favorite_group">Remove favorite group</string>
+    <string name="update_favorite_group">Update favorite group</string>
+    <string name="refresh_map">Refresh map</string>
 </resources>
