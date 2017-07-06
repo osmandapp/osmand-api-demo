@@ -428,10 +428,10 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     handleGpxUri(data!!, { data -> mOsmAndHelper!!.showGpxUri(data) })
                 }
                 REQUEST_SHOW_GPX_RAW_DATA_AIDL -> {
-                    handleGpxFile(data!!, { data -> mAidlHelper!!.importGpxFromData(data, GPX_FILE_NAME) })
+                    handleGpxFile(data!!, { data -> mAidlHelper!!.importGpxFromData(data, GPX_FILE_NAME, "blue") })
                 }
                 REQUEST_SHOW_GPX_URI_AIDL -> {
-                    handleGpxUri(data!!, { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME) })
+                    handleGpxUri(data!!, { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME, "blue") })
                 }
                 else -> super.onActivityResult(requestCode, resultCode, data)
             }

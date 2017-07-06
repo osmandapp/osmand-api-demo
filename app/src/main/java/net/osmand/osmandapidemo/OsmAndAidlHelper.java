@@ -523,13 +523,16 @@ public class OsmAndAidlHelper {
 	 * Import GPX file to OsmAnd.
 	 * OsmAnd must have rights to access location. Not recommended.
 	 *
-	 * @param file - File which represents GPX track.
+	 * @param file     - File which represents GPX track.
 	 * @param fileName - Destination file name. May contain dirs.
+	 * @param color    - color of gpx. Can be one of: "red", "orange", "lightblue", "blue", "purple",
+	 *                 "translucent_red", "translucent_orange", "translucent_lightblue",
+	 *                 "translucent_blue", "translucent_purple"
 	 */
-	public boolean importGpxFromFile(File file, String fileName) {
+	public boolean importGpxFromFile(File file, String fileName, String color) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.importGpx(new ImportGpxParams(file, fileName));
+				return mIOsmAndAidlInterface.importGpx(new ImportGpxParams(file, fileName, color));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -540,14 +543,17 @@ public class OsmAndAidlHelper {
 	/**
 	 * Import GPX file to OsmAnd.
 	 *
-	 * @param gpxUri - URI created by FileProvider.
+	 * @param gpxUri   - URI created by FileProvider.
 	 * @param fileName - Destination file name. May contain dirs.
+	 * @param color    - color of gpx. Can be one of: "red", "orange", "lightblue", "blue", "purple",
+	 *                 "translucent_red", "translucent_orange", "translucent_lightblue",
+	 *                 "translucent_blue", "translucent_purple"
 	 */
-	public boolean importGpxFromUri(Uri gpxUri, String fileName) {
+	public boolean importGpxFromUri(Uri gpxUri, String fileName, String color) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-				return mIOsmAndAidlInterface.importGpx(new ImportGpxParams(gpxUri, fileName));
+				return mIOsmAndAidlInterface.importGpx(new ImportGpxParams(gpxUri, fileName, color));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -558,13 +564,16 @@ public class OsmAndAidlHelper {
 	/**
 	 * Import GPX file to OsmAnd.
 	 *
-	 * @param data - Raw contents of GPX file. Sent as intent's extra string parameter.
+	 * @param data     - Raw contents of GPX file. Sent as intent's extra string parameter.
 	 * @param fileName - Destination file name. May contain dirs.
+	 * @param color    - color of gpx. Can be one of: "red", "orange", "lightblue", "blue", "purple",
+	 *                 "translucent_red", "translucent_orange", "translucent_lightblue",
+	 *                 "translucent_blue", "translucent_purple"
 	 */
-	public boolean importGpxFromData(String data, String fileName) {
+	public boolean importGpxFromData(String data, String fileName, String color) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.importGpx(new ImportGpxParams(data, fileName));
+				return mIOsmAndAidlInterface.importGpx(new ImportGpxParams(data, fileName, color));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
