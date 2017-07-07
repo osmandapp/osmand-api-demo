@@ -257,6 +257,74 @@
                 android:layout_width="match_parent"/>
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlRefreshMapButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/refresh_map"
+                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlAddFavoriteGroupButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_favorite_group"
+                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlUpdateFavoriteGroupButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update_favorite_group"
+                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlRemoveFavoriteGroupButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remove_favorite_group"
+                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlAddFavoriteButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_favorite"
+                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlUpdateFavoriteButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update_favorite"
+                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlRemoveFavoriteButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remove_favorite"
+                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlAddMapMarkerButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"

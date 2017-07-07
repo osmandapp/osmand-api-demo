@@ -59,6 +59,59 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
         // AIDL
 
+        aidlRefreshMapButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.refreshMap()
+            }, delay)
+        })
+
+        aidlAddFavoriteGroupButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.addFavoriteGroup("New group", "purple", false)
+            }, delay)
+        })
+
+        aidlUpdateFavoriteGroupButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.updateFavoriteGroup("New group", "purple", false, "New group 1", "red", true)
+            }, delay)
+        })
+
+        aidlRemoveFavoriteGroupButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.removeFavoriteGroup("New group")
+            }, delay)
+        })
+
+        aidlAddFavoriteButton.setOnClickListener({
+            getLocationSelectorInstance("Add favourite",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.addFavorite(location.lat, location.lon, location.name,
+                                    location.name + " city", "Cities", "red", true)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        aidlUpdateFavoriteButton.setOnClickListener({
+            getLocationSelectorInstance("Update favourite",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.updateFavorite(location.lat, location.lon, location.name, "Cities",
+                                    location.lat, location.lon, location.name, location.name + " city", "Cities", "yellow", true)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        aidlRemoveFavoriteButton.setOnClickListener({
+            getLocationSelectorInstance("Remove favourite",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.removeFavorite(location.lat, location.lon, location.name, "Cities")
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
         aidlAddMapMarkerButton.setOnClickListener({
             getLocationSelectorInstance("Add map marker",
                     { location ->

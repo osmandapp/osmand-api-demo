@@ -6,6 +6,8 @@
     <string name="osmand_service">OsmAnd Service</string>
     <string name="my_places">My places</string>
     <string name="add_favorite">Add favorite</string>
+    <string name="update_favorite">Update favorite</string>
+    <string name="remove_favorite">Remove favorite</string>
     <string name="add_map_marker">Add map marker</string>
     <string name="update_map_marker">Update map marker</string>
     <string name="remove_map_marker">Remove map marker</string>
@@ -38,4 +40,8 @@
     <string name="update_point">Update point</string>
     <string name="remove_point">Remove point</string>
     <string name="set_map_location">Set map location</string>
+    <string name="add_favorite_group">Add favorite group</string>
+    <string name="remove_favorite_group">Remove favorite group</string>
+    <string name="update_favorite_group">Update favorite group</string>
+    <string name="refresh_map">Refresh map</string>
 </resources>
