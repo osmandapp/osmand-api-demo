@@ -41,16 +41,6 @@ import net.osmand.aidl.maplayer.UpdateMapLayerParams;
 
 interface IOsmAndAidlInterface {
 
-    boolean refreshMap();
-
-    boolean addFavoriteGroup(in AddFavoriteGroupParams params);
-    boolean removeFavoriteGroup(in RemoveFavoriteGroupParams params);
-    boolean updateFavoriteGroup(in UpdateFavoriteGroupParams params);
-
-    boolean addFavorite(in AddFavoriteParams params);
-    boolean removeFavorite(in RemoveFavoriteParams params);
-    boolean updateFavorite(in UpdateFavoriteParams params);
-
     boolean addMapMarker(in AddMapMarkerParams params);
     boolean removeMapMarker(in RemoveMapMarkerParams params);
     boolean updateMapMarker(in UpdateMapMarkerParams params);
@@ -74,4 +64,15 @@ interface IOsmAndAidlInterface {
 
 	boolean setMapLocation(in SetMapLocationParams params);
     boolean calculateRoute(in CalculateRouteParams params);
+
+    boolean refreshMap();
+
+    boolean addFavoriteGroup(in AddFavoriteGroupParams params);
+    boolean removeFavoriteGroup(in RemoveFavoriteGroupParams params);
+    boolean updateFavoriteGroup(in UpdateFavoriteGroupParams params);
+
+    boolean addFavorite(in AddFavoriteParams params);
+    boolean removeFavorite(in RemoveFavoriteParams params);
+    boolean updateFavorite(in UpdateFavoriteParams params);
+
 }
