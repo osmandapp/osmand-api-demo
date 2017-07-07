@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.DialogFragment
@@ -375,10 +376,16 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     handleGpxUri(data!!, { data -> mOsmAndHelper!!.showGpxUri(data) })
                 }
                 REQUEST_SHOW_GPX_RAW_DATA_AIDL -> {
-                    handleGpxFile(data!!, { data -> mAidlHelper!!.importGpxFromData(data, GPX_FILE_NAME) })
+                    Handler().postDelayed({
+                        val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()];
+                        handleGpxFile(data!!, { data -> mAidlHelper!!.importGpxFromData(data, GPX_FILE_NAME, color, true) })
+                    }, delay)
                 }
                 REQUEST_SHOW_GPX_URI_AIDL -> {
-                    handleGpxUri(data!!, { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME) })
+                    Handler().postDelayed({
+                        val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()];
+                        handleGpxUri(data!!, { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME, color, true) })
+                    }, delay)
                 }
                 else -> super.onActivityResult(requestCode, resultCode, data)
             }
@@ -441,7 +448,13 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     }
 
     private fun requestChooseGpx(requestCode: Int) {
-        var intent = Intent(Intent.ACTION_GET_CONTENT);
+        var intent : Intent
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = Intent(Intent.ACTION_GET_CONTENT);
+        } else {
+            intent = Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+        }
         intent.type = "*/*";
         intent = Intent.createChooser(intent, "Choose a file")
         if (mOsmAndHelper!!.isIntentSafe(intent)) {
@@ -525,6 +538,11 @@ val CITIES = arrayOf(
         Location("Amsterdam", 52.3704312, 4.8904288, 52.3693012, 4.9013307)
 )
 
+val GPX_COLORS = arrayOf(
+        "", "red", "orange", "lightblue", "blue", "purple",
+        "translucent_red", "translucent_orange", "translucent_lightblue",
+        "translucent_blue", "translucent_purple"
+)
 
 class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, R.layout.simple_list_layout, CITIES) {
     val mInflater = LayoutInflater.from(context)
