@@ -313,6 +313,18 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     }).show(supportFragmentManager, null)
         })
 
+        aidlStartGpxRecordingButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.startGpxRecording()
+            }, delay)
+        })
+
+        aidlStopGpxRecordingButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.stopGpxRecording()
+            }, delay)
+        })
+
         // Intents
 
         addFavoriteButton.setOnClickListener({

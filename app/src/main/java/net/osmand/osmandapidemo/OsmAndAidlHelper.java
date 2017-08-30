@@ -654,4 +654,26 @@ public class OsmAndAidlHelper {
 		}
 		return false;
 	}
+
+	public boolean startGpxRecording() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.startGpxRecording();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean stopGpxRecording() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.stopGpxRecording();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 }
