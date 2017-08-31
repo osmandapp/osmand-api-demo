@@ -327,6 +327,39 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
             }, delay)
         })
 
+        aidlTakePhotoButton.setOnClickListener({
+            getLocationSelectorInstance("Take photo",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.takePhotoNote(location.lat, location.lon)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        aidlStartVideoRecButton.setOnClickListener({
+            getLocationSelectorInstance("Start video recording",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.startVideoRecording(location.lat, location.lon)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        aidlStartAudioRecButton.setOnClickListener({
+            getLocationSelectorInstance("Start audio recording",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.startAudioRecording(location.lat, location.lon)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
+        aidlStopRecButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.stopRecording()
+            }, delay)
+        })
+
         // Intents
 
         addFavoriteButton.setOnClickListener({

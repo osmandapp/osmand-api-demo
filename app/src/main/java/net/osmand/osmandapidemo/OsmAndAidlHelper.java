@@ -43,6 +43,10 @@ import net.osmand.aidl.mapwidget.AMapWidget;
 import net.osmand.aidl.mapwidget.AddMapWidgetParams;
 import net.osmand.aidl.mapwidget.RemoveMapWidgetParams;
 import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
+import net.osmand.aidl.note.StartAudioRecordingParams;
+import net.osmand.aidl.note.StopRecordingParams;
+import net.osmand.aidl.note.TakePhotoNoteParams;
+import net.osmand.aidl.note.StartVideoRecordingParams;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -672,6 +676,50 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.stopGpxRecording(params);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean takePhotoNote(double lat, double lon) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.takePhotoNote(new TakePhotoNoteParams(lat, lon));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean startVideoRecording(double lat, double lon) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.startVideoRecording(new StartVideoRecordingParams(lat, lon));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean startAudioRecording(double lat, double lon) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.startAudioRecording(new StartAudioRecordingParams(lat, lon));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean stopRecording() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.stopRecording(new StopRecordingParams());
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
