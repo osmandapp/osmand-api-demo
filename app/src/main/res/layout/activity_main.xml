@@ -484,6 +484,26 @@
                 android:text="@string/set_map_location"
                 tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlStartGpxRecordingButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/start_gpx_recording"
+                tools:drawableLeft="@drawable/ic_action_play" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlStopGpxRecordingButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/stop_gpx_recording"
+                tools:drawableLeft="@drawable/ic_action_rec_stop" />
+
         </LinearLayout>
 
     </LinearLayout>
