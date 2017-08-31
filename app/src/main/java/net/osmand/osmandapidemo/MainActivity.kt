@@ -29,6 +29,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper
 import main.java.net.osmand.osmandapidemo.OsmAndHelper
+import net.osmand.aidl.gpx.StartGpxRecordingParams
+import net.osmand.aidl.gpx.StopGpxRecordingParams
 import net.osmand.aidl.map.ALatLon
 import java.io.*
 
@@ -315,13 +317,13 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
         aidlStartGpxRecordingButton.setOnClickListener({
             Handler().postDelayed({
-                mAidlHelper!!.startGpxRecording()
+                mAidlHelper!!.startGpxRecording(StartGpxRecordingParams())
             }, delay)
         })
 
         aidlStopGpxRecordingButton.setOnClickListener({
             Handler().postDelayed({
-                mAidlHelper!!.stopGpxRecording()
+                mAidlHelper!!.stopGpxRecording(StopGpxRecordingParams())
             }, delay)
         })
 

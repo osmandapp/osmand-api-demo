@@ -23,6 +23,8 @@ import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
 import net.osmand.aidl.gpx.ShowGpxParams;
+import net.osmand.aidl.gpx.StartGpxRecordingParams;
+import net.osmand.aidl.gpx.StopGpxRecordingParams;
 import net.osmand.aidl.map.ALatLon;
 import net.osmand.aidl.map.SetMapLocationParams;
 import net.osmand.aidl.maplayer.AMapLayer;
@@ -655,10 +657,10 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
-	public boolean startGpxRecording() {
+	public boolean startGpxRecording(StartGpxRecordingParams params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.startGpxRecording();
+				return mIOsmAndAidlInterface.startGpxRecording(params);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -666,10 +668,10 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
-	public boolean stopGpxRecording() {
+	public boolean stopGpxRecording(StopGpxRecordingParams params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.stopGpxRecording();
+				return mIOsmAndAidlInterface.stopGpxRecording(params);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
