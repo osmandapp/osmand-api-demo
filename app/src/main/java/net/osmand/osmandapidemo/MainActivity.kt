@@ -360,6 +360,18 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
             }, delay)
         })
 
+        aidlNavigateButton.setOnClickListener({
+            getLocationSelectorInstance("Navigate to",
+                    { location ->
+                        Handler().postDelayed({
+                            mAidlHelper!!.navigate(location.name + " start",
+                                    location.latStart, location.lonStart,
+                                    location.name + " finish", location.lat, location.lon,
+                                    "bicycle", true)
+                        }, delay)
+                    }).show(supportFragmentManager, null)
+        })
+
         // Intents
 
         addFavoriteButton.setOnClickListener({

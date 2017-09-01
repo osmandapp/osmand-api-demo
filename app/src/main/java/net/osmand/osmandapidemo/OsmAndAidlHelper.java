@@ -43,6 +43,7 @@ import net.osmand.aidl.mapwidget.AMapWidget;
 import net.osmand.aidl.mapwidget.AddMapWidgetParams;
 import net.osmand.aidl.mapwidget.RemoveMapWidgetParams;
 import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
+import net.osmand.aidl.navigation.NavigateParams;
 import net.osmand.aidl.note.StartAudioRecordingParams;
 import net.osmand.aidl.note.StopRecordingParams;
 import net.osmand.aidl.note.TakePhotoNoteParams;
@@ -720,6 +721,17 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.stopRecording(new StopRecordingParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean navigate(String startName, double startLat, double startLon, String destName, double destLat, double destLon, String profile, boolean force) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.navigate(new NavigateParams(startName, startLat, startLon, destName, destLat, destLon, profile, force));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

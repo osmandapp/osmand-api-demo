@@ -539,6 +539,17 @@
                 android:text="@string/stop_recording"
                 tools:drawableLeft="@drawable/ic_action_rec_stop"/>
 
+            <View style="@style/divider_style"
+                  android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlNavigateButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/navigate"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
         </LinearLayout>
 
     </LinearLayout>
