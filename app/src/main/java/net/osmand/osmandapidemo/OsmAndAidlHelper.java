@@ -43,6 +43,7 @@ import net.osmand.aidl.mapwidget.AMapWidget;
 import net.osmand.aidl.mapwidget.AddMapWidgetParams;
 import net.osmand.aidl.mapwidget.RemoveMapWidgetParams;
 import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
+import net.osmand.aidl.navigation.NavigateGpxParams;
 import net.osmand.aidl.navigation.NavigateParams;
 import net.osmand.aidl.note.StartAudioRecordingParams;
 import net.osmand.aidl.note.StopRecordingParams;
@@ -570,6 +571,18 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	public boolean navigateGpxFromUri(Uri gpxUri, boolean force) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(gpxUri, force));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Import GPX file to OsmAnd.
 	 *
@@ -584,6 +597,17 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.importGpx(new ImportGpxParams(data, fileName, color, show));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean navigateGpxFromData(String data, boolean force) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(data, force));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

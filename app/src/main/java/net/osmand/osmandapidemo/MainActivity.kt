@@ -372,6 +372,18 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     }).show(supportFragmentManager, null)
         })
 
+        aidlNavigateGpxButton.setOnClickListener({
+            object : OpenGpxDialogFragment() {
+                override fun sendAsRawData() {
+                    requestChooseGpx(REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL)
+                }
+
+                override fun sendAsUri() {
+                    requestChooseGpx(REQUEST_NAVIGATE_GPX_URI_AIDL)
+                }
+            }.show(supportFragmentManager, null)
+        })
+
         // Intents
 
         addFavoriteButton.setOnClickListener({
@@ -497,6 +509,16 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     Handler().postDelayed({
                         val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()];
                         handleGpxUri(data!!, { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME, color, true) })
+                    }, delay)
+                }
+                REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL -> {
+                    Handler().postDelayed({
+                        handleGpxFile(data!!, { data -> mAidlHelper!!.navigateGpxFromData(data, true) })
+                    }, delay)
+                }
+                REQUEST_NAVIGATE_GPX_URI_AIDL-> {
+                    Handler().postDelayed({
+                        handleGpxUri(data!!, { data -> mAidlHelper!!.navigateGpxFromUri(data, true) })
                     }, delay)
                 }
                 else -> super.onActivityResult(requestCode, resultCode, data)
@@ -630,6 +652,8 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         val REQUEST_SHOW_GPX_URI = 1005
         val REQUEST_SHOW_GPX_RAW_DATA_AIDL = 1006
         val REQUEST_SHOW_GPX_URI_AIDL = 1007
+        val REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL = 1008;
+        val REQUEST_NAVIGATE_GPX_URI_AIDL = 1009;
         val AUTHORITY = "net.osmand.osmandapidemo.fileprovider"
         val GPX_FILE_NAME = "aild_test.gpx"
     }
