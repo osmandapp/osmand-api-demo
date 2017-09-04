@@ -41,6 +41,14 @@ import net.osmand.aidl.maplayer.AddMapLayerParams;
 import net.osmand.aidl.maplayer.RemoveMapLayerParams;
 import net.osmand.aidl.maplayer.UpdateMapLayerParams;
 
+import net.osmand.aidl.navigation.NavigateParams;
+import net.osmand.aidl.navigation.NavigateGpxParams;
+
+import net.osmand.aidl.note.TakePhotoNoteParams;
+import net.osmand.aidl.note.StartVideoRecordingParams;
+import net.osmand.aidl.note.StartAudioRecordingParams;
+import net.osmand.aidl.note.StopRecordingParams;
+
 interface IOsmAndAidlInterface {
 
     boolean addMapMarker(in AddMapMarkerParams params);
@@ -79,5 +87,13 @@ interface IOsmAndAidlInterface {
 
     boolean startGpxRecording(in StartGpxRecordingParams params);
 	boolean stopGpxRecording(in StopGpxRecordingParams params);
+
+	boolean takePhotoNote(in TakePhotoNoteParams params);
+	boolean startVideoRecording(in StartVideoRecordingParams params);
+	boolean startAudioRecording(in StartAudioRecordingParams params);
+	boolean stopRecording(in StopRecordingParams params);
+
+	boolean navigate(in NavigateParams params);
+	boolean navigateGpx(in NavigateGpxParams params);
 
 }

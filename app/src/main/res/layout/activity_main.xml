@@ -504,6 +504,63 @@
                 android:text="@string/stop_gpx_recording"
                 tools:drawableLeft="@drawable/ic_action_rec_stop" />
 
+            <View style="@style/divider_style"
+                  android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlTakePhotoButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/take_photo"
+                tools:drawableLeft="@drawable/ic_action_photo_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlStartVideoRecButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/start_video_recording"
+                tools:drawableLeft="@drawable/ic_action_video_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlStartAudioRecButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/start_audio_recording"
+                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlStopRecButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/stop_recording"
+                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+
+            <View style="@style/divider_style"
+                  android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlNavigateButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/navigate"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+            <View style="@style/divider_style"
+                  android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlNavigateGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/navigate_gpx"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
         </LinearLayout>
 
     </LinearLayout>
