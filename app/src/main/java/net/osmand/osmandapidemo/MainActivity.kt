@@ -306,6 +306,12 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     .add(infoDialog, null).commitAllowingStateLoss()
         })
 
+        aidlRemoveGpxButton.setOnClickListener({
+            Handler().postDelayed({
+                mAidlHelper!!.removeGpx(GPX_FILE_NAME)
+            }, delay)
+        })
+
         aidlSetMapLocationButton.setOnClickListener({
             getLocationSelectorInstance("Set map location",
                     { location ->

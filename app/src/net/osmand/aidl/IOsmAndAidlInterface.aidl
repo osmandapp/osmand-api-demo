@@ -49,6 +49,8 @@ import net.osmand.aidl.note.StartVideoRecordingParams;
 import net.osmand.aidl.note.StartAudioRecordingParams;
 import net.osmand.aidl.note.StopRecordingParams;
 
+import net.osmand.aidl.gpx.RemoveGpxParams;
+
 interface IOsmAndAidlInterface {
 
     boolean addMapMarker(in AddMapMarkerParams params);
@@ -96,4 +98,5 @@ interface IOsmAndAidlInterface {
 	boolean navigate(in NavigateParams params);
 	boolean navigateGpx(in NavigateGpxParams params);
 
+    boolean removeGpx(in RemoveGpxParams params);
 }

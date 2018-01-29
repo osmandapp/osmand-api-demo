@@ -22,6 +22,7 @@ import net.osmand.aidl.favorite.group.UpdateFavoriteGroupParams;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
+import net.osmand.aidl.gpx.RemoveGpxParams;
 import net.osmand.aidl.gpx.ShowGpxParams;
 import net.osmand.aidl.gpx.StartGpxRecordingParams;
 import net.osmand.aidl.gpx.StopGpxRecordingParams;
@@ -664,6 +665,22 @@ public class OsmAndAidlHelper {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Remove GPX file.
+	 *
+	 * @param fileName - file name to remove;
+	 */
+	public boolean removeGpx(String fileName) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.removeGpx(new RemoveGpxParams(fileName));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 
 	/**
