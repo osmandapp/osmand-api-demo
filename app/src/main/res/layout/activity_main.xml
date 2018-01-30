@@ -474,6 +474,14 @@
                 android:text="@string/get_active_gpx_list"
                 tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlRemoveGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remove_gpx"
+                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
             <View android:layout_width="match_parent" style="@style/divider_style"/>
 
             <android.support.v7.widget.AppCompatButton

@@ -49,6 +49,10 @@ import net.osmand.aidl.note.StartVideoRecordingParams;
 import net.osmand.aidl.note.StartAudioRecordingParams;
 import net.osmand.aidl.note.StopRecordingParams;
 
+import net.osmand.aidl.gpx.RemoveGpxParams;
+
+// NOTE: Add new methods at the end of file!!!
+
 interface IOsmAndAidlInterface {
 
     boolean addMapMarker(in AddMapMarkerParams params);
@@ -86,14 +90,15 @@ interface IOsmAndAidlInterface {
     boolean updateFavorite(in UpdateFavoriteParams params);
 
     boolean startGpxRecording(in StartGpxRecordingParams params);
-	boolean stopGpxRecording(in StopGpxRecordingParams params);
+    boolean stopGpxRecording(in StopGpxRecordingParams params);
 
-	boolean takePhotoNote(in TakePhotoNoteParams params);
-	boolean startVideoRecording(in StartVideoRecordingParams params);
-	boolean startAudioRecording(in StartAudioRecordingParams params);
-	boolean stopRecording(in StopRecordingParams params);
+    boolean takePhotoNote(in TakePhotoNoteParams params);
+    boolean startVideoRecording(in StartVideoRecordingParams params);
+    boolean startAudioRecording(in StartAudioRecordingParams params);
+    boolean stopRecording(in StopRecordingParams params);
 
-	boolean navigate(in NavigateParams params);
-	boolean navigateGpx(in NavigateGpxParams params);
+    boolean navigate(in NavigateParams params);
+    boolean navigateGpx(in NavigateGpxParams params);
 
+    boolean removeGpx(in RemoveGpxParams params);
 }
