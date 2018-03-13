@@ -94,8 +94,8 @@ URI created by FileProvider must be sent as ClipData
 Navigate GPX file.
 OsmAnd must have rights to access location. Not recommended.
 
-##### URI parameter: PARAM_FORCE - File which represents GPX track.
-##### URI parameter: PARAM_PATH - Stop previous navigation if active.
+##### URI parameter: PARAM_FORCE - Stop previous navigation if active.
+##### URI parameter: PARAM_PATH - File which represents GPX track.
 
 #### Command: NAVIGATE_GPX
 Navigate GPX file.
