@@ -1,4 +1,4 @@
-package net.osmand.osmandapidemo
+package main.java.net.osmand.osmandapidemo
 
 import android.app.Activity
 import android.app.Dialog
@@ -27,18 +27,237 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper
-import main.java.net.osmand.osmandapidemo.OsmAndHelper
+import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.ActionType
+import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
+import main.java.net.osmand.osmandapidemo.MainActivity.Companion.CITIES
+import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
+import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
 import net.osmand.aidl.gpx.StartGpxRecordingParams
 import net.osmand.aidl.gpx.StopGpxRecordingParams
 import net.osmand.aidl.map.ALatLon
+import net.osmand.osmandapidemo.R
 import java.io.*
 
-public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
-    var counter = 1
-    var delay : Long = 5000
+class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
+
+    companion object {
+        private const val TAG = "MainActivity"
+        const val REQUEST_OSMAND_API = 1001
+        const val REQUEST_NAVIGATE_GPX_RAW_DATA = 1002
+        const val REQUEST_SHOW_GPX_RAW_DATA = 1003
+        const val REQUEST_NAVIGATE_GPX_URI = 1004
+        const val REQUEST_SHOW_GPX_URI = 1005
+        const val REQUEST_SHOW_GPX_RAW_DATA_AIDL = 1006
+        const val REQUEST_SHOW_GPX_URI_AIDL = 1007
+        const val REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL = 1008
+        const val REQUEST_NAVIGATE_GPX_URI_AIDL = 1009
+        const val AUTHORITY = "net.osmand.osmandapidemo.fileprovider"
+        const val GPX_FILE_NAME = "aild_test.gpx"
+
+        val CITIES = arrayOf(
+                Location("Bruxelles - Brussel", 50.8465565, 4.351697, 50.83477, 4.4068823),
+                Location("London", 51.5073219, -0.1276474, 51.52753, -0.07244986),
+                Location("Paris", 48.8566101, 2.3514992, 48.87588, 2.428313),
+                Location("Budapest", 47.4983815, 19.0404707, 47.48031, 19.067793),
+                Location("Moscow", 55.7506828, 37.6174976, 55.769417, 37.698547),
+                Location("Beijing", 39.9059631, 116.391248, 39.88707, 116.43207),
+                Location("Tokyo", 35.6828378, 139.7589667, 35.72936, 139.703),
+                Location("Washington", 38.8949549, -77.0366456, 38.91373, -77.02069),
+                Location("Ottawa", 45.4210328, -75.6900219, 45.386864, -75.783356),
+                Location("Panama", 8.9710438, -79.5340599, 8.992735, -79.5157),
+                Location("Minsk", 53.9072394, 27.5863608, 53.9022545, 27.5619212),
+                Location("Amsterdam", 52.3704312, 4.8904288, 52.3693012, 4.9013307)
+        )
+
+        val GPX_COLORS = arrayOf(
+                "", "red", "orange", "lightblue", "blue", "purple",
+                "translucent_red", "translucent_orange", "translucent_lightblue",
+                "translucent_blue", "translucent_purple"
+        )
+    }
+
+    private var counter = 1
+    private var delay: Long = 5000
     var mOsmAndHelper: OsmAndHelper? = null
-    var mAidlHelper: OsmAndAidlHelper? = null
+    private var mAidlHelper: OsmAndAidlHelper? = null
+
+    enum class ApiActionType {
+        UNDEFINED,
+
+        AIDL_REFRESH_MAP,
+
+        AIDL_ADD_FAVORITE_GROUP,
+        AIDL_UPDATE_FAVORITE_GROUP,
+        AIDL_REMOVE_FAVORITE_GROUP,
+
+        AIDL_ADD_MAP_WIDGET,
+        AIDL_UPDATE_MAP_WIDGET,
+        AIDL_REMOVE_MAP_WIDGET,
+
+        AIDL_ADD_FAVORITE,
+        AIDL_UPDATE_FAVORITE,
+        AIDL_REMOVE_FAVORITE,
+
+        AIDL_ADD_MAP_MARKER,
+        AIDL_UPDATE_MAP_MARKER,
+        AIDL_REMOVE_MAP_MARKER,
+
+        AIDL_ADD_MAP_LAYER,
+        AIDL_REMOVE_MAP_LAYER,
+
+        AIDL_ADD_MAP_POINT,
+        AIDL_UPDATE_MAP_POINT,
+        AIDL_REMOVE_MAP_POINT,
+
+        AIDL_SHOW_GPX,
+        AIDL_HIDE_GPX,
+        AIDL_REMOVE_GPX,
+        AIDL_START_GPX_REC,
+        AIDL_STOP_GPX_REC,
+
+        AIDL_TAKE_PHOTO,
+        AIDL_START_VIDEO_REC,
+        AIDL_START_AUDIO_REC,
+        AIDL_STOP_REC,
+
+        AIDL_SET_MAP_LOCATION,
+
+        AIDL_NAVIGATE,
+
+        INTENT_ADD_FAVORITE,
+        INTENT_ADD_MAP_MARKER,
+
+        INTENT_TAKE_PHOTO,
+        INTENT_START_VIDEO_REC,
+        INTENT_START_AUDIO_REC,
+
+        INTENT_NAVIGATE
+    }
+
+    fun execApiAction(apiActionType: ApiActionType, delayed: Boolean = true, location: Location? = null) {
+        if (delayed) {
+            Handler().postDelayed({
+                execApiActionImpl(apiActionType, location)
+            }, delay)
+        } else {
+            execApiActionImpl(apiActionType)
+        }
+    }
+
+    private fun execApiActionImpl(apiActionType: ApiActionType, location: Location? = null) {
+        val aidlHelper = mAidlHelper
+        val osmandHelper = mOsmAndHelper
+        if (aidlHelper != null && osmandHelper != null) {
+            when (apiActionType) {
+                ApiActionType.AIDL_REFRESH_MAP -> {
+                    aidlHelper.refreshMap()
+                }
+                ApiActionType.AIDL_ADD_FAVORITE_GROUP -> {
+                    aidlHelper.addFavoriteGroup("New group", "purple", false)
+                }
+                ApiActionType.AIDL_UPDATE_FAVORITE_GROUP -> {
+                    aidlHelper.updateFavoriteGroup("New group", "purple", false, "New group 1", "red", true)
+                }
+                ApiActionType.AIDL_REMOVE_FAVORITE_GROUP -> {
+                    aidlHelper.removeFavoriteGroup("New group")
+                }
+                else -> Unit
+            }
+            // location depended types
+            if (location != null) {
+                when (apiActionType) {
+                    ApiActionType.AIDL_ADD_FAVORITE -> {
+                        aidlHelper.addFavorite(location.lat, location.lon, location.name,
+                                location.name + " city", "Cities", "red", true)
+                    }
+                    ApiActionType.AIDL_UPDATE_FAVORITE -> {
+                        aidlHelper.updateFavorite(location.lat, location.lon, location.name, "Cities",
+                                location.lat, location.lon, location.name, location.name + " city", "Cities", "yellow", true)
+                    }
+                    ApiActionType.AIDL_REMOVE_FAVORITE -> {
+                        aidlHelper.removeFavorite(location.lat, location.lon, location.name, "Cities")
+                    }
+                    ApiActionType.AIDL_ADD_MAP_MARKER -> {
+                        aidlHelper.addMapMarker(location.lat, location.lon, location.name)
+                    }
+                    ApiActionType.AIDL_UPDATE_MAP_MARKER -> {
+                        aidlHelper.updateMapMarker(location.lat, location.lon, location.name,
+                                location.lat, location.lon, location.name + " " + counter++)
+                    }
+                    ApiActionType.AIDL_REMOVE_MAP_MARKER -> {
+                        aidlHelper.removeMapMarker(location.lat, location.lon, location.name)
+                    }
+                    ApiActionType.AIDL_ADD_MAP_POINT -> {
+                        aidlHelper.addMapPoint(
+                                "layer_1",
+                                "id_" + location.name,
+                                location.name.substring(0, 1),
+                                location.name,
+                                "City",
+                                Color.GREEN,
+                                ALatLon(location.lat, location.lon),
+                                listOf("Big city", "Population: ..."))
+                    }
+                    ApiActionType.AIDL_UPDATE_MAP_POINT -> {
+                        aidlHelper.addMapPoint(
+                                "layer_1",
+                                "id_" + location.name,
+                                location.name.substring(1, 2),
+                                location.name,
+                                "City",
+                                Color.RED,
+                                ALatLon(location.lat, location.lon),
+                                listOf("Big city", "Population: unknown"))
+                    }
+                    ApiActionType.AIDL_REMOVE_MAP_POINT -> {
+                        aidlHelper.removeMapPoint("layer_1", "id_" + location.name)
+                    }
+                    ApiActionType.AIDL_TAKE_PHOTO -> {
+                        aidlHelper.takePhotoNote(location.lat, location.lon)
+                    }
+                    ApiActionType.AIDL_START_VIDEO_REC -> {
+                        aidlHelper.startVideoRecording(location.lat, location.lon)
+                    }
+                    ApiActionType.AIDL_START_AUDIO_REC -> {
+                        aidlHelper.startAudioRecording(location.lat, location.lon)
+                    }
+                    ApiActionType.AIDL_SET_MAP_LOCATION -> {
+                        aidlHelper.setMapLocation(location.lat, location.lon, 16, true)
+                    }
+                    ApiActionType.AIDL_NAVIGATE -> {
+                        aidlHelper.navigate(location.name + " start",
+                                location.latStart, location.lonStart,
+                                location.name + " finish", location.lat, location.lon,
+                                "bicycle", true)
+                    }
+                    MainActivity.ApiActionType.INTENT_ADD_FAVORITE -> {
+                        osmandHelper.addFavorite(location.lat, location.lon, location.name,
+                                location.name + " city", "Cities", "red", true)
+                    }
+                    MainActivity.ApiActionType.INTENT_ADD_MAP_MARKER -> {
+                        osmandHelper.addMapMarker(location.lat, location.lon, location.name)
+                    }
+                    MainActivity.ApiActionType.INTENT_TAKE_PHOTO -> {
+                        osmandHelper.takePhoto(location.lat, location.lon)
+                    }
+                    MainActivity.ApiActionType.INTENT_START_VIDEO_REC -> {
+                        osmandHelper.recordVideo(location.lat, location.lon)
+                    }
+                    MainActivity.ApiActionType.INTENT_START_AUDIO_REC -> {
+                        osmandHelper.recordAudio(location.lat, location.lon)
+                    }
+                    MainActivity.ApiActionType.INTENT_NAVIGATE -> {
+                        osmandHelper.navigate(location.name + " start",
+                                location.latStart, location.lonStart,
+                                location.name + " finish", location.lat, location.lon,
+                                "bicycle", true)
+                    }
+                    else -> Unit
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
@@ -61,86 +280,45 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
 
         // AIDL
 
-        aidlRefreshMapButton.setOnClickListener({
-            Handler().postDelayed({
-                mAidlHelper!!.refreshMap()
-            }, delay)
-        })
+        aidlRefreshMapButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_REFRESH_MAP)
+        }
 
-        aidlAddFavoriteGroupButton.setOnClickListener({
-            Handler().postDelayed({
-                mAidlHelper!!.addFavoriteGroup("New group", "purple", false)
-            }, delay)
-        })
+        aidlAddFavoriteGroupButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_ADD_FAVORITE_GROUP)
+        }
 
-        aidlUpdateFavoriteGroupButton.setOnClickListener({
-            Handler().postDelayed({
-                mAidlHelper!!.updateFavoriteGroup("New group", "purple", false, "New group 1", "red", true)
-            }, delay)
-        })
+        aidlUpdateFavoriteGroupButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_UPDATE_FAVORITE_GROUP)
+        }
 
-        aidlRemoveFavoriteGroupButton.setOnClickListener({
-            Handler().postDelayed({
-                mAidlHelper!!.removeFavoriteGroup("New group")
-            }, delay)
-        })
+        aidlRemoveFavoriteGroupButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_REMOVE_FAVORITE_GROUP)
+        }
 
-        aidlAddFavoriteButton.setOnClickListener({
-            getLocationSelectorInstance("Add favourite",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.addFavorite(location.lat, location.lon, location.name,
-                                    location.name + " city", "Cities", "red", true)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlAddFavoriteButton.setOnClickListener {
+            showChooseLocationDialogFragment("Add favourite", ApiActionType.AIDL_ADD_FAVORITE)
+        }
 
-        aidlUpdateFavoriteButton.setOnClickListener({
-            getLocationSelectorInstance("Update favourite",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.updateFavorite(location.lat, location.lon, location.name, "Cities",
-                                    location.lat, location.lon, location.name, location.name + " city", "Cities", "yellow", true)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlUpdateFavoriteButton.setOnClickListener {
+            showChooseLocationDialogFragment("Update favourite", ApiActionType.AIDL_UPDATE_FAVORITE)
+        }
 
-        aidlRemoveFavoriteButton.setOnClickListener({
-            getLocationSelectorInstance("Remove favourite",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.removeFavorite(location.lat, location.lon, location.name, "Cities")
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlRemoveFavoriteButton.setOnClickListener {
+            showChooseLocationDialogFragment("Remove favourite", ApiActionType.AIDL_REMOVE_FAVORITE)
+        }
 
-        aidlAddMapMarkerButton.setOnClickListener({
-            getLocationSelectorInstance("Add map marker",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.addMapMarker(location.lat, location.lon, location.name)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlAddMapMarkerButton.setOnClickListener {
+            showChooseLocationDialogFragment("Add map marker", ApiActionType.AIDL_ADD_MAP_MARKER)
+        }
 
-        aidlUpdateMapMarkerButton.setOnClickListener({
-            getLocationSelectorInstance("Update map marker",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.updateMapMarker(location.lat, location.lon, location.name,
-                                    location.lat, location.lon, location.name + " " + counter++)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlUpdateMapMarkerButton.setOnClickListener {
+            showChooseLocationDialogFragment("Update map marker", ApiActionType.AIDL_UPDATE_MAP_MARKER)
+        }
 
-        aidlRemoveMapMarkerButton.setOnClickListener({
-            getLocationSelectorInstance("Remove map marker",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.removeMapMarker(location.lat, location.lon, location.name)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlRemoveMapMarkerButton.setOnClickListener {
+            showChooseLocationDialogFragment("Remove map marker", ApiActionType.AIDL_REMOVE_MAP_MARKER)
+        }
 
         val startDemoIntent = packageManager.getLaunchIntentForPackage("net.osmand.osmandapidemo")
         startDemoIntent?.addCategory(Intent.CATEGORY_LAUNCHER)
@@ -217,60 +395,26 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
             }, delay)
         })
 
-        aidlAddPointButton.setOnClickListener({
-            getLocationSelectorInstance("Add map point",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.addMapPoint(
-                                    "layer_1",
-                                    "id_" + location.name,
-                                    location.name.substring(0, 1),
-                                    location.name,
-                                    "City",
-                                    Color.GREEN,
-                                    ALatLon(location.lat, location.lon),
-                                    listOf("Big city", "Population: ..."))
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlAddPointButton.setOnClickListener {
+            showChooseLocationDialogFragment("Add map point", ApiActionType.AIDL_ADD_MAP_POINT)
+        }
 
-        aidlUpdatePointButton.setOnClickListener({
-            getLocationSelectorInstance("Update map point",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.addMapPoint(
-                                    "layer_1",
-                                    "id_" + location.name,
-                                    location.name.substring(1, 2),
-                                    location.name,
-                                    "City",
-                                    Color.RED,
-                                    ALatLon(location.lat, location.lon),
-                                    listOf("Big city", "Population: unknown"))
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlUpdatePointButton.setOnClickListener {
+            showChooseLocationDialogFragment("Update map point", ApiActionType.AIDL_UPDATE_MAP_POINT)
+        }
 
-        aidlRemovePointButton.setOnClickListener({
-            getLocationSelectorInstance("Remove map point",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.removeMapPoint("layer_1", "id_" + location.name)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlRemovePointButton.setOnClickListener {
+            showChooseLocationDialogFragment("Remove map point", ApiActionType.AIDL_REMOVE_MAP_POINT)
+        }
 
-        aidlImportGpxButton.setOnClickListener({
-            object : OpenGpxDialogFragment() {
-                override fun sendAsRawData() {
-                    requestChooseGpx(REQUEST_SHOW_GPX_RAW_DATA_AIDL)
-                }
-
-                override fun sendAsUri() {
-                    requestChooseGpx(REQUEST_SHOW_GPX_URI_AIDL)
-                }
-            }.show(supportFragmentManager, null)
-        })
+        aidlImportGpxButton.setOnClickListener {
+            val args = Bundle()
+            args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_RAW_DATA_AIDL)
+            args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_URI_AIDL)
+            val openGpxDialogFragment = OpenGpxDialogFragment()
+            openGpxDialogFragment.arguments = args
+            openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
+        }
 
         aidlShowGpxButton.setOnClickListener({
             Handler().postDelayed({
@@ -285,17 +429,17 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         })
 
         aidlGetActiveGpxButton.setOnClickListener({
-            val activeGpxFiles = mAidlHelper!!.activeGpxFiles;
+            val activeGpxFiles = mAidlHelper!!.activeGpxFiles
             val sb = StringBuilder()
             if (activeGpxFiles != null) {
                 for (gpxFile in activeGpxFiles) {
-                    if (sb.length > 0) {
+                    if (sb.isNotEmpty()) {
                         sb.append("<br>")
                     }
                     sb.append(gpxFile.fileName)
                 }
             }
-            if (sb.length == 0) {
+            if (sb.isEmpty()) {
                 sb.append("No active files found")
             }
             val args = Bundle()
@@ -306,165 +450,110 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                     .add(infoDialog, null).commitAllowingStateLoss()
         })
 
-        aidlRemoveGpxButton.setOnClickListener({
+        aidlRemoveGpxButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.removeGpx(GPX_FILE_NAME)
             }, delay)
-        })
+        }
 
-        aidlSetMapLocationButton.setOnClickListener({
-            getLocationSelectorInstance("Set map location",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.setMapLocation(location.lat, location.lon, 16, true)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlSetMapLocationButton.setOnClickListener {
+            showChooseLocationDialogFragment("Set map location", ApiActionType.AIDL_SET_MAP_LOCATION)
+        }
 
-        aidlStartGpxRecordingButton.setOnClickListener({
+        aidlStartGpxRecordingButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.startGpxRecording(StartGpxRecordingParams())
             }, delay)
-        })
+        }
 
-        aidlStopGpxRecordingButton.setOnClickListener({
+        aidlStopGpxRecordingButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.stopGpxRecording(StopGpxRecordingParams())
             }, delay)
-        })
+        }
 
-        aidlTakePhotoButton.setOnClickListener({
-            getLocationSelectorInstance("Take photo",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.takePhotoNote(location.lat, location.lon)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlTakePhotoButton.setOnClickListener {
+            showChooseLocationDialogFragment("Take photo", ApiActionType.AIDL_TAKE_PHOTO)
+        }
 
-        aidlStartVideoRecButton.setOnClickListener({
-            getLocationSelectorInstance("Start video recording",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.startVideoRecording(location.lat, location.lon)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlStartVideoRecButton.setOnClickListener {
+            showChooseLocationDialogFragment("Start video recording", ApiActionType.AIDL_START_VIDEO_REC)
+        }
 
-        aidlStartAudioRecButton.setOnClickListener({
-            getLocationSelectorInstance("Start audio recording",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.startAudioRecording(location.lat, location.lon)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlStartAudioRecButton.setOnClickListener {
+            showChooseLocationDialogFragment("Start audio recording", ApiActionType.AIDL_START_AUDIO_REC)
+        }
 
-        aidlStopRecButton.setOnClickListener({
+        aidlStopRecButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.stopRecording()
             }, delay)
-        })
+        }
 
-        aidlNavigateButton.setOnClickListener({
-            getLocationSelectorInstance("Navigate to",
-                    { location ->
-                        Handler().postDelayed({
-                            mAidlHelper!!.navigate(location.name + " start",
-                                    location.latStart, location.lonStart,
-                                    location.name + " finish", location.lat, location.lon,
-                                    "bicycle", true)
-                        }, delay)
-                    }).show(supportFragmentManager, null)
-        })
+        aidlNavigateButton.setOnClickListener {
+            showChooseLocationDialogFragment("Navigate to", ApiActionType.AIDL_NAVIGATE)
+        }
 
         aidlNavigateGpxButton.setOnClickListener({
-            object : OpenGpxDialogFragment() {
-                override fun sendAsRawData() {
-                    requestChooseGpx(REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL)
-                }
-
-                override fun sendAsUri() {
-                    requestChooseGpx(REQUEST_NAVIGATE_GPX_URI_AIDL)
-                }
-            }.show(supportFragmentManager, null)
+            val args = Bundle()
+            args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL)
+            args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_URI_AIDL)
+            val openGpxDialogFragment = OpenGpxDialogFragment()
+            openGpxDialogFragment.arguments = args
+            openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
         })
 
         // Intents
 
-        addFavoriteButton.setOnClickListener({
-            getLocationSelectorInstance("Add favourite",
-                    { location ->
-                        mOsmAndHelper!!.addFavorite(location.lat, location.lon, location.name,
-                                location.name + " city", "Cities", "red", true);
-                    }).show(supportFragmentManager, null)
-        })
-        addMapMarkerButton.setOnClickListener({
-            getLocationSelectorInstance("Add map marker",
-                    { location ->
-                        mOsmAndHelper!!.addMapMarker(location.lat, location.lon, location.name)
-                    }).show(supportFragmentManager, null)
-        })
-        startAudioRecButton.setOnClickListener({
-            getLocationSelectorInstance("Start audio recording",
-                    { location ->
-                        mOsmAndHelper!!.recordAudio(location.lat, location.lon)
-                    }).show(supportFragmentManager, null)
-        })
-        startVideoRecButton.setOnClickListener({
-            getLocationSelectorInstance("Start video recording",
-                    { location ->
-                        mOsmAndHelper!!.recordVideo(location.lat, location.lon)
-                    }).show(supportFragmentManager, null)
-        })
-        takePhotoButton.setOnClickListener({
-            getLocationSelectorInstance("Take photo",
-                    { location ->
-                        mOsmAndHelper!!.takePhoto(location.lat, location.lon)
-                    }).show(supportFragmentManager, null)
-        })
+        addFavoriteButton.setOnClickListener {
+            showChooseLocationDialogFragment("Add favourite", ApiActionType.INTENT_ADD_FAVORITE)
+        }
+        addMapMarkerButton.setOnClickListener {
+            showChooseLocationDialogFragment("Add map marker", ApiActionType.INTENT_ADD_MAP_MARKER)
+        }
+        startAudioRecButton.setOnClickListener {
+            showChooseLocationDialogFragment("Start audio recording", ApiActionType.INTENT_START_AUDIO_REC)
+        }
+        startVideoRecButton.setOnClickListener {
+            showChooseLocationDialogFragment("Start video recording", ApiActionType.INTENT_START_VIDEO_REC)
+        }
+        takePhotoButton.setOnClickListener {
+            showChooseLocationDialogFragment("Take photo", ApiActionType.INTENT_TAKE_PHOTO)
+        }
         stopRecButton.setOnClickListener({ mOsmAndHelper!!.stopAvRec() })
-        startGpxRecButton.setOnClickListener({ object : CloseAfterCommandDialogFragment(){
-            override fun shouldClose(close: Boolean) {
-                mOsmAndHelper!!.startGpxRec(close)
-            }
-        }.show(supportFragmentManager, null)})
-        stopGpxRecButton.setOnClickListener({ object : CloseAfterCommandDialogFragment(){
-            override fun shouldClose(close: Boolean) {
-                mOsmAndHelper!!.stopGpxRec(close)
-            }
-        }.show(supportFragmentManager, null)})
+        startGpxRecButton.setOnClickListener({
+            val args = Bundle()
+            args.putString(ACTION_CODE_KEY, ActionType.START_GPX_REC.name)
+            val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
+            closeAfterCommandDialogFragment.arguments = args
+            closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
+        })
+        stopGpxRecButton.setOnClickListener({
+            val args = Bundle()
+            args.putString(ACTION_CODE_KEY, ActionType.STOP_GPX_REC.name)
+            val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
+            closeAfterCommandDialogFragment.arguments = args
+            closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
+        })
         showGpxButton.setOnClickListener({
-            object : OpenGpxDialogFragment() {
-                override fun sendAsRawData() {
-                    requestChooseGpx(REQUEST_SHOW_GPX_RAW_DATA)
-                }
-
-                override fun sendAsUri() {
-                    requestChooseGpx(REQUEST_SHOW_GPX_URI)
-                }
-            }.show(supportFragmentManager, null)
+            val args = Bundle()
+            args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_RAW_DATA)
+            args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_URI)
+            val openGpxDialogFragment = OpenGpxDialogFragment()
+            openGpxDialogFragment.arguments = args
+            openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
         })
-        navigateGpxButton.setOnClickListener({
-            object : OpenGpxDialogFragment() {
-                override fun sendAsRawData() {
-                    requestChooseGpx(REQUEST_NAVIGATE_GPX_RAW_DATA)
-                }
-
-                override fun sendAsUri() {
-                    requestChooseGpx(REQUEST_NAVIGATE_GPX_URI)
-                }
-            }.show(supportFragmentManager, null)
-        })
-        navigateButton.setOnClickListener({
-            getLocationSelectorInstance("Navigate to",
-                    { location ->
-                        mOsmAndHelper!!.navigate(location.name + " start",
-                                location.latStart, location.lonStart,
-                                location.name + " finish", location.lat, location.lon,
-                                "bicycle", true)
-                    }).show(supportFragmentManager, null)
-        })
+        navigateGpxButton.setOnClickListener {
+            val args = Bundle()
+            args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_RAW_DATA)
+            args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_URI)
+            val openGpxDialogFragment = OpenGpxDialogFragment()
+            openGpxDialogFragment.arguments = args
+            openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
+        }
+        navigateButton.setOnClickListener {
+            showChooseLocationDialogFragment("Navigate to", ApiActionType.INTENT_NAVIGATE)
+        }
         getInfoButton.setOnClickListener({ mOsmAndHelper!!.getInfo() })
     }
 
@@ -477,7 +566,7 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                 if (extras != null && extras.size() > 0) {
                     for (key in data.extras.keySet()) {
                         val value = extras.get(key)
-                        if (sb.length > 0) {
+                        if (sb.isNotEmpty()) {
                             sb.append("<br>")
                         }
                         sb.append(key).append(" = <b>").append(value).append("</b>")
@@ -494,26 +583,26 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_NAVIGATE_GPX_RAW_DATA -> {
-                    handleGpxFile(data!!, { data -> mOsmAndHelper!!.navigateRawGpx(true, data) })
+                    handleGpxFile(data!!, { result -> mOsmAndHelper!!.navigateRawGpx(true, result) })
                 }
                 REQUEST_NAVIGATE_GPX_URI -> {
-                    handleGpxUri(data!!, { data -> mOsmAndHelper!!.navigateGpxUri(true, data) })
+                    handleGpxUri(data!!, { result -> mOsmAndHelper!!.navigateGpxUri(true, result) })
                 }
                 REQUEST_SHOW_GPX_RAW_DATA -> {
-                    handleGpxFile(data!!, { data -> mOsmAndHelper!!.showRawGpx(data) })
+                    handleGpxFile(data!!, { result -> mOsmAndHelper!!.showRawGpx(result) })
                 }
                 REQUEST_SHOW_GPX_URI -> {
-                    handleGpxUri(data!!, { data -> mOsmAndHelper!!.showGpxUri(data) })
+                    handleGpxUri(data!!, { result -> mOsmAndHelper!!.showGpxUri(result) })
                 }
                 REQUEST_SHOW_GPX_RAW_DATA_AIDL -> {
                     Handler().postDelayed({
-                        val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()];
+                        val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()]
                         handleGpxFile(data!!, { data -> mAidlHelper!!.importGpxFromData(data, GPX_FILE_NAME, color, true) })
                     }, delay)
                 }
                 REQUEST_SHOW_GPX_URI_AIDL -> {
                     Handler().postDelayed({
-                        val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()];
+                        val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()]
                         handleGpxUri(data!!, { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME, color, true) })
                     }, delay)
                 }
@@ -522,7 +611,7 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
                         handleGpxFile(data!!, { data -> mAidlHelper!!.navigateGpxFromData(data, true) })
                     }, delay)
                 }
-                REQUEST_NAVIGATE_GPX_URI_AIDL-> {
+                REQUEST_NAVIGATE_GPX_URI_AIDL -> {
                     Handler().postDelayed({
                         handleGpxUri(data!!, { data -> mAidlHelper!!.navigateGpxFromUri(data, true) })
                     }, delay)
@@ -535,11 +624,11 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
     }
 
     override fun onDestroy() {
-        mAidlHelper!!.cleanupResources();
+        mAidlHelper!!.cleanupResources()
         super.onDestroy()
     }
 
-    fun handleGpxFile(data: Intent, action: (String) -> Unit) {
+    private fun handleGpxFile(data: Intent, action: (String) -> Unit) {
         try {
             val gpxParceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
             val fileDescriptor = gpxParceDescriptor.fileDescriptor
@@ -548,15 +637,13 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
             val stringBuilder = StringBuilder()
             bufferedReader.lineSequence().forEach { string: String -> stringBuilder.append(string) }
             inputStreamReader.close()
-            action(stringBuilder.toString());
-        } catch (e: NullPointerException) {
-            Log.e(TAG, "", e)
-        } catch (e: FileNotFoundException) {
+            action(stringBuilder.toString())
+        } catch (e: Throwable) {
             Log.e(TAG, "", e)
         }
     }
 
-    fun handleGpxUri(data: Intent, action: (Uri) -> Unit) {
+    private fun handleGpxUri(data: Intent, action: (Uri) -> Unit) {
         try {
             val gpxParceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
             val fileDescriptor = gpxParceDescriptor.fileDescriptor
@@ -568,10 +655,10 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
             val file = File(sharedDir, "shared.gpx")
             file.copyInputStreamToFile(inputStream)
             inputStream.close()
-            val fileUri = FileProvider.getUriForFile(this, AUTHORITY, file);
-            Log.d(TAG, "fileUri=" + fileUri)
+            val fileUri = FileProvider.getUriForFile(this, AUTHORITY, file)
+            Log.d(TAG, "fileUri=$fileUri")
             Log.d(TAG, "file=" + file.readLines())
-            action(fileUri);
+            action(fileUri)
         } catch (e: NullPointerException) {
             Log.e(TAG, "", e)
         } catch (e: FileNotFoundException) {
@@ -579,7 +666,7 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         }
     }
 
-    fun File.copyInputStreamToFile(inputStream: InputStream) {
+    private fun File.copyInputStreamToFile(inputStream: InputStream) {
         inputStream.use { input ->
             this.outputStream().use { fileOut ->
                 Log.d(TAG, input.copyTo(fileOut).toString())
@@ -587,33 +674,18 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         }
     }
 
-    private fun requestChooseGpx(requestCode: Int) {
-        var intent : Intent
-        if (Build.VERSION.SDK_INT < 19) {
-            intent = Intent(Intent.ACTION_GET_CONTENT);
-        } else {
-            intent = Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-        }
-        intent.type = "*/*";
-        intent = Intent.createChooser(intent, "Choose a file")
-        if (mOsmAndHelper!!.isIntentSafe(intent)) {
-            startActivityForResult(intent, requestCode);
-        } else {
-            Toast.makeText(this, "You need an app capable of selecting files like ES Explorer", Toast.LENGTH_LONG).show()
-        }
-    }
-
     override fun osmandMissing() {
-        OsmAndMissingDialogFragment().show(supportFragmentManager, null);
+        OsmAndMissingDialogFragment().show(supportFragmentManager, null)
     }
 
-    fun setDrawable(button: Button, drawableRes: Int) {
-        val icon = ContextCompat.getDrawable(this, drawableRes);
-        DrawableCompat.setTint(icon, ContextCompat.getColor(this, R.color.iconColor))
-        val compatIcon = DrawableCompat.wrap(icon)
-        DrawableCompat.setTint(compatIcon, ContextCompat.getColor(this, R.color.iconColor))
-        button.setCompoundDrawablesWithIntrinsicBounds(compatIcon, null, null, null)
+    private fun setDrawable(button: Button, drawableRes: Int) {
+        val icon = ContextCompat.getDrawable(this, drawableRes)
+        if (icon != null) {
+            DrawableCompat.setTint(icon, ContextCompat.getColor(this, R.color.iconColor))
+            val compatIcon = DrawableCompat.wrap(icon)
+            DrawableCompat.setTint(compatIcon, ContextCompat.getColor(this, R.color.iconColor))
+            button.setCompoundDrawablesWithIntrinsicBounds(compatIcon, null, null, null)
+        }
     }
 
     private fun getTimeStr(): String {
@@ -638,96 +710,84 @@ public class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingLis
         return "" + resultCode
     }
 
-    private fun getLocationSelectorInstance(title: String, callback: (Location) -> Unit)
-            : SelectLocationDialogFragment {
-        return object : SelectLocationDialogFragment() {
-            override fun locationSelectedCallback(location: Location) {
-                callback(location)
-            }
-
-            override fun getTitle(): String = title
-        }
-    }
-
-    companion object {
-        private val TAG = "MainActivity"
-        val REQUEST_OSMAND_API = 1001
-        val REQUEST_NAVIGATE_GPX_RAW_DATA = 1002
-        val REQUEST_SHOW_GPX_RAW_DATA = 1003
-        val REQUEST_NAVIGATE_GPX_URI = 1004
-        val REQUEST_SHOW_GPX_URI = 1005
-        val REQUEST_SHOW_GPX_RAW_DATA_AIDL = 1006
-        val REQUEST_SHOW_GPX_URI_AIDL = 1007
-        val REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL = 1008;
-        val REQUEST_NAVIGATE_GPX_URI_AIDL = 1009;
-        val AUTHORITY = "net.osmand.osmandapidemo.fileprovider"
-        val GPX_FILE_NAME = "aild_test.gpx"
+    private fun showChooseLocationDialogFragment(title: String, apiActionType: ApiActionType) {
+        val args = Bundle()
+        args.putString(ChooseLocationDialogFragment.TITLE_KEY, title)
+        args.putString(ChooseLocationDialogFragment.API_ACTION_CODE_KEY, apiActionType.name)
+        val chooseLocationDialogFragment = ChooseLocationDialogFragment()
+        chooseLocationDialogFragment.arguments = args
+        chooseLocationDialogFragment.show(supportFragmentManager, ChooseLocationDialogFragment.TAG)
     }
 }
 
-val CITIES = arrayOf(
-        Location("Bruxelles - Brussel", 50.8465565, 4.351697, 50.83477, 4.4068823),
-        Location("London", 51.5073219, -0.1276474, 51.52753, -0.07244986),
-        Location("Paris", 48.8566101, 2.3514992, 48.87588, 2.428313),
-        Location("Budapest", 47.4983815, 19.0404707, 47.48031, 19.067793),
-        Location("Moscow", 55.7506828, 37.6174976, 55.769417, 37.698547),
-        Location("Beijing", 39.9059631, 116.391248, 39.88707, 116.43207),
-        Location("Tokyo", 35.6828378, 139.7589667, 35.72936, 139.703),
-        Location("Washington", 38.8949549, -77.0366456, 38.91373, -77.02069),
-        Location("Ottawa", 45.4210328, -75.6900219, 45.386864, -75.783356),
-        Location("Panama", 8.9710438, -79.5340599, 8.992735, -79.5157),
-        Location("Minsk", 53.9072394, 27.5863608, 53.9022545, 27.5619212),
-        Location("Amsterdam", 52.3704312, 4.8904288, 52.3693012, 4.9013307)
-)
-
-val GPX_COLORS = arrayOf(
-        "", "red", "orange", "lightblue", "blue", "purple",
-        "translucent_red", "translucent_orange", "translucent_lightblue",
-        "translucent_blue", "translucent_purple"
-)
-
 class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, R.layout.simple_list_layout, CITIES) {
-    val mInflater = LayoutInflater.from(context)
-    val icon: Drawable;
+    private val mInflater = LayoutInflater.from(context)
+    val icon: Drawable?
 
     init {
-        val tempIcon = ContextCompat.getDrawable(context, R.drawable.ic_action_street_name);
-        icon = DrawableCompat.wrap(tempIcon)
-        DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.iconColor))
+        val tempIcon = ContextCompat.getDrawable(context, R.drawable.ic_action_street_name)
+        if (tempIcon != null) {
+            icon = DrawableCompat.wrap(tempIcon)
+            DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.iconColor))
+        } else {
+            icon = null
+        }
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = (convertView ?: mInflater.inflate(R.layout.simple_list_layout, parent, false)) as TextView
+        val view = (convertView
+                ?: mInflater?.inflate(R.layout.simple_list_layout, parent, false)) as TextView
         view.text = getItem(position).name
         view.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 8f, context.resources.displayMetrics).toInt()
-        view.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+        view.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         return view
     }
 }
 
-abstract class SelectLocationDialogFragment : DialogFragment() {
+class ChooseLocationDialogFragment : DialogFragment() {
+
+    companion object {
+        const val TAG = "ChooseLocationDialogFragment"
+        const val API_ACTION_CODE_KEY = "api_action_code_key"
+        const val TITLE_KEY = "title_key"
+    }
+
+    private var apiActionType: MainActivity.ApiActionType = MainActivity.ApiActionType.UNDEFINED
+    private var title: String = ""
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
+        val arguments = arguments
+        if (arguments != null) {
+            apiActionType = MainActivity.ApiActionType.valueOf(arguments.getString(API_ACTION_CODE_KEY, MainActivity.ApiActionType.UNDEFINED.name))
+            title = arguments.getString(TITLE_KEY, "")
+        }
+
+        val context = requireActivity()
+        val builder = AlertDialog.Builder(context)
         builder.setTitle(getTitle())
-                .setAdapter(CitiesAdapter(activity), { dialogInterface, i ->
+                .setAdapter(CitiesAdapter(context), { _, i ->
                     locationSelectedCallback(CITIES[i])
                 })
                 .setNegativeButton("Cancel", null)
         return builder.create()
     }
 
-    abstract fun locationSelectedCallback(location: Location)
+    private fun locationSelectedCallback(location: Location) {
+        val activity = activity as MainActivity?
+        activity?.execApiAction(apiActionType, location = location)
+    }
 
-    abstract fun getTitle(): String
+    fun getTitle() = title
 }
 
 class OsmAndMissingDialogFragment : DialogFragment() {
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setView(R.layout.dialog_install_osm_and)
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton("Install", { dialogInterface, i ->
+                .setPositiveButton("Install", { _, _ ->
                     val intent = Intent()
                     intent.data = Uri.parse("market://details?id=net.osmand.plus")
                     startActivity(intent)
@@ -741,37 +801,115 @@ class OsmAndInfoDialog : DialogFragment() {
         const val INFO_KEY = "info_key"
     }
 
+    @Suppress("deprecation")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val message = arguments.getString(INFO_KEY)
-        val builder = AlertDialog.Builder(activity)
-        builder.setMessage(Html.fromHtml(message))
+        val message = arguments?.getString(INFO_KEY)
+        val builder = AlertDialog.Builder(requireContext())
+        if (message != null) {
+            if (Build.VERSION.SDK_INT < 24) {
+                builder.setMessage(Html.fromHtml(message))
+            } else {
+                builder.setMessage(Html.fromHtml(message, Html.FROM_HTML_MODE_LEGACY))
+            }
+        }
         builder.setTitle("OsmAnd info:")
         builder.setPositiveButton("OK", null)
         return builder.create()
     }
 }
 
-abstract class OpenGpxDialogFragment : DialogFragment() {
+class OpenGpxDialogFragment : DialogFragment() {
+    companion object {
+        const val TAG = "OpenGpxDialogFragment"
+        const val SEND_AS_RAW_DATA_REQUEST_CODE_KEY = "send_as_raw_data_request_code_key"
+        const val SEND_AS_URI_REQUEST_CODE_KEY = "send_as_uri_request_code_key"
+    }
+
+    private var sendAsRawDataRequestCode: Int? = null
+    private var sendAsUriDataRequestCode: Int? = null
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
+        sendAsRawDataRequestCode = arguments?.getInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY)
+        sendAsUriDataRequestCode = arguments?.getInt(SEND_AS_URI_REQUEST_CODE_KEY)
+
+        val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("Send GPX to OsmAnd as raw data or as URI")
-        builder.setNeutralButton("As raw data", { dialogInterface, i -> sendAsRawData() })
-        builder.setPositiveButton("As URI", { dialogInterface, i -> sendAsUri() })
+        builder.setNeutralButton("As raw data", { _, _ -> sendAsRawData() })
+        builder.setPositiveButton("As URI", { _, _ -> sendAsUri() })
         return builder.create()
     }
 
-    abstract fun sendAsRawData()
-    abstract fun sendAsUri()
+    private fun sendAsRawData() {
+        val sendAsRawDataRequestCode = sendAsUriDataRequestCode
+        if (sendAsRawDataRequestCode != null) {
+            requestChooseGpx(sendAsRawDataRequestCode)
+        }
+    }
+
+    private fun sendAsUri() {
+        val sendAsUriDataRequestCode = sendAsUriDataRequestCode
+        if (sendAsUriDataRequestCode != null) {
+            requestChooseGpx(sendAsUriDataRequestCode)
+        }
+    }
+
+    private fun requestChooseGpx(requestCode: Int) {
+        var intent: Intent
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = Intent(Intent.ACTION_GET_CONTENT)
+        } else {
+            intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+        }
+        intent.type = "*/*"
+        intent = Intent.createChooser(intent, "Choose a file")
+
+        val activity = activity as MainActivity?
+        val osmandHelper = activity?.mOsmAndHelper
+        if (osmandHelper != null && osmandHelper.isIntentSafe(intent)) {
+            startActivityForResult(intent, requestCode)
+        } else {
+            Toast.makeText(activity, "You need an app capable of selecting files like ES Explorer", Toast.LENGTH_LONG).show()
+        }
+    }
 }
 
-abstract class CloseAfterCommandDialogFragment : DialogFragment() {
+class CloseAfterCommandDialogFragment : DialogFragment() {
+    companion object {
+        const val TAG = "CloseAfterCommandDialogFragment"
+        const val ACTION_CODE_KEY = "action_code_key"
+    }
+
+    private var actionType: ActionType = ActionType.UNDEFINED
+
+    enum class ActionType {
+        UNDEFINED,
+        START_GPX_REC,
+        STOP_GPX_REC,
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
+        val arguments = arguments
+        if (arguments != null) {
+            actionType = ActionType.valueOf(arguments.getString(ACTION_CODE_KEY, ActionType.UNDEFINED.name))
+        }
+
+        val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("Close OsmAnd immediately after execution of command?")
-        builder.setNeutralButton("Close", { dialogInterface, i -> shouldClose(true) })
-        builder.setPositiveButton("Don't close", { dialogInterface, i -> shouldClose(false) })
+        builder.setNeutralButton("Close", { _, _ -> shouldClose(true) })
+        builder.setPositiveButton("Don't close", { _, _ -> shouldClose(false) })
         return builder.create()
     }
 
-    abstract fun shouldClose(close: Boolean)
+    private fun shouldClose(close: Boolean) {
+        val activity = activity as MainActivity?
+        val osmandHelper = activity?.mOsmAndHelper
+        if (osmandHelper != null) {
+            when (actionType) {
+                ActionType.UNDEFINED -> Unit
+                ActionType.START_GPX_REC -> osmandHelper.startGpxRec(close)
+                ActionType.STOP_GPX_REC -> osmandHelper.stopGpxRec(close)
+            }
+        }
+    }
 }
