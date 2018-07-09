@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +46,8 @@ public class OsmAndHelper {
 	private static final String ADD_FAVORITE = "add_favorite";
 	private static final String ADD_MAP_MARKER = "add_map_marker";
 
+	private static final String SHOW_LOCATION = "show_location";
+
 	private static final String SHOW_GPX = "show_gpx";
 	private static final String NAVIGATE_GPX = "navigate_gpx";
 
@@ -63,6 +66,9 @@ public class OsmAndHelper {
 	public static final String PARAM_LON = "lon";
 	public static final String PARAM_COLOR = "color";
 	public static final String PARAM_VISIBLE = "visible";
+
+	public static final String PARAM_AMAP_LAYER_ID = "amap_layer_id";
+	public static final String PARAM_AMAP_POINT_ID = "amap_point_id";
 
 	public static final String PARAM_PATH = "path";
 	public static final String PARAM_URI = "uri";
@@ -173,6 +179,26 @@ public class OsmAndHelper {
 		params.put(PARAM_LON, String.valueOf(lon));
 		params.put(PARAM_NAME, name);
 		sendRequest(new OsmAndIntentBuilder(ADD_MAP_MARKER).setParams(params));
+	}
+
+	/**
+	 * Show map at given location or AMapPoint.
+	 *
+	 * @param lat     - latitude. Sent as URI parameter.
+	 * @param lon     - longitude. Sent as URI parameter.
+	 * @param layerId - optional id of AMapLayer. Sent as URI parameter.
+	 * @param pointId - optional id of AMapPoint, for which will be opened the context menu. Sent as URI parameter.
+	 */
+	public void showLocation(double lat, double lon, @Nullable String layerId, @Nullable String pointId) {
+		// test location
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_LAT, String.valueOf(lat));
+		params.put(PARAM_LON, String.valueOf(lon));
+		if (!TextUtils.isEmpty(layerId) && !TextUtils.isEmpty(pointId)) {
+			params.put(PARAM_AMAP_LAYER_ID, layerId);
+			params.put(PARAM_AMAP_POINT_ID, pointId);
+		}
+		sendRequest(new OsmAndIntentBuilder(SHOW_LOCATION).setParams(params));
 	}
 
 	// TODO covert color to set
