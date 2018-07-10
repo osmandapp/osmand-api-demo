@@ -31,6 +31,7 @@ import net.osmand.aidl.map.SetMapLocationParams;
 import net.osmand.aidl.maplayer.AMapLayer;
 import net.osmand.aidl.maplayer.AddMapLayerParams;
 import net.osmand.aidl.maplayer.RemoveMapLayerParams;
+import net.osmand.aidl.maplayer.ShowLayerPointOnMapParams;
 import net.osmand.aidl.maplayer.UpdateMapLayerParams;
 import net.osmand.aidl.maplayer.point.AMapPoint;
 import net.osmand.aidl.maplayer.point.AddMapPointParams;
@@ -454,6 +455,23 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.removeMapLayer(new RemoveMapLayerParams(id));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Show AMapPoint on map in OsmAnd.
+	 *
+	 * @param layerId - layer id.
+	 * @param pointId - point id.
+	 */
+	public boolean showLayerPointOnMap(String layerId, String pointId) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.showLayerPointOnMap(new ShowLayerPointOnMapParams(layerId, pointId));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

@@ -1,4 +1,5 @@
 <resources>
+    <string name="show_layer_point_on_map">Show layer point on map</string>
     <string name="show_location">Show location</string>
     <string name="map">Map</string>
     <string name="app_name">OsmAnd API Demo</string>

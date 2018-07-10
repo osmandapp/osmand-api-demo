@@ -105,6 +105,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_ADD_MAP_LAYER,
         AIDL_REMOVE_MAP_LAYER,
 
+		AIDL_SHOW_LAYER_POINT_ON_MAP,
+
         AIDL_ADD_MAP_POINT,
         AIDL_UPDATE_MAP_POINT,
         AIDL_REMOVE_MAP_POINT,
@@ -189,6 +191,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     ApiActionType.AIDL_REMOVE_MAP_MARKER -> {
                         aidlHelper.removeMapMarker(location.lat, location.lon, location.name)
                     }
+					ApiActionType.AIDL_SHOW_LAYER_POINT_ON_MAP -> {
+                        aidlHelper.showLayerPointOnMap("layer_1", "id_" + location.name)
+					}
                     ApiActionType.AIDL_ADD_MAP_POINT -> {
                         aidlHelper.addMapPoint(
                                 "layer_1",
@@ -400,6 +405,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 mAidlHelper!!.removeMapLayer("layer_1")
             }, delay)
         })
+
+		aidlShowLayerPointOnMap.setOnClickListener {
+			showChooseLocationDialogFragment("Show layer point on map", ApiActionType.AIDL_SHOW_LAYER_POINT_ON_MAP)
+		}
 
         aidlAddPointButton.setOnClickListener {
             showChooseLocationDialogFragment("Add map point", ApiActionType.AIDL_ADD_MAP_POINT)
