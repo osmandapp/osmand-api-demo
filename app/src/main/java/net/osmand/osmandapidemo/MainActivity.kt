@@ -240,7 +240,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         osmandHelper.addMapMarker(location.lat, location.lon, location.name)
                     }
                     MainActivity.ApiActionType.INTENT_SHOW_LOCATION -> {
-                        osmandHelper.showLocation(location.lat, location.lon, "layer_1", "id_" + location.name)
+                        osmandHelper.showLocation(location.lat, location.lon)
                     }
                     MainActivity.ApiActionType.INTENT_TAKE_PHOTO -> {
                         osmandHelper.takePhoto(location.lat, location.lon)
