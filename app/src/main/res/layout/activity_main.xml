@@ -440,11 +440,11 @@
                 tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlShowLayerPointOnMap"
+                android:id="@+id/aidlShowMapPoint"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/show_layer_point_on_map"
+                android:text="@string/show_map_point"
                 tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton

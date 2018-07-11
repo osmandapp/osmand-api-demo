@@ -31,11 +31,11 @@ import net.osmand.aidl.map.SetMapLocationParams;
 import net.osmand.aidl.maplayer.AMapLayer;
 import net.osmand.aidl.maplayer.AddMapLayerParams;
 import net.osmand.aidl.maplayer.RemoveMapLayerParams;
-import net.osmand.aidl.maplayer.ShowLayerPointOnMapParams;
 import net.osmand.aidl.maplayer.UpdateMapLayerParams;
 import net.osmand.aidl.maplayer.point.AMapPoint;
 import net.osmand.aidl.maplayer.point.AddMapPointParams;
 import net.osmand.aidl.maplayer.point.RemoveMapPointParams;
+import net.osmand.aidl.maplayer.point.ShowMapPointParams;
 import net.osmand.aidl.maplayer.point.UpdateMapPointParams;
 import net.osmand.aidl.mapmarker.AMapMarker;
 import net.osmand.aidl.mapmarker.AddMapMarkerParams;
@@ -465,13 +465,21 @@ public class OsmAndAidlHelper {
 	/**
 	 * Show AMapPoint on map in OsmAnd.
 	 *
-	 * @param layerId - layer id.
-	 * @param pointId - point id.
+	 * @param layerId   - layer id. Note: layer should be added first.
+	 * @param pointId   - point id.
+	 * @param shortName - short name (single char). Displayed on the map.
+	 * @param fullName  - full name. Displayed in the context menu on first row.
+	 * @param typeName  - type name. Displayed in context menu on second row.
+	 * @param color     - color of circle's background.
+	 * @param location  - location of the point.
+	 * @param details   - list of details. Displayed under context menu.
 	 */
-	public boolean showLayerPointOnMap(String layerId, String pointId) {
+	public boolean showMapPoint(String layerId, String pointId, String shortName, String fullName,
+								String typeName, int color, ALatLon location, List<String> details) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.showLayerPointOnMap(new ShowLayerPointOnMapParams(layerId, pointId));
+				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details);
+				return mIOsmAndAidlInterface.showMapPoint(new ShowMapPointParams(layerId, point));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

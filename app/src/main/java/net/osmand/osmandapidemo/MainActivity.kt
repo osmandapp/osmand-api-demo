@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_ADD_MAP_LAYER,
         AIDL_REMOVE_MAP_LAYER,
 
-		AIDL_SHOW_LAYER_POINT_ON_MAP,
+		AIDL_SHOW_MAP_POINT,
 
         AIDL_ADD_MAP_POINT,
         AIDL_UPDATE_MAP_POINT,
@@ -191,9 +191,18 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     ApiActionType.AIDL_REMOVE_MAP_MARKER -> {
                         aidlHelper.removeMapMarker(location.lat, location.lon, location.name)
                     }
-					ApiActionType.AIDL_SHOW_LAYER_POINT_ON_MAP -> {
-                        aidlHelper.showLayerPointOnMap("layer_1", "id_" + location.name)
-					}
+                    ApiActionType.AIDL_SHOW_MAP_POINT -> {
+                        aidlHelper.showMapPoint(
+                            "layer_1",
+                            "id_" + location.name,
+                            location.name.substring(0, 1),
+                            location.name,
+                            "City",
+                            Color.GREEN,
+                            ALatLon(location.lat, location.lon),
+                            listOf("Big city", "Population: ...")
+                        )
+                    }
                     ApiActionType.AIDL_ADD_MAP_POINT -> {
                         aidlHelper.addMapPoint(
                                 "layer_1",
@@ -406,8 +415,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             }, delay)
         })
 
-		aidlShowLayerPointOnMap.setOnClickListener {
-			showChooseLocationDialogFragment("Show layer point on map", ApiActionType.AIDL_SHOW_LAYER_POINT_ON_MAP)
+		aidlShowMapPoint.setOnClickListener {
+			showChooseLocationDialogFragment("Show map point", ApiActionType.AIDL_SHOW_MAP_POINT)
 		}
 
         aidlAddPointButton.setOnClickListener {
