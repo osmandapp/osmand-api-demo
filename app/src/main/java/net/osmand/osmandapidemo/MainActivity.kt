@@ -85,6 +85,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     enum class ApiActionType {
         UNDEFINED,
 
+        AIDL_SET_NAV_DRAWER_ITEMS,
+
         AIDL_REFRESH_MAP,
 
         AIDL_ADD_FAVORITE_GROUP,
@@ -154,6 +156,15 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         val osmandHelper = mOsmAndHelper
         if (aidlHelper != null && osmandHelper != null) {
             when (apiActionType) {
+                ApiActionType.AIDL_SET_NAV_DRAWER_ITEMS -> {
+                    aidlHelper.setNavDrawerItems(
+                        packageName,
+                        listOf(getString(R.string.app_name)),
+                        listOf("osmand_api_demo://main_activity"),
+                        listOf("ic_action_travel"),
+                        listOf(-1)
+                    )
+                }
                 ApiActionType.AIDL_REFRESH_MAP -> {
                     aidlHelper.refreshMap()
                 }
@@ -305,6 +316,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
 
         // AIDL
+
+        aidlSetNavDrawerItems.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_SET_NAV_DRAWER_ITEMS)
+        }
 
         aidlRefreshMapButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_REFRESH_MAP)

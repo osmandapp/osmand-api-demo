@@ -45,6 +45,8 @@ import net.osmand.aidl.mapwidget.AMapWidget;
 import net.osmand.aidl.mapwidget.AddMapWidgetParams;
 import net.osmand.aidl.mapwidget.RemoveMapWidgetParams;
 import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
+import net.osmand.aidl.navdrawer.NavDrawerItem;
+import net.osmand.aidl.navdrawer.SetNavDrawerItemsParams;
 import net.osmand.aidl.navigation.NavigateGpxParams;
 import net.osmand.aidl.navigation.NavigateParams;
 import net.osmand.aidl.note.StartAudioRecordingParams;
@@ -810,6 +812,30 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.navigate(new NavigateParams(startName, startLat, startLon, destName, destLat, destLon, profile, force));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method for adding up to 3 items to the OsmAnd navigation drawer.
+	 *
+	 * @param appPackage - current application package.
+	 * @param names - list of names for items.
+	 * @param uris - list of uris for intents.
+	 * @param iconNames - list of icon names for items.
+	 * @param flags - list of flags for intents. Use -1 if no flags needed.
+	 */
+	public boolean setNavDrawerItems(String appPackage, List<String> names, List<String> uris, List<String> iconNames, List<Integer> flags) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				List<NavDrawerItem> items = new ArrayList<>();
+				for (int i = 0; i < names.size(); i++) {
+					items.add(new NavDrawerItem(names.get(i), uris.get(i), iconNames.get(i), flags.get(i)));
+				}
+				return mIOsmAndAidlInterface.setNavDrawerItems(new SetNavDrawerItemsParams(appPackage, items));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
