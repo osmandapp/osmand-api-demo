@@ -414,11 +414,13 @@ public class OsmAndAidlHelper {
 	 * @param name - layer name.
 	 * @param zOrder - z-order position of layer. Default value is 5.5f
 	 * @param points - initial list of points. Nullable.
+	 * @param imagePoints - use new style for points on map or not. Also default zoom bounds for new style can be edited.
 	 */
-	public boolean addMapLayer(String id, String name, float zOrder, List<AMapPoint> points) {
+	public boolean addMapLayer(String id, String name, float zOrder, List<AMapPoint> points, boolean imagePoints) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				AMapLayer layer = new AMapLayer(id, name, zOrder, points);
+				layer.setImagePoints(imagePoints);
 				return mIOsmAndAidlInterface.addMapLayer(new AddMapLayerParams(layer));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -434,11 +436,13 @@ public class OsmAndAidlHelper {
 	 * @param name - layer name.
 	 * @param zOrder - z-order position of layer. Default value is 5.5f
 	 * @param points - list of points. Nullable.
+	 * @param imagePoints - use new style for points on map or not. Also default zoom bounds for new style can be edited.
 	 */
-	public boolean updateMapLayer(String id, String name, float zOrder, List<AMapPoint> points) {
+	public boolean updateMapLayer(String id, String name, float zOrder, List<AMapPoint> points, boolean imagePoints) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				AMapLayer layer = new AMapLayer(id, name, zOrder, points);
+				layer.setImagePoints(imagePoints);
 				return mIOsmAndAidlInterface.updateMapLayer(new UpdateMapLayerParams(layer));
 			} catch (RemoteException e) {
 				e.printStackTrace();

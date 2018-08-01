@@ -411,7 +411,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
         aidlAddLayerButton.setOnClickListener({
             Handler().postDelayed({
-                mAidlHelper!!.addMapLayer("layer_1", "OSMO Layer", 5.5f, null)
+                mAidlHelper!!.addMapLayer("layer_1", "OSMO Layer", 5.5f, null, true)
             }, delay)
         })
 
