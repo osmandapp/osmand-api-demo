@@ -48,13 +48,14 @@ import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
 import net.osmand.aidl.navigation.NavigateGpxParams;
 import net.osmand.aidl.navigation.NavigateParams;
 import net.osmand.aidl.note.StartAudioRecordingParams;
+import net.osmand.aidl.note.StartVideoRecordingParams;
 import net.osmand.aidl.note.StopRecordingParams;
 import net.osmand.aidl.note.TakePhotoNoteParams;
-import net.osmand.aidl.note.StartVideoRecordingParams;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import main.java.net.osmand.osmandapidemo.OsmAndHelper.OnOsmandMissingListener;
 
@@ -473,12 +474,14 @@ public class OsmAndAidlHelper {
 	 * @param color     - color of circle's background.
 	 * @param location  - location of the point.
 	 * @param details   - list of details. Displayed under context menu.
+	 * @param params    - optional map of params for point.
 	 */
 	public boolean showMapPoint(String layerId, String pointId, String shortName, String fullName,
-								String typeName, int color, ALatLon location, List<String> details) {
+								String typeName, int color, ALatLon location, List<String> details,
+								Map<String, String> params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details);
+				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details, params);
 				return mIOsmAndAidlInterface.showMapPoint(new ShowMapPointParams(layerId, point));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -498,12 +501,14 @@ public class OsmAndAidlHelper {
 	 * @param color - color of circle's background.
 	 * @param location - location of the point.
 	 * @param details - list of details. Displayed under context menu.
+	 * @param params - optional map of params for point.
 	 */
 	public boolean addMapPoint(String layerId, String pointId, String shortName, String fullName,
-							   String typeName, int color, ALatLon location, List<String> details) {
+							   String typeName, int color, ALatLon location, List<String> details,
+							   Map<String, String> params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details);
+				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details, params);
 				return mIOsmAndAidlInterface.addMapPoint(new AddMapPointParams(layerId, point));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -523,12 +528,14 @@ public class OsmAndAidlHelper {
 	 * @param color - color of circle's background.
 	 * @param location - location of the point.
 	 * @param details - list of details. Displayed under context menu.
+	 * @param params - optional map of params for point.
 	 */
 	public boolean updateMapPoint(String layerId, String pointId, String shortName, String fullName,
-								  String typeName, int color, ALatLon location, List<String> details) {
+								  String typeName, int color, ALatLon location, List<String> details,
+								  Map<String, String> params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details);
+				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details, params);
 				return mIOsmAndAidlInterface.updateMapPoint(new UpdateMapPointParams(layerId, point));
 			} catch (RemoteException e) {
 				e.printStackTrace();

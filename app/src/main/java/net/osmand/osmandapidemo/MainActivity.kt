@@ -35,6 +35,7 @@ import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_A
 import net.osmand.aidl.gpx.StartGpxRecordingParams
 import net.osmand.aidl.gpx.StopGpxRecordingParams
 import net.osmand.aidl.map.ALatLon
+import net.osmand.aidl.maplayer.point.AMapPoint
 import net.osmand.osmandapidemo.R
 import java.io.*
 
@@ -200,7 +201,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                             "City",
                             Color.GREEN,
                             ALatLon(location.lat, location.lon),
-                            listOf("Big city", "Population: ...")
+                            listOf("Big city", "Population: ..."),
+							mapOf(AMapPoint.POINT_SPEED_PARAM to "4.0", AMapPoint.POINT_TYPE_ICON_NAME_PARAM to "ic_type_address")
                         )
                     }
                     ApiActionType.AIDL_ADD_MAP_POINT -> {
@@ -212,7 +214,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 "City",
                                 Color.GREEN,
                                 ALatLon(location.lat, location.lon),
-                                listOf("Big city", "Population: ..."))
+                                listOf("Big city", "Population: ..."),
+								mapOf(AMapPoint.POINT_SPEED_PARAM to "4.0", AMapPoint.POINT_TYPE_ICON_NAME_PARAM to "ic_type_address")
+						)
                     }
                     ApiActionType.AIDL_UPDATE_MAP_POINT -> {
                         aidlHelper.addMapPoint(
@@ -223,7 +227,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 "City",
                                 Color.RED,
                                 ALatLon(location.lat, location.lon),
-                                listOf("Big city", "Population: unknown"))
+                                listOf("Big city", "Population: unknown"),
+								mapOf(AMapPoint.POINT_SPEED_PARAM to "4.0", AMapPoint.POINT_TYPE_ICON_NAME_PARAM to "ic_type_address")
+						)
                     }
                     ApiActionType.AIDL_REMOVE_MAP_POINT -> {
                         aidlHelper.removeMapPoint("layer_1", "id_" + location.name)
