@@ -27,6 +27,11 @@
     <string name="navigate_gpx">Navigate gpx</string>
     <string name="navigation">Navigation</string>
     <string name="navigate">Navigate</string>
+    <string name="pause_navigation">Pause navigation</string>
+    <string name="resume_navigation">Resume navigation</string>
+    <string name="stop_navigation">Stop navigation</string>
+    <string name="mute_navigation">Mute voice guidance</string>
+    <string name="unmute_navigation">Unmute voice guidance</string>
     <string name="get_info">Get info</string>
     <string name="add_map_widget_1">Add widget 1</string>
     <string name="add_map_widget_2">Add widget 2</string>

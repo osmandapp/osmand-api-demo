@@ -49,6 +49,11 @@ public class OsmAndHelper {
 	private static final String NAVIGATE_GPX = "navigate_gpx";
 
 	private static final String NAVIGATE = "navigate";
+	private static final String PAUSE_NAVIGATION = "pause_navigation";
+	private static final String RESUME_NAVIGATION = "resume_navigation";
+	private static final String STOP_NAVIGATION = "stop_navigation";
+	private static final String MUTE_NAVIGATION = "mute_navigation";
+	private static final String UNMUTE_NAVIGATION = "unmute_navigation";
 
 	private static final String START_GPX_REC = "start_gpx_rec";
 	private static final String STOP_GPX_REC = "stop_gpx_rec";
@@ -361,6 +366,41 @@ public class OsmAndHelper {
 		params.put(PARAM_PROFILE, profile);
 		params.put(PARAM_FORCE, String.valueOf(force));
 		sendRequest(new OsmAndIntentBuilder(NAVIGATE).setParams(params));
+	}
+
+	/**
+	 * Put navigation on pause.
+	 */
+	public void pauseNavigation() {
+		sendRequest(new OsmAndIntentBuilder(PAUSE_NAVIGATION));
+	}
+
+	/**
+	 * Resume navigation if was paused before.
+	 */
+	public void resumeNavigation() {
+		sendRequest(new OsmAndIntentBuilder(RESUME_NAVIGATION));
+	}
+
+	/**
+	 * Stop navigation. Removes target / intermediate points and route path from the map.
+	 */
+	public void stopNavigation() {
+		sendRequest(new OsmAndIntentBuilder(STOP_NAVIGATION));
+	}
+
+	/**
+	 * Mute voice guidance. Stays muted until unmute manually or via the api.
+	 */
+	public void muteNavigation() {
+		sendRequest(new OsmAndIntentBuilder(MUTE_NAVIGATION));
+	}
+
+	/**
+	 * Unmute voice guidance.
+	 */
+	public void umuteNavigation() {
+		sendRequest(new OsmAndIntentBuilder(UNMUTE_NAVIGATION));
 	}
 
 	/**

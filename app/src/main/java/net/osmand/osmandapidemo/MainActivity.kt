@@ -131,7 +131,13 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         INTENT_START_VIDEO_REC,
         INTENT_START_AUDIO_REC,
 
-        INTENT_NAVIGATE
+        INTENT_NAVIGATE,
+
+        INTENT_PAUSE_NAVIGATION,
+        INTENT_RESUME_NAVIGATION,
+        INTENT_STOP_NAVIGATION,
+        INTENT_MUTE_NAVIGATION,
+        INTENT_UNMUTE_NAVIGATION
     }
 
     fun execApiAction(apiActionType: ApiActionType, delayed: Boolean = true, location: Location? = null) {
@@ -252,6 +258,21 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 location.name + " finish", location.lat, location.lon,
                                 "bicycle", true)
                     }
+                    MainActivity.ApiActionType.INTENT_PAUSE_NAVIGATION -> {
+                        osmandHelper.pauseNavigation()
+                    }
+                    MainActivity.ApiActionType.INTENT_RESUME_NAVIGATION -> {
+                        osmandHelper.resumeNavigation()
+                    }
+                    MainActivity.ApiActionType.INTENT_STOP_NAVIGATION -> {
+                        osmandHelper.stopNavigation()
+                    }
+                    MainActivity.ApiActionType.INTENT_MUTE_NAVIGATION -> {
+                        osmandHelper.muteNavigation()
+                    }
+                    MainActivity.ApiActionType.INTENT_UNMUTE_NAVIGATION -> {
+                        osmandHelper.umuteNavigation()
+                    }
                     else -> Unit
                 }
             }
@@ -323,7 +344,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         val startDemoIntent = packageManager.getLaunchIntentForPackage("net.osmand.osmandapidemo")
         startDemoIntent?.addCategory(Intent.CATEGORY_LAUNCHER)
 
-        aidlAddFirstWidgetButton.setOnClickListener({
+        aidlAddFirstWidgetButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.addMapWidget(
                         "111",
@@ -333,9 +354,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         "widget_speed_night",
                         "10", "km/h", 50, startDemoIntent)
             }, delay)
-        })
+        }
 
-        aidlAddSecondWidgetButton.setOnClickListener({
+        aidlAddSecondWidgetButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.addMapWidget(
                         "222",
@@ -345,9 +366,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         "widget_time_night",
                         getTimeStr(), "", 51, startDemoIntent)
             }, delay)
-        })
+        }
 
-        aidlModifyFirstWidgetButton.setOnClickListener({
+        aidlModifyFirstWidgetButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.updateMapWidget(
                         "111",
@@ -357,9 +378,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         "widget_speed_night",
                         "1" + counter++, "km/h", 50, startDemoIntent)
             }, delay)
-        })
+        }
 
-        aidlModifySecondWidgetButton.setOnClickListener({
+        aidlModifySecondWidgetButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.updateMapWidget(
                         "222",
@@ -369,31 +390,31 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         "widget_time_night",
                         getTimeStr(), "", 51, startDemoIntent)
             }, delay)
-        })
+        }
 
-        aidlRemoveFirstWidgetButton.setOnClickListener({
+        aidlRemoveFirstWidgetButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.removeMapWidget("111")
             }, delay)
-        })
+        }
 
-        aidlRemoveSecondWidgetButton.setOnClickListener({
+        aidlRemoveSecondWidgetButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.removeMapWidget("222")
             }, delay)
-        })
+        }
 
-        aidlAddLayerButton.setOnClickListener({
+        aidlAddLayerButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.addMapLayer("layer_1", "OSMO Layer", 5.5f, null)
             }, delay)
-        })
+        }
 
-        aidlRemoveLayerButton.setOnClickListener({
+        aidlRemoveLayerButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.removeMapLayer("layer_1")
             }, delay)
-        })
+        }
 
         aidlAddPointButton.setOnClickListener {
             showChooseLocationDialogFragment("Add map point", ApiActionType.AIDL_ADD_MAP_POINT)
@@ -416,19 +437,19 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
         }
 
-        aidlShowGpxButton.setOnClickListener({
+        aidlShowGpxButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.showGpx(GPX_FILE_NAME)
             }, delay)
-        })
+        }
 
-        aidlHideGpxButton.setOnClickListener({
+        aidlHideGpxButton.setOnClickListener {
             Handler().postDelayed({
                 mAidlHelper!!.hideGpx(GPX_FILE_NAME)
             }, delay)
-        })
+        }
 
-        aidlGetActiveGpxButton.setOnClickListener({
+        aidlGetActiveGpxButton.setOnClickListener {
             val activeGpxFiles = mAidlHelper!!.activeGpxFiles
             val sb = StringBuilder()
             if (activeGpxFiles != null) {
@@ -448,7 +469,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             infoDialog.arguments = args
             supportFragmentManager.beginTransaction()
                     .add(infoDialog, null).commitAllowingStateLoss()
-        })
+        }
 
         aidlRemoveGpxButton.setOnClickListener {
             Handler().postDelayed({
@@ -494,14 +515,14 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             showChooseLocationDialogFragment("Navigate to", ApiActionType.AIDL_NAVIGATE)
         }
 
-        aidlNavigateGpxButton.setOnClickListener({
+        aidlNavigateGpxButton.setOnClickListener {
             val args = Bundle()
             args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL)
             args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_URI_AIDL)
             val openGpxDialogFragment = OpenGpxDialogFragment()
             openGpxDialogFragment.arguments = args
             openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
-        })
+        }
 
         // Intents
 
@@ -520,29 +541,29 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         takePhotoButton.setOnClickListener {
             showChooseLocationDialogFragment("Take photo", ApiActionType.INTENT_TAKE_PHOTO)
         }
-        stopRecButton.setOnClickListener({ mOsmAndHelper!!.stopAvRec() })
-        startGpxRecButton.setOnClickListener({
+        stopRecButton.setOnClickListener { mOsmAndHelper!!.stopAvRec() }
+        startGpxRecButton.setOnClickListener {
             val args = Bundle()
             args.putString(ACTION_CODE_KEY, ActionType.START_GPX_REC.name)
             val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
             closeAfterCommandDialogFragment.arguments = args
             closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
-        })
-        stopGpxRecButton.setOnClickListener({
+        }
+        stopGpxRecButton.setOnClickListener {
             val args = Bundle()
             args.putString(ACTION_CODE_KEY, ActionType.STOP_GPX_REC.name)
             val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
             closeAfterCommandDialogFragment.arguments = args
             closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
-        })
-        showGpxButton.setOnClickListener({
+        }
+        showGpxButton.setOnClickListener {
             val args = Bundle()
             args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_RAW_DATA)
             args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_URI)
             val openGpxDialogFragment = OpenGpxDialogFragment()
             openGpxDialogFragment.arguments = args
             openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
-        })
+        }
         navigateGpxButton.setOnClickListener {
             val args = Bundle()
             args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_RAW_DATA)
@@ -554,7 +575,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         navigateButton.setOnClickListener {
             showChooseLocationDialogFragment("Navigate to", ApiActionType.INTENT_NAVIGATE)
         }
-        getInfoButton.setOnClickListener({ mOsmAndHelper!!.getInfo() })
+        pauseNavigationButton.setOnClickListener { mOsmAndHelper!!.pauseNavigation() }
+        resumeNavigationButton.setOnClickListener { mOsmAndHelper!!.resumeNavigation() }
+        stopNavigationButton.setOnClickListener { mOsmAndHelper!!.stopNavigation() }
+        muteNavigationButton.setOnClickListener { mOsmAndHelper!!.muteNavigation() }
+        unmuteNavigationButton.setOnClickListener { mOsmAndHelper!!.umuteNavigation() }
+        getInfoButton.setOnClickListener { mOsmAndHelper!!.getInfo() }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -583,37 +609,37 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_NAVIGATE_GPX_RAW_DATA -> {
-                    handleGpxFile(data!!, { result -> mOsmAndHelper!!.navigateRawGpx(true, result) })
+                    handleGpxFile(data!!) { result -> mOsmAndHelper!!.navigateRawGpx(true, result) }
                 }
                 REQUEST_NAVIGATE_GPX_URI -> {
-                    handleGpxUri(data!!, { result -> mOsmAndHelper!!.navigateGpxUri(true, result) })
+                    handleGpxUri(data!!) { result -> mOsmAndHelper!!.navigateGpxUri(true, result) }
                 }
                 REQUEST_SHOW_GPX_RAW_DATA -> {
-                    handleGpxFile(data!!, { result -> mOsmAndHelper!!.showRawGpx(result) })
+                    handleGpxFile(data!!) { result -> mOsmAndHelper!!.showRawGpx(result) }
                 }
                 REQUEST_SHOW_GPX_URI -> {
-                    handleGpxUri(data!!, { result -> mOsmAndHelper!!.showGpxUri(result) })
+                    handleGpxUri(data!!) { result -> mOsmAndHelper!!.showGpxUri(result) }
                 }
                 REQUEST_SHOW_GPX_RAW_DATA_AIDL -> {
                     Handler().postDelayed({
                         val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()]
-                        handleGpxFile(data!!, { data -> mAidlHelper!!.importGpxFromData(data, GPX_FILE_NAME, color, true) })
+                        handleGpxFile(data!!) { data -> mAidlHelper!!.importGpxFromData(data, GPX_FILE_NAME, color, true) }
                     }, delay)
                 }
                 REQUEST_SHOW_GPX_URI_AIDL -> {
                     Handler().postDelayed({
                         val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()]
-                        handleGpxUri(data!!, { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME, color, true) })
+                        handleGpxUri(data!!) { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME, color, true) }
                     }, delay)
                 }
                 REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL -> {
                     Handler().postDelayed({
-                        handleGpxFile(data!!, { data -> mAidlHelper!!.navigateGpxFromData(data, true) })
+                        handleGpxFile(data!!) { data -> mAidlHelper!!.navigateGpxFromData(data, true) }
                     }, delay)
                 }
                 REQUEST_NAVIGATE_GPX_URI_AIDL -> {
                     Handler().postDelayed({
-                        handleGpxUri(data!!, { data -> mAidlHelper!!.navigateGpxFromUri(data, true) })
+                        handleGpxUri(data!!) { data -> mAidlHelper!!.navigateGpxFromUri(data, true) }
                     }, delay)
                 }
                 else -> super.onActivityResult(requestCode, resultCode, data)
@@ -766,9 +792,9 @@ class ChooseLocationDialogFragment : DialogFragment() {
         val context = requireActivity()
         val builder = AlertDialog.Builder(context)
         builder.setTitle(getTitle())
-                .setAdapter(CitiesAdapter(context), { _, i ->
+                .setAdapter(CitiesAdapter(context)) { _, i ->
                     locationSelectedCallback(CITIES[i])
-                })
+                }
                 .setNegativeButton("Cancel", null)
         return builder.create()
     }
@@ -778,7 +804,7 @@ class ChooseLocationDialogFragment : DialogFragment() {
         activity?.execApiAction(apiActionType, location = location)
     }
 
-    fun getTitle() = title
+    private fun getTitle() = title
 }
 
 class OsmAndMissingDialogFragment : DialogFragment() {
@@ -787,11 +813,11 @@ class OsmAndMissingDialogFragment : DialogFragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(R.layout.dialog_install_osm_and)
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton("Install", { _, _ ->
+                .setPositiveButton("Install") { _, _ ->
                     val intent = Intent()
                     intent.data = Uri.parse("market://details?id=net.osmand.plus")
                     startActivity(intent)
-                })
+                }
         return builder.create()
     }
 }
@@ -834,8 +860,8 @@ class OpenGpxDialogFragment : DialogFragment() {
 
         val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("Send GPX to OsmAnd as raw data or as URI")
-        builder.setNeutralButton("As raw data", { _, _ -> sendAsRawData() })
-        builder.setPositiveButton("As URI", { _, _ -> sendAsUri() })
+        builder.setNeutralButton("As raw data") { _, _ -> sendAsRawData() }
+        builder.setPositiveButton("As URI") { _, _ -> sendAsUri() }
         return builder.create()
     }
 
@@ -896,8 +922,8 @@ class CloseAfterCommandDialogFragment : DialogFragment() {
 
         val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("Close OsmAnd immediately after execution of command?")
-        builder.setNeutralButton("Close", { _, _ -> shouldClose(true) })
-        builder.setPositiveButton("Don't close", { _, _ -> shouldClose(false) })
+        builder.setNeutralButton("Close") { _, _ -> shouldClose(true) }
+        builder.setPositiveButton("Don't close") { _, _ -> shouldClose(false) }
         return builder.create()
     }
 
