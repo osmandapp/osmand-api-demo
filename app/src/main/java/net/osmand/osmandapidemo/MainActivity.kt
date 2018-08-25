@@ -338,11 +338,11 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(navigateGpxButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(navigateButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(getInfoButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlPauseNavigationButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlResumeNavigationButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlStopNavigationButton, R.drawable.ic_action_rec_stop)
-        setDrawable(aidlMuteNavigationButton, R.drawable.ic_action_micro_dark)
-        setDrawable(aidlUnmuteNavigationButton, R.drawable.ic_action_micro_dark)
+        setDrawable(pauseNavigationButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(resumeNavigationButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(stopNavigationButton, R.drawable.ic_action_rec_stop)
+        setDrawable(muteNavigationButton, R.drawable.ic_action_micro_dark)
+        setDrawable(unmuteNavigationButton, R.drawable.ic_action_micro_dark)
 
         // AIDL
 
