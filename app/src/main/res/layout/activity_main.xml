@@ -68,6 +68,37 @@
                 style="@style/categoryStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/map"/>
+
+            <View
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/showLocationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_location"
+                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/card_bottom_divider"/>
+
+        <include layout="@layout/card_top_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/itemBackgroundColor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/audio_video_plugin"/>
 
             <View
@@ -446,6 +477,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_layer"
+                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlShowMapPoint"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_map_point"
                 tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton

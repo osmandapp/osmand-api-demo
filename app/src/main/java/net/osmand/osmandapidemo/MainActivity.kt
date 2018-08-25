@@ -105,6 +105,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_ADD_MAP_LAYER,
         AIDL_REMOVE_MAP_LAYER,
 
+		AIDL_SHOW_MAP_POINT,
+
         AIDL_ADD_MAP_POINT,
         AIDL_UPDATE_MAP_POINT,
         AIDL_REMOVE_MAP_POINT,
@@ -126,6 +128,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
         INTENT_ADD_FAVORITE,
         INTENT_ADD_MAP_MARKER,
+
+        INTENT_SHOW_LOCATION,
 
         INTENT_TAKE_PHOTO,
         INTENT_START_VIDEO_REC,
@@ -193,6 +197,18 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     ApiActionType.AIDL_REMOVE_MAP_MARKER -> {
                         aidlHelper.removeMapMarker(location.lat, location.lon, location.name)
                     }
+                    ApiActionType.AIDL_SHOW_MAP_POINT -> {
+                        aidlHelper.showMapPoint(
+                            "layer_1",
+                            "id_" + location.name,
+                            location.name.substring(0, 1),
+                            location.name,
+                            "City",
+                            Color.GREEN,
+                            ALatLon(location.lat, location.lon),
+                            listOf("Big city", "Population: ...")
+                        )
+                    }
                     ApiActionType.AIDL_ADD_MAP_POINT -> {
                         aidlHelper.addMapPoint(
                                 "layer_1",
@@ -243,6 +259,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     MainActivity.ApiActionType.INTENT_ADD_MAP_MARKER -> {
                         osmandHelper.addMapMarker(location.lat, location.lon, location.name)
                     }
+                    MainActivity.ApiActionType.INTENT_SHOW_LOCATION -> {
+                        osmandHelper.showLocation(location.lat, location.lon)
+                    }
                     MainActivity.ApiActionType.INTENT_TAKE_PHOTO -> {
                         osmandHelper.takePhoto(location.lat, location.lon)
                     }
@@ -287,6 +306,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
         setDrawable(addFavoriteButton, R.drawable.ic_action_fav_dark)
         setDrawable(addMapMarkerButton, R.drawable.ic_action_flag_dark)
+        setDrawable(showLocationButton, R.drawable.ic_action_flag_dark)
         setDrawable(startAudioRecButton, R.drawable.ic_action_micro_dark)
         setDrawable(startVideoRecButton, R.drawable.ic_action_video_dark)
         setDrawable(stopRecButton, R.drawable.ic_action_rec_stop)
@@ -416,6 +436,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             }, delay)
         }
 
+		aidlShowMapPoint.setOnClickListener {
+			showChooseLocationDialogFragment("Show map point", ApiActionType.AIDL_SHOW_MAP_POINT)
+		}
+
         aidlAddPointButton.setOnClickListener {
             showChooseLocationDialogFragment("Add map point", ApiActionType.AIDL_ADD_MAP_POINT)
         }
@@ -532,6 +556,11 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         addMapMarkerButton.setOnClickListener {
             showChooseLocationDialogFragment("Add map marker", ApiActionType.INTENT_ADD_MAP_MARKER)
         }
+
+        showLocationButton.setOnClickListener {
+            showChooseLocationDialogFragment("Show location", ApiActionType.INTENT_SHOW_LOCATION)
+        }
+
         startAudioRecButton.setOnClickListener {
             showChooseLocationDialogFragment("Start audio recording", ApiActionType.INTENT_START_AUDIO_REC)
         }

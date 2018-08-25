@@ -1,4 +1,7 @@
 <resources>
+    <string name="show_map_point">Show map point</string>
+    <string name="show_location">Show location</string>
+    <string name="map">Map</string>
     <string name="app_name">OsmAnd API Demo</string>
     <string name="osmand_logo">OsmAnd logo</string>
     <string name="install_osmand_dialog_message">You need to install some version of OsmAnd, so you can test Intents API</string>
