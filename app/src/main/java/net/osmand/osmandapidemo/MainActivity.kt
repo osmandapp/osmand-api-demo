@@ -35,6 +35,7 @@ import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_A
 import net.osmand.aidl.gpx.StartGpxRecordingParams
 import net.osmand.aidl.gpx.StopGpxRecordingParams
 import net.osmand.aidl.map.ALatLon
+import net.osmand.aidl.navigation.PauseNavigationParams
 import net.osmand.osmandapidemo.R
 import java.io.*
 
@@ -125,6 +126,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_SET_MAP_LOCATION,
 
         AIDL_NAVIGATE,
+
+        AIDL_PAUSE_NAVIGATION,
+        AIDL_RESUME_NAVIGATION,
+        AIDL_STOP_NAVIGATION,
+        AIDL_MUTE_NAVIGATION,
+        AIDL_UNMUTE_NAVIGATION,
 
         INTENT_ADD_FAVORITE,
         INTENT_ADD_MAP_MARKER,
@@ -251,6 +258,21 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 location.latStart, location.lonStart,
                                 location.name + " finish", location.lat, location.lon,
                                 "bicycle", true)
+                    }
+                    ApiActionType.AIDL_PAUSE_NAVIGATION -> {
+                        aidlHelper.pauseNavigation()
+                    }
+                    ApiActionType.AIDL_RESUME_NAVIGATION -> {
+                        aidlHelper.resumeNavigation()
+                    }
+                    ApiActionType.AIDL_STOP_NAVIGATION -> {
+                        aidlHelper.stopNavigation()
+                    }
+                    ApiActionType.AIDL_MUTE_NAVIGATION -> {
+                        aidlHelper.muteNavigation()
+                    }
+                    ApiActionType.AIDL_UNMUTE_NAVIGATION -> {
+                        aidlHelper.unmuteNavigation()
                     }
                     MainActivity.ApiActionType.INTENT_ADD_FAVORITE -> {
                         osmandHelper.addFavorite(location.lat, location.lon, location.name,
@@ -537,6 +559,36 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
         aidlNavigateButton.setOnClickListener {
             showChooseLocationDialogFragment("Navigate to", ApiActionType.AIDL_NAVIGATE)
+        }
+
+        aidlPauseNavigationButton.setOnClickListener {
+            Handler().postDelayed({
+                mAidlHelper!!.pauseNavigation()
+            }, delay)
+        }
+
+        aidlResumeNavigationButton.setOnClickListener {
+            Handler().postDelayed({
+                mAidlHelper!!.resumeNavigation()
+            }, delay)
+        }
+
+        aidlStopNavigationButton.setOnClickListener {
+            Handler().postDelayed({
+                mAidlHelper!!.stopNavigation()
+            }, delay)
+        }
+
+        aidlMuteNavigationButton.setOnClickListener {
+            Handler().postDelayed({
+                mAidlHelper!!.muteNavigation()
+            }, delay)
+        }
+
+        aidlUnmuteNavigationButton.setOnClickListener {
+            Handler().postDelayed({
+                mAidlHelper!!.unmuteNavigation()
+            }, delay)
         }
 
         aidlNavigateGpxButton.setOnClickListener {

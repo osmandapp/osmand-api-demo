@@ -45,8 +45,13 @@ import net.osmand.aidl.mapwidget.AMapWidget;
 import net.osmand.aidl.mapwidget.AddMapWidgetParams;
 import net.osmand.aidl.mapwidget.RemoveMapWidgetParams;
 import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
+import net.osmand.aidl.navigation.MuteNavigationParams;
 import net.osmand.aidl.navigation.NavigateGpxParams;
 import net.osmand.aidl.navigation.NavigateParams;
+import net.osmand.aidl.navigation.PauseNavigationParams;
+import net.osmand.aidl.navigation.ResumeNavigationParams;
+import net.osmand.aidl.navigation.StopNavigationParams;
+import net.osmand.aidl.navigation.UnmuteNavigationParams;
 import net.osmand.aidl.note.StartAudioRecordingParams;
 import net.osmand.aidl.note.StopRecordingParams;
 import net.osmand.aidl.note.TakePhotoNoteParams;
@@ -799,6 +804,61 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.navigate(new NavigateParams(startName, startLat, startLon, destName, destLat, destLon, profile, force));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean pauseNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.pauseNavigation(new PauseNavigationParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean resumeNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.resumeNavigation(new ResumeNavigationParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean stopNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.stopNavigation(new StopNavigationParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean muteNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.muteNavigation(new MuteNavigationParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean unmuteNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.unmuteNavigation(new UnmuteNavigationParams());
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
