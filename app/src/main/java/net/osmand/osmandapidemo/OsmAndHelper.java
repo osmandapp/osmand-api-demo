@@ -392,7 +392,7 @@ public class OsmAndHelper {
 	}
 
 	/**
-	 * Resume navigation if was paused before.
+	 * Resume navigation if it was paused before.
 	 */
 	public void resumeNavigation() {
 		sendRequest(new OsmAndIntentBuilder(RESUME_NAVIGATION));
