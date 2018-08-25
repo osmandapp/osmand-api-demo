@@ -35,7 +35,6 @@ import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_A
 import net.osmand.aidl.gpx.StartGpxRecordingParams
 import net.osmand.aidl.gpx.StopGpxRecordingParams
 import net.osmand.aidl.map.ALatLon
-import net.osmand.aidl.navigation.PauseNavigationParams
 import net.osmand.osmandapidemo.R
 import java.io.*
 
@@ -339,7 +338,11 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(navigateGpxButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(navigateButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(getInfoButton, R.drawable.ic_action_gabout_dark)
-
+        setDrawable(aidlPauseNavigationButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(aidlResumeNavigationButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(aidlStopNavigationButton, R.drawable.ic_action_rec_stop)
+        setDrawable(aidlMuteNavigationButton, R.drawable.ic_action_micro_dark)
+        setDrawable(aidlUnmuteNavigationButton, R.drawable.ic_action_micro_dark)
 
         // AIDL
 
