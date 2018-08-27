@@ -2,6 +2,7 @@ package main.java.net.osmand.osmandapidemo
 
 import android.app.Activity
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -22,10 +23,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.ActionType
 import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
@@ -36,6 +34,7 @@ import net.osmand.aidl.gpx.StartGpxRecordingParams
 import net.osmand.aidl.gpx.StopGpxRecordingParams
 import net.osmand.aidl.map.ALatLon
 import net.osmand.aidl.maplayer.point.AMapPoint
+import net.osmand.aidl.search.SearchResult
 import net.osmand.osmandapidemo.R
 import java.io.*
 
@@ -81,6 +80,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     private var delay: Long = 5000
     var mOsmAndHelper: OsmAndHelper? = null
     private var mAidlHelper: OsmAndAidlHelper? = null
+
+    private var progressDialog: ProgressDialog? = null
 
     enum class ApiActionType {
         UNDEFINED,
@@ -135,6 +136,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_MUTE_NAVIGATION,
         AIDL_UNMUTE_NAVIGATION,
 
+        AIDL_SEARCH,
+
         INTENT_ADD_FAVORITE,
         INTENT_ADD_MAP_MARKER,
 
@@ -159,7 +162,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 execApiActionImpl(apiActionType, location)
             }, delay)
         } else {
-            execApiActionImpl(apiActionType)
+            execApiActionImpl(apiActionType, location)
         }
     }
 
@@ -290,6 +293,20 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     ApiActionType.AIDL_UNMUTE_NAVIGATION -> {
                         aidlHelper.unmuteNavigation()
                     }
+                    ApiActionType.AIDL_SEARCH -> {
+                        val alert = AlertDialog.Builder(this)
+                        val editText = EditText(this)
+                        alert.setTitle("Enter Search Query")
+                        alert.setView(editText)
+                        alert.setPositiveButton("Search") { _, _ ->
+                            progressDialog?.setTitle("Searching...")
+                            progressDialog?.show()
+                            val text = editText.text.toString()
+                            aidlHelper.search(text, location.latStart, location.lonStart, 1, 50)
+                        }
+                        alert.setNegativeButton("Cancel", null)
+                        alert.show()
+                    }
                     MainActivity.ApiActionType.INTENT_ADD_FAVORITE -> {
                         osmandHelper.addFavorite(location.lat, location.lon, location.name,
                                 location.name + " city", "Cities", "red", true)
@@ -340,6 +357,16 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         super.onCreate(savedInstanceState)
         mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
         mAidlHelper = OsmAndAidlHelper(this.application, this)
+
+        mAidlHelper!!.setSearchCompleteListener {
+            runOnUiThread {
+                progressDialog?.hide()
+                showSearchResultsDialogFragment(it)
+            }
+        }
+
+        progressDialog = ProgressDialog(this)
+
         setContentView(R.layout.activity_main)
 
         setDrawable(addFavoriteButton, R.drawable.ic_action_fav_dark)
@@ -624,6 +651,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
         }
 
+        aidlSearchButton.setOnClickListener {
+            showChooseLocationDialogFragment("Search here", ApiActionType.AIDL_SEARCH, false)
+        }
+
         // Intents
 
         addFavoriteButton.setOnClickListener {
@@ -841,13 +872,22 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         return "" + resultCode
     }
 
-    private fun showChooseLocationDialogFragment(title: String, apiActionType: ApiActionType) {
+    private fun showChooseLocationDialogFragment(title: String, apiActionType: ApiActionType, delayed: Boolean = true) {
         val args = Bundle()
         args.putString(ChooseLocationDialogFragment.TITLE_KEY, title)
         args.putString(ChooseLocationDialogFragment.API_ACTION_CODE_KEY, apiActionType.name)
+        args.putBoolean(ChooseLocationDialogFragment.DELAYED_KEY, delayed)
         val chooseLocationDialogFragment = ChooseLocationDialogFragment()
         chooseLocationDialogFragment.arguments = args
         chooseLocationDialogFragment.show(supportFragmentManager, ChooseLocationDialogFragment.TAG)
+    }
+
+    private fun showSearchResultsDialogFragment(resultSet: List<SearchResult>) {
+        val args = Bundle()
+        args.putParcelableArrayList(SearchResultsDialogFragment.RESULT_SET_KEY, ArrayList(resultSet))
+        val searchResultsDialogFragment = SearchResultsDialogFragment()
+        searchResultsDialogFragment.arguments = args
+        searchResultsDialogFragment.show(supportFragmentManager, SearchResultsDialogFragment.TAG)
     }
 }
 
@@ -882,16 +922,19 @@ class ChooseLocationDialogFragment : DialogFragment() {
         const val TAG = "ChooseLocationDialogFragment"
         const val API_ACTION_CODE_KEY = "api_action_code_key"
         const val TITLE_KEY = "title_key"
+        const val DELAYED_KEY = "delayed_key"
     }
 
     private var apiActionType: MainActivity.ApiActionType = MainActivity.ApiActionType.UNDEFINED
     private var title: String = ""
+    private var delayed: Boolean = true
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val arguments = arguments
         if (arguments != null) {
             apiActionType = MainActivity.ApiActionType.valueOf(arguments.getString(API_ACTION_CODE_KEY, MainActivity.ApiActionType.UNDEFINED.name))
             title = arguments.getString(TITLE_KEY, "")
+            delayed = arguments.getBoolean(DELAYED_KEY, true)
         }
 
         val context = requireActivity()
@@ -906,10 +949,49 @@ class ChooseLocationDialogFragment : DialogFragment() {
 
     private fun locationSelectedCallback(location: Location) {
         val activity = activity as MainActivity?
-        activity?.execApiAction(apiActionType, location = location)
+        activity?.execApiAction(apiActionType, delayed, location)
     }
 
     private fun getTitle() = title
+}
+
+class SearchResultsAdapter(context: Context, resultSet: List<SearchResult>) : ArrayAdapter<SearchResult>(context, R.layout.simple_list_layout, resultSet) {
+    private val mInflater = LayoutInflater.from(context)
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view = (convertView
+                ?: mInflater?.inflate(R.layout.simple_list_layout, parent, false)) as TextView
+        view.text = getItem(position).localeName
+        return view
+    }
+}
+
+class SearchResultsDialogFragment : DialogFragment() {
+
+    companion object {
+        const val TAG = "SearchResultsDialogFragment"
+        const val RESULT_SET_KEY = "result_set_key"
+    }
+
+    private var resultSet: List<SearchResult>? = null
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val arguments = arguments
+        if (arguments != null) {
+            resultSet = arguments.getParcelableArrayList(RESULT_SET_KEY)
+        }
+
+        val context = requireActivity()
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Search results - ${resultSet?.size}")
+                .setNegativeButton("Cancel", null)
+
+        if (resultSet != null) {
+            builder.setAdapter(SearchResultsAdapter(context, resultSet!!)) { _, _ ->
+            }
+        }
+        return builder.create()
+    }
 }
 
 class OsmAndMissingDialogFragment : DialogFragment() {

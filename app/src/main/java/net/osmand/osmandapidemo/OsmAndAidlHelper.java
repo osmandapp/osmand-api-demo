@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 
+import net.osmand.aidl.IOsmAndAidlCallback;
 import net.osmand.aidl.IOsmAndAidlInterface;
 import net.osmand.aidl.favorite.AFavorite;
 import net.osmand.aidl.favorite.AddFavoriteParams;
@@ -58,6 +59,8 @@ import net.osmand.aidl.note.StartAudioRecordingParams;
 import net.osmand.aidl.note.StartVideoRecordingParams;
 import net.osmand.aidl.note.StopRecordingParams;
 import net.osmand.aidl.note.TakePhotoNoteParams;
+import net.osmand.aidl.search.SearchParams;
+import net.osmand.aidl.search.SearchResult;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -75,6 +78,25 @@ public class OsmAndAidlHelper {
 	private final Application app;
 	private final OnOsmandMissingListener mOsmandMissingListener;
 	private IOsmAndAidlInterface mIOsmAndAidlInterface;
+
+	private SearchCompleteListener mSearchCompleteListener;
+
+	interface SearchCompleteListener {
+		void onSearchComplete(List<SearchResult> resultSet);
+	}
+
+	private IOsmAndAidlCallback.Stub mIOsmAndAidlCallback = new IOsmAndAidlCallback.Stub() {
+		@Override
+		public void onSearchComplete(List<SearchResult> resultSet) throws RemoteException {
+			if (mSearchCompleteListener != null) {
+				mSearchCompleteListener.onSearchComplete(resultSet);
+			}
+		}
+	};
+
+	public void setSearchCompleteListener(SearchCompleteListener mSearchCompleteListener) {
+		this.mSearchCompleteListener = mSearchCompleteListener;
+	}
 
 	/**
 	 * Class for interacting with the main interface of the service.
@@ -965,6 +987,26 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.unmuteNavigation(new UnmuteNavigationParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Run search for POI / Address.
+	 *
+	 * @param searchQuery - search query string.
+	 * @param latitude - latitude of original search location.
+	 * @param longitude - longitude of original search location.
+	 * @param radiusLevel - value from 1 to 7. Default value = 1.
+	 * @param totalLimit - limit of returned search result rows. Default value = -1 (unlimited).
+	 */
+	public boolean search(String searchQuery, double latitude, double longitude, int radiusLevel, int totalLimit) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.search(new SearchParams(searchQuery, latitude, longitude, radiusLevel, totalLimit), mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

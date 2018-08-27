@@ -689,6 +689,14 @@
                 android:text="@string/unmute_navigation"
                 tools:drawableLeft="@drawable/ic_action_micro_dark"/>
 
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlSearchButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search"
+                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
             <View style="@style/divider_style"
                   android:layout_width="match_parent"/>
 

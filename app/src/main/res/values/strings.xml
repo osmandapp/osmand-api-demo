@@ -54,4 +54,5 @@
     <string name="update_favorite_group">Update favorite group</string>
     <string name="refresh_map">Refresh map</string>
     <string name="remove_gpx">Remove gpx</string>
+    <string name="search">Search</string>
 </resources>
