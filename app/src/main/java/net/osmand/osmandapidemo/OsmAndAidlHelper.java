@@ -45,6 +45,8 @@ import net.osmand.aidl.mapwidget.AMapWidget;
 import net.osmand.aidl.mapwidget.AddMapWidgetParams;
 import net.osmand.aidl.mapwidget.RemoveMapWidgetParams;
 import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
+import net.osmand.aidl.navdrawer.NavDrawerItem;
+import net.osmand.aidl.navdrawer.SetNavDrawerItemsParams;
 import net.osmand.aidl.navigation.MuteNavigationParams;
 import net.osmand.aidl.navigation.NavigateGpxParams;
 import net.osmand.aidl.navigation.NavigateParams;
@@ -60,6 +62,7 @@ import net.osmand.aidl.note.TakePhotoNoteParams;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import main.java.net.osmand.osmandapidemo.OsmAndHelper.OnOsmandMissingListener;
 
@@ -421,11 +424,13 @@ public class OsmAndAidlHelper {
 	 * @param name - layer name.
 	 * @param zOrder - z-order position of layer. Default value is 5.5f
 	 * @param points - initial list of points. Nullable.
+	 * @param imagePoints - use new style for points on map or not. Also default zoom bounds for new style can be edited.
 	 */
-	public boolean addMapLayer(String id, String name, float zOrder, List<AMapPoint> points) {
+	public boolean addMapLayer(String id, String name, float zOrder, List<AMapPoint> points, boolean imagePoints) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				AMapLayer layer = new AMapLayer(id, name, zOrder, points);
+				layer.setImagePoints(imagePoints);
 				return mIOsmAndAidlInterface.addMapLayer(new AddMapLayerParams(layer));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -441,11 +446,13 @@ public class OsmAndAidlHelper {
 	 * @param name - layer name.
 	 * @param zOrder - z-order position of layer. Default value is 5.5f
 	 * @param points - list of points. Nullable.
+	 * @param imagePoints - use new style for points on map or not. Also default zoom bounds for new style can be edited.
 	 */
-	public boolean updateMapLayer(String id, String name, float zOrder, List<AMapPoint> points) {
+	public boolean updateMapLayer(String id, String name, float zOrder, List<AMapPoint> points, boolean imagePoints) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				AMapLayer layer = new AMapLayer(id, name, zOrder, points);
+				layer.setImagePoints(imagePoints);
 				return mIOsmAndAidlInterface.updateMapLayer(new UpdateMapLayerParams(layer));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -481,12 +488,14 @@ public class OsmAndAidlHelper {
 	 * @param color     - color of circle's background.
 	 * @param location  - location of the point.
 	 * @param details   - list of details. Displayed under context menu.
+	 * @param params    - optional map of params for point.
 	 */
 	public boolean showMapPoint(String layerId, String pointId, String shortName, String fullName,
-								String typeName, int color, ALatLon location, List<String> details) {
+								String typeName, int color, ALatLon location, List<String> details,
+								Map<String, String> params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details);
+				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details, params);
 				return mIOsmAndAidlInterface.showMapPoint(new ShowMapPointParams(layerId, point));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -506,12 +515,14 @@ public class OsmAndAidlHelper {
 	 * @param color - color of circle's background.
 	 * @param location - location of the point.
 	 * @param details - list of details. Displayed under context menu.
+	 * @param params - optional map of params for point.
 	 */
 	public boolean addMapPoint(String layerId, String pointId, String shortName, String fullName,
-							   String typeName, int color, ALatLon location, List<String> details) {
+							   String typeName, int color, ALatLon location, List<String> details,
+							   Map<String, String> params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details);
+				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details, params);
 				return mIOsmAndAidlInterface.addMapPoint(new AddMapPointParams(layerId, point));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -531,12 +542,14 @@ public class OsmAndAidlHelper {
 	 * @param color - color of circle's background.
 	 * @param location - location of the point.
 	 * @param details - list of details. Displayed under context menu.
+	 * @param params - optional map of params for point.
 	 */
 	public boolean updateMapPoint(String layerId, String pointId, String shortName, String fullName,
-								  String typeName, int color, ALatLon location, List<String> details) {
+								  String typeName, int color, ALatLon location, List<String> details,
+								  Map<String, String> params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details);
+				AMapPoint point = new AMapPoint(pointId, shortName, fullName, typeName, color, location, details, params);
 				return mIOsmAndAidlInterface.updateMapPoint(new UpdateMapPointParams(layerId, point));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -866,7 +879,31 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Put navigation on pause.
+	 * Method for adding up to 3 items to the OsmAnd navigation drawer.
+	 *
+	 * @param appPackage - current application package.
+	 * @param names - list of names for items.
+	 * @param uris - list of uris for intents.
+	 * @param iconNames - list of icon names for items.
+	 * @param flags - list of flags for intents. Use -1 if no flags needed.
+	 */
+	public boolean setNavDrawerItems(String appPackage, List<String> names, List<String> uris, List<String> iconNames, List<Integer> flags) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				List<NavDrawerItem> items = new ArrayList<>();
+				for (int i = 0; i < names.size(); i++) {
+					items.add(new NavDrawerItem(names.get(i), uris.get(i), iconNames.get(i), flags.get(i)));
+				}
+				return mIOsmAndAidlInterface.setNavDrawerItems(new SetNavDrawerItemsParams(appPackage, items));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+   * Put navigation on pause.
 	 */
 	public boolean pauseNavigation() {
 		if (mIOsmAndAidlInterface != null) {
