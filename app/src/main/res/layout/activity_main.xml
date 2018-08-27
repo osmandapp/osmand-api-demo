@@ -253,6 +253,46 @@
                 android:text="@string/navigate"
                 tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/pauseNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pause_navigation"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/resumeNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/resume_navigation"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/stopNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/stop_navigation"
+                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/muteNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mute_navigation"
+                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/unmuteNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/unmute_navigation"
+                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
             <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
@@ -608,6 +648,46 @@
                 android:layout_height="wrap_content"
                 android:text="@string/navigate"
                 tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlPauseNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pause_navigation"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlResumeNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/resume_navigation"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlStopNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/stop_navigation"
+                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlMuteNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mute_navigation"
+                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlUnmuteNavigationButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/unmute_navigation"
+                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
 
             <View style="@style/divider_style"
                   android:layout_width="match_parent"/>

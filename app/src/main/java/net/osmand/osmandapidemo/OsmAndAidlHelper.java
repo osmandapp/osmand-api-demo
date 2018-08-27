@@ -47,8 +47,13 @@ import net.osmand.aidl.mapwidget.RemoveMapWidgetParams;
 import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
 import net.osmand.aidl.navdrawer.NavDrawerItem;
 import net.osmand.aidl.navdrawer.SetNavDrawerItemsParams;
+import net.osmand.aidl.navigation.MuteNavigationParams;
 import net.osmand.aidl.navigation.NavigateGpxParams;
 import net.osmand.aidl.navigation.NavigateParams;
+import net.osmand.aidl.navigation.PauseNavigationParams;
+import net.osmand.aidl.navigation.ResumeNavigationParams;
+import net.osmand.aidl.navigation.StopNavigationParams;
+import net.osmand.aidl.navigation.UnmuteNavigationParams;
 import net.osmand.aidl.note.StartAudioRecordingParams;
 import net.osmand.aidl.note.StartVideoRecordingParams;
 import net.osmand.aidl.note.StopRecordingParams;
@@ -123,6 +128,9 @@ public class OsmAndAidlHelper {
 		}
 	}
 
+	/**
+	 * Refresh the map (UI)
+	 */
 	public boolean refreshMap() {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -611,6 +619,12 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Start navigation using gpx file.
+	 *
+	 * @param gpxUri - URI created by FileProvider.
+	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
+	 */
 	public boolean navigateGpxFromUri(Uri gpxUri, boolean force) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -644,6 +658,12 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Start navigation using gpx file content.
+	 *
+	 * @param data - gpx file content.
+	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
+	 */
 	public boolean navigateGpxFromData(String data, boolean force) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -742,6 +762,9 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Start gpx recording.
+	 */
 	public boolean startGpxRecording(StartGpxRecordingParams params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -753,6 +776,9 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Stop gpx recording.
+	 */
 	public boolean stopGpxRecording(StopGpxRecordingParams params) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -764,6 +790,12 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Take photo note.
+	 *
+	 * @param lat - latutude of photo note.
+	 * @param lon - longitude of photo note.
+	 */
 	public boolean takePhotoNote(double lat, double lon) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -775,6 +807,12 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Start video note recording.
+	 *
+	 * @param lat - latutude of video note point.
+	 * @param lon - longitude of video note point.
+	 */
 	public boolean startVideoRecording(double lat, double lon) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -786,6 +824,12 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Start audio note recording.
+	 *
+	 * @param lat - latutude of audio note point.
+	 * @param lon - longitude of audio note point.
+	 */
 	public boolean startAudioRecording(double lat, double lon) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -797,6 +841,9 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Stop Audio/Video recording.
+	 */
 	public boolean stopRecording() {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -808,6 +855,18 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Start navigation.
+	 *
+	 * @param startName - name of the start point as it displays in OsmAnd's UI. Nullable.
+	 * @param startLat - latitude of the start point. If 0 - current location is used.
+	 * @param startLon - longitude of the start point. If 0 - current location is used.
+	 * @param destName - name of the start point as it displays in OsmAnd's UI.
+	 * @param destLat - latitude of a destination point.
+	 * @param destLon - longitude of a destination point.
+	 * @param profile - One of: "default", "car", "bicycle", "pedestrian". Nullable (default).
+	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
+	 */
 	public boolean navigate(String startName, double startLat, double startLon, String destName, double destLat, double destLon, String profile, boolean force) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -836,6 +895,76 @@ public class OsmAndAidlHelper {
 					items.add(new NavDrawerItem(names.get(i), uris.get(i), iconNames.get(i), flags.get(i)));
 				}
 				return mIOsmAndAidlInterface.setNavDrawerItems(new SetNavDrawerItemsParams(appPackage, items));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+   * Put navigation on pause.
+	 */
+	public boolean pauseNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.pauseNavigation(new PauseNavigationParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Resume navigation if it was paused before.
+	 */
+	public boolean resumeNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.resumeNavigation(new ResumeNavigationParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Stop navigation. Removes target / intermediate points and route path from the map.
+	 */
+	public boolean stopNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.stopNavigation(new StopNavigationParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Mute voice guidance. Stays muted until unmute manually or via the api.
+	 */
+	public boolean muteNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.muteNavigation(new MuteNavigationParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Unmute voice guidance.
+	 */
+	public boolean unmuteNavigation() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.unmuteNavigation(new UnmuteNavigationParams());
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
