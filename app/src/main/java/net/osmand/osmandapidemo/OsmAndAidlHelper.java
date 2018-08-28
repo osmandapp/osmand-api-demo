@@ -998,15 +998,20 @@ public class OsmAndAidlHelper {
 	 * Run search for POI / Address.
 	 *
 	 * @param searchQuery - search query string.
+	 * @param searchType - type of search. Values:
+	 *                   SearchParams.SEARCH_TYPE_ALL - all kind of search
+	 *                   SearchParams.SEARCH_TYPE_POI - POIs only
+	 *                   SearchParams.SEARCH_TYPE_ADDRESS - addresses only
+	 *
 	 * @param latitude - latitude of original search location.
 	 * @param longitude - longitude of original search location.
 	 * @param radiusLevel - value from 1 to 7. Default value = 1.
 	 * @param totalLimit - limit of returned search result rows. Default value = -1 (unlimited).
 	 */
-	public boolean search(String searchQuery, double latitude, double longitude, int radiusLevel, int totalLimit) {
+	public boolean search(String searchQuery, int searchType, double latitude, double longitude, int radiusLevel, int totalLimit) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.search(new SearchParams(searchQuery, latitude, longitude, radiusLevel, totalLimit), mIOsmAndAidlCallback);
+				return mIOsmAndAidlInterface.search(new SearchParams(searchQuery, searchType, latitude, longitude, radiusLevel, totalLimit), mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

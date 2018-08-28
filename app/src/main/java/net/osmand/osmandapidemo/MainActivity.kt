@@ -25,6 +25,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.title_desc_list_layout.view.*
 import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.ActionType
 import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
 import main.java.net.osmand.osmandapidemo.MainActivity.Companion.CITIES
@@ -34,6 +35,7 @@ import net.osmand.aidl.gpx.StartGpxRecordingParams
 import net.osmand.aidl.gpx.StopGpxRecordingParams
 import net.osmand.aidl.map.ALatLon
 import net.osmand.aidl.maplayer.point.AMapPoint
+import net.osmand.aidl.search.SearchParams
 import net.osmand.aidl.search.SearchResult
 import net.osmand.osmandapidemo.R
 import java.io.*
@@ -82,6 +84,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     private var mAidlHelper: OsmAndAidlHelper? = null
 
     private var progressDialog: ProgressDialog? = null
+    private var lastLatitude: Double = 0.0
+    private var lastLongitude: Double = 0.0
 
     enum class ApiActionType {
         UNDEFINED,
@@ -157,6 +161,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     }
 
     fun execApiAction(apiActionType: ApiActionType, delayed: Boolean = true, location: Location? = null) {
+        if (location != null) {
+            lastLatitude = location.lat
+            lastLongitude = location.lon
+        }
         if (delayed) {
             Handler().postDelayed({
                 execApiActionImpl(apiActionType, location)
@@ -302,7 +310,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                             progressDialog?.setTitle("Searching...")
                             progressDialog?.show()
                             val text = editText.text.toString()
-                            aidlHelper.search(text, location.latStart, location.lonStart, 1, 50)
+                            aidlHelper.search(text, SearchParams.SEARCH_TYPE_ALL, location.latStart, location.lonStart, 1, 50)
                         }
                         alert.setNegativeButton("Cancel", null)
                         alert.show()
@@ -361,7 +369,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         mAidlHelper!!.setSearchCompleteListener {
             runOnUiThread {
                 progressDialog?.hide()
-                showSearchResultsDialogFragment(it)
+                showSearchResultsDialogFragment(it, lastLatitude, lastLongitude)
             }
         }
 
@@ -882,9 +890,11 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         chooseLocationDialogFragment.show(supportFragmentManager, ChooseLocationDialogFragment.TAG)
     }
 
-    private fun showSearchResultsDialogFragment(resultSet: List<SearchResult>) {
+    private fun showSearchResultsDialogFragment(resultSet: List<SearchResult>, latitude: Double, longitude: Double) {
         val args = Bundle()
         args.putParcelableArrayList(SearchResultsDialogFragment.RESULT_SET_KEY, ArrayList(resultSet))
+        args.putDouble(SearchResultsDialogFragment.LATITUDE_KEY, latitude)
+        args.putDouble(SearchResultsDialogFragment.LONGITUDE_KEY, longitude)
         val searchResultsDialogFragment = SearchResultsDialogFragment()
         searchResultsDialogFragment.arguments = args
         searchResultsDialogFragment.show(supportFragmentManager, SearchResultsDialogFragment.TAG)
@@ -955,13 +965,19 @@ class ChooseLocationDialogFragment : DialogFragment() {
     private fun getTitle() = title
 }
 
-class SearchResultsAdapter(context: Context, resultSet: List<SearchResult>) : ArrayAdapter<SearchResult>(context, R.layout.simple_list_layout, resultSet) {
+class SearchResultsAdapter(context: Context, resultSet: List<SearchResult>, private var origLat: Double, private var origLon: Double) : ArrayAdapter<SearchResult>(context, R.layout.title_desc_list_layout, resultSet) {
     private val mInflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = (convertView
-                ?: mInflater?.inflate(R.layout.simple_list_layout, parent, false)) as TextView
-        view.text = getItem(position).localeName
+                ?: mInflater?.inflate(R.layout.title_desc_list_layout, parent, false)) as LinearLayout
+
+        val item = getItem(position)
+        val distance = Utils.getDistance(origLat, origLon,item.latitude,item.longitude)
+
+        view.title.text = item.localName
+        view.description.text = item.localTypeName
+        view.info.text = Utils.getFormattedDistance(distance)
         return view
     }
 }
@@ -971,14 +987,20 @@ class SearchResultsDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "SearchResultsDialogFragment"
         const val RESULT_SET_KEY = "result_set_key"
+        const val LATITUDE_KEY = "latitude_key"
+        const val LONGITUDE_KEY = "longitude_key"
     }
 
     private var resultSet: List<SearchResult>? = null
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val arguments = arguments
         if (arguments != null) {
             resultSet = arguments.getParcelableArrayList(RESULT_SET_KEY)
+            latitude = arguments.getDouble(LATITUDE_KEY)
+            longitude = arguments.getDouble(LONGITUDE_KEY)
         }
 
         val context = requireActivity()
@@ -987,7 +1009,11 @@ class SearchResultsDialogFragment : DialogFragment() {
                 .setNegativeButton("Cancel", null)
 
         if (resultSet != null) {
-            builder.setAdapter(SearchResultsAdapter(context, resultSet!!)) { _, _ ->
+            builder.setAdapter(SearchResultsAdapter(context, resultSet!!, latitude, longitude)) { _, i ->
+                val item = resultSet!![i]
+                val activity = activity as MainActivity?
+                activity?.execApiAction(MainActivity.ApiActionType.INTENT_SHOW_LOCATION, false,
+                        Location(item.localName, item.latitude, item.longitude, item.latitude, item.longitude))
             }
         }
         return builder.create()
