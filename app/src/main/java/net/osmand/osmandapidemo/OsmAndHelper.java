@@ -51,6 +51,7 @@ public class OsmAndHelper {
 	private static final String NAVIGATE_GPX = "navigate_gpx";
 
 	private static final String NAVIGATE = "navigate";
+	private static final String NAVIGATE_SEARCH = "navigate_search";
 	private static final String PAUSE_NAVIGATION = "pause_navigation";
 	private static final String RESUME_NAVIGATION = "resume_navigation";
 	private static final String STOP_NAVIGATION = "stop_navigation";
@@ -75,6 +76,7 @@ public class OsmAndHelper {
 	public static final String PARAM_URI = "uri";
 	public static final String PARAM_DATA = "data";
 	public static final String PARAM_FORCE = "force";
+	public static final String PARAM_SEARCH_PARAMS = "search_params";
 
 	public static final String PARAM_START_NAME = "start_name";
 	public static final String PARAM_DEST_NAME = "dest_name";
@@ -82,6 +84,7 @@ public class OsmAndHelper {
 	public static final String PARAM_START_LON = "start_lon";
 	public static final String PARAM_DEST_LAT = "dest_lat";
 	public static final String PARAM_DEST_LON = "dest_lon";
+	public static final String PARAM_DEST_SEARCH_QUERY = "dest_search_query";
 	public static final String PARAM_PROFILE = "profile";
 
 	public static final String PARAM_ETA = "eta";
@@ -382,6 +385,31 @@ public class OsmAndHelper {
 		params.put(PARAM_PROFILE, profile);
 		params.put(PARAM_FORCE, String.valueOf(force));
 		sendRequest(new OsmAndIntentBuilder(NAVIGATE).setParams(params));
+	}
+
+	/**
+	 * Search destination location and navigate.
+	 *
+	 * @param startName - Name of starting point. Sent as URI parameter.
+	 * @param startLat  - Start latitude. Sent as URI parameter.
+	 * @param startLon  - Start longitude. Sent as URI parameter.
+	 * @param searchQuery  - Text query to search destination point. Sent as URI parameter.
+	 * @param profile   - Map profile can be one of: "default", "car", "bicycle",
+	 *                  "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
+	 *                  Sent as URI parameter.
+	 * @param force     - Stop previous navigation if active. Sent as URI parameter.
+	 */
+	public void navigateSearch(String startName, double startLat, double startLon,
+						 String searchQuery, String profile, boolean force) {
+		// test navigate
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_START_LAT, String.valueOf(startLat));
+		params.put(PARAM_START_LON, String.valueOf(startLon));
+		params.put(PARAM_START_NAME, startName);
+		params.put(PARAM_DEST_SEARCH_QUERY, searchQuery);
+		params.put(PARAM_PROFILE, profile);
+		params.put(PARAM_FORCE, String.valueOf(force));
+		sendRequest(new OsmAndIntentBuilder(NAVIGATE_SEARCH).setParams(params));
 	}
 
 	/**

@@ -55,4 +55,6 @@
     <string name="refresh_map">Refresh map</string>
     <string name="remove_gpx">Remove gpx</string>
     <string name="search">Search</string>
+    <string name="search_navigate">Search &amp; Navigate</string>
+
 </resources>

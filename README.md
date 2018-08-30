@@ -124,7 +124,7 @@ Navigate from one location to another.
 ##### URI parameter: PARAM_DEST_LAT - Name of destination point.
 ##### URI parameter: PARAM_DEST_LON - Destination latitude.
 ##### URI parameter: PARAM_DEST_NAME - Destination longitude.
-##### URI parameter: PARAM_PROFILE - Map profile can be one of: "default", "car", "bicycle","pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
+##### URI parameter: PARAM_PROFILE - Map profile can be one of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
 ##### URI parameter: PARAM_FORCE - Stop previous navigation if active.
 
 #### Command: PAUSE_NAVIGATION
@@ -141,3 +141,13 @@ Mute voice guidance. Stays muted until unmute manually or via the api.
 
 #### Command: UNMUTE_NAVIGATION
 Unmute voice guidance.
+
+#### Command: NAVIGATE_SEARCH
+Search destination point and start navigation.
+
+##### URI parameter: PARAM_START_LAT - Name of starting point.
+##### URI parameter: PARAM_START_LON - Start latitude.
+##### URI parameter: PARAM_START_NAME - Start longitude.
+##### URI parameter: PARAM_DEST_SEARCH_QUERY - Text of a query for searching a destination point.
+##### URI parameter: PARAM_PROFILE - Map profile can be one of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
+##### URI parameter: PARAM_FORCE - Stop previous navigation if active.

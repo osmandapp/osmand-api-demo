@@ -51,6 +51,7 @@ import net.osmand.aidl.navdrawer.SetNavDrawerItemsParams;
 import net.osmand.aidl.navigation.MuteNavigationParams;
 import net.osmand.aidl.navigation.NavigateGpxParams;
 import net.osmand.aidl.navigation.NavigateParams;
+import net.osmand.aidl.navigation.NavigateSearchParams;
 import net.osmand.aidl.navigation.PauseNavigationParams;
 import net.osmand.aidl.navigation.ResumeNavigationParams;
 import net.osmand.aidl.navigation.StopNavigationParams;
@@ -886,13 +887,34 @@ public class OsmAndAidlHelper {
 	 * @param destName - name of the start point as it displays in OsmAnd's UI.
 	 * @param destLat - latitude of a destination point.
 	 * @param destLon - longitude of a destination point.
-	 * @param profile - One of: "default", "car", "bicycle", "pedestrian". Nullable (default).
+	 * @param profile - One of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck". Nullable (default).
 	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
 	 */
 	public boolean navigate(String startName, double startLat, double startLon, String destName, double destLat, double destLon, String profile, boolean force) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.navigate(new NavigateParams(startName, startLat, startLon, destName, destLat, destLon, profile, force));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Do search and start navigation.
+	 *
+	 * @param startName - name of the start point as it displays in OsmAnd's UI. Nullable.
+	 * @param startLat - latitude of the start point. If 0 - current location is used.
+	 * @param startLon - longitude of the start point. If 0 - current location is used.
+	 * @param searchQuery  - Text of a query for searching a destination point. Sent as URI parameter.
+	 * @param profile - One of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck". Nullable (default).
+	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
+	 */
+	public boolean navigateSearch(String startName, double startLat, double startLon, String searchQuery, String profile, boolean force) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.navigateSearch(new NavigateSearchParams(startName, startLat, startLon, searchQuery, profile, force));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

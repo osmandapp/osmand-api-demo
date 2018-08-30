@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_SET_MAP_LOCATION,
 
         AIDL_NAVIGATE,
+        AIDL_NAVIGATE_SEARCH,
 
         AIDL_PAUSE_NAVIGATION,
         AIDL_RESUME_NAVIGATION,
@@ -152,6 +153,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         INTENT_START_AUDIO_REC,
 
         INTENT_NAVIGATE,
+        INTENT_NAVIGATE_SEARCH,
 
         INTENT_PAUSE_NAVIGATION,
         INTENT_RESUME_NAVIGATION,
@@ -286,6 +288,22 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 location.name + " finish", location.lat, location.lon,
                                 "bicycle", true)
                     }
+                    ApiActionType.AIDL_NAVIGATE_SEARCH -> {
+                        val alert = AlertDialog.Builder(this)
+                        val editText = EditText(this)
+                        alert.setTitle("Enter Search Query")
+                        alert.setView(editText)
+                        alert.setPositiveButton("Navigate") { _, _ ->
+                            val text = editText.text.toString()
+                            Handler().postDelayed({
+                                aidlHelper.navigateSearch(location.name + " start",
+                                        location.latStart, location.lonStart, text,
+                                        "car", true)
+                            }, delay)
+                        }
+                        alert.setNegativeButton("Cancel", null)
+                        alert.show()
+                    }
                     ApiActionType.AIDL_PAUSE_NAVIGATION -> {
                         aidlHelper.pauseNavigation()
                     }
@@ -340,6 +358,20 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 location.name + " finish", location.lat, location.lon,
                                 "bicycle", true)
                     }
+                    MainActivity.ApiActionType.INTENT_NAVIGATE_SEARCH -> {
+                        val alert = AlertDialog.Builder(this)
+                        val editText = EditText(this)
+                        alert.setTitle("Enter Search Query")
+                        alert.setView(editText)
+                        alert.setPositiveButton("Navigate") { _, _ ->
+                            val text = editText.text.toString()
+                            osmandHelper.navigateSearch(location.name + " start",
+                                    location.latStart, location.lonStart,
+                                    text, "car", true)
+                        }
+                        alert.setNegativeButton("Cancel", null)
+                        alert.show()
+                    }
                     MainActivity.ApiActionType.INTENT_PAUSE_NAVIGATION -> {
                         osmandHelper.pauseNavigation()
                     }
@@ -389,6 +421,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(showGpxButton, R.drawable.ic_action_polygom_dark)
         setDrawable(navigateGpxButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(navigateButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(navigateSearchButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(getInfoButton, R.drawable.ic_action_gabout_dark)
         setDrawable(pauseNavigationButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(resumeNavigationButton, R.drawable.ic_action_gdirections_dark)
@@ -663,6 +696,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             showChooseLocationDialogFragment("Search here", ApiActionType.AIDL_SEARCH, false)
         }
 
+        aidlNavigateSearchButton.setOnClickListener {
+            showChooseLocationDialogFragment("Search and navigate to", ApiActionType.AIDL_NAVIGATE_SEARCH, false)
+        }
+
         // Intents
 
         addFavoriteButton.setOnClickListener {
@@ -718,6 +755,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         }
         navigateButton.setOnClickListener {
             showChooseLocationDialogFragment("Navigate to", ApiActionType.INTENT_NAVIGATE)
+        }
+        navigateSearchButton.setOnClickListener {
+            showChooseLocationDialogFragment("Search and Navigate", ApiActionType.INTENT_NAVIGATE_SEARCH, false)
         }
         pauseNavigationButton.setOnClickListener { mOsmAndHelper!!.pauseNavigation() }
         resumeNavigationButton.setOnClickListener { mOsmAndHelper!!.resumeNavigation() }
