@@ -11,6 +11,12 @@ from OsmApiHelper anyway.
 Simply requests data about OsmAnd status.
 Data returned as extras. Each key value pair as separate entity.
 
+#### Command: SHOW_LOCATION
+Open map at given location
+
+##### URI parameter: PARAM_LAT - latitude.
+##### URI parameter: PARAM_LON - longitude.
+
 #### Command: RECORD_AUDIO
 Request to start recording audio note for given location.
 Audio video notes plugin must be enabled. Otherwise OsmAnd will return
