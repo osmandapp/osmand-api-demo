@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         const val GPX_FILE_NAME = "aild_test.gpx"
 
         val CITIES = arrayOf(
-                Location("Test", 45.611605, 34.372807, 45.611605, 34.372807),
                 Location("Bruxelles - Brussel", 50.8465565, 4.351697, 50.83477, 4.4068823),
                 Location("London", 51.5073219, -0.1276474, 51.52753, -0.07244986),
                 Location("Paris", 48.8566101, 2.3514992, 48.87588, 2.428313),
