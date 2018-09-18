@@ -908,13 +908,18 @@ public class OsmAndAidlHelper {
 	 * @param startLat - latitude of the start point. If 0 - current location is used.
 	 * @param startLon - longitude of the start point. If 0 - current location is used.
 	 * @param searchQuery  - Text of a query for searching a destination point. Sent as URI parameter.
-	 * @param profile - One of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck". Nullable (default).
+	 * @param searchLat - original location of search (latitude). Sent as URI parameter.
+	 * @param searchLon - original location of search (longitude). Sent as URI parameter.
+	 * @param profile - one of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck". Nullable (default).
 	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
 	 */
-	public boolean navigateSearch(String startName, double startLat, double startLon, String searchQuery, String profile, boolean force) {
+	public boolean navigateSearch(String startName, double startLat, double startLon,
+								  String searchQuery, double searchLat, double searchLon,
+								  String profile, boolean force) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.navigateSearch(new NavigateSearchParams(startName, startLat, startLon, searchQuery, profile, force));
+				return mIOsmAndAidlInterface.navigateSearch(new NavigateSearchParams(
+						startName, startLat, startLon, searchQuery, searchLat, searchLon, profile, force));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

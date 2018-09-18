@@ -125,13 +125,15 @@ URI created by FileProvider must be sent as ClipData
 Navigate from one location to another.
 
 ##### URI parameter: PARAM_START_LAT - Name of starting point.
-##### URI parameter: PARAM_START_LON - Start latitude.
-##### URI parameter: PARAM_START_NAME - Start longitude.
+##### URI parameter: PARAM_START_LON - Latitude of starting point.
+##### URI parameter: PARAM_START_NAME - Longitude of starting point.
+If starting point's params (name/lat/lon) are not defined, the current location is used as start point. 
 ##### URI parameter: PARAM_DEST_LAT - Name of destination point.
-##### URI parameter: PARAM_DEST_LON - Destination latitude.
-##### URI parameter: PARAM_DEST_NAME - Destination longitude.
+##### URI parameter: PARAM_DEST_LON - Latitude of destination point.
+##### URI parameter: PARAM_DEST_NAME - Longitude of destination point .
 ##### URI parameter: PARAM_PROFILE - Map profile can be one of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
 ##### URI parameter: PARAM_FORCE - Stop previous navigation if active.
+If "true" - stops current navigation without alert. Otherwise - asks user to stop current navigation.   
 
 #### Command: PAUSE_NAVIGATION
 Put navigation on pause.
@@ -152,8 +154,15 @@ Unmute voice guidance.
 Search destination point and start navigation.
 
 ##### URI parameter: PARAM_START_LAT - Name of starting point.
-##### URI parameter: PARAM_START_LON - Start latitude.
-##### URI parameter: PARAM_START_NAME - Start longitude.
+##### URI parameter: PARAM_START_LON - Latitude of starting point.
+##### URI parameter: PARAM_START_NAME - Longitude of starting point.
+If parameters of starting point (name/lat/lon) are not defined, the current location is used as start point. 
 ##### URI parameter: PARAM_DEST_SEARCH_QUERY - Text of a query for searching a destination point.
+##### URI parameter: PARAM_SEARCH_LAT - Original location of search (latitude).
+##### URI parameter: PARAM_SEARCH_LON - Original location of search (longitude).
+A search query and original location of the search must be defined.  
+##### URI parameter: PARAM_SHOW_SEARCH_RESULTS - Show search results on the screen.
+If "true" - shows screen with search results where user can specify a destination point. Otherwise - pick first search result and start navigation immediately.  
 ##### URI parameter: PARAM_PROFILE - Map profile can be one of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
 ##### URI parameter: PARAM_FORCE - Stop previous navigation if active.
+If "true" - stops current navigation without alert. Otherwise - asks user to stop current navigation.   

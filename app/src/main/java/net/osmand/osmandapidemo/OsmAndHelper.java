@@ -85,6 +85,9 @@ public class OsmAndHelper {
 	public static final String PARAM_DEST_LAT = "dest_lat";
 	public static final String PARAM_DEST_LON = "dest_lon";
 	public static final String PARAM_DEST_SEARCH_QUERY = "dest_search_query";
+	public static final String PARAM_SEARCH_LAT = "search_lat";
+	public static final String PARAM_SEARCH_LON = "search_lon";
+	public static final String PARAM_SHOW_SEARCH_RESULTS = "show_search_results";
 	public static final String PARAM_PROFILE = "profile";
 
 	public static final String PARAM_ETA = "eta";
@@ -391,22 +394,31 @@ public class OsmAndHelper {
 	 * Search destination location and navigate.
 	 *
 	 * @param startName - Name of starting point. Sent as URI parameter.
-	 * @param startLat  - Start latitude. Sent as URI parameter.
-	 * @param startLon  - Start longitude. Sent as URI parameter.
-	 * @param searchQuery  - Text query to search destination point. Sent as URI parameter.
-	 * @param profile   - Map profile can be one of: "default", "car", "bicycle",
+	 * @param startLat - Start latitude. Sent as URI parameter.
+	 * @param startLon - Start longitude. Sent as URI parameter.
+	 * @param searchQuery - Text query to search destination point. Sent as URI parameter.
+	 * @param searchLat - Original location of search (latitude). Sent as URI parameter.
+	 * @param searchLon - Original location of search (longitude). Sent as URI parameter.
+	 * @param profile - Map profile can be one of: "default", "car", "bicycle",
 	 *                  "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
 	 *                  Sent as URI parameter.
-	 * @param force     - Stop previous navigation if active. Sent as URI parameter.
+	 * @param force - Stop previous navigation if active. Sent as URI parameter.
+	 * @param showSearchResults - Show search results on the screen to let user choose a destination. Otherwise pick first search result and start navigation immediately.
+	 *
+	 * If parameters of starting point (name/lat/lon) are not defined, the current location is used as start point.
 	 */
 	public void navigateSearch(String startName, double startLat, double startLon,
-						 String searchQuery, String profile, boolean force) {
+							   String searchQuery, double searchLat, double searchLon,
+							   String profile, boolean force, boolean showSearchResults) {
 		// test navigate
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_START_LAT, String.valueOf(startLat));
 		params.put(PARAM_START_LON, String.valueOf(startLon));
 		params.put(PARAM_START_NAME, startName);
 		params.put(PARAM_DEST_SEARCH_QUERY, searchQuery);
+		params.put(PARAM_SEARCH_LAT, String.valueOf(searchLat));
+		params.put(PARAM_SEARCH_LON, String.valueOf(searchLon));
+		params.put(PARAM_SHOW_SEARCH_RESULTS, String.valueOf(showSearchResults));
 		params.put(PARAM_PROFILE, profile);
 		params.put(PARAM_FORCE, String.valueOf(force));
 		sendRequest(new OsmAndIntentBuilder(NAVIGATE_SEARCH).setParams(params));

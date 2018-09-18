@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         const val GPX_FILE_NAME = "aild_test.gpx"
 
         val CITIES = arrayOf(
+                Location("Test", 45.611605, 34.372807, 45.611605, 34.372807),
                 Location("Bruxelles - Brussel", 50.8465565, 4.351697, 50.83477, 4.4068823),
                 Location("London", 51.5073219, -0.1276474, 51.52753, -0.07244986),
                 Location("Paris", 48.8566101, 2.3514992, 48.87588, 2.428313),
@@ -297,7 +298,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                             val text = editText.text.toString()
                             Handler().postDelayed({
                                 aidlHelper.navigateSearch(location.name + " start",
-                                        location.latStart, location.lonStart, text,
+                                        location.latStart, location.lonStart,
+                                        text, location.latStart, location.lonStart,
                                         "car", true)
                             }, delay)
                         }
@@ -367,7 +369,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                             val text = editText.text.toString()
                             osmandHelper.navigateSearch(location.name + " start",
                                     location.latStart, location.lonStart,
-                                    text, "car", true)
+                                    text, location.latStart, location.lonStart,
+                                    "car", true, true)
                         }
                         alert.setNegativeButton("Cancel", null)
                         alert.show()
@@ -703,24 +706,24 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         // Intents
 
         addFavoriteButton.setOnClickListener {
-            showChooseLocationDialogFragment("Add favourite", ApiActionType.INTENT_ADD_FAVORITE)
+            showChooseLocationDialogFragment("Add favourite", ApiActionType.INTENT_ADD_FAVORITE, false)
         }
         addMapMarkerButton.setOnClickListener {
-            showChooseLocationDialogFragment("Add map marker", ApiActionType.INTENT_ADD_MAP_MARKER)
+            showChooseLocationDialogFragment("Add map marker", ApiActionType.INTENT_ADD_MAP_MARKER, false)
         }
 
         showLocationButton.setOnClickListener {
-            showChooseLocationDialogFragment("Show location", ApiActionType.INTENT_SHOW_LOCATION)
+            showChooseLocationDialogFragment("Show location", ApiActionType.INTENT_SHOW_LOCATION, false)
         }
 
         startAudioRecButton.setOnClickListener {
-            showChooseLocationDialogFragment("Start audio recording", ApiActionType.INTENT_START_AUDIO_REC)
+            showChooseLocationDialogFragment("Start audio recording", ApiActionType.INTENT_START_AUDIO_REC, false)
         }
         startVideoRecButton.setOnClickListener {
-            showChooseLocationDialogFragment("Start video recording", ApiActionType.INTENT_START_VIDEO_REC)
+            showChooseLocationDialogFragment("Start video recording", ApiActionType.INTENT_START_VIDEO_REC, false)
         }
         takePhotoButton.setOnClickListener {
-            showChooseLocationDialogFragment("Take photo", ApiActionType.INTENT_TAKE_PHOTO)
+            showChooseLocationDialogFragment("Take photo", ApiActionType.INTENT_TAKE_PHOTO, false)
         }
         stopRecButton.setOnClickListener { mOsmAndHelper!!.stopAvRec() }
         startGpxRecButton.setOnClickListener {
@@ -754,7 +757,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
         }
         navigateButton.setOnClickListener {
-            showChooseLocationDialogFragment("Navigate to", ApiActionType.INTENT_NAVIGATE)
+            showChooseLocationDialogFragment("Navigate to", ApiActionType.INTENT_NAVIGATE, false)
         }
         navigateSearchButton.setOnClickListener {
             showChooseLocationDialogFragment("Search and Navigate", ApiActionType.INTENT_NAVIGATE_SEARCH, false)
