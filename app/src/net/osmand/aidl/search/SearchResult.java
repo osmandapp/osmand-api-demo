@@ -2,7 +2,6 @@ package net.osmand.aidl.search;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +17,8 @@ public class SearchResult implements Parcelable {
 	private List<String> otherNames = new ArrayList<>();
 
 
-	public SearchResult(double latitude, double longitude, String localName, String alternateName,
-						List<String> otherNames, String localTypeName) {
+	public SearchResult(double latitude, double longitude, String localName, String localTypeName,
+						String alternateName, List<String> otherNames) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.localName = localName;

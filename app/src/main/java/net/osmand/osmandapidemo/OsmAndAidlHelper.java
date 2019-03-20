@@ -20,6 +20,7 @@ import net.osmand.aidl.favorite.group.AFavoriteGroup;
 import net.osmand.aidl.favorite.group.AddFavoriteGroupParams;
 import net.osmand.aidl.favorite.group.RemoveFavoriteGroupParams;
 import net.osmand.aidl.favorite.group.UpdateFavoriteGroupParams;
+import net.osmand.aidl.gpx.AGpxBitmap;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
@@ -92,6 +93,21 @@ public class OsmAndAidlHelper {
 			if (mSearchCompleteListener != null) {
 				mSearchCompleteListener.onSearchComplete(resultSet);
 			}
+		}
+
+		@Override
+		public void onUpdate() throws RemoteException {
+
+		}
+
+		@Override
+		public void onAppInitialized() throws RemoteException {
+
+		}
+
+		@Override
+		public void onGpxBitmapCreated(AGpxBitmap bitmap) throws RemoteException {
+
 		}
 	};
 
