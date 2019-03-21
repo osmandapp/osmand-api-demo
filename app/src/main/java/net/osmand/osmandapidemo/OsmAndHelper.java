@@ -455,7 +455,7 @@ public class OsmAndHelper {
 	/**
 	 * Unmute voice guidance.
 	 */
-	public void umuteNavigation() {
+	public void unmuteNavigation() {
 		sendRequest(new OsmAndIntentBuilder(UNMUTE_NAVIGATION));
 	}
 

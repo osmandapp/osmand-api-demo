@@ -6,12 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 
 import net.osmand.aidl.IOsmAndAidlCallback;
 import net.osmand.aidl.IOsmAndAidlInterface;
+import net.osmand.aidl.copyfile.CopyFileParams;
+import net.osmand.aidl.customization.OsmandSettingsParams;
+import net.osmand.aidl.customization.SetWidgetsParams;
 import net.osmand.aidl.favorite.AFavorite;
 import net.osmand.aidl.favorite.AddFavoriteParams;
 import net.osmand.aidl.favorite.RemoveFavoriteParams;
@@ -21,7 +25,9 @@ import net.osmand.aidl.favorite.group.AddFavoriteGroupParams;
 import net.osmand.aidl.favorite.group.RemoveFavoriteGroupParams;
 import net.osmand.aidl.favorite.group.UpdateFavoriteGroupParams;
 import net.osmand.aidl.gpx.AGpxBitmap;
+import net.osmand.aidl.gpx.AGpxFile;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
+import net.osmand.aidl.gpx.CreateGpxBitmapParams;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
 import net.osmand.aidl.gpx.RemoveGpxParams;
@@ -47,6 +53,8 @@ import net.osmand.aidl.mapwidget.AMapWidget;
 import net.osmand.aidl.mapwidget.AddMapWidgetParams;
 import net.osmand.aidl.mapwidget.RemoveMapWidgetParams;
 import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
+import net.osmand.aidl.navdrawer.NavDrawerFooterParams;
+import net.osmand.aidl.navdrawer.NavDrawerHeaderParams;
 import net.osmand.aidl.navdrawer.NavDrawerItem;
 import net.osmand.aidl.navdrawer.SetNavDrawerItemsParams;
 import net.osmand.aidl.navigation.MuteNavigationParams;
@@ -61,6 +69,7 @@ import net.osmand.aidl.note.StartAudioRecordingParams;
 import net.osmand.aidl.note.StartVideoRecordingParams;
 import net.osmand.aidl.note.StopRecordingParams;
 import net.osmand.aidl.note.TakePhotoNoteParams;
+import net.osmand.aidl.plugins.PluginParams;
 import net.osmand.aidl.search.SearchParams;
 import net.osmand.aidl.search.SearchResult;
 
@@ -70,6 +79,8 @@ import java.util.List;
 import java.util.Map;
 
 import main.java.net.osmand.osmandapidemo.OsmAndHelper.OnOsmandMissingListener;
+import net.osmand.aidl.tiles.ASqliteDbFile;
+import org.jetbrains.annotations.Nullable;
 
 public class OsmAndAidlHelper {
 
@@ -967,8 +978,129 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+
 	/**
-   * Put navigation on pause.
+	 * Method for adding image to the top of Osmand's NavDrawer.
+	 *
+	 * @param imageUri - image's URI.toString
+	 *
+	 * @deprecated
+	 * Use the {@link #setNavDrawerLogoWithParams(NavDrawerHeaderParams params)} method.
+	 */
+	public boolean setNavDrawerLogo(String imageUri) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.setNavDrawerLogo(imageUri);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method for adding image to the top of Osmand MapActivity NavDrawer
+	 * with additional params
+	 *
+	 * @param params - include imageUri, package name and intent for additional functionality
+	 * on image click (return to client app)
+	 */
+	public boolean setNavDrawerLogoWithParams(NavDrawerHeaderParams params) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.setNavDrawerLogoWithParams(params);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+
+	/**
+	 * Method for adding functionality to "Powered by Osmand" logo in NavDrawer
+	 * (it will reset OsmAnd to "clean" state)
+	 *
+	 * @param params - package name, intent and client's app title
+	 * on image click (return to client app)
+	 */
+	public boolean setNavDrawerFooterWithParams(NavDrawerFooterParams params) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.setNavDrawerFooterWithParams(params);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method for selected UI elements (like QuickSearch button) to show.
+	 *
+	 * @param ids - list of menu items names from {@link OsmAndCustomizationConstants}
+	 */
+	boolean setEnabledIds(List<String> ids) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.setEnabledIds(ids);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method for selected UI elements (like QuickSearch button) to hide.
+	 *
+	 * @param ids - list of menu items names from {@link OsmAndCustomizationConstants}
+	 */
+	boolean setDisabledIds(List<String> ids) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.setDisabledIds(ids);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method for selected NavDrawer's menu items to show.
+	 *
+	 * @param patterns - list of menu items names from {@link OsmAndCustomizationConstants}
+	 */
+	boolean setEnabledPatterns(List<String> patterns) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.setEnabledPatterns(patterns);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method for selected NavDrawer's menu items to hide.
+	 *
+	 * @param patterns - list of menu items names from {@link OsmAndCustomizationConstants}
+	 */
+	boolean setDisabledPatterns(List<String> patterns) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.setDisabledPatterns(patterns);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Put navigation on pause.
 	 */
 	public boolean pauseNavigation() {
 		if (mIOsmAndAidlInterface != null) {
@@ -1055,6 +1187,273 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.search(new SearchParams(searchQuery, searchType, latitude, longitude, radiusLevel, totalLimit), mIOsmAndAidlCallback);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Register OsmAnd widgets for visibility.
+	 *
+	 * @param widgetKey - widget id.
+	 * @param appModKeys - list of modes widget active with. Could be "null" for all modes.
+	 */
+	public boolean regWidgetVisibility(String widgetKey, @Nullable List<String> appModKeys) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.regWidgetVisibility(new SetWidgetsParams(widgetKey, appModKeys));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Register OsmAnd widgets for availability.
+	 *
+	 * @param widgetKey - widget id.
+	 * @param appModKeys - list of modes widget active with. Could be "null" for all modes.
+	 */
+	public boolean regWidgetAvailability(String widgetKey, @Nullable List<String> appModKeys) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.regWidgetAvailability(new SetWidgetsParams(widgetKey, appModKeys));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Add custom parameters for OsmAnd settings to associate with client app.
+	 *
+	 * @param sharedPreferencesName - string with name of clint's app for shared preferences key
+	 * @param bundle - bundle with keys from Settings IDs {@link OsmAndCustomizationConstants} and Settings params
+	 *
+	 */
+	public boolean customizeOsmandSettings(String sharedPreferencesName, Bundle bundle) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface
+					.customizeOsmandSettings(new OsmandSettingsParams(sharedPreferencesName, bundle));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+
+	/**
+	 * Method to get list of gpx files currently registered (imported or created) in OsmAnd;
+	 *
+	 * @return list of gpx files currently registered in OsmAnd
+	 */
+	public List<AGpxFile> getImportedGpx() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				List<AGpxFile> fileList = new ArrayList<>();
+				mIOsmAndAidlInterface.getImportedGpx(fileList);
+				return fileList;
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Method to get list of sqlitedb files currently registered in OsmAnd;
+	 *
+	 * @return list of sqlitedb files currently registered in OsmAnd
+	 */
+	public List<ASqliteDbFile> getSqliteDbFiles() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				List<ASqliteDbFile> fileList = new ArrayList<>();
+				mIOsmAndAidlInterface.getSqliteDbFiles(fileList);
+				return fileList;
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Method to get list of sqlitedb files curently
+	 *
+	 * @return list of sqlitedb files currently shown in OsmAnd
+	 */
+	public List<ASqliteDbFile> getActiveSqliteDbFiles() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				List<ASqliteDbFile> fileList = new ArrayList<>();
+				mIOsmAndAidlInterface.getActiveSqliteDbFiles(fileList);
+				return fileList;
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Method to show selected sqlitedb file as map overlay.
+	 *
+	 * @param fileName - name of sqlitedb file
+	 */
+	public boolean showSqliteDbFile(String fileName) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.showSqliteDbFile(fileName);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to hide sqlitedb file from map overlay.
+	 *
+	 * @param fileName - name of sqlitedb file
+	 */
+	public boolean hideSqliteDbFile(String fileName) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.hideSqliteDbFile(fileName);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to copy and open files to OsmAnd part by part.
+	 * Part size (bytearray) should not exceed 256k.
+	 *
+	 * @param fileName - name of file
+	 * @param filePartData - parts of file, byte[] with size 256k or less.
+	 * @param startTime - timestamp of copying start.
+	 * @param isDone - boolean to mark end of copying.
+	 * @return number of last successfully received file part or error(-1).
+	 */
+	public int copyFile(String fileName, byte[] filePartData, long startTime, boolean isDone) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.copyFile(new CopyFileParams(fileName, filePartData, startTime, isDone));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Restore default (pre-client) Osmand settings and state:
+	 * clears feature's, widget's and setting customization, NavDraw logo.
+	 */
+	public boolean restoreOsmand() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.restoreOsmand();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to change state (on/off) of various plug-ins in OsmAnd.
+	 *
+	 * @param pluginId - id (name) of plugin.
+	 * @param newState - new state (0 - off, 1 - on).
+	 */
+	boolean changePluginState(String pluginId, int newState) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.changePluginState(new PluginParams(pluginId, newState));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to register for OsmAnd listener
+	 * @param callback - create and provide instance of {@link IOsmAndAidlCallback} interface
+	 */
+	public boolean registerForOsmandInitListener(IOsmAndAidlCallback callback) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.registerForOsmandInitListener(callback);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to register for periodical callbacks from OsmAnd
+	 * @param updateTimeMS - period of time in millisecond after which callback is triggered
+	 * @param callback - create and provide instance of {@link IOsmAndAidlCallback} interface
+	 * @return id of callback in OsmAnd. Needed to unsubscribe from updates.
+	 */
+	public long registerForUpdates(long updateTimeMS, IOsmAndAidlCallback callback) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.registerForUpdates(updateTimeMS, callback);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Method to unregister from periodical callbacks from OsmAnd
+	 * @param callbackId - id of registered callback (provided by OsmAnd
+	 * in {@link OsmAndAidlHelper#registerForUpdates(long, IOsmAndAidlCallback)})
+	 *
+	 */
+	boolean unregisterFromUpdates(long callbackId) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.unregisterFromUpdates(callbackId);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+
+	/**
+	 * Requests bitmap of map with GPX file from provided URI in its center.
+	 * You can set bitmap size, density and GPX lines color, but you need
+	 * to manually download appropriate map in OsmAnd or background will be empty.
+	 * Bitmap will be returned through callback {@link IOsmAndAidlCallback#onGpxBitmapCreated(AGpxBitmap)}
+	 *
+	 * @param gpxUri - Uri for gpx file
+	 * @param density - image density. Recommended to use default metrics for device's display.
+	 * @param widthPixels - width of bitmap
+	 * @param heightPixels - height of bitmap
+	 * @param color - color in ARGB format
+	 * @param callback - instance of callback from OsmAnd.
+	 */
+	public boolean getBitmapForGpx(Uri gpxUri, float density, int widthPixels, int heightPixels, int color, IOsmAndAidlCallback callback) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.getBitmapForGpx(new CreateGpxBitmapParams(gpxUri, density, widthPixels, heightPixels, color), callback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

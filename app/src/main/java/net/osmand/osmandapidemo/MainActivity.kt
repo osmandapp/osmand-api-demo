@@ -387,7 +387,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         osmandHelper.muteNavigation()
                     }
                     MainActivity.ApiActionType.INTENT_UNMUTE_NAVIGATION -> {
-                        osmandHelper.umuteNavigation()
+                        osmandHelper.unmuteNavigation()
                     }
                     else -> Unit
                 }
@@ -765,7 +765,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         resumeNavigationButton.setOnClickListener { mOsmAndHelper!!.resumeNavigation() }
         stopNavigationButton.setOnClickListener { mOsmAndHelper!!.stopNavigation() }
         muteNavigationButton.setOnClickListener { mOsmAndHelper!!.muteNavigation() }
-        unmuteNavigationButton.setOnClickListener { mOsmAndHelper!!.umuteNavigation() }
+        unmuteNavigationButton.setOnClickListener { mOsmAndHelper!!.unmuteNavigation() }
         getInfoButton.setOnClickListener { mOsmAndHelper!!.getInfo() }
     }
 
