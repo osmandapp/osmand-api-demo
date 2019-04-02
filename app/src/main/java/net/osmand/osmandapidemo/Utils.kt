@@ -1,6 +1,8 @@
 package main.java.net.osmand.osmandapidemo
 
+import android.content.ContentResolver
 import android.content.Context
+import android.net.Uri
 import java.text.MessageFormat
 
 object Utils {
@@ -36,5 +38,12 @@ object Utils {
 			meters > 0.999f * mainUnitInMeters -> MessageFormat.format(format2 + mainUnitStr, meters / mainUnitInMeters).replace('\n', ' ')
 			else -> "${(meters + 0.5).toInt()} m"
 		}
+	}
+
+	fun resourceToUri(ctx: Context, resId: Int): Uri {
+		val pack = ctx.resources.getResourcePackageName(resId)
+		val type = ctx.resources.getResourceTypeName(resId)
+		val entry = ctx.resources.getResourceEntryName(resId)
+		return Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://$pack/$type/$entry")
 	}
 }

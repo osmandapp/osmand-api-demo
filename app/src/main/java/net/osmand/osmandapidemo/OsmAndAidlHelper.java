@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 
+import kotlin.jvm.Throws;
 import net.osmand.aidl.IOsmAndAidlCallback;
 import net.osmand.aidl.IOsmAndAidlInterface;
 import net.osmand.aidl.copyfile.CopyFileParams;
@@ -94,8 +95,27 @@ public class OsmAndAidlHelper {
 
 	private SearchCompleteListener mSearchCompleteListener;
 
+	private OnUpdateListener onUpdateListener = null;
+	private GpxBitmapCreatedListener gpxBitmapCreatedListener = null;
+
+	public void setOnUpdateListener(OnUpdateListener onUpdateListener) {
+		this.onUpdateListener = onUpdateListener;
+	}
+
+	public void setGpxBitmapCreatedListener(GpxBitmapCreatedListener gpxBitmapCreatedListener) {
+		this.gpxBitmapCreatedListener = gpxBitmapCreatedListener;
+	}
+
 	interface SearchCompleteListener {
 		void onSearchComplete(List<SearchResult> resultSet);
+	}
+
+	interface OnUpdateListener {
+		void update();
+	}
+
+	interface GpxBitmapCreatedListener {
+		void onGpxBitmapCreated(AGpxBitmap bitmap);
 	}
 
 	private IOsmAndAidlCallback.Stub mIOsmAndAidlCallback = new IOsmAndAidlCallback.Stub() {
@@ -1018,8 +1038,8 @@ public class OsmAndAidlHelper {
 
 
 	/**
-	 * Method for adding functionality to "Powered by Osmand" logo in NavDrawer
-	 * (it will reset OsmAnd to "clean" state)
+	 * Method for adding functionality to "Powered by Osmand" logo in NavDrawer's footer
+	 * (reset OsmAnd settings to pre-clinet app's state)
 	 *
 	 * @param params - package name, intent and client's app title
 	 * on image click (return to client app)
@@ -1253,12 +1273,15 @@ public class OsmAndAidlHelper {
 	 *
 	 * @return list of gpx files currently registered in OsmAnd
 	 */
+
+
 	public List<AGpxFile> getImportedGpx() {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				List<AGpxFile> fileList = new ArrayList<>();
-				mIOsmAndAidlInterface.getImportedGpx(fileList);
-				return fileList;
+				if (mIOsmAndAidlInterface.getImportedGpx(fileList)) {
+					return fileList;
+				}
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1356,7 +1379,7 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Restore default (pre-client) Osmand settings and state:
+	 * Restore default (pre-client) OsmAnd settings and state:
 	 * clears feature's, widget's and setting customization, NavDraw logo.
 	 */
 	public boolean restoreOsmand() {
@@ -1371,7 +1394,7 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Method to change state (on/off) of various plug-ins in OsmAnd.
+	 * Method to change state of plug-ins in OsmAnd.
 	 *
 	 * @param pluginId - id (name) of plugin.
 	 * @param newState - new state (0 - off, 1 - on).
@@ -1453,6 +1476,9 @@ public class OsmAndAidlHelper {
 	public boolean getBitmapForGpx(Uri gpxUri, float density, int widthPixels, int heightPixels, int color, IOsmAndAidlCallback callback) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
+				app.grantUriPermission("net.osmand", gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				app.grantUriPermission("net.osmand.plus", gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				app.grantUriPermission("net.osmand.dev", gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 				return mIOsmAndAidlInterface.getBitmapForGpx(new CreateGpxBitmapParams(gpxUri, density, widthPixels, heightPixels, color), callback);
 			} catch (RemoteException e) {
 				e.printStackTrace();

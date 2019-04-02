@@ -1,0 +1,16 @@
+package net.osmand.aidl;
+
+public interface OsmandAidlConstants {
+
+	int COPY_FILE_PARAMS_ERROR = -1001;
+	int COPY_FILE_PART_SIZE_LIMIT_ERROR = -1002;
+	int COPY_FILE_WRITE_LOCK_ERROR = -1003;
+	int COPY_FILE_IO_ERROR = -1004;
+	int COPY_FILE_UNSUPPORTED_FILE_TYPE_ERROR = -1005;
+
+	int OK_RESPONSE = 0;
+
+	long COPY_FILE_PART_SIZE_LIMIT = 256 * 1024;
+	long COPY_FILE_MAX_LOCK_TIME_MS = 10000;
+
+}

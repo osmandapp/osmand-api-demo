@@ -31,10 +31,12 @@ import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.Compan
 import main.java.net.osmand.osmandapidemo.MainActivity.Companion.CITIES
 import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
-import net.osmand.aidl.gpx.StartGpxRecordingParams
-import net.osmand.aidl.gpx.StopGpxRecordingParams
+import main.java.net.osmand.osmandapidemo.OsmAndCustomizationConstants.*
+import net.osmand.aidl.gpx.AGpxBitmap
 import net.osmand.aidl.map.ALatLon
 import net.osmand.aidl.maplayer.point.AMapPoint
+import net.osmand.aidl.navdrawer.NavDrawerFooterParams
+import net.osmand.aidl.navdrawer.NavDrawerHeaderParams
 import net.osmand.aidl.search.SearchParams
 import net.osmand.aidl.search.SearchResult
 import net.osmand.osmandapidemo.R
@@ -53,8 +55,11 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         const val REQUEST_SHOW_GPX_URI_AIDL = 1007
         const val REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL = 1008
         const val REQUEST_NAVIGATE_GPX_URI_AIDL = 1009
+        const val REQUEST_GET_FILE_TO_COPY = 1010
+
         const val AUTHORITY = "net.osmand.osmandapidemo.fileprovider"
         const val GPX_FILE_NAME = "aild_test.gpx"
+        const val SQLITE_FILE_NAME = "aidl_test.sqlitedb"
 
         val CITIES = arrayOf(
                 Location("Bruxelles - Brussel", 50.8465565, 4.351697, 50.83477, 4.4068823),
@@ -78,10 +83,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         )
     }
 
+    lateinit var importHelper: ImportHelper private set
+
     private var counter = 1
     private var delay: Long = 5000
     var mOsmAndHelper: OsmAndHelper? = null
-    private var mAidlHelper: OsmAndAidlHelper? = null
+    var mAidlHelper: OsmAndAidlHelper? = null
 
     private var progressDialog: ProgressDialog? = null
     private var lastLatitude: Double = 0.0
@@ -159,7 +166,32 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         INTENT_RESUME_NAVIGATION,
         INTENT_STOP_NAVIGATION,
         INTENT_MUTE_NAVIGATION,
-        INTENT_UNMUTE_NAVIGATION
+        INTENT_UNMUTE_NAVIGATION,
+
+        SET_NAV_DRAWER_LOGO,
+        SET_NAV_DRAWER_LOGO_W_PARAMS,
+        SET_NAV_DRAWER_FOOTER_W_PARAMS,
+
+        SET_ENABLED_IDS,
+        SET_DISABLED_IDS,
+        SET_ENABLED_PATTERNS,
+        SET_DISABLED_PATTERNS,
+
+        REG_WIDGET_VISIBILITY,
+        REG_WIDGET_AVAILABILITY,
+
+        CUSTOMIZE_OSMAND_SETTINGS,
+        RESTORE_OSMAND,
+
+        GET_FILES_IMPORTED_GPX,
+        GET_FILES_SQLITEDB,
+        GET_FILES_SQLITEDB_ACTIVE,
+        SHOW_SQLITEDB_FILE,
+        HIDE_SQLITEDB_FILE,
+
+        REGISTER_FOR_OSMAND_INIT_CALLBACK,
+        GET_BITMAP_FOR_GPX,
+        COPY_FILE_TO_OSMAND
     }
 
     fun execApiAction(apiActionType: ApiActionType, delayed: Boolean = true, location: Location? = null) {
@@ -202,6 +234,209 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 ApiActionType.AIDL_REMOVE_FAVORITE_GROUP -> {
                     aidlHelper.removeFavoriteGroup("New group")
                 }
+                ApiActionType.RESTORE_OSMAND -> {
+                    aidlHelper.restoreOsmand()
+                }
+                ApiActionType.SET_NAV_DRAWER_LOGO_W_PARAMS -> {
+                    val logoUri = Utils.resourceToUri(this@MainActivity, R.drawable.osmand_logo)
+                    val params = NavDrawerHeaderParams(
+                        logoUri.toString(), packageName, "osmand-api-demo://main_activity")
+                    aidlHelper.setNavDrawerLogoWithParams(params)
+                }
+                ApiActionType.SET_NAV_DRAWER_FOOTER_W_PARAMS -> {
+                    val params = NavDrawerFooterParams(
+                        packageName, "osmand-api-demo://main_activity", resources.getString(R.string.app_name))
+                    aidlHelper.setNavDrawerFooterWithParams(params);
+                }
+                ApiActionType.SET_DISABLED_IDS -> {
+                    val menuIdList = listOf(
+                        OsmAndCustomizationConstants.ROUTE_PLANNING_HUD_ID,
+                        OsmAndCustomizationConstants.QUICK_SEARCH_HUD_ID
+                    )
+                    aidlHelper.setDisabledIds(menuIdList)
+                }
+                ApiActionType.SET_ENABLED_IDS -> {
+                    val menuIdList = listOf(
+                        OsmAndCustomizationConstants.ROUTE_PLANNING_HUD_ID,
+                        OsmAndCustomizationConstants.QUICK_SEARCH_HUD_ID
+                    )
+                    aidlHelper.setEnabledIds(menuIdList)
+                }
+                ApiActionType.SET_DISABLED_PATTERNS -> {
+                    val menuIdList = listOf(
+                        OsmAndCustomizationConstants.DRAWER_DASHBOARD_ID,
+                        OsmAndCustomizationConstants.DRAWER_MY_PLACES_ID,
+                        OsmAndCustomizationConstants.DRAWER_SEARCH_ID,
+                        OsmAndCustomizationConstants.DRAWER_DIRECTIONS_ID,
+                        OsmAndCustomizationConstants.DRAWER_CONFIGURE_SCREEN_ID
+                    )
+                    aidlHelper.setDisabledPatterns(menuIdList)
+                }
+                ApiActionType.SET_ENABLED_PATTERNS-> {
+                    val menuIdList = listOf(
+                        OsmAndCustomizationConstants.DRAWER_DASHBOARD_ID,
+                        OsmAndCustomizationConstants.DRAWER_MY_PLACES_ID,
+                        OsmAndCustomizationConstants.DRAWER_SEARCH_ID,
+                        OsmAndCustomizationConstants.DRAWER_DIRECTIONS_ID,
+                        OsmAndCustomizationConstants.DRAWER_CONFIGURE_SCREEN_ID
+                    )
+                    aidlHelper.setEnabledPatterns(menuIdList)
+                }
+                ApiActionType.REG_WIDGET_VISIBILITY -> {
+                    val exceptPedestrianAndDefault = listOf(
+                        APP_MODE_CAR,
+                        APP_MODE_BICYCLE,
+                        APP_MODE_BOAT,
+                        APP_MODE_AIRCRAFT,
+                        APP_MODE_BUS,
+                        APP_MODE_TRAIN
+                    )
+                    val pedestrian = listOf(APP_MODE_PEDESTRIAN)
+
+                    aidlHelper.regWidgetVisibility("next_turn", exceptPedestrianAndDefault)
+                    aidlHelper.regWidgetVisibility("next_turn_small", pedestrian)
+                    aidlHelper.regWidgetVisibility("next_next_turn", exceptPedestrianAndDefault)
+                }
+
+                ApiActionType.REG_WIDGET_AVAILABILITY -> {
+                    val exceptPedestrianAndDefault = listOf(
+                        APP_MODE_CAR,
+                        APP_MODE_BICYCLE,
+                        APP_MODE_BOAT,
+                        APP_MODE_AIRCRAFT,
+                        APP_MODE_BUS,
+                        APP_MODE_TRAIN
+                    )
+                    val pedestrian = listOf(APP_MODE_PEDESTRIAN)
+
+                    aidlHelper.regWidgetAvailability("next_turn", exceptPedestrianAndDefault)
+                    aidlHelper.regWidgetAvailability("next_turn_small", pedestrian)
+                    aidlHelper.regWidgetAvailability("next_next_turn", exceptPedestrianAndDefault)
+                }
+                ApiActionType.CUSTOMIZE_OSMAND_SETTINGS -> {
+                    val bundle = Bundle()
+                    bundle.apply {
+                        putString("available_application_modes", "$APP_MODE_BOAT,")
+                        putString("application_mode", APP_MODE_BOAT)
+                        putString("default_application_mode_string", APP_MODE_BOAT)
+                        putBoolean("driving_region_automatic", false)
+                        putString("default_metric_system", METRIC_CONST_NAUTICAL_MILES)
+                        putString("default_speed_system", SPEED_CONST_NAUTICALMILES_PER_HOUR)
+                    }
+                    aidlHelper.customizeOsmandSettings("osmand_api_demo", bundle)
+                }
+                ApiActionType.GET_FILES_IMPORTED_GPX -> {
+                    val importedGpxFiles = aidlHelper.importedGpx
+                    val sb = StringBuilder()
+                    if (importedGpxFiles != null) {
+                        for (file in importedGpxFiles) {
+                            if (sb.isNotEmpty()) {
+                                sb.append(" \n")
+                            }
+                            sb.append(file.fileName)
+                        }
+                    }
+
+                    if (sb.isEmpty()) {
+                        sb.append("No imported files found")
+                    }
+                    val args = Bundle()
+                    args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
+                    val infoDialog = OsmAndInfoDialog()
+                    infoDialog.arguments = args
+                    supportFragmentManager.beginTransaction()
+                        .add(infoDialog, null).commitAllowingStateLoss()
+
+                }
+                ApiActionType.GET_FILES_SQLITEDB -> {
+                    val sqliteFiles = aidlHelper.sqliteDbFiles
+                    val sb = StringBuilder()
+                    if (sqliteFiles != null) {
+                        for (file in sqliteFiles) {
+                            if (sb.isNotEmpty()) {
+                                sb.append(" \n")
+                            }
+                            sb.append(file.fileName)
+                        }
+                    }
+
+                    if (sb.isEmpty()) {
+                        sb.append("No SqliteDb files found")
+                    }
+                    val args = Bundle()
+                    args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
+                    val infoDialog = OsmAndInfoDialog()
+                    infoDialog.arguments = args
+                    supportFragmentManager.beginTransaction()
+                        .add(infoDialog, null).commitAllowingStateLoss()
+                }
+                ApiActionType.GET_FILES_SQLITEDB_ACTIVE -> {
+                    val sqliteFiles = aidlHelper.sqliteDbFiles
+                    val sb = StringBuilder()
+                    if (sqliteFiles != null) {
+                        for (file in sqliteFiles) {
+                            if (sb.isNotEmpty()) {
+                                sb.append(" \n")
+                            }
+                            sb.append(file.fileName)
+                        }
+                    }
+
+                    if (sb.isEmpty()) {
+                        sb.append("No Active SqliteDb files found")
+                    }
+                    val args = Bundle()
+                    args.putString(OsmAndInfoDialog.INFO_KEY, sb.toString())
+                    val infoDialog = OsmAndInfoDialog()
+                    infoDialog.arguments = args
+                    supportFragmentManager.beginTransaction()
+                        .add(infoDialog, null).commitAllowingStateLoss()
+                }
+                ApiActionType.SHOW_SQLITEDB_FILE -> {
+                    //not implemented
+                    //aidlHelper.showSqliteDbFile(filename.sqlitedb)
+                }
+
+                ApiActionType.HIDE_SQLITEDB_FILE -> {
+                    //not implemented
+                    //aidlHelper.showSqliteDbFile(filename.sqlitedb)
+                }
+
+                ApiActionType.REGISTER_FOR_OSMAND_INIT_CALLBACK -> {
+
+                }
+//                ApiActionType.GET_BITMAP_FOR_GPX -> {
+//                    val callback = OsmAndAidlHelper.GpxBitmapCreatedListener {
+//                        bitmap -> bitmap?.let {openImageViewDialog(bitmap)}
+//                    }
+//                    mAidlHelper?.getBitmapForGpx()
+//
+//                    val args = Bundle()
+//                    args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_RAW_DATA)
+//                    args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_URI)
+//                    val openGpxDialogFragment = OpenGpxDialogFragment()
+//                    openGpxDialogFragment.arguments = args
+//                    openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
+//                }
+
+                ApiActionType.COPY_FILE_TO_OSMAND -> {
+                    var intent: Intent
+                    if (Build.VERSION.SDK_INT < 19) {
+                        intent = Intent(Intent.ACTION_GET_CONTENT)
+                    } else {
+                        intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                        intent.addCategory(Intent.CATEGORY_OPENABLE)
+                    }
+                    intent.type = "*/*"
+                    intent = Intent.createChooser(intent, "Choose a file")
+                    if (osmandHelper.isIntentSafe(intent)) {
+                        Toast.makeText(this, "Select SQLITEDB map", Toast.LENGTH_SHORT).show()
+                        startActivityForResult(intent, REQUEST_GET_FILE_TO_COPY)
+                    } else {
+                        Toast.makeText(this, "You need an app capable of selecting files like ES Explorer", Toast.LENGTH_LONG).show()
+                    }
+                }
+
                 else -> Unit
             }
             // location depended types
@@ -395,11 +630,15 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         }
     }
 
+    private fun openImageViewDialog(bitmap: AGpxBitmap) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mOsmAndHelper = OsmAndHelper(this, REQUEST_OSMAND_API, this)
         mAidlHelper = OsmAndAidlHelper(this.application, this)
-
+        importHelper = ImportHelper(this)
         mAidlHelper!!.setSearchCompleteListener {
             runOnUiThread {
                 progressDialog?.hide()
@@ -412,7 +651,14 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setContentView(R.layout.activity_main)
 
         setDrawable(addFavoriteButton, R.drawable.ic_action_fav_dark)
+        setDrawable(aidlUpdateFavoriteButton, R.drawable.ic_action_fav_dark)
+        setDrawable(aidlRemoveFavoriteButton, R.drawable.ic_action_fav_dark)
+        setDrawable(aidlAddFavoriteGroupButton, R.drawable.ic_action_fav_dark)
+        setDrawable(aidlUpdateFavoriteGroupButton, R.drawable.ic_action_fav_dark)
+        setDrawable(aidlRemoveFavoriteGroupButton, R.drawable.ic_action_fav_dark)
         setDrawable(addMapMarkerButton, R.drawable.ic_action_flag_dark)
+        setDrawable(aidlUpdateMapMarkerButton, R.drawable.ic_action_flag_dark)
+        setDrawable(aidlRemoveMapMarkerButton, R.drawable.ic_action_flag_dark)
         setDrawable(showLocationButton, R.drawable.ic_action_flag_dark)
         setDrawable(startAudioRecButton, R.drawable.ic_action_micro_dark)
         setDrawable(startVideoRecButton, R.drawable.ic_action_video_dark)
@@ -430,8 +676,54 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(stopNavigationButton, R.drawable.ic_action_rec_stop)
         setDrawable(muteNavigationButton, R.drawable.ic_action_micro_dark)
         setDrawable(unmuteNavigationButton, R.drawable.ic_action_micro_dark)
+        setDrawable(setNavDrawerLogoParams, R.drawable.ic_action_gabout_dark)
+        setDrawable(setNavDrawerFooterParams, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlSetNavDrawerItems, R.drawable.ic_action_gabout_dark)
+        setDrawable(setDisabledPatterns, R.drawable.ic_action_gabout_dark)
+        setDrawable(setEnabledPatterns, R.drawable.ic_action_gabout_dark)
+        setDrawable(setDisabledIds, R.drawable.ic_action_gabout_dark)
+        setDrawable(setEnabledIds, R.drawable.ic_action_gabout_dark)
+        setDrawable(getImportedGpxFilenames, R.drawable.ic_action_folder)
+        setDrawable(getSqliteDbFilenames, R.drawable.ic_action_folder)
+        setDrawable(getActiveSqliteDbFilenames, R.drawable.ic_action_folder)
+        setDrawable(showSqliteDbFile, R.drawable.ic_action_folder)
+        setDrawable(hideSqliteDbFile, R.drawable.ic_action_folder)
+        setDrawable(copyFile, R.drawable.ic_action_folder)
+        setDrawable(restoreOsmand, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlImportGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(aidlShowGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(aidlHideGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(aidlGetActiveGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(aidlRemoveGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(aidlAddFirstWidgetButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlAddSecondWidgetButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlModifyFirstWidgetButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlModifySecondWidgetButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlRemoveFirstWidgetButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlRemoveSecondWidgetButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(regWidgetVisibilityBtn, R.drawable.ic_action_gabout_dark)
+        setDrawable(regWidgetAvailabilityBtn, R.drawable.ic_action_gabout_dark)
 
         // AIDL
+
+
+        restoreOsmand.setOnClickListener { execApiAction(ApiActionType.RESTORE_OSMAND) }
+        setNavDrawerFooterParams.setOnClickListener {
+            execApiAction(ApiActionType.SET_NAV_DRAWER_LOGO_W_PARAMS)
+        }
+        setDisabledPatterns.setOnClickListener { execApiAction(ApiActionType.SET_DISABLED_PATTERNS) }
+        setEnabledPatterns.setOnClickListener { execApiAction(ApiActionType.SET_ENABLED_PATTERNS) }
+        setDisabledIds.setOnClickListener { execApiAction(ApiActionType.SET_DISABLED_IDS) }
+        setEnabledIds.setOnClickListener { execApiAction(ApiActionType.SET_ENABLED_IDS) }
+        getImportedGpxFilenames.setOnClickListener { execApiAction(ApiActionType.GET_FILES_IMPORTED_GPX) }
+        getSqliteDbFilenames.setOnClickListener { execApiAction(ApiActionType.GET_FILES_SQLITEDB) }
+        getActiveSqliteDbFilenames.setOnClickListener { execApiAction(ApiActionType.GET_FILES_SQLITEDB_ACTIVE) }
+        showSqliteDbFile.setOnClickListener { execApiAction(ApiActionType.SHOW_SQLITEDB_FILE) }
+        hideSqliteDbFile.setOnClickListener { execApiAction(ApiActionType.HIDE_SQLITEDB_FILE) }
+        copyFile.setOnClickListener { execApiAction(ApiActionType.COPY_FILE_TO_OSMAND) }
+
+        regWidgetVisibilityBtn.setOnClickListener { execApiAction(ApiActionType.REG_WIDGET_VISIBILITY) }
+        regWidgetAvailabilityBtn.setOnClickListener { execApiAction(ApiActionType.REG_WIDGET_AVAILABILITY) }
 
         aidlSetNavDrawerItems.setOnClickListener {
             execApiAction(ApiActionType.AIDL_SET_NAV_DRAWER_ITEMS)
@@ -453,20 +745,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             execApiAction(ApiActionType.AIDL_REMOVE_FAVORITE_GROUP)
         }
 
-        aidlAddFavoriteButton.setOnClickListener {
-            showChooseLocationDialogFragment("Add favourite", ApiActionType.AIDL_ADD_FAVORITE)
-        }
-
         aidlUpdateFavoriteButton.setOnClickListener {
             showChooseLocationDialogFragment("Update favourite", ApiActionType.AIDL_UPDATE_FAVORITE)
         }
 
         aidlRemoveFavoriteButton.setOnClickListener {
             showChooseLocationDialogFragment("Remove favourite", ApiActionType.AIDL_REMOVE_FAVORITE)
-        }
-
-        aidlAddMapMarkerButton.setOnClickListener {
-            showChooseLocationDialogFragment("Add map marker", ApiActionType.AIDL_ADD_MAP_MARKER)
         }
 
         aidlUpdateMapMarkerButton.setOnClickListener {
@@ -621,85 +905,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             showChooseLocationDialogFragment("Set map location", ApiActionType.AIDL_SET_MAP_LOCATION)
         }
 
-        aidlStartGpxRecordingButton.setOnClickListener {
-            Handler().postDelayed({
-                mAidlHelper!!.startGpxRecording(StartGpxRecordingParams())
-            }, delay)
-        }
-
-        aidlStopGpxRecordingButton.setOnClickListener {
-            Handler().postDelayed({
-                mAidlHelper!!.stopGpxRecording(StopGpxRecordingParams())
-            }, delay)
-        }
-
-        aidlTakePhotoButton.setOnClickListener {
-            showChooseLocationDialogFragment("Take photo", ApiActionType.AIDL_TAKE_PHOTO)
-        }
-
-        aidlStartVideoRecButton.setOnClickListener {
-            showChooseLocationDialogFragment("Start video recording", ApiActionType.AIDL_START_VIDEO_REC)
-        }
-
-        aidlStartAudioRecButton.setOnClickListener {
-            showChooseLocationDialogFragment("Start audio recording", ApiActionType.AIDL_START_AUDIO_REC)
-        }
-
-        aidlStopRecButton.setOnClickListener {
-            Handler().postDelayed({
-                mAidlHelper!!.stopRecording()
-            }, delay)
-        }
-
-        aidlNavigateButton.setOnClickListener {
-            showChooseLocationDialogFragment("Navigate to", ApiActionType.AIDL_NAVIGATE)
-        }
-
-        aidlPauseNavigationButton.setOnClickListener {
-            Handler().postDelayed({
-                mAidlHelper!!.pauseNavigation()
-            }, delay)
-        }
-
-        aidlResumeNavigationButton.setOnClickListener {
-            Handler().postDelayed({
-                mAidlHelper!!.resumeNavigation()
-            }, delay)
-        }
-
-        aidlStopNavigationButton.setOnClickListener {
-            Handler().postDelayed({
-                mAidlHelper!!.stopNavigation()
-            }, delay)
-        }
-
-        aidlMuteNavigationButton.setOnClickListener {
-            Handler().postDelayed({
-                mAidlHelper!!.muteNavigation()
-            }, delay)
-        }
-
-        aidlUnmuteNavigationButton.setOnClickListener {
-            Handler().postDelayed({
-                mAidlHelper!!.unmuteNavigation()
-            }, delay)
-        }
-
-        aidlNavigateGpxButton.setOnClickListener {
-            val args = Bundle()
-            args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL)
-            args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_URI_AIDL)
-            val openGpxDialogFragment = OpenGpxDialogFragment()
-            openGpxDialogFragment.arguments = args
-            openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
-        }
-
         aidlSearchButton.setOnClickListener {
             showChooseLocationDialogFragment("Search here", ApiActionType.AIDL_SEARCH, false)
-        }
-
-        aidlNavigateSearchButton.setOnClickListener {
-            showChooseLocationDialogFragment("Search and navigate to", ApiActionType.AIDL_NAVIGATE_SEARCH, false)
         }
 
         // Intents
@@ -767,6 +974,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         muteNavigationButton.setOnClickListener { mOsmAndHelper!!.muteNavigation() }
         unmuteNavigationButton.setOnClickListener { mOsmAndHelper!!.unmuteNavigation() }
         getInfoButton.setOnClickListener { mOsmAndHelper!!.getInfo() }
+
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -794,6 +1004,22 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         }
         if (resultCode == RESULT_OK) {
             when (requestCode) {
+                REQUEST_GET_FILE_TO_COPY -> {
+                    importHelper.listener = object:ImportHelperListener{
+                        override fun fileCopyStarted(fileName: String?) {
+                            //skip
+                        }
+
+                        override fun fileCopyFinished(fileName: String?, success: Boolean) {
+                            if (success) {
+                                showToast("File $fileName copy complete")
+                            } else {
+                                showToast("File $fileName copy filed")
+                            }
+                        }
+                    }
+                    handleSqliteFile(data!!) { result -> importHelper.importFileToCopy(result)}
+                }
                 REQUEST_NAVIGATE_GPX_RAW_DATA -> {
                     handleGpxFile(data!!) { result -> mOsmAndHelper!!.navigateRawGpx(true, result) }
                 }
@@ -851,6 +1077,27 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             inputStreamReader.close()
             action(stringBuilder.toString())
         } catch (e: Throwable) {
+            Log.e(TAG, "", e)
+        }
+    }
+
+    private fun handleSqliteFile(data: Intent, action: (Uri) -> Unit) {
+        try {
+            val sqlParceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
+            val fileDescriptor = sqlParceDescriptor.fileDescriptor
+            val inputStream = FileInputStream(fileDescriptor)
+            val sharedDir = File(cacheDir, "share")
+            if (!sharedDir.exists()) {
+                sharedDir.mkdir()
+            }
+            val file = File(sharedDir, "shared.sqlitedb")
+            file.copyInputStreamToFile(inputStream)
+            inputStream.close()
+            val fileUri = FileProvider.getUriForFile(this, AUTHORITY, file)
+            action(fileUri)
+        } catch (e: NullPointerException) {
+            Log.e(TAG, "", e)
+        } catch (e: FileNotFoundException) {
             Log.e(TAG, "", e)
         }
     }
@@ -941,6 +1188,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         searchResultsDialogFragment.arguments = args
         searchResultsDialogFragment.show(supportFragmentManager, SearchResultsDialogFragment.TAG)
     }
+
+    fun showToast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
 
 class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, R.layout.simple_list_layout, CITIES) {
@@ -1155,6 +1404,61 @@ class OpenGpxDialogFragment : DialogFragment() {
     }
 }
 
+class OpenFileDialogFragment : DialogFragment() {
+    companion object {
+        const val TAG = "OpenSqliteDialogFragment"
+        const val SEND_AS_URI_REQUEST_CODE_KEY = "send_as_uri_request_code_key"
+    }
+
+    private var sendAsUriDataRequestCode: Int? = null
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
+        sendAsUriDataRequestCode = arguments?.getInt(SEND_AS_URI_REQUEST_CODE_KEY)
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Send GPX to OsmAnd as raw data or as URI")
+        builder.setNeutralButton("As raw data") { _, _ -> sendAsRawData() }
+        builder.setPositiveButton("As URI") { _, _ -> sendAsUri() }
+        return builder.create()
+    }
+
+    private fun sendAsRawData() {
+        val sendAsRawDataRequestCode = sendAsUriDataRequestCode
+        if (sendAsRawDataRequestCode != null) {
+            requestChooseGpx(sendAsRawDataRequestCode)
+        }
+    }
+
+    private fun sendAsUri() {
+        val sendAsUriDataRequestCode = sendAsUriDataRequestCode
+        if (sendAsUriDataRequestCode != null) {
+            requestChooseGpx(sendAsUriDataRequestCode)
+        }
+    }
+
+    private fun requestChooseGpx(requestCode: Int) {
+        var intent: Intent
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = Intent(Intent.ACTION_GET_CONTENT)
+        } else {
+            intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+        }
+        intent.type = "*/*"
+        intent = Intent.createChooser(intent, "Choose a file")
+
+        val activity = activity as MainActivity?
+        val osmandHelper = activity?.mOsmAndHelper
+        if (osmandHelper != null && osmandHelper.isIntentSafe(intent)) {
+            startActivityForResult(intent, requestCode)
+        } else {
+            Toast.makeText(activity, "You need an app capable of selecting files like ES Explorer", Toast.LENGTH_LONG).show()
+        }
+    }
+}
+
+
 class CloseAfterCommandDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "CloseAfterCommandDialogFragment"
@@ -1193,4 +1497,8 @@ class CloseAfterCommandDialogFragment : DialogFragment() {
             }
         }
     }
+
+
+
+
 }
