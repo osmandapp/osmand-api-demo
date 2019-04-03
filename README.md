@@ -177,42 +177,42 @@ Method for adding image to the top of Osmand's NavDrawer. Image shouldn't be lar
 #### Command: `setNavDrawerFooterWithParams(NavDrawerFooterParams params)`
 Method for adding functionality to NavDrawer's footer (option to reset OsmAnd settings to previous state)
 
-**Parameters:** 
+* **Parameters:** 
    *`NavDrawerFooterParams(String packageName, String intent, String appTitle)`
 
 
 #### Command: `setEnabledIds(List<String> ids)`
 Method for enable selected Context's menu items in OsmAnd (after they were disabled with setDisabledIds())
 
-**Parameters:** 
+* **Parameters:** 
    *`ids` - list of context' menu items (from OsmAndCustomizationConstants.java)
 
 
 #### Command: `setDisabledIds(List<String> ids)`
 Method for disable selected Context's menu items in OsmAnd (they could be later enabled with setEnabledIds())
 
- **Parameters:** 
+ * **Parameters:** 
    * `ids` - list of context' menu items{@link OsmAndCustomizationConstants}
 
 
 #### Command: `setEnabledPatterns(List<String> ids)`
 Method for enable selected NavDrawers's menu items in OsmAnd (after they were disabled with setDisabledPatterns())
 
- **Parameters:** 
+ * **Parameters:** 
    * `ids - list of drawer' menu items {@link OsmAndCustomizationConstants}`
 
 
 #### Command: `setDisabledPatterns(List<String> ids)`
 Method for disable selected NavDrawers's menu items in OsmAnd (they could be later enabled with setEnabledPatterns())
 
- **Parameters:**
+ * **Parameters:**
    * `ids` — list of drawer' menu items {@link OsmAndCustomizationConstants}`
 
 
 #### Command: `regWidgetVisibility(String widgetKey, @Nullable List<String> appModKeys)`
 Register OsmAnd widgets for visibility. 
 
- **Parameters:**
+ * **Parameters:**
    * `widgetKey` — widget id.
    * `appModKeys` — list of modes widget active with. Could be "null" for all modes.
 
@@ -220,7 +220,7 @@ Register OsmAnd widgets for visibility.
 #### Command: `regWidgetAvailability(String widgetKey, @Nullable List<String> appModKeys)`
 Register OsmAnd widgets for availability.
 
- **Parameters:**
+ * **Parameters:**
    * `widgetKey` — widget id.
    * `appModKeys` — list of modes widget active with. Could be "null" for all modes.
  
@@ -228,16 +228,60 @@ Register OsmAnd widgets for availability.
 #### Command: `customizeOsmandSettings(String sharedPrefsName, Bundle bundle)`
 Set OsmAnd settings to use with client's application
  
-**Parameters:**
+ * **Parameters:**
     * `widgetKey` — widget id.
     * `sharedPrefsName` — shared preferences key for saving osmand custom settings to use with clients app
-    
+
+
 #### Command: `getImportedGpx()`
 Returns list of all imported GPX-files from OsmAnd
 
  * **Returns:** `List<AGpxFile>` — list of GPX files params
-  
+
+
 #### Command: `getSqliteDbFiles()`
-Returns list of all loaded SqliteDb files from OsmAnd
+Returns list of all SqliteDb files from OsmAnd
  
  * **Returns:**`List<ASqliteDbFile` — list of SqliteDb files params
+
+
+#### Command: `getActiveSqliteDbFiles()`
+Returns list of active SqliteDb files from OsmAnd
+
+ * **Returns:**`List<ASqliteDbFile` — list of SqliteDb files params
+
+
+#### Command: `showSqliteDbFile(String fileName)`
+Set selected SqliteDb file to Map as Overlay
+
+ *  **Parameters:**
+    * `filename` - name of sqlitedb file
+
+
+#### Command: `hideSqliteDbFile(String fileName)`
+Hide selected SqliteDb file from Overlay
+
+ *  **Parameters:**
+    * `filename` - name of sqlitedb file
+
+
+#### Command: `restoreOsmand(String pluginId, int newState)`
+Restore default OsmAnd settings and state: clears settings, widget and menu customization.
+
+
+#### Command: `changePluginState()`
+Method to change state of plug-ins in OsmAnd
+
+*  **Parameters:**
+    * `pluginId` - name of sqlitedb file
+    * `newState` - new state (0 - off, 1 - on)
+
+
+#### Command: `copyFile(CopyFileParams params)`
+Method to copy and open files to OsmAnd part by part. !!!Parts size (bytearray) should not exceed 256k.
+
+*  **Parameters:**
+    * `params` - contains String fileName, byte[] filePartData, long startTime, boolean done.
+
+* **Returns:** `int` — number of last successfully received file part or error(-1).
+
