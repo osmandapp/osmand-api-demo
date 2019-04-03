@@ -235,11 +235,9 @@ Set OsmAnd settings to use with client's application
 #### Command: `getImportedGpx()`
 Returns list of all imported GPX-files from OsmAnd
 
- * **Returns:**
-   * `List<AGpxFile>` — list of GPX files params
+ * **Returns:** `List<AGpxFile>` — list of GPX files params
   
 #### Command: `getSqliteDbFiles()`
 Returns list of all loaded SqliteDb files from OsmAnd
  
- * **Returns:**
-   * `List<ASqliteDbFile` — list of SqliteDb files params
+ * **Returns:**`List<ASqliteDbFile` — list of SqliteDb files params
