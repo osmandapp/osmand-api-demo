@@ -166,3 +166,9 @@ If "true" - shows screen with search results where user can specify a destinatio
 ##### URI parameter: PARAM_PROFILE - Map profile can be one of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck".
 ##### URI parameter: PARAM_FORCE - Stop previous navigation if active.
 If "true" - stops current navigation without alert. Otherwise - asks user to stop current navigation.   
+
+
+#### Command: setNavDrawerLogoWithParams(NavDrawHeaderParams params)
+Method for adding image to the top of Osmand's NavDrawer. Image shouldn't be larger than 600px*160px
+##### Parameters: NavDrawerHeaderParams - include image's Uri, package name (String) and intent (String) for additional functionality
+
