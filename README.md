@@ -175,16 +175,26 @@ Method for adding image to the top of Osmand's NavDrawer. Image shouldn't be lar
 ##### Parameters: NavDrawerFooterParams(String packageName, String intent, String appTitle)
 Method for adding functionality to NavDrawer's footer (option to reset OsmAnd settings to previous state)
 
+
 #### Command: setEnabledIds(List\<String> ids)
 ##### Parameters: ids - list of context' menu items (from OsmAndCustomizationConstants.java)
+Method for enable selected Context's menu items in OsmAnd (after they were disabled with setDisabledIds())
+
 
 #### Command: setDisabledIds(List\<String> ids)
-##### Parameters: ids - list of context' menu items (from OsmAndCustomizationConstants.java)
+##### Parameters: ids - list of context' menu items{@link OsmAndCustomizationConstants}
+Method for disable selected Context's menu items in OsmAnd (they could be later enabled with setEnabledIds())
 
 
 #### Command: setEnabledPatterns(List\<String> ids)
-##### Parameters: ids - list of drawer' menu items (from OsmAndCustomizationConstants.java)
+##### Parameters: ids - list of drawer' menu items {@link OsmAndCustomizationConstants}
+Method for enable selected NavDrawers's menu items in OsmAnd (after they were disabled with setDisabledPatterns())
 
 
 #### Command: setDisabledPatterns(List\<String> ids)
-##### Parameters: ids - list of drawer' menu items (from OsmAndCustomizationConstants.java)
+##### Parameters: ids - list of drawer' menu items {@link OsmAndCustomizationConstants}
+Method for disable selected NavDrawers's menu items in OsmAnd (they could be later enabled with setEnabledPatterns())
+
+
+#### Command: setDisabledPatterns(List\<String> ids)
+##### Parameters: ids - list of drawer' menu items {@link OsmAndCustomizationConstants}
