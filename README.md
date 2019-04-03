@@ -182,25 +182,30 @@ Method for enable selected Context's menu items in OsmAnd (after they were disab
 
 
 #### Command: setDisabledIds(List\<String> ids)
-##### Parameters: ids - list of context' menu items{@link OsmAndCustomizationConstants}
 Method for disable selected Context's menu items in OsmAnd (they could be later enabled with setEnabledIds())
+**Parameters:** 
+   *`ids` - list of context' menu items{@link OsmAndCustomizationConstants}
+
+#### Command: `setEnabledPatterns(List<String> ids)`
+Method for enable selected NavDrawers's menu items in OsmAnd (after they were disabled with setDisabledPatterns())\
+**Parameters:** 
+   * `ids - list of drawer' menu items {@link OsmAndCustomizationConstants}`
 
 
-#### Command: setEnabledPatterns(List\<String> ids)
-##### Parameters: ids - list of drawer' menu items {@link OsmAndCustomizationConstants}
-Method for enable selected NavDrawers's menu items in OsmAnd (after they were disabled with setDisabledPatterns())
-
-
-#### Command: `setDisabledPatterns(List\<String> ids)`
+#### Command: `setDisabledPatterns(List<String> ids)`
 Method for disable selected NavDrawers's menu items in OsmAnd (they could be later enabled with setEnabledPatterns())
 **Parameters:**
- * `ids - list of drawer' menu items {@link OsmAndCustomizationConstants}`
+
+   * `ids` — list of drawer' menu items {@link OsmAndCustomizationConstants}`
+
 
 #### Command: `regWidgetAvailability(String widgetKey, @Nullable List<String> appModKeys)`
+
 Register OsmAnd widgets for availability.
+
 **Parameters:**
-   * `widgetKey` — - widget id.
-   * `appModKeys` — - list of modes widget active with. Could be "null" for all modes.
+   * `widgetKey` — widget id.
+   * `appModKeys` — list of modes widget active with. Could be "null" for all modes.
 
 
  
