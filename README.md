@@ -196,14 +196,13 @@ Method for enable selected NavDrawers's menu items in OsmAnd (after they were di
 Method for disable selected NavDrawers's menu items in OsmAnd (they could be later enabled with setEnabledPatterns())
 
 
-#### Command: setDisabledPatterns(List\<String> ids)
+#### Command: `setDisabledPatterns(List\<String> ids)`
 ##### Parameters: ids - list of drawer' menu items {@link OsmAndCustomizationConstants}
 
-## `public boolean regWidgetAvailability(String widgetKey, @Nullable List<String> appModKeys)`
-
-Register OsmAnd widgets for availability.
-
- * **Parameters:**
+#### Command: `regWidgetAvailability(String widgetKey, @Nullable List<String> appModKeys)`
+** **Parameters:**
    * `widgetKey` — - widget id.
    * `appModKeys` — - list of modes widget active with. Could be "null" for all modes.
+Register OsmAnd widgets for availability.
 
+ 
