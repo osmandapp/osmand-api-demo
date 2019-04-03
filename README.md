@@ -167,8 +167,24 @@ If "true" - shows screen with search results where user can specify a destinatio
 ##### URI parameter: PARAM_FORCE - Stop previous navigation if active.
 If "true" - stops current navigation without alert. Otherwise - asks user to stop current navigation.   
 
-
 #### Command: setNavDrawerLogoWithParams(NavDrawHeaderParams params)
+##### Parameters: NavDrawerHeaderParams(Uri imageUri, String packageName, String intent) 
 Method for adding image to the top of Osmand's NavDrawer. Image shouldn't be larger than 600px*160px
-##### Parameters: NavDrawerHeaderParams - include image's Uri, package name (String) and intent (String) for additional functionality
 
+#### Command: setNavDrawerFooterWithParams(NavDrawerFooterParams params)
+##### Parameters: NavDrawerFooterParams(String packageName, String intent, String appTitle)
+Method for adding functionality to NavDrawer's footer (option to reset OsmAnd settings to previous state)
+
+#### Command: setEnabledIds(List\<String> ids)
+##### Parameters: ids - list of context' menu items (from OsmAndCustomizationConstants.java)
+
+#### Command: setDisabledIds(List\<String> ids)
+##### Parameters: ids - list of context' menu items (from OsmAndCustomizationConstants.java)
+
+
+#### Command: setEnabledPatterns(List\<String> ids)
+##### Parameters: ids - list of drawer' menu items (from OsmAndCustomizationConstants.java)
+
+
+#### Command: setDisabledPatterns(List\<String> ids)
+##### Parameters: ids - list of drawer' menu items (from OsmAndCustomizationConstants.java)
