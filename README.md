@@ -169,58 +169,66 @@ If "true" - stops current navigation without alert. Otherwise - asks user to sto
 
 #### Command: `setNavDrawerLogoWithParams(NavDrawHeaderParams params)`
 Method for adding image to the top of Osmand's NavDrawer. Image shouldn't be larger than 600px*160px
+
 **Parameters:** 
    *`NavDrawerHeaderParams`(Uri imageUri, String packageName, String intent) 
 
 
 #### Command: `setNavDrawerFooterWithParams(NavDrawerFooterParams params)`
 Method for adding functionality to NavDrawer's footer (option to reset OsmAnd settings to previous state)
+
 **Parameters:** 
    *`NavDrawerFooterParams(String packageName, String intent, String appTitle)`
 
 
-
 #### Command: `setEnabledIds(List<String> ids)`
 Method for enable selected Context's menu items in OsmAnd (after they were disabled with setDisabledIds())
+
 **Parameters:** 
    *`ids` - list of context' menu items (from OsmAndCustomizationConstants.java)
 
 
 #### Command: `setDisabledIds(List<String> ids)`
 Method for disable selected Context's menu items in OsmAnd (they could be later enabled with setEnabledIds())
-**Parameters:** 
-   *`ids` - list of context' menu items{@link OsmAndCustomizationConstants}
+
+ **Parameters:** 
+   * `ids` - list of context' menu items{@link OsmAndCustomizationConstants}
 
 
 #### Command: `setEnabledPatterns(List<String> ids)`
-Method for enable selected NavDrawers's menu items in OsmAnd (after they were disabled with setDisabledPatterns())\
-**Parameters:** 
-   *`ids - list of drawer' menu items {@link OsmAndCustomizationConstants}`
+Method for enable selected NavDrawers's menu items in OsmAnd (after they were disabled with setDisabledPatterns())
+
+ **Parameters:** 
+   * `ids - list of drawer' menu items {@link OsmAndCustomizationConstants}`
 
 
 #### Command: `setDisabledPatterns(List<String> ids)`
 Method for disable selected NavDrawers's menu items in OsmAnd (they could be later enabled with setEnabledPatterns())
-**Parameters:**
+
+ **Parameters:**
    * `ids` — list of drawer' menu items {@link OsmAndCustomizationConstants}`
 
 
 #### Command: `regWidgetVisibility(String widgetKey, @Nullable List<String> appModKeys)`
-Register OsmAnd widgets for visibility.
-**Parameters:**
-   *`widgetKey` — widget id.
-   *`appModKeys` — list of modes widget active with. Could be "null" for all modes.
+Register OsmAnd widgets for visibility. 
+
+ **Parameters:**
+   * `widgetKey` — widget id.
+   * `appModKeys` — list of modes widget active with. Could be "null" for all modes.
 
 
 #### Command: `regWidgetAvailability(String widgetKey, @Nullable List<String> appModKeys)`
 Register OsmAnd widgets for availability.
-**Parameters:**
+
+ **Parameters:**
    *`widgetKey` — widget id.
    *`appModKeys` — list of modes widget active with. Could be "null" for all modes.
  
  
  #### Command: `customizeOsmandSettings(String sharedPrefsName, Bundle bundle)`
  Set OsmAnd settings to use with client's application
- **Parameters:**
+ 
+  **Parameters:**
     *`widgetKey` — widget id.
     *`sharedPrefsName` — shared preferences key for saving osmand custom settings to use with clients app
     
