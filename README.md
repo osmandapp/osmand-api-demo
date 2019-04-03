@@ -221,14 +221,25 @@ Register OsmAnd widgets for visibility.
 Register OsmAnd widgets for availability.
 
  **Parameters:**
-   *`widgetKey` — widget id.
-   *`appModKeys` — list of modes widget active with. Could be "null" for all modes.
+   * `widgetKey` — widget id.
+   * `appModKeys` — list of modes widget active with. Could be "null" for all modes.
  
  
- #### Command: `customizeOsmandSettings(String sharedPrefsName, Bundle bundle)`
- Set OsmAnd settings to use with client's application
+#### Command: `customizeOsmandSettings(String sharedPrefsName, Bundle bundle)`
+Set OsmAnd settings to use with client's application
  
-  **Parameters:**
-    *`widgetKey` — widget id.
-    *`sharedPrefsName` — shared preferences key for saving osmand custom settings to use with clients app
+**Parameters:**
+    * `widgetKey` — widget id.
+    * `sharedPrefsName` — shared preferences key for saving osmand custom settings to use with clients app
     
+#### Command: `getImportedGpx()`
+Returns list of all imported GPX-files from OsmAnd
+
+ * **Returns:**
+   * `List<AGpxFile>` — list of GPX files params
+  
+#### Command: `getSqliteDbFiles()`
+Returns list of all loaded SqliteDb files from OsmAnd
+ 
+ * **Returns:**
+   * `List<ASqliteDbFile` — list of SqliteDb files params
