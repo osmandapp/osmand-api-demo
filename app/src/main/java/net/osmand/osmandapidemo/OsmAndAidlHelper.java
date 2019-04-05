@@ -58,6 +58,7 @@ import net.osmand.aidl.navdrawer.NavDrawerFooterParams;
 import net.osmand.aidl.navdrawer.NavDrawerHeaderParams;
 import net.osmand.aidl.navdrawer.NavDrawerItem;
 import net.osmand.aidl.navdrawer.SetNavDrawerItemsParams;
+import net.osmand.aidl.navigation.ADirectionInfo;
 import net.osmand.aidl.navigation.MuteNavigationParams;
 import net.osmand.aidl.navigation.NavigateGpxParams;
 import net.osmand.aidl.navigation.NavigateParams;
@@ -138,6 +139,11 @@ public class OsmAndAidlHelper {
 
 		@Override
 		public void onGpxBitmapCreated(AGpxBitmap bitmap) throws RemoteException {
+
+		}
+
+		@Override
+		public void updateNavigationInfo(ADirectionInfo directionInfo) throws RemoteException {
 
 		}
 	};

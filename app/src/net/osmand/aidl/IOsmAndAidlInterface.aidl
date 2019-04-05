@@ -81,7 +81,7 @@ import net.osmand.aidl.tiles.ASqliteDbFile;
 import net.osmand.aidl.plugins.PluginParams;
 import net.osmand.aidl.copyfile.CopyFileParams;
 
-
+import net.osmand.aidl.navigation.ANavigationUpdateParams;
 
 
 // NOTE: Add new methods at the end of file!!!
@@ -104,12 +104,12 @@ interface IOsmAndAidlInterface {
     boolean removeMapLayer(in RemoveMapLayerParams params);
     boolean updateMapLayer(in UpdateMapLayerParams params);
 
-	boolean importGpx(in ImportGpxParams params);
-	boolean showGpx(in ShowGpxParams params);
-	boolean hideGpx(in HideGpxParams params);
-	boolean getActiveGpx(out List<ASelectedGpxFile> files);
+    boolean importGpx(in ImportGpxParams params);
+    boolean showGpx(in ShowGpxParams params);
+    boolean hideGpx(in HideGpxParams params);
+    boolean getActiveGpx(out List<ASelectedGpxFile> files);
 
-	boolean setMapLocation(in SetMapLocationParams params);
+    boolean setMapLocation(in SetMapLocationParams params);
     boolean calculateRoute(in CalculateRouteParams params);
 
     boolean refreshMap();
@@ -182,4 +182,6 @@ interface IOsmAndAidlInterface {
     boolean getBitmapForGpx(in CreateGpxBitmapParams file, IOsmAndAidlCallback callback);
 
     int copyFile(in CopyFileParams filePart);
+
+    long registerForNavigationUpdates(in ANavigationUpdateParams params, IOsmAndAidlCallback callback);
 }

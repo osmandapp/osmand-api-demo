@@ -71,7 +71,6 @@ private class ImportTask(
 
     companion object {
         const val SQLITE_EXT = ".sqlitedb"
-        const val CHARTS_EXT = ".charts"
 
         const val BUFFER_SIZE = COPY_FILE_PART_SIZE_LIMIT
         const val MAX_RETRY_COUNT = 10
@@ -104,12 +103,7 @@ private class ImportTask(
 
     private fun handleFileImport(): Boolean {
         if (fileName != null && fileName.isNotEmpty()) {
-            if (fileName.endsWith(SQLITE_EXT)) {
                 return fileImportImpl(uri, fileName)
-            } else if (fileName.endsWith(CHARTS_EXT)) {
-                val newFilename = fileName.removePrefix(CHARTS_EXT) + SQLITE_EXT
-                return fileImportImpl(uri, newFilename)
-            }
         }
         return false
     }
