@@ -819,7 +819,7 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Get list of active GPX files.
+	 * Set map view to selected location with set zoom level.
 	 *
 	 * @param latitude - latitude of new map center.
 	 * @param longitude - longitude of new map center.
@@ -1006,12 +1006,12 @@ public class OsmAndAidlHelper {
 
 
 	/**
-	 * Method for adding image to the top of Osmand's NavDrawer.
+	 * Method for adding image to the top of OsmAnd's NavDrawer.
 	 *
 	 * @param imageUri - image's URI.toString
 	 *
 	 * @deprecated
-	 * Use the {@link #setNavDrawerLogoWithParams(NavDrawerHeaderParams params)} method.
+	 * Use the {@link #setNavDrawerLogoWithParams(String imageUri, String packageName, String intent)} method.
 	 */
 	public boolean setNavDrawerLogo(String imageUri) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1025,16 +1025,18 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Method for adding image to the top of Osmand MapActivity NavDrawer
-	 * with additional params
+	 * Method for adding image to the top of OsmAnd's NavDrawer with additional params
 	 *
-	 * @param params - include imageUri, package name and intent for additional functionality
-	 * on image click (return to client app)
+	 * @param imageUri - image's URI.toString
+	 * @param packageName - client's app package name
+	 * @param intent - intent for additional functionality on image click
+	 *
 	 */
-	public boolean setNavDrawerLogoWithParams(NavDrawerHeaderParams params) {
+	public boolean setNavDrawerLogoWithParams(String imageUri, String packageName, String intent) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.setNavDrawerLogoWithParams(params);
+				return mIOsmAndAidlInterface
+					.setNavDrawerLogoWithParams(new NavDrawerHeaderParams(imageUri, packageName, intent));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1047,13 +1049,14 @@ public class OsmAndAidlHelper {
 	 * Method for adding functionality to "Powered by Osmand" logo in NavDrawer's footer
 	 * (reset OsmAnd settings to pre-clinet app's state)
 	 *
-	 * @param params - package name, intent and client's app title
-	 * on image click (return to client app)
+	 * @param packageName - package name
+	 * @param intent - intent
+	 * @param appName - client's app name
 	 */
-	public boolean setNavDrawerFooterWithParams(NavDrawerFooterParams params) {
+	public boolean setNavDrawerFooterWithParams(String packageName, String intent, String appName) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.setNavDrawerFooterWithParams(params);
+				return mIOsmAndAidlInterface.setNavDrawerFooterWithParams(new NavDrawerFooterParams(packageName, intent, appName));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1064,7 +1067,7 @@ public class OsmAndAidlHelper {
 	/**
 	 * Method for selected UI elements (like QuickSearch button) to show.
 	 *
-	 * @param ids - list of menu items names from {@link OsmAndCustomizationConstants}
+	 * @param ids - list of menu items keys from {@link OsmAndCustomizationConstants}
 	 */
 	boolean setEnabledIds(List<String> ids) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1080,7 +1083,7 @@ public class OsmAndAidlHelper {
 	/**
 	 * Method for selected UI elements (like QuickSearch button) to hide.
 	 *
-	 * @param ids - list of menu items names from {@link OsmAndCustomizationConstants}
+	 * @param ids - list of menu items keys from {@link OsmAndCustomizationConstants}
 	 */
 	boolean setDisabledIds(List<String> ids) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1259,7 +1262,6 @@ public class OsmAndAidlHelper {
 	 *
 	 * @param sharedPreferencesName - string with name of clint's app for shared preferences key
 	 * @param bundle - bundle with keys from Settings IDs {@link OsmAndCustomizationConstants} and Settings params
-	 *
 	 */
 	public boolean customizeOsmandSettings(String sharedPreferencesName, Bundle bundle) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1277,10 +1279,8 @@ public class OsmAndAidlHelper {
 	/**
 	 * Method to get list of gpx files currently registered (imported or created) in OsmAnd;
 	 *
-	 * @return list of gpx files currently registered in OsmAnd
+	 * @return list of gpx files
 	 */
-
-
 	public List<AGpxFile> getImportedGpx() {
 		if (mIOsmAndAidlInterface != null) {
 			try {
@@ -1296,9 +1296,9 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Method to get list of sqlitedb files currently registered in OsmAnd;
+	 * Method to get list of sqlitedb files registered in OsmAnd;
 	 *
-	 * @return list of sqlitedb files currently registered in OsmAnd
+	 * @return list of sqlitedb files
 	 */
 	public List<ASqliteDbFile> getSqliteDbFiles() {
 		if (mIOsmAndAidlInterface != null) {
@@ -1314,9 +1314,9 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Method to get list of sqlitedb files curently
+	 * Method to get list of currently active sqlitedb files
 	 *
-	 * @return list of sqlitedb files currently shown in OsmAnd
+	 * @return list of sqlitedb files
 	 */
 	public List<ASqliteDbFile> getActiveSqliteDbFiles() {
 		if (mIOsmAndAidlInterface != null) {
@@ -1364,7 +1364,7 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Method to copy and open files to OsmAnd part by part.
+	 * Method to copy files to OsmAnd part by part.
 	 * Part size (bytearray) should not exceed 256k.
 	 *
 	 * @param fileName - name of file
@@ -1417,7 +1417,7 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Method to register for OsmAnd listener
+	 * Method to register for callback on OsmAnd initialization
 	 * @param callback - create and provide instance of {@link IOsmAndAidlCallback} interface
 	 */
 	public boolean registerForOsmandInitListener(IOsmAndAidlCallback callback) {
@@ -1433,6 +1433,7 @@ public class OsmAndAidlHelper {
 
 	/**
 	 * Method to register for periodical callbacks from OsmAnd
+	 *
 	 * @param updateTimeMS - period of time in millisecond after which callback is triggered
 	 * @param callback - create and provide instance of {@link IOsmAndAidlCallback} interface
 	 * @return id of callback in OsmAnd. Needed to unsubscribe from updates.
@@ -1450,9 +1451,9 @@ public class OsmAndAidlHelper {
 
 	/**
 	 * Method to unregister from periodical callbacks from OsmAnd
+	 *
 	 * @param callbackId - id of registered callback (provided by OsmAnd
 	 * in {@link OsmAndAidlHelper#registerForUpdates(long, IOsmAndAidlCallback)})
-	 *
 	 */
 	boolean unregisterFromUpdates(long callbackId) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1467,7 +1468,7 @@ public class OsmAndAidlHelper {
 
 
 	/**
-	 * Requests bitmap of map with GPX file from provided URI in its center.
+	 * Requests bitmap snap-shot of map with GPX file from provided URI in its center.
 	 * You can set bitmap size, density and GPX lines color, but you need
 	 * to manually download appropriate map in OsmAnd or background will be empty.
 	 * Bitmap will be returned through callback {@link IOsmAndAidlCallback#onGpxBitmapCreated(AGpxBitmap)}

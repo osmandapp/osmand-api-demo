@@ -239,14 +239,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 ApiActionType.SET_NAV_DRAWER_LOGO_W_PARAMS -> {
                     val logoUri = Utils.resourceToUri(this@MainActivity, R.drawable.osmand_logo)
-                    val params = NavDrawerHeaderParams(
-                        logoUri.toString(), packageName, "osmand-api-demo://main_activity")
-                    aidlHelper.setNavDrawerLogoWithParams(params)
+                    aidlHelper.setNavDrawerLogoWithParams(logoUri.toString(), packageName, "osmand-api-demo://main_activity")
                 }
                 ApiActionType.SET_NAV_DRAWER_FOOTER_W_PARAMS -> {
                     val params = NavDrawerFooterParams(
                         packageName, "osmand-api-demo://main_activity", resources.getString(R.string.app_name))
-                    aidlHelper.setNavDrawerFooterWithParams(params);
+                    aidlHelper.setNavDrawerFooterWithParams(packageName, "osmand-api-demo://main_activity", resources.getString(R.string.app_name))
                 }
                 ApiActionType.SET_DISABLED_IDS -> {
                     val menuIdList = listOf(
