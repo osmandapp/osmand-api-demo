@@ -7,405 +7,470 @@
     android:layout_height="match_parent"
     tools:context="net.osmand.osmandapidemo.MainActivity">
 
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+        <include layout="@layout/card_top_divider"/>
+
     <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/my_places"/>
-
-            <View
-                style="@style/divider_style"
-                android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/addFavoriteButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_favorite"
-                tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlUpdateFavoriteButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/update_favorite"
-              tools:drawableLeft="@drawable/ic_action_flag_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlRemoveFavoriteButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/remove_favorite"
-              tools:drawableLeft="@drawable/ic_action_flag_dark" />
-
-            <View style="@style/short_divider_style"
-              android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlAddFavoriteGroupButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/add_favorite_group"
-              tools:drawableLeft="@drawable/ic_action_flag_dark" />
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlUpdateFavoriteGroupButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/update_favorite_group"
-              tools:drawableLeft="@drawable/ic_action_flag_dark" />
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlRemoveFavoriteGroupButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/remove_favorite_group"
-              tools:drawableLeft="@drawable/ic_action_flag_dark" />
-
-            <View style="@style/short_divider_style"
-              android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/addMapMarkerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_map_marker"
-                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlUpdateMapMarkerButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/update_map_marker"
-              tools:drawableLeft="@drawable/ic_action_flag_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlRemoveMapMarkerButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/remove_map_marker"
-              tools:drawableLeft="@drawable/ic_action_flag_dark"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/map"/>
-
-            <View
-                style="@style/divider_style"
-                android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/showLocationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/show_location"
-                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/audio_video_plugin"/>
-
-            <View
-                style="@style/divider_style"
-                android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/startAudioRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/start_audio_recording"
-                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/startVideoRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/start_video_recording"
-                tools:drawableLeft="@drawable/ic_action_video_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/stopRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stop_recording"
-                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/takePhotoButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/take_photo"
-                tools:drawableLeft="@drawable/ic_action_photo_dark"/>
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/gpx_recording"/>
-
-            <View
-                style="@style/divider_style"
-                android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/startGpxRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/start_gpx_recording"
-                tools:drawableLeft="@drawable/ic_action_play"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/stopGpxRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stop_gpx_recording"
-                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/gpx_display_navigation"/>
-
-            <View
-                style="@style/divider_style"
-                android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/showGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/show_gpx"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/navigateGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/navigate_gpx"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/navigation"/>
-
-            <View
-                style="@style/divider_style"
-                android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/navigateButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/navigate"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/navigateSearchButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/search_navigate"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/pauseNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/pause_navigation"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/resumeNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/resume_navigation"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/stopNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stop_navigation"
-                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/muteNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/mute_navigation"
-                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/unmuteNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/unmute_navigation"
-                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/getInfoButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/get_info"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <View style="@style/short_divider_style"/>
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="@color/itemBackgroundColor"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-            <TextView
-              style="@style/categoryStyle"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Drawer and Context Menu Customization"/>
-
-            <View
-              style="@style/divider_style"
-              android:layout_width="match_parent"/>
+        android:text="@string/my_places"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/addFavoriteButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_favorite"
+        tools:drawableLeft="@drawable/ic_action_fav_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/addMapMarkerButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_map_marker"
+        tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/map"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/showLocationButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_location"
+        tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/audio_video_plugin"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/startAudioRecButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/start_audio_recording"
+        tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/startVideoRecButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/start_video_recording"
+        tools:drawableLeft="@drawable/ic_action_video_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/stopRecButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_recording"
+        tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/takePhotoButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/take_photo"
+        tools:drawableLeft="@drawable/ic_action_photo_dark"/>
+    </LinearLayout>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/gpx_recording"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/startGpxRecButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/start_gpx_recording"
+        tools:drawableLeft="@drawable/ic_action_play"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/stopGpxRecButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_gpx_recording"
+        tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+    </LinearLayout>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/gpx_display_navigation"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/showGpxButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_gpx"
+        tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/navigateGpxButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/navigate_gpx"
+        tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+    </LinearLayout>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/navigation"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/navigateButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/navigate"
+        tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/navigateSearchButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_navigate"
+        tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/pauseNavigationButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pause_navigation"
+        tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/resumeNavigationButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/resume_navigation"
+        tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/stopNavigationButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_navigation"
+        tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/muteNavigationButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mute_navigation"
+        tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/unmuteNavigationButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/unmute_navigation"
+        tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/getInfoButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/get_info"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <View style="@style/short_divider_style"/>
+    </LinearLayout>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+
+    <include layout="@layout/card_top_divider"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AIDL - Working with Files"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlGetImportedGpxFilenames"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get List of imported GPX files"
+        tools:drawableLeft="@drawable/ic_action_folder"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlGetSqliteDbFilenames"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get List of Sqlitdb files"
+        tools:drawableLeft="@drawable/ic_action_folder"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlGetActiveSqliteDbFilenames"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get List of Activs Sqlitdb files"
+        tools:drawableLeft="@drawable/ic_action_folder"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlShowSqliteDbFile"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Sqlitedb file as Overlay"
+        tools:drawableLeft="@drawable/ic_action_folder"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/adilHideSqliteDbFile"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hide Sqlitedb file"
+        tools:drawableLeft="@drawable/ic_action_folder"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlCopyFile"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Copy file to OsmAnd inner storage"
+        tools:drawableLeft="@drawable/ic_action_folder"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlImportGpxButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/import_gpx"
+        tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlShowGpxButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_gpx"
+        tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlHideGpxButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hide_gpx"
+        tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlGetActiveGpxButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/get_active_gpx_list"
+        tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlRemoveGpxButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remove_gpx"
+        tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+
+    <include layout="@layout/card_top_divider"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AIDL - Menu Customization"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
 
 
             <android.support.v7.widget.AppCompatButton
@@ -416,431 +481,557 @@
               android:text="@string/set_nav_drawer_items"
               tools:drawableLeft="@drawable/ic_action_fav_dark" />
 
-            <View style="@style/short_divider_style"/>
-
-
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/setNavDrawerLogoParams"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Set Nav Drawer Logo w/params"
-              tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/setNavDrawerFooterParams"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Set Nav Drawer footer params"
-              tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/setEnabledPatterns"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Enable Drawer Menu Ids"
-              tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/setDisabledPatterns"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Disable Drawer Menu Ids"
-              tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/setEnabledIds"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Enable Context Menu Ids"
-              tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/setDisabledIds"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Disable Context Menu Ids"
-              tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-
-            <View style="@style/short_divider_style"/>
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="@color/itemBackgroundColor"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-            <TextView
-              style="@style/categoryStyle"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Working with Files"/>
-
-            <View
-              style="@style/divider_style"
-              android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/getImportedGpxFilenames"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Get List of imported GPX files"
-              tools:drawableLeft="@drawable/ic_action_folder"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/getSqliteDbFilenames"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Get List of Sqlitdb files"
-              tools:drawableLeft="@drawable/ic_action_folder"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/getActiveSqliteDbFilenames"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Get List of Activs Sqlitdb files"
-              tools:drawableLeft="@drawable/ic_action_folder"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/showSqliteDbFile"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Show Sqlitedb file as Overlay"
-              tools:drawableLeft="@drawable/ic_action_folder"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/hideSqliteDbFile"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Hide Sqlitedb file"
-              tools:drawableLeft="@drawable/ic_action_folder"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/copyFile"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Copy file to OsmAnd inner storage"
-              tools:drawableLeft="@drawable/ic_action_folder"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <View android:layout_width="match_parent" style="@style/divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlImportGpxButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/import_gpx"
-              tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlShowGpxButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/show_gpx"
-              tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlHideGpxButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/hide_gpx"
-              tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlGetActiveGpxButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/get_active_gpx_list"
-              tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlRemoveGpxButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/remove_gpx"
-              tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
-
-            <View android:layout_width="match_parent" style="@style/divider_style"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="@color/itemBackgroundColor"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-            <TextView
-              style="@style/categoryStyle"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Widgets"/>
-
-            <View
-              style="@style/divider_style"
-              android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/regWidgetVisibilityBtn"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Set Widget Visible"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/regWidgetAvailabilityBtn"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Set Widget Available"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlAddFirstWidgetButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/add_map_widget_1"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlAddSecondWidgetButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/add_map_widget_2"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlModifyFirstWidgetButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/modify_map_widget_1"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlModifySecondWidgetButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/modify_map_widget_2"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlRemoveFirstWidgetButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/remove_map_widget_1"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/aidlRemoveSecondWidgetButton"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/remove_map_widget_2"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="OsmAnd in general"/>
-
-            <View
-              style="@style/divider_style"
-              android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/changePluginState"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Change plugin state"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark" />
-
-
-            <View
-              style="@style/divider_style"
-              android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/restoreOsmand"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Restore Osmand"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark" />
-
-
-            <View
-                style="@style/divider_style"
-                android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-              android:id="@+id/getBitmapForGpxBtn"
-              style="@style/row_item_style"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Restore Osmand"
-              tools:drawableLeft="@drawable/ic_action_gabout_dark" />
-
-
-            <View
-              style="@style/divider_style"
-              android:layout_width="match_parent"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlRefreshMapButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/refresh_map"
-                tools:drawableLeft="@drawable/ic_action_flag_dark" />
-
-            <View
-                style="@style/divider_style"
-                android:layout_width="match_parent"/>
-
-
-            <View android:layout_width="match_parent" style="@style/divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlAddLayerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_layer"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlShowMapPoint"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/show_map_point"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlAddPointButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_point"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlUpdatePointButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/update_point"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlRemovePointButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/remove_point"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlRemoveLayerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/remove_layer"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlSetMapLocationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/set_map_location"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
-
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlSearchButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/search"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-
-        </LinearLayout>
+      <View style="@style/short_divider_style"/>
+
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlSetNavDrawerLogoParams"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Nav Drawer Logo w/params"
+        tools:drawableLeft="@drawable/ic_action_fav_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlSetNavDrawerFooterParams"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Nav Drawer footer params"
+        tools:drawableLeft="@drawable/ic_action_fav_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlSetEnabledPatterns"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enable Drawer Menu Ids"
+        tools:drawableLeft="@drawable/ic_action_fav_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlSetDisabledPatterns"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Disable Drawer Menu Ids"
+        tools:drawableLeft="@drawable/ic_action_fav_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlSetEnabledIds"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enable Context Menu Ids"
+        tools:drawableLeft="@drawable/ic_action_fav_dark"/>
+
+      <View style="@style/short_divider_style"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlSetDisabledIds"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Disable Context Menu Ids"
+        tools:drawableLeft="@drawable/ic_action_fav_dark"/>
+
+      <View style="@style/short_divider_style"/>
+    </LinearLayout>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AIDL - Widgets"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlRegWidgetVisibilityBtn"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Widget Visible"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlRegWidgetAvailabilityBtn"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Widget Available"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlAddFirstWidgetButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_map_widget_1"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlAddSecondWidgetButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_map_widget_2"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlModifyFirstWidgetButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/modify_map_widget_1"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlModifySecondWidgetButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/modify_map_widget_2"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlRemoveFirstWidgetButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remove_map_widget_1"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlRemoveSecondWidgetButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remove_map_widget_2"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
     </LinearLayout>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+
+    <TextView
+      style="@style/categoryStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="AIDL - Favorites and Markers"/>
+
+    <View style="@style/short_divider_style"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlAddFavoriteGroupButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/add_favorite_group"
+      tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    <View style="@style/short_divider_style"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlUpdateFavoriteGroupButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/update_favorite_group"
+      tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    <View style="@style/short_divider_style"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlRemoveFavoriteGroupButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/remove_favorite_group"
+      tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    <View style="@style/short_divider_style"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlAddFavoriteButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/add_favorite"
+      tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    <View style="@style/short_divider_style"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlUpdateFavoriteButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/update_favorite"
+      tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    <View style="@style/short_divider_style"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlRemoveFavoriteButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/remove_favorite"
+      tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    <View style="@style/short_divider_style"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlAddMapMarkerButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/add_map_marker"
+      tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    <View style="@style/short_divider_style"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlUpdateMapMarkerButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/update_map_marker"
+      tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    <View style="@style/short_divider_style"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlRemoveMapMarkerButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/remove_map_marker"
+      tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+    <TextView
+      style="@style/categoryStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="AIDL - gpx recording"/>
+
+    <View
+      style="@style/divider_style"
+      android:layout_width="match_parent"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlStartGpxRecordingButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/start_gpx_recording"
+      tools:drawableLeft="@drawable/ic_action_play" />
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlStopGpxRecordingButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/stop_gpx_recording"
+      tools:drawableLeft="@drawable/ic_action_rec_stop" />
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+    <TextView
+      style="@style/categoryStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="AIDL - Audio/Video notes"/>
+
+    <View
+      style="@style/divider_style"
+      android:layout_width="match_parent"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlTakePhotoButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/take_photo"
+      tools:drawableLeft="@drawable/ic_action_photo_dark"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlStartVideoRecButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/start_video_recording"
+      tools:drawableLeft="@drawable/ic_action_video_dark"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlStartAudioRecButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/start_audio_recording"
+      tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlStopRecButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/stop_recording"
+      tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+    <TextView
+      style="@style/categoryStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="AIDL - Navigation"/>
+
+    <View
+      style="@style/divider_style"
+      android:layout_width="match_parent"/>
+
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlNavigateButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/navigate"
+      tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlPauseNavigationButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/pause_navigation"
+      tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlResumeNavigationButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/resume_navigation"
+      tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlStopNavigationButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/stop_navigation"
+      tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlMuteNavigationButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/mute_navigation"
+      tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlUnmuteNavigationButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/unmute_navigation"
+      tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlSearchButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/search"
+      tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+    <android.support.v7.widget.AppCompatButton
+      android:id="@+id/aidlNavigateSearchButton"
+      style="@style/row_item_style"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/search_navigate"
+      tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+    <View style="@style/divider_style"
+      android:layout_width="match_parent"/>
+
+    <include layout="@layout/card_bottom_divider"/>
+
+    <include layout="@layout/card_top_divider"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/itemBackgroundColor"
+      android:gravity="center_horizontal"
+      android:orientation="vertical">
+
+      <TextView
+        style="@style/categoryStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OsmAnd in general"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlChangePluginState"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change plugin state"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlRestoreOsmand"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Restore Osmand"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlGetBitmapForGpxBtn"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Restore Osmand"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlRefreshMapButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/refresh_map"
+        tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+
+      <View
+        style="@style/divider_style"
+        android:layout_width="match_parent"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlAddLayerButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_layer"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlShowMapPoint"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_map_point"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlAddPointButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_point"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlUpdatePointButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/update_point"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlRemovePointButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remove_point"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlRemoveLayerButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remove_layer"
+        tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlSetMapLocationButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/set_map_location"
+        tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+
+      <android.support.v7.widget.AppCompatButton
+        android:id="@+id/aidlNavigateGpxButton"
+        style="@style/row_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/navigate_gpx"
+        tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+    </LinearLayout>
+
+  </LinearLayout>
 
 </ScrollView>

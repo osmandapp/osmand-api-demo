@@ -33,10 +33,11 @@ import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_A
 import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.OsmAndCustomizationConstants.*
 import net.osmand.aidl.gpx.AGpxBitmap
+import net.osmand.aidl.gpx.StartGpxRecordingParams
+import net.osmand.aidl.gpx.StopGpxRecordingParams
 import net.osmand.aidl.map.ALatLon
 import net.osmand.aidl.maplayer.point.AMapPoint
 import net.osmand.aidl.navdrawer.NavDrawerFooterParams
-import net.osmand.aidl.navdrawer.NavDrawerHeaderParams
 import net.osmand.aidl.search.SearchParams
 import net.osmand.aidl.search.SearchResult
 import net.osmand.osmandapidemo.R
@@ -674,20 +675,20 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(stopNavigationButton, R.drawable.ic_action_rec_stop)
         setDrawable(muteNavigationButton, R.drawable.ic_action_micro_dark)
         setDrawable(unmuteNavigationButton, R.drawable.ic_action_micro_dark)
-        setDrawable(setNavDrawerLogoParams, R.drawable.ic_action_gabout_dark)
-        setDrawable(setNavDrawerFooterParams, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlSetNavDrawerLogoParams, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlSetNavDrawerFooterParams, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlSetNavDrawerItems, R.drawable.ic_action_gabout_dark)
-        setDrawable(setDisabledPatterns, R.drawable.ic_action_gabout_dark)
-        setDrawable(setEnabledPatterns, R.drawable.ic_action_gabout_dark)
-        setDrawable(setDisabledIds, R.drawable.ic_action_gabout_dark)
-        setDrawable(setEnabledIds, R.drawable.ic_action_gabout_dark)
-        setDrawable(getImportedGpxFilenames, R.drawable.ic_action_folder)
-        setDrawable(getSqliteDbFilenames, R.drawable.ic_action_folder)
-        setDrawable(getActiveSqliteDbFilenames, R.drawable.ic_action_folder)
-        setDrawable(showSqliteDbFile, R.drawable.ic_action_folder)
-        setDrawable(hideSqliteDbFile, R.drawable.ic_action_folder)
-        setDrawable(copyFile, R.drawable.ic_action_folder)
-        setDrawable(restoreOsmand, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlSetDisabledPatterns, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlSetEnabledPatterns, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlSetDisabledIds, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlSetEnabledIds, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlGetImportedGpxFilenames, R.drawable.ic_action_folder)
+        setDrawable(aidlGetSqliteDbFilenames, R.drawable.ic_action_folder)
+        setDrawable(aidlGetActiveSqliteDbFilenames, R.drawable.ic_action_folder)
+        setDrawable(aidlShowSqliteDbFile, R.drawable.ic_action_folder)
+        setDrawable(adilHideSqliteDbFile, R.drawable.ic_action_folder)
+        setDrawable(aidlCopyFile, R.drawable.ic_action_folder)
+        setDrawable(aidlRestoreOsmand, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlImportGpxButton, R.drawable.ic_action_polygom_dark)
         setDrawable(aidlShowGpxButton, R.drawable.ic_action_polygom_dark)
         setDrawable(aidlHideGpxButton, R.drawable.ic_action_polygom_dark)
@@ -699,29 +700,29 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(aidlModifySecondWidgetButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlRemoveFirstWidgetButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlRemoveSecondWidgetButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(regWidgetVisibilityBtn, R.drawable.ic_action_gabout_dark)
-        setDrawable(regWidgetAvailabilityBtn, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlRegWidgetVisibilityBtn, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlRegWidgetAvailabilityBtn, R.drawable.ic_action_gabout_dark)
 
         // AIDL
 
 
-        restoreOsmand.setOnClickListener { execApiAction(ApiActionType.RESTORE_OSMAND) }
-        setNavDrawerFooterParams.setOnClickListener {
+        aidlRestoreOsmand.setOnClickListener { execApiAction(ApiActionType.RESTORE_OSMAND) }
+        aidlSetNavDrawerFooterParams.setOnClickListener {
             execApiAction(ApiActionType.SET_NAV_DRAWER_LOGO_W_PARAMS)
         }
-        setDisabledPatterns.setOnClickListener { execApiAction(ApiActionType.SET_DISABLED_PATTERNS) }
-        setEnabledPatterns.setOnClickListener { execApiAction(ApiActionType.SET_ENABLED_PATTERNS) }
-        setDisabledIds.setOnClickListener { execApiAction(ApiActionType.SET_DISABLED_IDS) }
-        setEnabledIds.setOnClickListener { execApiAction(ApiActionType.SET_ENABLED_IDS) }
-        getImportedGpxFilenames.setOnClickListener { execApiAction(ApiActionType.GET_FILES_IMPORTED_GPX) }
-        getSqliteDbFilenames.setOnClickListener { execApiAction(ApiActionType.GET_FILES_SQLITEDB) }
-        getActiveSqliteDbFilenames.setOnClickListener { execApiAction(ApiActionType.GET_FILES_SQLITEDB_ACTIVE) }
-        showSqliteDbFile.setOnClickListener { execApiAction(ApiActionType.SHOW_SQLITEDB_FILE) }
-        hideSqliteDbFile.setOnClickListener { execApiAction(ApiActionType.HIDE_SQLITEDB_FILE) }
-        copyFile.setOnClickListener { execApiAction(ApiActionType.COPY_FILE_TO_OSMAND) }
+        aidlSetDisabledPatterns.setOnClickListener { execApiAction(ApiActionType.SET_DISABLED_PATTERNS) }
+        aidlSetEnabledPatterns.setOnClickListener { execApiAction(ApiActionType.SET_ENABLED_PATTERNS) }
+        aidlSetDisabledIds.setOnClickListener { execApiAction(ApiActionType.SET_DISABLED_IDS) }
+        aidlSetEnabledIds.setOnClickListener { execApiAction(ApiActionType.SET_ENABLED_IDS) }
+        aidlGetImportedGpxFilenames.setOnClickListener { execApiAction(ApiActionType.GET_FILES_IMPORTED_GPX) }
+        aidlGetSqliteDbFilenames.setOnClickListener { execApiAction(ApiActionType.GET_FILES_SQLITEDB) }
+        aidlGetActiveSqliteDbFilenames.setOnClickListener { execApiAction(ApiActionType.GET_FILES_SQLITEDB_ACTIVE) }
+        aidlShowSqliteDbFile.setOnClickListener { execApiAction(ApiActionType.SHOW_SQLITEDB_FILE) }
+        adilHideSqliteDbFile.setOnClickListener { execApiAction(ApiActionType.HIDE_SQLITEDB_FILE) }
+        aidlCopyFile.setOnClickListener { execApiAction(ApiActionType.COPY_FILE_TO_OSMAND) }
 
-        regWidgetVisibilityBtn.setOnClickListener { execApiAction(ApiActionType.REG_WIDGET_VISIBILITY) }
-        regWidgetAvailabilityBtn.setOnClickListener { execApiAction(ApiActionType.REG_WIDGET_AVAILABILITY) }
+        aidlRegWidgetVisibilityBtn.setOnClickListener { execApiAction(ApiActionType.REG_WIDGET_VISIBILITY) }
+        aidlRegWidgetAvailabilityBtn.setOnClickListener { execApiAction(ApiActionType.REG_WIDGET_AVAILABILITY) }
 
         aidlSetNavDrawerItems.setOnClickListener {
             execApiAction(ApiActionType.AIDL_SET_NAV_DRAWER_ITEMS)
