@@ -1137,27 +1137,6 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Method for adding image to the top of Osmand's NavDrawer.
-	 *
-	 * @param imageUri (String)- image's URI.toString
-	 *
-	 * @deprecated
-	 * Use the {@link #setNavDrawerLogoWithParams(String imageUri, String packageName, String intent)} method.
-	 */
-	@Deprecated
-	public boolean setNavDrawerLogo(String imageUri) {
-		if (mIOsmAndAidlInterface != null) {
-			try {
-				return mIOsmAndAidlInterface.setNavDrawerLogo(imageUri);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
-	}
-
-
-	/**
 	 * Method for adding image to the top of OsmAnd's NavDrawer with additional params
 	 *
 	 * @param imageUri (String) - image's URI.toString

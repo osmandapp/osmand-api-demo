@@ -341,7 +341,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/set_nav_drawer_items"
-                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+                android:drawableLeft="@drawable/ic_action_flag_dark" />
 
             <View
                 style="@style/divider_style"
@@ -353,7 +353,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/refresh_map"
-                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+                android:drawableLeft="@drawable/ic_action_flag_dark" />
 
             <View
                 style="@style/divider_style"
@@ -365,7 +365,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_favorite_group"
-                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+                android:drawableLeft="@drawable/ic_action_flag_dark" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlUpdateFavoriteGroupButton"
@@ -373,7 +373,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/update_favorite_group"
-                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+                android:drawableLeft="@drawable/ic_action_flag_dark" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlRemoveFavoriteGroupButton"
@@ -381,7 +381,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/remove_favorite_group"
-                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+                android:drawableLeft="@drawable/ic_action_flag_dark" />
 
             <View
                 style="@style/divider_style"
@@ -393,7 +393,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_favorite"
-                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+                android:drawableLeft="@drawable/ic_action_flag_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlUpdateFavoriteButton"
@@ -401,7 +401,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/update_favorite"
-                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+                android:drawableLeft="@drawable/ic_action_flag_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlRemoveFavoriteButton"
@@ -409,7 +409,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/remove_favorite"
-                tools:drawableLeft="@drawable/ic_action_flag_dark" />
+                android:drawableLeft="@drawable/ic_action_flag_dark" />
 
             <View
                 style="@style/divider_style"
@@ -421,7 +421,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_map_marker"
-                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+                android:drawableLeft="@drawable/ic_action_flag_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlUpdateMapMarkerButton"
@@ -429,7 +429,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/update_map_marker"
-                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+                android:drawableLeft="@drawable/ic_action_flag_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlRemoveMapMarkerButton"
@@ -437,7 +437,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/remove_map_marker"
-                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
+                android:drawableLeft="@drawable/ic_action_flag_dark"/>
 
             <View android:layout_width="match_parent" style="@style/divider_style"/>
 
@@ -447,7 +447,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_map_widget_1"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlAddSecondWidgetButton"
@@ -455,7 +455,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_map_widget_2"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlModifyFirstWidgetButton"
@@ -463,7 +463,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/modify_map_widget_1"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlModifySecondWidgetButton"
@@ -471,7 +471,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/modify_map_widget_2"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlRemoveFirstWidgetButton"
@@ -479,7 +479,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/remove_map_widget_1"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlRemoveSecondWidgetButton"
@@ -487,7 +487,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/remove_map_widget_2"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <View android:layout_width="match_parent" style="@style/divider_style"/>
 
@@ -497,7 +497,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_layer"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlShowMapPoint"
@@ -505,7 +505,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/show_map_point"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlAddPointButton"
@@ -513,7 +513,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_point"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlUpdatePointButton"
@@ -521,7 +521,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/update_point"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlRemovePointButton"
@@ -529,7 +529,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/remove_point"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlRemoveLayerButton"
@@ -537,7 +537,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/remove_layer"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <View android:layout_width="match_parent" style="@style/divider_style"/>
 
@@ -547,7 +547,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/import_gpx"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+                android:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlShowGpxButton"
@@ -555,7 +555,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/show_gpx"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+                android:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlHideGpxButton"
@@ -563,7 +563,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/hide_gpx"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+                android:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlGetActiveGpxButton"
@@ -571,7 +571,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/get_active_gpx_list"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+                android:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlRemoveGpxButton"
@@ -579,7 +579,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/remove_gpx"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+                android:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
             <View android:layout_width="match_parent" style="@style/divider_style"/>
 
@@ -589,7 +589,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/set_map_location"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+                android:drawableLeft="@drawable/ic_action_polygom_dark"/>
 
             <View
                 style="@style/divider_style"
@@ -601,7 +601,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/start_gpx_recording"
-                tools:drawableLeft="@drawable/ic_action_play" />
+                android:drawableLeft="@drawable/ic_action_play" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlStopGpxRecordingButton"
@@ -609,7 +609,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/stop_gpx_recording"
-                tools:drawableLeft="@drawable/ic_action_rec_stop" />
+                android:drawableLeft="@drawable/ic_action_rec_stop" />
 
             <View style="@style/divider_style"
                   android:layout_width="match_parent"/>
@@ -620,7 +620,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/take_photo"
-                tools:drawableLeft="@drawable/ic_action_photo_dark"/>
+                android:drawableLeft="@drawable/ic_action_photo_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlStartVideoRecButton"
@@ -628,7 +628,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/start_video_recording"
-                tools:drawableLeft="@drawable/ic_action_video_dark"/>
+                android:drawableLeft="@drawable/ic_action_video_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlStartAudioRecButton"
@@ -636,7 +636,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/start_audio_recording"
-                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+                android:drawableLeft="@drawable/ic_action_micro_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlStopRecButton"
@@ -644,7 +644,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/stop_recording"
-                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+                android:drawableLeft="@drawable/ic_action_rec_stop"/>
 
             <View style="@style/divider_style"
                   android:layout_width="match_parent"/>
@@ -655,7 +655,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/navigate"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+                android:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlPauseNavigationButton"
@@ -663,7 +663,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/pause_navigation"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+                android:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlResumeNavigationButton"
@@ -671,7 +671,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/resume_navigation"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+                android:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlStopNavigationButton"
@@ -679,7 +679,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/stop_navigation"
-                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
+                android:drawableLeft="@drawable/ic_action_rec_stop"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlMuteNavigationButton"
@@ -687,7 +687,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/mute_navigation"
-                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+                android:drawableLeft="@drawable/ic_action_micro_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlUnmuteNavigationButton"
@@ -695,7 +695,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/unmute_navigation"
-                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
+                android:drawableLeft="@drawable/ic_action_micro_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlSearchButton"
@@ -703,7 +703,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/search"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
+                android:drawableLeft="@drawable/ic_action_gabout_dark"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlNavigateSearchButton"
@@ -711,12 +711,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/search_navigate"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+                android:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
             <View style="@style/divider_style"
                   android:layout_width="match_parent"/>
 
-            
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlRegisterForUpdates"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Register for pings from OsmAnd"
+                android:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlUnregisterFromUpdates"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Unregister from pings"
+                android:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+
+            <View 
+                style="@style/divider_style"
+                android:layout_width="match_parent"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/setNavDrawerLogoWithParams"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set Image to Nav Drawer"
+                android:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/setNavDrawerFooterWithParams"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set Image to Nav Drawer"
+                android:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+
+
 
         </LinearLayout>
 
