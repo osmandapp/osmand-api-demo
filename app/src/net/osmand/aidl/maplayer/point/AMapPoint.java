@@ -2,40 +2,31 @@ package net.osmand.aidl.maplayer.point;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import net.osmand.aidl.map.ALatLon;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.osmand.aidl.map.ALatLon;
 
 public class AMapPoint implements Parcelable {
-
-	/**
-	 * Key for point`s image URI. Image will be displayed on map and in the context menu, if exists.
-	 */
 	public static final String POINT_IMAGE_URI_PARAM = "point_image_uri_param";
-	/**
-	 * Key for point`s speed. Speed will be displayed in the context menu, if exists. The value should be set in meters per second.
-	 */
 	public static final String POINT_SPEED_PARAM = "point_speed_param";
-	/**
-	 * Key for drawable resource name in OsmAnd, which will be used as point`s type icon and displayed in the context menu, if exists.
-	 */
 	public static final String POINT_TYPE_ICON_NAME_PARAM = "point_type_icon_name_param";
+	public static final String POINT_STALE_LOC_PARAM = "point_stale_loc_param";
+	public static final String POINT_BEARING_PARAM = "point_bearing_param";
 
 	private String id;
 	private String shortName;
 	private String fullName;
 	private String typeName;
+	private String layerId;
 	private int color;
 	private ALatLon location;
 	private List<String> details = new ArrayList<>();
 	private Map<String, String> params = new HashMap<>();
 
-	public AMapPoint(String id, String shortName, String fullName, String typeName, int color,
-					 ALatLon location, List<String> details, Map<String, String> params) {
+	public AMapPoint(String id, String shortName, String fullName, String typeName,  String layerId,
+	                 int color, ALatLon location, List<String> details, Map<String, String> params) {
 		this.id = id;
 		this.shortName = shortName;
 		this.fullName = fullName;
@@ -48,6 +39,7 @@ public class AMapPoint implements Parcelable {
 		if (params != null) {
 			this.params.putAll(params);
 		}
+		this.layerId = layerId;
 	}
 
 	public AMapPoint(Parcel in) {
@@ -81,6 +73,10 @@ public class AMapPoint implements Parcelable {
 		return typeName;
 	}
 
+	public String getLayerId() {
+		return layerId;
+	}
+
 	public int getColor() {
 		return color;
 	}
@@ -106,6 +102,7 @@ public class AMapPoint implements Parcelable {
 		out.writeParcelable(location, flags);
 		out.writeStringList(details);
 		out.writeMap(params);
+		out.writeString(layerId);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -117,6 +114,7 @@ public class AMapPoint implements Parcelable {
 		location = in.readParcelable(ALatLon.class.getClassLoader());
 		in.readStringList(details);
 		in.readMap(params, HashMap.class.getClassLoader());
+		layerId = in.readString();
 	}
 
 	public int describeContents() {

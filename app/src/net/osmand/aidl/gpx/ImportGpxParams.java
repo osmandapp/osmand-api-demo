@@ -3,7 +3,6 @@ package net.osmand.aidl.gpx;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.io.File;
 
 public class ImportGpxParams implements Parcelable {

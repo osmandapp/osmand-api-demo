@@ -2,13 +2,11 @@ package net.osmand.aidl.maplayer;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import net.osmand.aidl.maplayer.point.AMapPoint;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import net.osmand.aidl.maplayer.point.AMapPoint;
 
 public class AMapLayer implements Parcelable {
 	private String id;
@@ -64,6 +62,10 @@ public class AMapLayer implements Parcelable {
 
 	public List<AMapPoint> getPoints() {
 		return new ArrayList<>(points.values());
+	}
+
+	public AMapPoint getPoint(String pointId) {
+		return points.get(pointId);
 	}
 
 	public boolean hasPoint(String pointId) {
