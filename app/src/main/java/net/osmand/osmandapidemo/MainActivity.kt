@@ -55,7 +55,14 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         const val REQUEST_NAVIGATE_GPX_URI_AIDL = 1009
         const val AUTHORITY = "net.osmand.osmandapidemo.fileprovider"
         const val GPX_FILE_NAME = "aild_test.gpx"
-
+        
+        const val KEY_UPDATES_LISTENER = "subscribe_for_updates"
+        const val KEY_OSMAND_INIT_LISTENER = "on_osmand_init"
+        const val KEY_GPX_BITMAP_LISTENER = "on_bitmap_created"
+        const val KEY_NAV_INFO_LISTENER = "on_nav_info_update"
+        const val KEY_NAV_CONTEXT_BTN_LISTENER = "on_ctx_btn_click"
+        
+        
         val CITIES = arrayOf(
                 Location("Bruxelles - Brussel", 50.8465565, 4.351697, 50.83477, 4.4068823),
                 Location("London", 51.5073219, -0.1276474, 51.52753, -0.07244986),
@@ -86,6 +93,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     private var progressDialog: ProgressDialog? = null
     private var lastLatitude: Double = 0.0
     private var lastLongitude: Double = 0.0
+    
+    private val callbackKeys = mutableMapOf<String, Long>()
 
     enum class ApiActionType {
         UNDEFINED,
@@ -134,6 +143,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
         AIDL_NAVIGATE,
         AIDL_NAVIGATE_SEARCH,
+        AIDL_REGISTER_FOR_NAV_UPDATES,
+        AIDL_REGISTER_FOR_VOICE_ROUTE_MSGS,
 
         AIDL_PAUSE_NAVIGATION,
         AIDL_RESUME_NAVIGATION,
@@ -142,7 +153,34 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_UNMUTE_NAVIGATION,
 
         AIDL_SEARCH,
-
+        
+        AIDL_REGISTER_FOR_UPDATES,
+        AIDL_UNREGISTER_FORM_UPDATES,
+        
+        AIDL_SET_NAV_DRAWER_LOGO,
+        AIDL_SET_NAV_DRAWER_FOOTER,
+        AIDL_SET_ENABLED_UI_IDS,
+        AIDL_SET_DISABLED_UI_IDS,
+        AIDL_SET_ENABLED_MENU_PATTERNS,
+        AIDL_SET_DISABLED_MENU_PATTERNS,
+        AIDL_REG_WIDGET_VISIBILITY,
+        AIDL_REG_WIDGET_AVAILABILITY,
+        AIDL_CHANGE_PLUGIN_STATE,
+        AIDL_CUSTOMIZE_OSMAND_SETTINGS,
+        AIDL_RESTORE_OSMAND_SETTINGS,
+        AIDL_CHECK_OSMAND_CUSTOMIZATION,
+        AIDL_ADD_CONTEXT_MENU_BTN,
+        AIDL_REMOVE_CONTEXT_MENU_BTN,
+        
+        AIDL_GET_IMPORTED_GPX_FILES,
+        AIDL_GET_SQLITEDB_FILES,
+        AIDL_GET_ACTIVE_SQLITEDB_FILES,
+        AIDL_SHOW_SQLITEDB_FILE,
+        AIDL_HIDE_SQLITEDB_FILE,
+        AIDL_GET_BITMAP_FOR_GPX,
+        AIDL_COPY_FILE_TO_OSMAND,
+        
+        
         INTENT_ADD_FAVORITE,
         INTENT_ADD_MAP_MARKER,
 
@@ -201,6 +239,25 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 ApiActionType.AIDL_REMOVE_FAVORITE_GROUP -> {
                     aidlHelper.removeFavoriteGroup("New group")
+                }
+                ApiActionType.AIDL_REGISTER_FOR_UPDATES -> {
+                    aidlHelper.setUpdateListener { object:OsmAndAidlHelper.UpdateListener {
+                        override fun onUpdatePing() {
+                            Toast.makeText(this@MainActivity, "Ping from OsmAnd every 7 sec", Toast.LENGTH_SHORT).show()
+                        }
+                    } }
+                    callbackKeys.put(KEY_UPDATES_LISTENER, aidlHelper.registerForUpdates(7000))
+                }
+                
+                ApiActionType.AIDL_UNREGISTER_FORM_UPDATES -> {
+                    if (callbackKeys.containsKey(KEY_UPDATES_LISTENER)) {
+                        aidlHelper.unregisterFromUpdates(callbackKeys[KEY_UPDATES_LISTENER]!!)
+                        callbackKeys.remove(KEY_UPDATES_LISTENER)
+                        Toast.makeText(this@MainActivity, "Unsubscribed from OsmAnd pings", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@MainActivity, "You need first to subscribe for updates from OsmAnd", Toast.LENGTH_SHORT).show()
+                    }
+                    
                 }
                 else -> Unit
             }
@@ -767,6 +824,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         muteNavigationButton.setOnClickListener { mOsmAndHelper!!.muteNavigation() }
         unmuteNavigationButton.setOnClickListener { mOsmAndHelper!!.umuteNavigation() }
         getInfoButton.setOnClickListener { mOsmAndHelper!!.getInfo() }
+        aidlRegisterForUpdates.setOnClickListener { execApiActionImpl(ApiActionType.AIDL_REGISTER_FOR_UPDATES) }
+        aidlUnregisterFromUpdates.setOnClickListener { execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FORM_UPDATES) }
+        
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

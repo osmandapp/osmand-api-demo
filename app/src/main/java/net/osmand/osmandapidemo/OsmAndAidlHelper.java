@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -104,9 +105,35 @@ public class OsmAndAidlHelper {
 	private IOsmAndAidlInterface mIOsmAndAidlInterface;
 
 	private SearchCompleteListener mSearchCompleteListener;
+	private UpdateListener updateListener;
+	private OsmandInitializedListener osmandInitializedListener;
+	private GpxBitmapCreatedListener gpxBitmapCreatedListener;
+	private NavigationInfoUpdateListener navigationInfoUpdateListener;
+	private ContextButtonClickListener contextButtonClickListener;
+	
 
 	interface SearchCompleteListener {
 		void onSearchComplete(List<SearchResult> resultSet);
+	}
+	
+	interface UpdateListener {
+		void onUpdatePing();
+	}
+	
+	interface OsmandInitializedListener {
+		void onOsmandInitilized();
+	}
+	
+	interface GpxBitmapCreatedListener {
+		void onGpxBitmapCreated(Bitmap bitmap);
+	}
+	
+	interface NavigationInfoUpdateListener {
+		void onNavigationInfoUpdate(ADirectionInfo directionInfo); 
+	}
+	
+	interface ContextButtonClickListener {
+		void onContextButtonClick(int buttonId, String pointId, String layerId);
 	}
 
 	private IOsmAndAidlCallback.Stub mIOsmAndAidlCallback = new IOsmAndAidlCallback.Stub() {
@@ -119,27 +146,37 @@ public class OsmAndAidlHelper {
 		
 		@Override
 		public void onUpdate() {
-			
+			if (updateListener != null) {
+				updateListener.onUpdatePing();
+			}
 		}
 		
 		@Override
 		public void onAppInitialized() {
-			
+			if (osmandInitializedListener != null) {
+				osmandInitializedListener.onOsmandInitilized();
+			}
 		}
 
 		@Override
 		public void onGpxBitmapCreated(AGpxBitmap bitmap) {
-			
+			if (gpxBitmapCreatedListener != null) {
+				gpxBitmapCreatedListener.onGpxBitmapCreated(bitmap.getBitmap());
+			}
 		}
 
 		@Override
 		public void updateNavigationInfo(ADirectionInfo directionInfo) {
-			
+			if (navigationInfoUpdateListener != null) {
+				navigationInfoUpdateListener.onNavigationInfoUpdate(directionInfo);
+			}
 		}
 
 		@Override
 		public void onContextMenuButtonClicked(int buttonId, String pointId, String layerId) {
-			
+			if (contextButtonClickListener != null) {
+				contextButtonClickListener.onContextButtonClick(buttonId, pointId, layerId);
+			}
 		}
 
 		@Override
@@ -150,6 +187,31 @@ public class OsmAndAidlHelper {
 
 	public void setSearchCompleteListener(SearchCompleteListener mSearchCompleteListener) {
 		this.mSearchCompleteListener = mSearchCompleteListener;
+	}
+
+	public void setUpdateListener(
+		UpdateListener updateListener) {
+		this.updateListener = updateListener;
+	}
+
+	public void setOsmandInitializedListener(
+		OsmandInitializedListener osmandInitializedListener) {
+		this.osmandInitializedListener = osmandInitializedListener;
+	}
+
+	public void setGpxBitmapCreatedListener(
+		GpxBitmapCreatedListener gpxBitmapCreatedListener) {
+		this.gpxBitmapCreatedListener = gpxBitmapCreatedListener;
+	}
+
+	public void setNavigationInfoUpdateListener(
+		NavigationInfoUpdateListener navigationInfoUpdateListener) {
+		this.navigationInfoUpdateListener = navigationInfoUpdateListener;
+	}
+
+	public void setContextButtonClickListener(
+		ContextButtonClickListener contextButtonClickListener) {
+		this.contextButtonClickListener = contextButtonClickListener;
 	}
 
 	/**
@@ -1108,10 +1170,10 @@ public class OsmAndAidlHelper {
 	 * @param callback (IOsmAndCallback)- create and provide instance of {@link IOsmAndAidlCallback} interface
 	 * @return id (long) - id of callback in OsmAnd. Needed to unsubscribe from updates.
 	 */
-	public long registerForUpdates(long updateTimeMS, IOsmAndAidlCallback callback) {
+	public long registerForUpdates(long updateTimeMS) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.registerForUpdates(updateTimeMS, callback);
+				return mIOsmAndAidlInterface.registerForUpdates(updateTimeMS, mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1123,7 +1185,7 @@ public class OsmAndAidlHelper {
 	 * Method to unregister from periodical callbacks from OsmAnd
 	 *
 	 * @param callbackId (long)- id of registered callback (provided by OsmAnd
-	 * in {@link OsmAndAidlHelper#registerForUpdates(long, IOsmAndAidlCallback)})
+	 * in {@link OsmAndAidlHelper#registerForUpdates(long)})
 	 */
 	public boolean unregisterFromUpdates(long callbackId) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1450,13 +1512,13 @@ public class OsmAndAidlHelper {
 	 * @param callback (IOsmAndAidlCallback) - instance of callback from OsmAnd.
 	 */
 	public boolean getBitmapForGpx(Uri gpxUri, float density, int widthPixels, 
-		int heightPixels, int color, IOsmAndAidlCallback callback) {
-		CreateGpxBitmapParams file;
+		int heightPixels, int color) {
+		
 
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.getBitmapForGpx(
-					new CreateGpxBitmapParams(gpxUri, density, widthPixels, heightPixels, color), callback);
+					new CreateGpxBitmapParams(gpxUri, density, widthPixels, heightPixels, color), mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1466,13 +1528,13 @@ public class OsmAndAidlHelper {
 	}
 
 	public boolean getBitmapForGpx(File gpxFile, float density, int widthPixels,
-		int heightPixels, int color, IOsmAndAidlCallback callback) {
+		int heightPixels, int color) {
 		CreateGpxBitmapParams file;
 
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.getBitmapForGpx(
-					new CreateGpxBitmapParams(gpxFile, density, widthPixels, heightPixels, color), callback);
+					new CreateGpxBitmapParams(gpxFile, density, widthPixels, heightPixels, color), mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1510,14 +1572,14 @@ public class OsmAndAidlHelper {
 	 * 
 	 * @return callbackId (long)
 	 */
-	public long registerForNavigationUpdates(boolean subscribeToUpdates, long callbackId, IOsmAndAidlCallback callback) {
+	public long registerForNavigationUpdates(boolean subscribeToUpdates, long callbackId) {
 		ANavigationUpdateParams params = new ANavigationUpdateParams();
 		params.setCallbackId(callbackId);
 		params.setSubscribeToUpdates(subscribeToUpdates);
 
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.registerForNavigationUpdates(params, callback);
+				return mIOsmAndAidlInterface.registerForNavigationUpdates(params, mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1557,8 +1619,7 @@ public class OsmAndAidlHelper {
 		String rightIconNameL, boolean needColorizeIconL, boolean enabledL,
 		int buttonIdR, String leftTextCaptionR, String rightTextCaptionR, String leftIconNameR,
 		String rightIconNameR, boolean needColorizeIconR, boolean enabledR,
-		String id, String appPackage, String layerId, long callbackId, List<String> pointsIds, 
-		IOsmAndAidlCallback callback) {
+		String id, String appPackage, String layerId, long callbackId, List<String> pointsIds) {
 		
 		
 		if (mIOsmAndAidlInterface != null) {
@@ -1574,7 +1635,7 @@ public class OsmAndAidlHelper {
 					rightButtonParams, id, appPackage, layerId, callbackId, pointsIds);
 
 
-				return mIOsmAndAidlInterface.addContextMenuButtons(params, callback) >= 0;
+				return mIOsmAndAidlInterface.addContextMenuButtons(params, mIOsmAndAidlCallback) >= 0;
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1604,52 +1665,7 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
-	/**
-	 * Method to update params on already set custom Context Button.
-	 *
-	 * {@link UpdateContextMenuButtonsParams } is a wrapper class for params:
-	 *
-	 * @param buttonIdL (int at AContextMenuButton) - id of left button in View
-	 * @param leftTextCaptionL (String at AContextMenuButton) - left-side of left button text
-	 * @param rightTextCaptionL (String at AContextMenuButton) - right-side of left button text
-	 * @param leftIconNameL (String at AContextMenuButton) - name of left-side icon of left button
-	 * @param rightIconNameL (String at AContextMenuButton) - name of right-side icon of left button
-	 * @param needColorizeIconL (booleanat AContextMenuButton) - flag to apply color to icon of left button
-	 * @param enabledL (boolean at AContextMenuButton) - enable left button flag 
-	 * @param buttonIdR (int at AContextMenuButton) - id of right button in View
-	 * @param leftTextCaptionR (String at AContextMenuButton) - left-side of right button text
-	 * @param rightTextCaptionR (String at AContextMenuButton) - right-side of right button text
-	 * @param leftIconNameR (String at AContextMenuButton) - name of left-side icon of right button
-	 * @param rightIconNameR (String at AContextMenuButton) - name of right-side icon of right button
-	 * @param needColorizeIconR (booleanat AContextMenuButton) - flag to apply color to icon of right button
-	 * @param enabledR (boolean at AContextMenuButton) - enable right button flags.
-	 * @param id (String) - button id;
-	 * @param appPackage (String) - clinet's app package name
-	 * @param layerId (String) - id of Osmand's map layer
-	 * @param callbackId (long) - {@link IOsmAndAidlCallback} id
-	 * @param pointsIds (List<String>) - list of point Ids to which this rules applies to.
-	 *
-	 */
-	public boolean updateContextMenuButtons(
-		int buttonIdL, String leftTextCaptionL, String rightTextCaptionL, String leftIconNameL,
-		String rightIconNameL, boolean needColorizeIconL, boolean enabledL,
-		int buttonIdR, String leftTextCaptionR, String rightTextCaptionR, String leftIconNameR,
-		String rightIconNameR, boolean needColorizeIconR, boolean enabledR,
-		String id, String appPackage, String layerId, long callbackId, List<String> pointsIds,
-		IOsmAndAidlCallback callback) {
 
-		//parameters for left context button:
-		AContextMenuButton leftButtonParams = new AContextMenuButton(buttonIdL, leftTextCaptionL,
-		rightTextCaptionL, leftIconNameL, rightIconNameL, needColorizeIconL, enabledL);
-		//parameters for right context button:
-		AContextMenuButton rightButtonParams = new AContextMenuButton(buttonIdR, leftTextCaptionR,
-		rightTextCaptionR, leftIconNameR, rightIconNameR, needColorizeIconR, enabledR);
-		UpdateContextMenuButtonsParams params = new UpdateContextMenuButtonsParams(
-			new ContextMenuButtonsParams(leftButtonParams, rightButtonParams, id, appPackage, 
-				layerId, callbackId, pointsIds));
-		
-		return false;
-	}
 	
 	/**
 	 * Method to check if there is a customized setting in OsmAnd Settings.
@@ -1674,7 +1690,7 @@ public class OsmAndAidlHelper {
 	}
 
 	/**
-	 * Method to customize parameters of OsmAnd.
+	 * Macro method to customize parameters of OsmAnd.
 	 *
 	 * params (CustomizationInfoParams) - wrapper class for custom settings and ui:
 	 *
