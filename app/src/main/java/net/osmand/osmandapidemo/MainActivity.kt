@@ -818,14 +818,64 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         navigateSearchButton.setOnClickListener {
             showChooseLocationDialogFragment("Search and Navigate", ApiActionType.INTENT_NAVIGATE_SEARCH, false)
         }
-        pauseNavigationButton.setOnClickListener { mOsmAndHelper!!.pauseNavigation() }
-        resumeNavigationButton.setOnClickListener { mOsmAndHelper!!.resumeNavigation() }
+        pauseNavigationButton.setOnClickListener { 
+            mOsmAndHelper!!.pauseNavigation() 
+        }
+        
+        resumeNavigationButton.setOnClickListener { 
+            mOsmAndHelper!!.resumeNavigation() 
+        }
         stopNavigationButton.setOnClickListener { mOsmAndHelper!!.stopNavigation() }
         muteNavigationButton.setOnClickListener { mOsmAndHelper!!.muteNavigation() }
         unmuteNavigationButton.setOnClickListener { mOsmAndHelper!!.umuteNavigation() }
         getInfoButton.setOnClickListener { mOsmAndHelper!!.getInfo() }
         aidlRegisterForUpdates.setOnClickListener { execApiActionImpl(ApiActionType.AIDL_REGISTER_FOR_UPDATES) }
         aidlUnregisterFromUpdates.setOnClickListener { execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FORM_UPDATES) }
+        setNavDrawerLogoWithParams.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_SET_NAV_DRAWER_LOGO)
+        }
+        
+        setNavDrawerFooterWithParams.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_SET_NAV_DRAWER_FOOTER)
+        }
+        
+        setEnabledIds.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_SET_ENABLED_UI_IDS)
+        }
+        
+        setDisabledIds.setOnClickListener { 
+            execApiActionImpl(ApiActionType.AIDL_SET_DISABLED_UI_IDS) 
+        }
+        
+        setEnabledPatterns.setOnClickListener { 
+            execApiActionImpl(ApiActionType.AIDL_SET_ENABLED_MENU_PATTERNS)
+        }
+        
+        setDisabledIds.setOnClickListener { 
+            execApiActionImpl(ApiActionType.AIDL_SET_DISABLED_MENU_PATTERNS)
+        }
+        
+        regWidgetAvailability.setOnClickListener { 
+            execApiActionImpl(ApiActionType.AIDL_REG_WIDGET_AVAILABILITY)
+        }
+
+        regWidgetVisibility.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_REG_WIDGET_VISIBILITY)
+        }
+        
+        regWidgetAvailability.setOnClickListener { 
+            execApiActionImpl(ApiActionType.AIDL_REG_WIDGET_AVAILABILITY)
+        }
+        
+        changePluginState.setOnClickListener { 
+            execApiActionImpl(ApiActionType.AIDL_CHANGE_PLUGIN_STATE)
+        }
+        
+        customizeOsmandSettings.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_CUSTOMIZE_OSMAND_SETTINGS)
+        }
+
+        
         
     }
 
