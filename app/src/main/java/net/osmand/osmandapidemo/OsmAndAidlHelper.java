@@ -1,7 +1,5 @@
 package main.java.net.osmand.osmandapidemo;
 
-import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_IO_ERROR;
-
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,7 +12,6 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 
-import java.nio.file.Files;
 import net.osmand.aidl.IOsmAndAidlCallback;
 import net.osmand.aidl.IOsmAndAidlInterface;
 import net.osmand.aidl.contextmenu.AContextMenuButton;
@@ -58,6 +55,7 @@ import net.osmand.aidl.maplayer.point.UpdateMapPointParams;
 import net.osmand.aidl.mapmarker.AMapMarker;
 import net.osmand.aidl.mapmarker.AddMapMarkerParams;
 import net.osmand.aidl.mapmarker.RemoveMapMarkerParams;
+import net.osmand.aidl.mapmarker.RemoveMapMarkersParams;
 import net.osmand.aidl.mapmarker.UpdateMapMarkerParams;
 import net.osmand.aidl.mapwidget.AMapWidget;
 import net.osmand.aidl.mapwidget.AddMapWidgetParams;
@@ -86,6 +84,7 @@ import net.osmand.aidl.note.TakePhotoNoteParams;
 import net.osmand.aidl.plugins.PluginParams;
 import net.osmand.aidl.search.SearchParams;
 import net.osmand.aidl.search.SearchResult;
+import net.osmand.aidl.tiles.ASqliteDbFile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -93,7 +92,8 @@ import java.util.List;
 import java.util.Map;
 
 import main.java.net.osmand.osmandapidemo.OsmAndHelper.OnOsmandMissingListener;
-import net.osmand.aidl.tiles.ASqliteDbFile;
+
+import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_IO_ERROR;
 
 public class OsmAndAidlHelper {
 
@@ -111,7 +111,8 @@ public class OsmAndAidlHelper {
 	private GpxBitmapCreatedListener gpxBitmapCreatedListener;
 	private NavigationInfoUpdateListener navigationInfoUpdateListener;
 	private ContextButtonClickListener contextButtonClickListener;
-	
+	private VoiceRouterNotifyListener voiceRouterNotifyListener;
+
 
 	interface SearchCompleteListener {
 		void onSearchComplete(List<SearchResult> resultSet);
@@ -135,6 +136,10 @@ public class OsmAndAidlHelper {
 	
 	interface ContextButtonClickListener {
 		void onContextButtonClick(int buttonId, String pointId, String layerId);
+	}
+
+	interface VoiceRouterNotifyListener {
+		void onVoiceRouterNotify(OnVoiceNavigationParams params);
 	}
 
 	private IOsmAndAidlCallback.Stub mIOsmAndAidlCallback = new IOsmAndAidlCallback.Stub() {
@@ -182,7 +187,9 @@ public class OsmAndAidlHelper {
 
 		@Override
 		public void onVoiceRouterNotify(OnVoiceNavigationParams params) throws RemoteException {
-
+			if (voiceRouterNotifyListener != null) {
+				voiceRouterNotifyListener.onVoiceRouterNotify(params);
+			}
 		}
 	};
 
@@ -190,29 +197,28 @@ public class OsmAndAidlHelper {
 		this.mSearchCompleteListener = mSearchCompleteListener;
 	}
 
-	public void setUpdateListener(
-		UpdateListener updateListener) {
+	public void setUpdateListener(UpdateListener updateListener) {
 		this.updateListener = updateListener;
 	}
 
-	public void setOsmandInitializedListener(
-		OsmandInitializedListener osmandInitializedListener) {
+	public void setOsmandInitializedListener(OsmandInitializedListener osmandInitializedListener) {
 		this.osmandInitializedListener = osmandInitializedListener;
 	}
 
-	public void setGpxBitmapCreatedListener(
-		GpxBitmapCreatedListener gpxBitmapCreatedListener) {
+	public void setGpxBitmapCreatedListener(GpxBitmapCreatedListener gpxBitmapCreatedListener) {
 		this.gpxBitmapCreatedListener = gpxBitmapCreatedListener;
 	}
 
-	public void setNavigationInfoUpdateListener(
-		NavigationInfoUpdateListener navigationInfoUpdateListener) {
+	public void setNavigationInfoUpdateListener(NavigationInfoUpdateListener navigationInfoUpdateListener) {
 		this.navigationInfoUpdateListener = navigationInfoUpdateListener;
 	}
 
-	public void setContextButtonClickListener(
-		ContextButtonClickListener contextButtonClickListener) {
+	public void setContextButtonClickListener(ContextButtonClickListener contextButtonClickListener) {
 		this.contextButtonClickListener = contextButtonClickListener;
+	}
+
+	public void setVoiceRouterNotifyListener(VoiceRouterNotifyListener voiceRouterNotifyListener) {
+		this.voiceRouterNotifyListener = voiceRouterNotifyListener;
 	}
 
 	/**
@@ -904,10 +910,10 @@ public class OsmAndAidlHelper {
 	/**
 	 * Start gpx recording.
 	 */
-	public boolean startGpxRecording(StartGpxRecordingParams params) {
+	public boolean startGpxRecording() {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.startGpxRecording(params);
+				return mIOsmAndAidlInterface.startGpxRecording(new StartGpxRecordingParams());
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -918,10 +924,10 @@ public class OsmAndAidlHelper {
 	/**
 	 * Stop gpx recording.
 	 */
-	public boolean stopGpxRecording(StopGpxRecordingParams params) {
+	public boolean stopGpxRecording() {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.stopGpxRecording(params);
+				return mIOsmAndAidlInterface.stopGpxRecording(new StopGpxRecordingParams());
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1488,10 +1494,10 @@ public class OsmAndAidlHelper {
 	 * Method to register for callback on OsmAnd initialization
 	 * @param callback (IOsmAndAidlCallback) - create and provide instance of {@link IOsmAndAidlCallback} interface
 	 */
-	public boolean registerForOsmandInitListener(IOsmAndAidlCallback callback) {
+	public boolean registerForOsmandInitListener() {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.registerForOsmandInitListener(callback);
+				return mIOsmAndAidlInterface.registerForOsmandInitListener(mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1666,8 +1672,63 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	/**
+	 * Method to update params on already set custom Context Button.
+	 *
+	 * {@link UpdateContextMenuButtonsParams } is a wrapper class for params:
+	 *
+	 * @param buttonIdL (int at AContextMenuButton) - id of left button in View
+	 * @param leftTextCaptionL (String at AContextMenuButton) - left-side of left button text
+	 * @param rightTextCaptionL (String at AContextMenuButton) - right-side of left button text
+	 * @param leftIconNameL (String at AContextMenuButton) - name of left-side icon of left button
+	 * @param rightIconNameL (String at AContextMenuButton) - name of right-side icon of left button
+	 * @param needColorizeIconL (booleanat AContextMenuButton) - flag to apply color to icon of left button
+	 * @param enabledL (boolean at AContextMenuButton) - enable left button flag
+	 * @param buttonIdR (int at AContextMenuButton) - id of right button in View
+	 * @param leftTextCaptionR (String at AContextMenuButton) - left-side of right button text
+	 * @param rightTextCaptionR (String at AContextMenuButton) - right-side of right button text
+	 * @param leftIconNameR (String at AContextMenuButton) - name of left-side icon of right button
+	 * @param rightIconNameR (String at AContextMenuButton) - name of right-side icon of right button
+	 * @param needColorizeIconR (booleanat AContextMenuButton) - flag to apply color to icon of right button
+	 * @param enabledR (boolean at AContextMenuButton) - enable right button flag
+	 *
+	 * @param id (String) - button id;
+	 * @param appPackage (String) - clinet's app package name
+	 * @param layerId (String) - id of Osmand's map layer
+	 * @param callbackId (long) - {@link IOsmAndAidlCallback} id
+	 * @param pointsIds (List<String>) - list of point Ids to which this rules applies to.
+	 *
+	 */
+	public boolean updateContextMenuButtons(
+			int buttonIdL, String leftTextCaptionL, String rightTextCaptionL, String leftIconNameL,
+			String rightIconNameL, boolean needColorizeIconL, boolean enabledL,
+			int buttonIdR, String leftTextCaptionR, String rightTextCaptionR, String leftIconNameR,
+			String rightIconNameR, boolean needColorizeIconR, boolean enabledR,
+			String id, String appPackage, String layerId, long callbackId, List<String> pointsIds) {
 
-	
+
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				//parameters for left context button, could be null:
+				AContextMenuButton leftButtonParams = new AContextMenuButton(buttonIdL, leftTextCaptionL,
+						rightTextCaptionL, leftIconNameL, rightIconNameL, needColorizeIconL, enabledL);
+				//parameters for right context button, could be null:
+				AContextMenuButton rightButtonParams = new AContextMenuButton(buttonIdR, leftTextCaptionR,
+						rightTextCaptionR, leftIconNameR, rightIconNameR, needColorizeIconR, enabledR);
+
+				ContextMenuButtonsParams params = new ContextMenuButtonsParams(leftButtonParams,
+						rightButtonParams, id, appPackage, layerId, callbackId, pointsIds);
+
+				UpdateContextMenuButtonsParams updateParams = new UpdateContextMenuButtonsParams(params);
+				return mIOsmAndAidlInterface.updateContextMenuButtons(updateParams);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * Method to check if there is a customized setting in OsmAnd Settings.
 	 *
@@ -1723,12 +1784,28 @@ public class OsmAndAidlHelper {
 	 * 			   See {@link #setDisabledPatterns(List<String>) setDisabledPatterns}
 	 *
 	 */
-	public boolean setCustomization(OsmandSettingsParams settingsParams, NavDrawerHeaderParams navDrawerHeaderParams,
-		NavDrawerFooterParams navDrawerFooterParams, ArrayList<SetWidgetsParams> visibilityWidgetsParams, 
-		ArrayList<SetWidgetsParams> availabilityWidgetsParams, ArrayList<PluginParams> pluginsParams,
-		List<String> featuresEnabledIds, List<String> featuresDisabledIds, List<String> featuresEnabledPatterns, 
-		List<String> featuresDisabledPatterns) {
-		CustomizationInfoParams params;
+	public boolean setCustomization(
+			OsmandSettingsParams settingsParams,
+			NavDrawerHeaderParams navDrawerHeaderParams,
+			NavDrawerFooterParams navDrawerFooterParams,
+			SetNavDrawerItemsParams navDrawerItemsParams,
+			ArrayList<SetWidgetsParams> visibilityWidgetsParams,
+			ArrayList<SetWidgetsParams> availabilityWidgetsParams,
+			ArrayList<PluginParams> pluginsParams,
+			List<String> featuresEnabledIds,
+			List<String> featuresDisabledIds,
+			List<String> featuresEnabledPatterns,
+			List<String> featuresDisabledPatterns) {
+
+		CustomizationInfoParams customizationParams = new CustomizationInfoParams(settingsParams, navDrawerHeaderParams, navDrawerFooterParams, navDrawerItemsParams, visibilityWidgetsParams, availabilityWidgetsParams, pluginsParams, featuresEnabledIds, featuresDisabledIds, featuresEnabledPatterns, featuresDisabledPatterns);
+
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				mIOsmAndAidlInterface.setCustomization(customizationParams);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
@@ -1753,5 +1830,19 @@ public class OsmAndAidlHelper {
 		}
 		return -1L;
 	}
-	
+
+	/**
+	 * Removes all active map markers (marks them as passed and moves to history)
+	 * Empty class of params
+	 */
+	public boolean removeAllActiveMapMarkers() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.removeAllActiveMapMarkers(new RemoveMapMarkersParams());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 }

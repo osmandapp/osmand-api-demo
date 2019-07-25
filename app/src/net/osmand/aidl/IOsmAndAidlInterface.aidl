@@ -796,6 +796,9 @@ interface IOsmAndAidlInterface {
      * @param navDrawerFooterParams (NavDrawerFooterParams) - wrapper class for OsmAnd navdrawer footer params.
      * 			   See {@link #setNavDrawerFooterWithParams(in NavDrawerFooterParams params) setNavDrawerFooterWithParams}
      * 			   method description for details.
+     * @param navDrawerItemsParams (SetNavDrawerItemsParams) - wrapper class for OsmAnd navdrawer items params.
+     * 			   See {@link #setNavDrawerItems(in SetNavDrawerItemsParams params) setNavDrawerItems}
+     * 			   method description for details.
      * @param visibilityWidgetsParams (ArrayList<SetWidgetsParams>) - wrapper class for OsmAnd widgets visibility.
      * 			   See {@link #regWidgetVisibility(in SetWidgetsParams params) regWidgetVisibility}
      * 			   method description for details.
