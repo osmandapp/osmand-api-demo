@@ -74,6 +74,7 @@ import net.osmand.aidl.navigation.MuteNavigationParams;
 import net.osmand.aidl.navigation.NavigateGpxParams;
 import net.osmand.aidl.navigation.NavigateParams;
 import net.osmand.aidl.navigation.NavigateSearchParams;
+import net.osmand.aidl.navigation.OnVoiceNavigationParams;
 import net.osmand.aidl.navigation.PauseNavigationParams;
 import net.osmand.aidl.navigation.ResumeNavigationParams;
 import net.osmand.aidl.navigation.StopNavigationParams;
@@ -180,8 +181,8 @@ public class OsmAndAidlHelper {
 		}
 
 		@Override
-		public void onVoiceRouterNotify() {
-			
+		public void onVoiceRouterNotify(OnVoiceNavigationParams params) throws RemoteException {
+
 		}
 	};
 

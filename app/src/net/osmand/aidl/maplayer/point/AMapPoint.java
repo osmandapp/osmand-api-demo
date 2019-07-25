@@ -25,12 +25,13 @@ public class AMapPoint implements Parcelable {
 	private List<String> details = new ArrayList<>();
 	private Map<String, String> params = new HashMap<>();
 
-	public AMapPoint(String id, String shortName, String fullName, String typeName,  String layerId,
+	public AMapPoint(String id, String shortName, String fullName, String typeName, String layerId,
 	                 int color, ALatLon location, List<String> details, Map<String, String> params) {
 		this.id = id;
 		this.shortName = shortName;
 		this.fullName = fullName;
 		this.typeName = typeName;
+		this.layerId = layerId;
 		this.color = color;
 		this.location = location;
 		if (details != null) {
@@ -39,7 +40,6 @@ public class AMapPoint implements Parcelable {
 		if (params != null) {
 			this.params.putAll(params);
 		}
-		this.layerId = layerId;
 	}
 
 	public AMapPoint(Parcel in) {
