@@ -380,6 +380,8 @@ interface IOsmAndAidlInterface {
     /**
      * Take photo note.
      *
+     * AudioVideoNotesPlugin must be enabled for taking photo notes
+     *
      * @param lat (double) - latutude of photo note.
      * @param lon (double) - longitude of photo note.
      */
@@ -388,6 +390,8 @@ interface IOsmAndAidlInterface {
     /**
      * Start video note recording.
      *
+     * AudioVideoNotesPlugin must be enabled for taking video notes
+     *
      * @param lat (double) - latutude of video note point.
      * @param lon (double) - longitude of video note point.
      */
@@ -395,6 +399,8 @@ interface IOsmAndAidlInterface {
 
     /**
      * Start audio note recording.
+     *
+     * AudioVideoNotesPlugin must be enabled for taking audio notes
      *
      * @param lat (double) - latutude of audio note point.
      * @param lon (double) - longitude of audio note point.

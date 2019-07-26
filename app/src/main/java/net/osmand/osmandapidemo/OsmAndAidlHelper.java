@@ -1168,8 +1168,6 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 	
-	//==========================================================================================
-
 	/**
 	 * Method to register for periodical callbacks from OsmAnd
 	 *
@@ -1297,8 +1295,6 @@ public class OsmAndAidlHelper {
 	 * @param appModesKeys - list of OsmAnd Application modes widget active with. Could be "null" for all modes.
 	 */
 	public boolean regWidgetVisibility(String widgetKey, List<String> appModesKeys) {
-		SetWidgetsParams params;
-
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.regWidgetVisibility(new SetWidgetsParams(widgetKey, appModesKeys));
@@ -1316,8 +1312,6 @@ public class OsmAndAidlHelper {
 	 * @param appModKeys (List<String>)- ist of OsmAnd Application modes widget active with. Could be "null" for all modes.
 	 */
 	public boolean regWidgetAvailability(String widgetKey, List<String> appModKeys) {
-		SetWidgetsParams params;
-
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.regWidgetAvailability(new SetWidgetsParams(widgetKey, appModKeys));
@@ -1336,12 +1330,9 @@ public class OsmAndAidlHelper {
 	 *                         and Settings params
 	 */
 	public boolean customizeOsmandSettings(String sharedPreferencesName, Bundle bundle) {
-		OsmandSettingsParams params;
-
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.customizeOsmandSettings(
-					new OsmandSettingsParams(sharedPreferencesName, bundle));
+				return mIOsmAndAidlInterface.customizeOsmandSettings(new OsmandSettingsParams(sharedPreferencesName, bundle));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1444,11 +1435,9 @@ public class OsmAndAidlHelper {
 	 * @param appName (String) - client's app name
 	 */
 	public boolean setNavDrawerFooterWithParams(String packageName, String intent, String appName) {
-		NavDrawerFooterParams params;
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.setNavDrawerFooterWithParams(
-					new NavDrawerFooterParams(packageName, intent, appName));
+				return mIOsmAndAidlInterface.setNavDrawerFooterWithParams(new NavDrawerFooterParams(packageName, intent, appName));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1478,7 +1467,6 @@ public class OsmAndAidlHelper {
 	 * @param newState (int) - new state (0 - off, 1 - on).
 	 */
 	public boolean changePluginState(String pluginId, int newState) {
-		PluginParams params;
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.changePluginState(new PluginParams(pluginId, newState));
@@ -1518,14 +1506,11 @@ public class OsmAndAidlHelper {
 	 * @param color (int) - color in ARGB format
 	 * @param callback (IOsmAndAidlCallback) - instance of callback from OsmAnd.
 	 */
-	public boolean getBitmapForGpx(Uri gpxUri, float density, int widthPixels, 
-		int heightPixels, int color) {
-		
-
+	public boolean getBitmapForGpx(Uri gpxUri, float density, int widthPixels, int heightPixels, int color) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.getBitmapForGpx(
-					new CreateGpxBitmapParams(gpxUri, density, widthPixels, heightPixels, color), mIOsmAndAidlCallback);
+				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				return mIOsmAndAidlInterface.getBitmapForGpx(new CreateGpxBitmapParams(gpxUri, density, widthPixels, heightPixels, color), mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1534,14 +1519,11 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
-	public boolean getBitmapForGpx(File gpxFile, float density, int widthPixels,
-		int heightPixels, int color) {
-		CreateGpxBitmapParams file;
-
+	public boolean getBitmapForGpx(File gpxFile, float density, int widthPixels, int heightPixels, int color) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.getBitmapForGpx(
-					new CreateGpxBitmapParams(gpxFile, density, widthPixels, heightPixels, color), mIOsmAndAidlCallback);
+//				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				return mIOsmAndAidlInterface.getBitmapForGpx(new CreateGpxBitmapParams(gpxFile, density, widthPixels, heightPixels, color), mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1580,12 +1562,12 @@ public class OsmAndAidlHelper {
 	 * @return callbackId (long)
 	 */
 	public long registerForNavigationUpdates(boolean subscribeToUpdates, long callbackId) {
-		ANavigationUpdateParams params = new ANavigationUpdateParams();
-		params.setCallbackId(callbackId);
-		params.setSubscribeToUpdates(subscribeToUpdates);
-
 		if (mIOsmAndAidlInterface != null) {
 			try {
+				ANavigationUpdateParams params = new ANavigationUpdateParams();
+				params.setCallbackId(callbackId);
+				params.setSubscribeToUpdates(subscribeToUpdates);
+
 				return mIOsmAndAidlInterface.registerForNavigationUpdates(params, mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -1640,7 +1622,6 @@ public class OsmAndAidlHelper {
 				
 				ContextMenuButtonsParams params = new ContextMenuButtonsParams(leftButtonParams,
 					rightButtonParams, id, appPackage, layerId, callbackId, pointsIds);
-
 
 				return mIOsmAndAidlInterface.addContextMenuButtons(params, mIOsmAndAidlCallback) >= 0;
 			} catch (RemoteException e) {
@@ -1720,6 +1701,7 @@ public class OsmAndAidlHelper {
 						rightButtonParams, id, appPackage, layerId, callbackId, pointsIds);
 
 				UpdateContextMenuButtonsParams updateParams = new UpdateContextMenuButtonsParams(params);
+
 				return mIOsmAndAidlInterface.updateContextMenuButtons(updateParams);
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -1816,14 +1798,13 @@ public class OsmAndAidlHelper {
 	 * @params callbackId (long) - id of callback, needed to unsubscribe from messages
 	 * @params callback (IOsmAndAidlCallback) - callback to notify user on voice message
 	 */
-	public long registerForVoiceRouterMessages(boolean subscribeToUpdates, long callbackId, IOsmAndAidlCallback callback) {
+	public long registerForVoiceRouterMessages(boolean subscribeToUpdates, long callbackId) {
 		ANavigationVoiceRouterMessageParams params = new ANavigationVoiceRouterMessageParams();
 		params.setCallbackId(callbackId);
 		params.setSubscribeToUpdates(subscribeToUpdates);
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.registerForVoiceRouterMessages(
-					params, callback);
+				return mIOsmAndAidlInterface.registerForVoiceRouterMessages(params, mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1843,6 +1824,7 @@ public class OsmAndAidlHelper {
 				e.printStackTrace();
 			}
 		}
+
 		return false;
 	}
 }
