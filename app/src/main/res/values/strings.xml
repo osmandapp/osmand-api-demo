@@ -70,7 +70,8 @@
     <string name="register_for_navigation_updates">Register for navigation updates</string>
     <string name="unregister_for_navigation_updates">Unregister for navigation updates</string>
     <string name="get_bitmap_for_gpx">Get bitmap for gpx</string>
-    <string name="copy_file">Copy file</string>
+    <string name="get_gpx_color">Get GPX color</string>
+    <string name="copy_file">Copy file to OsmAnd</string>
     <string name="register_for_osmand_init_listener">Register for osmand init listener</string>
     <string name="change_plugin_state">Change plugin state</string>
     <string name="restore_osmand">Restore osmand</string>
@@ -99,6 +100,9 @@
     <string name="remove_map_point">Remove map point</string>
     <string name="add_map_point">Add map point</string>
     <string name="update_map_widget">Update map widget</string>
+    <string name="update_second_map_widget">Update second map widget</string>
     <string name="remove_map_widget">Remove map widget</string>
     <string name="add_map_widget">Add map widget</string>
+	<string name="shared_string_files">Files</string>
+    <string name="import_file">Import file to OsmAnd</string>
 </resources>

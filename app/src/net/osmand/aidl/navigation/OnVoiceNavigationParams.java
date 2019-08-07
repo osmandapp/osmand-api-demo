@@ -8,8 +8,16 @@ import java.util.List;
 
 public class OnVoiceNavigationParams implements Parcelable {
 
-	private List<String> cmds;
-	private List<String> played;
+	private List<String> cmds = new ArrayList<>();
+	private List<String> played = new ArrayList<>();
+
+	public List<String> getCmds() {
+		return cmds;
+	}
+
+	public List<String> getPlayed() {
+		return played;
+	}
 
 	public OnVoiceNavigationParams() {
 		cmds = new ArrayList<>();

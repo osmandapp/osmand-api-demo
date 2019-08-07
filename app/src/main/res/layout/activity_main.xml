@@ -318,6 +318,36 @@
                 style="@style/categoryStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/shared_string_files"/>
+
+            <View style="@style/divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/importFileButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/import_file"
+                tools:drawableLeft="@drawable/ic_action_fav_dark"/>
+            
+        </LinearLayout>
+
+        <include layout="@layout/card_bottom_divider"/>
+
+        <!--AIDL - Markers and Favorites-->
+        <include layout="@layout/card_top_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/itemBackgroundColor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="AIDL - Markers and Favorites"/>
 
             <View style="@style/divider_style"/>
@@ -650,6 +680,14 @@
                 android:drawableLeft="@drawable/ic_action_flag_dark"
                 android:text="@string/get_bitmap_for_gpx"/>
 
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlGetGpxColorButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/get_gpx_color"/>
+
             <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
@@ -898,7 +936,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/register_for_voice_router_messages"/>
+                android:text="@string/unregister_for_voice_router_messages"/>
 
             <View style="@style/short_divider_style"/>
 
@@ -1138,7 +1176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_map_widget"/>
+                android:text="@string/update_second_map_widget"/>
 
             <View style="@style/short_divider_style"/>
 

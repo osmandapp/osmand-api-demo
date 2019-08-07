@@ -35,6 +35,7 @@ import net.osmand.aidl.gpx.AGpxBitmap;
 import net.osmand.aidl.gpx.AGpxFile;
 import net.osmand.aidl.gpx.ASelectedGpxFile;
 import net.osmand.aidl.gpx.CreateGpxBitmapParams;
+import net.osmand.aidl.gpx.GpxColorParams;
 import net.osmand.aidl.gpx.HideGpxParams;
 import net.osmand.aidl.gpx.ImportGpxParams;
 import net.osmand.aidl.gpx.RemoveGpxParams;
@@ -86,14 +87,26 @@ import net.osmand.aidl.search.SearchParams;
 import net.osmand.aidl.search.SearchResult;
 import net.osmand.aidl.tiles.ASqliteDbFile;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import main.java.net.osmand.osmandapidemo.OsmAndHelper.OnOsmandMissingListener;
 
+import static net.osmand.aidl.OsmandAidlConstants.BUFFER_SIZE;
 import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_IO_ERROR;
+import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_MAX_LOCK_TIME_MS;
+import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_PARAMS_ERROR;
+import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_PART_SIZE_LIMIT_ERROR;
+import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_UNSUPPORTED_FILE_TYPE_ERROR;
+import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_WRITE_LOCK_ERROR;
+import static net.osmand.aidl.OsmandAidlConstants.MAX_RETRY_COUNT;
+import static net.osmand.aidl.OsmandAidlConstants.OK_RESPONSE;
 
 public class OsmAndAidlHelper {
 
@@ -1531,6 +1544,82 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
+	public boolean fileImportImpl(Uri uri, String fileName) {
+		boolean isError = false;
+		byte[] data = new byte[(int) BUFFER_SIZE];
+		long retryInterval = COPY_FILE_MAX_LOCK_TIME_MS / 3;
+		long startTime = System.currentTimeMillis();
+		long fileSize = Utils.INSTANCE.getFileSize(app, uri);
+		long readBytes = 0L;
+		double chunkSize = fileSize / 100;
+		int progressCounter = 0;
+		try {
+			DataInputStream bis;
+			if (uri.getScheme().equals("content")) {
+				bis = new DataInputStream(app.getContentResolver().openInputStream(uri));
+			} else {
+				bis = new DataInputStream(new FileInputStream(app.getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor()));
+			}
+			int retryCounter = 0;
+			int response = OK_RESPONSE;
+			int read = 0;
+			while (read != -1 && !isError) {
+				switch (response) {
+					case OK_RESPONSE:
+						readBytes += read;
+						if (readBytes >= chunkSize) {
+							readBytes -= chunkSize;
+							progressCounter++;
+//							publishProgress(progressCounter);
+						}
+						read = bis.read(data);
+						if (read > 0 && read < data.length) {
+							data = Arrays.copyOf(data, read);
+						} else if (read <= 0) {
+							data = new byte[0];
+						} 
+						break;
+					case COPY_FILE_WRITE_LOCK_ERROR :
+						if (retryCounter < MAX_RETRY_COUNT) {
+//							log.error("File is writing by another process. Retry in $retryInterval ms.")
+							retryCounter++;
+							Thread.sleep(retryInterval);
+						} else {
+//							log.error("File is writing by another process. Stop.")
+							isError = true;
+						}
+						break;
+						
+					case COPY_FILE_PARAMS_ERROR :
+//						log.error("Illegal parameters");
+						isError = true;
+					break;
+					case COPY_FILE_PART_SIZE_LIMIT_ERROR :
+//						log.error("File part size must no exceed $COPY_FILE_PART_SIZE_LIMIT bytes");
+						isError = true;
+					break;
+					case COPY_FILE_IO_ERROR :
+//						log.error("I/O Error");
+						isError = true;
+						break;
+					case COPY_FILE_UNSUPPORTED_FILE_TYPE_ERROR :
+//						log.error("Unsupported file type");
+						isError = true;
+					break;
+				}
+				if (!isError) {
+					response = copyFile(fileName, data, startTime, read == -1);
+				}
+			}
+			bis.close();
+			return !isError;
+		} catch (IOException e) {
+			return false;
+		} catch (InterruptedException e) {
+			return false;
+		}
+	}
+
 	/**
 	 * Method to copy files to OsmAnd part by part. For now supports only sqlitedb format.
 	 * Part size (bytearray) should not exceed 256k.
@@ -1825,6 +1914,25 @@ public class OsmAndAidlHelper {
 			}
 		}
 
+		return false;
+	}
+
+	/**
+	 * Method to get color name for gpx.
+	 *
+	 * @param fileName (String) - name of gpx file.
+	 *
+	 * Which used in {@link #importGpx(in ImportGpxParams params) importGpx}
+	 * Or color hex if gpx has custom color.
+	 */
+	public boolean getGpxColor(GpxColorParams params) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.getGpxColor(params);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 }

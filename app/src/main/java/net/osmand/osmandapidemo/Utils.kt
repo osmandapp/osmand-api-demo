@@ -1,6 +1,9 @@
 package main.java.net.osmand.osmandapidemo
 
 import android.content.Context
+import android.database.Cursor
+import android.net.Uri
+import android.provider.OpenableColumns
 import java.text.MessageFormat
 
 object Utils {
@@ -36,5 +39,38 @@ object Utils {
 			meters > 0.999f * mainUnitInMeters -> MessageFormat.format(format2 + mainUnitStr, meters / mainUnitInMeters).replace('\n', ' ')
 			else -> "${(meters + 0.5).toInt()} m"
 		}
+	}
+
+	fun getFileSize(ctx: Context, uri: Uri): Long {
+		val cursor = ctx.contentResolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)
+		var size: Long = -1
+		cursor?.use {
+			if (it.moveToFirst()) {
+				val sizeIndex = it.getColumnIndex(OpenableColumns.SIZE)
+				if (sizeIndex != -1 && !it.isNull(sizeIndex)) {
+					size = it.getLong(sizeIndex)
+				}
+			}
+		}
+		return size
+	}
+
+	fun getNameFromContentUri(contentUri : Uri, ctx : Context) : String? {
+		val name : String?
+		val returnCursor : Cursor = ctx.getContentResolver().query(contentUri, null, null, null, null);
+		if (returnCursor != null && returnCursor.moveToFirst()) {
+			var columnIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+			if (columnIndex != -1) {
+				name = returnCursor.getString(columnIndex)
+			} else {
+				name = contentUri.getLastPathSegment()
+			}
+		} else {
+			name = null;
+		}
+		if (returnCursor != null && !returnCursor.isClosed()) {
+			returnCursor.close();
+		}
+		return name;
 	}
 }
