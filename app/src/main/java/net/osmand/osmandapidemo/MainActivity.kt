@@ -68,8 +68,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         const val REQUEST_COPY_FILE = 1011
         const val REQUEST_IMPORT_FILE = 1012
         const val AUTHORITY = "net.osmand.osmandapidemo.fileprovider"
-        const val GPX_FILE_NAME = "aild_test.gpx"
-        const val SQLDB_FILE_NAME = "aidl_test.sqlitedb"
+        const val GPX_FILE_NAME = "test.gpx"
+        const val SQLDB_FILE_NAME = "test.sqlitedb"
 
         const val MAP_LAYER_ID = "layer_1"
 
@@ -1280,13 +1280,13 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     handleGpxFileAsString(data!!) { result -> mOsmAndHelper!!.navigateRawGpx(true, result) }
                 }
                 REQUEST_NAVIGATE_GPX_URI -> {
-                    handleGpxUri(data!!) { result -> mOsmAndHelper!!.navigateGpxUri(true, result) }
+                    handleFileUri(data!!, GPX_FILE_NAME) { result -> mOsmAndHelper!!.navigateGpxUri(true, result) }
                 }
                 REQUEST_SHOW_GPX_RAW_DATA -> {
                     handleGpxFileAsString(data!!) { result -> mOsmAndHelper!!.showRawGpx(result) }
                 }
                 REQUEST_SHOW_GPX_URI -> {
-                    handleGpxUri(data!!) { result -> mOsmAndHelper!!.showGpxUri(result) }
+                    handleFileUri(data!!, GPX_FILE_NAME) { result -> mOsmAndHelper!!.showGpxUri(result) }
                 }
                 REQUEST_SHOW_GPX_RAW_DATA_AIDL -> {
                     Handler().postDelayed({
@@ -1297,7 +1297,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 REQUEST_SHOW_GPX_URI_AIDL -> {
                     Handler().postDelayed({
                         val color = GPX_COLORS[((GPX_COLORS.size - 1) * Math.random()).toInt()]
-                        handleGpxUri(data!!) { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME, color, true) }
+                        handleFileUri(data!!, GPX_FILE_NAME) { data -> mAidlHelper!!.importGpxFromUri(data, GPX_FILE_NAME, color, true) }
                     }, delay)
                 }
                 REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL -> {
@@ -1307,12 +1307,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 REQUEST_NAVIGATE_GPX_URI_AIDL -> {
                     Handler().postDelayed({
-                        handleGpxUri(data!!) { data -> mAidlHelper!!.navigateGpxFromUri(data, true) }
+                        handleFileUri(data!!, GPX_FILE_NAME) { data -> mAidlHelper!!.navigateGpxFromUri(data, true) }
                     }, delay)
                 }
                 REQUEST_GET_GPX_BITMAP_URI_AIDL -> {
                     Handler().postDelayed({
-                        handleGpxUri(data!!) { data ->
+                        handleFileUri(data!!, GPX_FILE_NAME) { data ->
                             val mgr = getSystemService(Context.WINDOW_SERVICE)
                             if (mgr != null) {
                                 val dm = DisplayMetrics()
@@ -1322,7 +1322,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     }, delay)
                 }
                 REQUEST_COPY_FILE -> {
-                    handleSqlitedbUri(data!!) { result -> mAidlHelper!!.fileImportImpl(data.data, SQLDB_FILE_NAME) }
+                    handleFileUri(data!!, SQLDB_FILE_NAME) { result -> 
+                        val fileCopiedSuccessfully = mAidlHelper!!.fileImportImpl(result, SQLDB_FILE_NAME) 
+                        Toast.makeText(this, "File copied: $fileCopiedSuccessfully", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 REQUEST_IMPORT_FILE -> {
                     handleFileUri(data!!) { result -> mOsmAndHelper!!.importFile(result) }
@@ -1472,20 +1475,14 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         }
     }
 
-    private fun handleGpxUri(data: Intent, action: (Uri) -> Unit) {
-        handleFileUri(data, "shared.gpx", action)
-    }
-
-    private fun handleSqlitedbUri(data: Intent, action: (Uri) -> Unit) {
-        handleFileUri(data, "copy.sqlitedb", action)
-    }
-
 	private fun handleFileUri(data: Intent, action: (Uri) -> Unit) {
         val fileName = Utils.getNameFromContentUri(data.data, this)
-        handleFileUri(data, fileName, action)
+        fileName?.let {
+            handleFileUri(data, it, action)
+        }
 	}
     
-    private fun handleFileUri(data: Intent, fileName: String?, action: (Uri) -> Unit) {
+    private fun handleFileUri(data: Intent, fileName: String, action: (Uri) -> Unit) {
         try {
             val parceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
             val fileDescriptor = parceDescriptor.fileDescriptor
