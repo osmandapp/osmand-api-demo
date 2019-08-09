@@ -461,7 +461,12 @@ public class OsmAndHelper {
 	public void umuteNavigation() {
 		sendRequest(new OsmAndIntentBuilder(UNMUTE_NAVIGATION));
 	}
-	
+
+	/**
+	 * Imports file to OsmAnd
+	 * 
+	 * @param fileUri - Uri address of the file
+	 */
 	public void importFile(Uri fileUri) {
 		mActivity.grantUriPermission(OSMAND_PACKAGE_NAME, fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		sendFileRequest(fileUri);
@@ -496,7 +501,12 @@ public class OsmAndHelper {
 			Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
+	/**
+	 * Creates intent and executes request.
+	 *
+	 * @param fileUri - Uri address of the file
+	 */
 	private void sendFileRequest(Uri fileUri) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);

@@ -99,10 +99,12 @@
     <string name="update_map_point">Update map point</string>
     <string name="remove_map_point">Remove map point</string>
     <string name="add_map_point">Add map point</string>
-    <string name="update_map_widget">Update map widget</string>
-    <string name="update_second_map_widget">Update second map widget</string>
-    <string name="remove_map_widget">Remove map widget</string>
-    <string name="add_map_widget">Add map widget</string>
+    <string name="update_first_map_widget">Update 1st map widget</string>
+    <string name="update_second_map_widget">Update 2nd map widget</string>
+    <string name="remove_first_map_widget">Remove 1st map widget</string>
+    <string name="remove_second_map_widget">Remove 2nd map widget</string>
+    <string name="add_first_map_widget">Add 1st map widget</string>
+    <string name="add_second_map_widget">Add 2nd map widget</string>
 	<string name="shared_string_files">Files</string>
     <string name="import_file">Import file to OsmAnd</string>
 </resources>

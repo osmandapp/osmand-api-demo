@@ -1126,7 +1126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_map_widget"/>
+                android:text="@string/add_first_map_widget"/>
 
             <View style="@style/short_divider_style"/>
 
@@ -1136,7 +1136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_map_widget"/>
+                android:text="@string/add_second_map_widget"/>
 
             <View style="@style/short_divider_style"/>
 
@@ -1146,7 +1146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_map_widget"/>
+                android:text="@string/remove_first_map_widget"/>
 
             <View style="@style/short_divider_style"/>
 
@@ -1156,7 +1156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_map_widget"/>
+                android:text="@string/remove_second_map_widget"/>
 
             <View style="@style/short_divider_style"/>
 
@@ -1166,7 +1166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_map_widget"/>
+                android:text="@string/update_first_map_widget"/>
 
             <View style="@style/short_divider_style"/>
 
