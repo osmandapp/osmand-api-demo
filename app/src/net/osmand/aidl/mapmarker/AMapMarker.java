@@ -2,7 +2,6 @@ package net.osmand.aidl.mapmarker;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import net.osmand.aidl.map.ALatLon;
 
 public class AMapMarker implements Parcelable {

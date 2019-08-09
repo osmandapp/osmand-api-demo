@@ -21,6 +21,9 @@ import java.util.Map;
 
 public class OsmAndHelper {
 	private static final String PREFIX = "osmand.api://";
+	private static final String OSMAND_FREE_PACKAGE_NAME = "net.osmand";
+	private static final String OSMAND_PLUS_PACKAGE_NAME = "net.osmand.plus";
+	private static final String OSMAND_PACKAGE_NAME = OSMAND_PLUS_PACKAGE_NAME;
 
 	// Result codes
 	// RESULT_OK == -1
@@ -460,6 +463,16 @@ public class OsmAndHelper {
 	}
 
 	/**
+	 * Imports file to OsmAnd
+	 * 
+	 * @param fileUri - Uri address of the file
+	 */
+	public void importFile(Uri fileUri) {
+		mActivity.grantUriPermission(OSMAND_PACKAGE_NAME, fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+		sendFileRequest(fileUri);
+	}
+
+	/**
 	 * Creates intent and executes request.
 	 *
 	 * @param intentBuilder - contains intent parameters.
@@ -479,6 +492,24 @@ public class OsmAndHelper {
 				ClipData clipData = ClipData.newRawUri("Gpx", intentBuilder.getGpxUri());
 				intent.setClipData(clipData);
 			}
+			if (isIntentSafe(intent)) {
+				mActivity.startActivityForResult(intent, mRequestCode);
+			} else {
+				mOsmandMissingListener.osmandMissing();
+			}
+		} catch (Exception e) {
+			Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+	}
+
+	/**
+	 * Creates intent and executes request.
+	 *
+	 * @param fileUri - Uri address of the file
+	 */
+	private void sendFileRequest(Uri fileUri) {
+		try {
+			Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
 			if (isIntentSafe(intent)) {
 				mActivity.startActivityForResult(intent, mRequestCode);
 			} else {
