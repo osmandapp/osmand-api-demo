@@ -680,14 +680,6 @@
                 android:drawableLeft="@drawable/ic_action_flag_dark"
                 android:text="@string/get_bitmap_for_gpx"/>
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlGetGpxColorButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/get_gpx_color"/>
-
             <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton

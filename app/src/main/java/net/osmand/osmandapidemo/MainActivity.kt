@@ -34,20 +34,19 @@ import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.Compan
 import main.java.net.osmand.osmandapidemo.MainActivity.Companion.CITIES
 import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
-import net.osmand.aidl.customization.OsmandSettingsParams
-import net.osmand.aidl.customization.SetWidgetsParams
-import net.osmand.aidl.gpx.GpxColorParams
-import net.osmand.aidl.map.ALatLon
-import net.osmand.aidl.maplayer.point.AMapPoint
-import net.osmand.aidl.navdrawer.NavDrawerFooterParams
-import net.osmand.aidl.navdrawer.NavDrawerHeaderParams
-import net.osmand.aidl.navdrawer.NavDrawerItem
-import net.osmand.aidl.navdrawer.SetNavDrawerItemsParams
-import net.osmand.aidl.navigation.ADirectionInfo
-import net.osmand.aidl.navigation.OnVoiceNavigationParams
-import net.osmand.aidl.plugins.PluginParams
-import net.osmand.aidl.search.SearchParams
-import net.osmand.aidl.search.SearchResult
+import net.osmand.aidlapi.customization.OsmandSettingsParams
+import net.osmand.aidlapi.customization.SetWidgetsParams
+import net.osmand.aidlapi.map.ALatLon
+import net.osmand.aidlapi.maplayer.point.AMapPoint
+import net.osmand.aidlapi.navdrawer.NavDrawerFooterParams
+import net.osmand.aidlapi.navdrawer.NavDrawerHeaderParams
+import net.osmand.aidlapi.navdrawer.NavDrawerItem
+import net.osmand.aidlapi.navdrawer.SetNavDrawerItemsParams
+import net.osmand.aidlapi.navigation.ADirectionInfo
+import net.osmand.aidlapi.navigation.OnVoiceNavigationParams
+import net.osmand.aidlapi.plugins.PluginParams
+import net.osmand.aidlapi.search.SearchParams
+import net.osmand.aidlapi.search.SearchResult
 import net.osmand.osmandapidemo.R
 import java.io.*
 
@@ -238,7 +237,6 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_REGISTER_FOR_OSMAND_INITIALIZATION,
 
         AIDL_GET_BITMAP_FOR_GPX,
-        AIDL_GET_GPX_COLOR,
 
         AIDL_COPY_FILE_TO_OSMAND,
 
@@ -517,11 +515,6 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     })
                     requestChooseFile(REQUEST_GET_GPX_BITMAP_URI_AIDL)
                 }
-                ApiActionType.AIDL_GET_GPX_COLOR -> {
-                    val param : GpxColorParams = GpxColorParams(GPX_FILE_NAME)
-                    aidlHelper.getGpxColor(param)
-                    Toast.makeText(this, "Gpx color: " + param.gpxColor, Toast.LENGTH_SHORT).show()
-                }
                 ApiActionType.AIDL_COPY_FILE_TO_OSMAND -> {
                     requestChooseFile(REQUEST_COPY_FILE)
                 }
@@ -635,7 +628,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                             runOnUiThread {
                                 if (params != null) {
                                     Toast.makeText(this@MainActivity, "onVoiceRouterNotify " +
-                                            "\ncmds: ${params.cmds}" +
+                                            "\ncmds: ${params.commands}" +
                                             "\nplayed: ${params.played}", Toast.LENGTH_SHORT).show()
                                 }
                             }
@@ -1065,10 +1058,6 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             execApiActionImpl(ApiActionType.AIDL_GET_BITMAP_FOR_GPX)
         }
 
-        aidlGetGpxColorButton.setOnClickListener {
-            execApiActionImpl(ApiActionType.AIDL_GET_GPX_COLOR)
-        }
-
         aidlCopyFileButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_COPY_FILE_TO_OSMAND)
         }
@@ -1391,7 +1380,6 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(aidlGetActiveGpxButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlGetImportedGpxButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlGetBitmapForGpxButton, R.drawable.ic_action_polygom_dark)
-        setDrawable(aidlGetGpxColorButton, R.drawable.ic_action_polygom_dark)
         setDrawable(aidlGetSqliteDbFilesButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlGetActiveSqliteDbFilesButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlShowSqliteDbFileButton, R.drawable.ic_type_file)
