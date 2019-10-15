@@ -12,80 +12,79 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 
-import net.osmand.aidl.IOsmAndAidlCallback;
-import net.osmand.aidl.IOsmAndAidlInterface;
-import net.osmand.aidl.contextmenu.AContextMenuButton;
-import net.osmand.aidl.contextmenu.ContextMenuButtonsParams;
-import net.osmand.aidl.contextmenu.RemoveContextMenuButtonsParams;
-import net.osmand.aidl.contextmenu.UpdateContextMenuButtonsParams;
-import net.osmand.aidl.copyfile.CopyFileParams;
-import net.osmand.aidl.customization.CustomizationInfoParams;
-import net.osmand.aidl.customization.OsmandSettingsInfoParams;
-import net.osmand.aidl.customization.OsmandSettingsParams;
-import net.osmand.aidl.customization.SetWidgetsParams;
-import net.osmand.aidl.favorite.AFavorite;
-import net.osmand.aidl.favorite.AddFavoriteParams;
-import net.osmand.aidl.favorite.RemoveFavoriteParams;
-import net.osmand.aidl.favorite.UpdateFavoriteParams;
-import net.osmand.aidl.favorite.group.AFavoriteGroup;
-import net.osmand.aidl.favorite.group.AddFavoriteGroupParams;
-import net.osmand.aidl.favorite.group.RemoveFavoriteGroupParams;
-import net.osmand.aidl.favorite.group.UpdateFavoriteGroupParams;
-import net.osmand.aidl.gpx.AGpxBitmap;
-import net.osmand.aidl.gpx.AGpxFile;
-import net.osmand.aidl.gpx.ASelectedGpxFile;
-import net.osmand.aidl.gpx.CreateGpxBitmapParams;
-import net.osmand.aidl.gpx.GpxColorParams;
-import net.osmand.aidl.gpx.HideGpxParams;
-import net.osmand.aidl.gpx.ImportGpxParams;
-import net.osmand.aidl.gpx.RemoveGpxParams;
-import net.osmand.aidl.gpx.ShowGpxParams;
-import net.osmand.aidl.gpx.StartGpxRecordingParams;
-import net.osmand.aidl.gpx.StopGpxRecordingParams;
-import net.osmand.aidl.map.ALatLon;
-import net.osmand.aidl.map.SetMapLocationParams;
-import net.osmand.aidl.maplayer.AMapLayer;
-import net.osmand.aidl.maplayer.AddMapLayerParams;
-import net.osmand.aidl.maplayer.RemoveMapLayerParams;
-import net.osmand.aidl.maplayer.UpdateMapLayerParams;
-import net.osmand.aidl.maplayer.point.AMapPoint;
-import net.osmand.aidl.maplayer.point.AddMapPointParams;
-import net.osmand.aidl.maplayer.point.RemoveMapPointParams;
-import net.osmand.aidl.maplayer.point.ShowMapPointParams;
-import net.osmand.aidl.maplayer.point.UpdateMapPointParams;
-import net.osmand.aidl.mapmarker.AMapMarker;
-import net.osmand.aidl.mapmarker.AddMapMarkerParams;
-import net.osmand.aidl.mapmarker.RemoveMapMarkerParams;
-import net.osmand.aidl.mapmarker.RemoveMapMarkersParams;
-import net.osmand.aidl.mapmarker.UpdateMapMarkerParams;
-import net.osmand.aidl.mapwidget.AMapWidget;
-import net.osmand.aidl.mapwidget.AddMapWidgetParams;
-import net.osmand.aidl.mapwidget.RemoveMapWidgetParams;
-import net.osmand.aidl.mapwidget.UpdateMapWidgetParams;
-import net.osmand.aidl.navdrawer.NavDrawerFooterParams;
-import net.osmand.aidl.navdrawer.NavDrawerHeaderParams;
-import net.osmand.aidl.navdrawer.NavDrawerItem;
-import net.osmand.aidl.navdrawer.SetNavDrawerItemsParams;
-import net.osmand.aidl.navigation.ADirectionInfo;
-import net.osmand.aidl.navigation.ANavigationUpdateParams;
-import net.osmand.aidl.navigation.ANavigationVoiceRouterMessageParams;
-import net.osmand.aidl.navigation.MuteNavigationParams;
-import net.osmand.aidl.navigation.NavigateGpxParams;
-import net.osmand.aidl.navigation.NavigateParams;
-import net.osmand.aidl.navigation.NavigateSearchParams;
-import net.osmand.aidl.navigation.OnVoiceNavigationParams;
-import net.osmand.aidl.navigation.PauseNavigationParams;
-import net.osmand.aidl.navigation.ResumeNavigationParams;
-import net.osmand.aidl.navigation.StopNavigationParams;
-import net.osmand.aidl.navigation.UnmuteNavigationParams;
-import net.osmand.aidl.note.StartAudioRecordingParams;
-import net.osmand.aidl.note.StartVideoRecordingParams;
-import net.osmand.aidl.note.StopRecordingParams;
-import net.osmand.aidl.note.TakePhotoNoteParams;
-import net.osmand.aidl.plugins.PluginParams;
-import net.osmand.aidl.search.SearchParams;
-import net.osmand.aidl.search.SearchResult;
-import net.osmand.aidl.tiles.ASqliteDbFile;
+import net.osmand.aidlapi.IOsmAndAidlCallback;
+import net.osmand.aidlapi.IOsmAndAidlInterface;
+import net.osmand.aidlapi.contextmenu.AContextMenuButton;
+import net.osmand.aidlapi.contextmenu.ContextMenuButtonsParams;
+import net.osmand.aidlapi.contextmenu.RemoveContextMenuButtonsParams;
+import net.osmand.aidlapi.contextmenu.UpdateContextMenuButtonsParams;
+import net.osmand.aidlapi.copyfile.CopyFileParams;
+import net.osmand.aidlapi.customization.CustomizationInfoParams;
+import net.osmand.aidlapi.customization.OsmandSettingsInfoParams;
+import net.osmand.aidlapi.customization.OsmandSettingsParams;
+import net.osmand.aidlapi.customization.SetWidgetsParams;
+import net.osmand.aidlapi.favorite.AFavorite;
+import net.osmand.aidlapi.favorite.AddFavoriteParams;
+import net.osmand.aidlapi.favorite.RemoveFavoriteParams;
+import net.osmand.aidlapi.favorite.UpdateFavoriteParams;
+import net.osmand.aidlapi.favorite.group.AFavoriteGroup;
+import net.osmand.aidlapi.favorite.group.AddFavoriteGroupParams;
+import net.osmand.aidlapi.favorite.group.RemoveFavoriteGroupParams;
+import net.osmand.aidlapi.favorite.group.UpdateFavoriteGroupParams;
+import net.osmand.aidlapi.gpx.AGpxBitmap;
+import net.osmand.aidlapi.gpx.AGpxFile;
+import net.osmand.aidlapi.gpx.ASelectedGpxFile;
+import net.osmand.aidlapi.gpx.CreateGpxBitmapParams;
+import net.osmand.aidlapi.gpx.HideGpxParams;
+import net.osmand.aidlapi.gpx.ImportGpxParams;
+import net.osmand.aidlapi.gpx.RemoveGpxParams;
+import net.osmand.aidlapi.gpx.ShowGpxParams;
+import net.osmand.aidlapi.gpx.StartGpxRecordingParams;
+import net.osmand.aidlapi.gpx.StopGpxRecordingParams;
+import net.osmand.aidlapi.map.ALatLon;
+import net.osmand.aidlapi.map.SetMapLocationParams;
+import net.osmand.aidlapi.maplayer.AMapLayer;
+import net.osmand.aidlapi.maplayer.AddMapLayerParams;
+import net.osmand.aidlapi.maplayer.RemoveMapLayerParams;
+import net.osmand.aidlapi.maplayer.UpdateMapLayerParams;
+import net.osmand.aidlapi.maplayer.point.AMapPoint;
+import net.osmand.aidlapi.maplayer.point.AddMapPointParams;
+import net.osmand.aidlapi.maplayer.point.RemoveMapPointParams;
+import net.osmand.aidlapi.maplayer.point.ShowMapPointParams;
+import net.osmand.aidlapi.maplayer.point.UpdateMapPointParams;
+import net.osmand.aidlapi.mapmarker.AMapMarker;
+import net.osmand.aidlapi.mapmarker.AddMapMarkerParams;
+import net.osmand.aidlapi.mapmarker.RemoveMapMarkerParams;
+import net.osmand.aidlapi.mapmarker.RemoveMapMarkersParams;
+import net.osmand.aidlapi.mapmarker.UpdateMapMarkerParams;
+import net.osmand.aidlapi.mapwidget.AMapWidget;
+import net.osmand.aidlapi.mapwidget.AddMapWidgetParams;
+import net.osmand.aidlapi.mapwidget.RemoveMapWidgetParams;
+import net.osmand.aidlapi.mapwidget.UpdateMapWidgetParams;
+import net.osmand.aidlapi.navdrawer.NavDrawerFooterParams;
+import net.osmand.aidlapi.navdrawer.NavDrawerHeaderParams;
+import net.osmand.aidlapi.navdrawer.NavDrawerItem;
+import net.osmand.aidlapi.navdrawer.SetNavDrawerItemsParams;
+import net.osmand.aidlapi.navigation.ADirectionInfo;
+import net.osmand.aidlapi.navigation.ANavigationUpdateParams;
+import net.osmand.aidlapi.navigation.ANavigationVoiceRouterMessageParams;
+import net.osmand.aidlapi.navigation.MuteNavigationParams;
+import net.osmand.aidlapi.navigation.NavigateGpxParams;
+import net.osmand.aidlapi.navigation.NavigateParams;
+import net.osmand.aidlapi.navigation.NavigateSearchParams;
+import net.osmand.aidlapi.navigation.OnVoiceNavigationParams;
+import net.osmand.aidlapi.navigation.PauseNavigationParams;
+import net.osmand.aidlapi.navigation.ResumeNavigationParams;
+import net.osmand.aidlapi.navigation.StopNavigationParams;
+import net.osmand.aidlapi.navigation.UnmuteNavigationParams;
+import net.osmand.aidlapi.note.StartAudioRecordingParams;
+import net.osmand.aidlapi.note.StartVideoRecordingParams;
+import net.osmand.aidlapi.note.StopRecordingParams;
+import net.osmand.aidlapi.note.TakePhotoNoteParams;
+import net.osmand.aidlapi.plugins.PluginParams;
+import net.osmand.aidlapi.search.SearchParams;
+import net.osmand.aidlapi.search.SearchResult;
+import net.osmand.aidlapi.tiles.ASqliteDbFile;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -98,21 +97,23 @@ import java.util.Map;
 
 import main.java.net.osmand.osmandapidemo.OsmAndHelper.OnOsmandMissingListener;
 
-import static net.osmand.aidl.OsmandAidlConstants.BUFFER_SIZE;
-import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_IO_ERROR;
-import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_MAX_LOCK_TIME_MS;
-import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_PARAMS_ERROR;
-import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_PART_SIZE_LIMIT_ERROR;
-import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_UNSUPPORTED_FILE_TYPE_ERROR;
-import static net.osmand.aidl.OsmandAidlConstants.COPY_FILE_WRITE_LOCK_ERROR;
-import static net.osmand.aidl.OsmandAidlConstants.MAX_RETRY_COUNT;
-import static net.osmand.aidl.OsmandAidlConstants.OK_RESPONSE;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_IO_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_MAX_LOCK_TIME_MS;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_PARAMS_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_PART_SIZE_LIMIT;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_PART_SIZE_LIMIT_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_UNSUPPORTED_FILE_TYPE_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_WRITE_LOCK_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.OK_RESPONSE;
 
 public class OsmAndAidlHelper {
 
 	private static final String OSMAND_FREE_PACKAGE_NAME = "net.osmand";
 	private static final String OSMAND_PLUS_PACKAGE_NAME = "net.osmand.plus";
 	private static final String OSMAND_PACKAGE_NAME = OSMAND_PLUS_PACKAGE_NAME;
+
+	private static final int MAX_RETRY_COUNT = 10;
+	private static final long BUFFER_SIZE = COPY_FILE_PART_SIZE_LIMIT;
 
 	private final Application app;
 	private final OnOsmandMissingListener mOsmandMissingListener;
@@ -264,7 +265,7 @@ public class OsmAndAidlHelper {
 
 	private boolean bindService() {
 		if (mIOsmAndAidlInterface == null) {
-			Intent intent = new Intent("net.osmand.aidl.OsmandAidlService");
+			Intent intent = new Intent("net.osmand.aidl.OsmandAidlServiceV2");
 			intent.setPackage(OSMAND_PACKAGE_NAME);
 			boolean res = app.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 			if (res) {
@@ -1239,7 +1240,7 @@ public class OsmAndAidlHelper {
 	/**
 	 * Method for selected UI elements (like QuickSearch button) to show.
 	 *
-	 * @param ids (List<String>)- list of menu items keys from {@link net.osmand.aidl.OsmAndCustomizationConstants}
+	 * @param ids (List<String>)- list of menu items keys from {@link net.osmand.aidlapi.OsmAndCustomizationConstants}
 	 */
 	public boolean setEnabledIds(List<String> ids) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1256,7 +1257,7 @@ public class OsmAndAidlHelper {
 	/**
 	 * Method for selected UI elements (like QuickSearch button) to hide.
 	 *
-	 * @param ids (List<String>)- list of menu items keys from {@link net.osmand.aidl.OsmAndCustomizationConstants}
+	 * @param ids (List<String>)- list of menu items keys from {@link net.osmand.aidlapi.OsmAndCustomizationConstants}
 	 */
 	public boolean setDisabledIds(List<String> ids) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1272,7 +1273,7 @@ public class OsmAndAidlHelper {
 	/**
 	 * Method to show selected NavDrawer's menu items.
 	 *
-	 * @param patterns (List<String>) - list of menu items names from {@link net.osmand.aidl.OsmAndCustomizationConstants}
+	 * @param patterns (List<String>) - list of menu items names from {@link net.osmand.aidlapi.OsmAndCustomizationConstants}
 	 */
 	public boolean setEnabledPatterns(List<String> patterns) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1288,7 +1289,7 @@ public class OsmAndAidlHelper {
 	/**
 	 * Method to hide selected NavDrawer's menu items.
 	 *
-	 * @param patterns (List<String>)- list of menu items names from {@link net.osmand.aidl.OsmAndCustomizationConstants}
+	 * @param patterns (List<String>)- list of menu items names from {@link net.osmand.aidlapi.OsmAndCustomizationConstants}
 	 */
 	public boolean setDisabledPatterns(List<String> patterns) {
 		if (mIOsmAndAidlInterface != null) {
@@ -1339,7 +1340,7 @@ public class OsmAndAidlHelper {
 	 * Add custom parameters for OsmAnd settings to associate with client app.
 	 *
 	 * @param sharedPreferencesName (String)- string with name of clint's app for shared preferences key
-	 * @param bundle (Bundle)- bundle with keys from Settings IDs {@link net.osmand.aidl.OsmAndCustomizationConstants} 
+	 * @param bundle (Bundle)- bundle with keys from Settings IDs {@link net.osmand.aidlapi.OsmAndCustomizationConstants}
 	 *                         and Settings params
 	 */
 	public boolean customizeOsmandSettings(String sharedPreferencesName, Bundle bundle) {
@@ -1914,25 +1915,6 @@ public class OsmAndAidlHelper {
 			}
 		}
 
-		return false;
-	}
-
-	/**
-	 * Method to get color name for gpx.
-	 *
-	 * @param fileName (String) - name of gpx file.
-	 *
-	 * Which used in {@link #importGpx(in ImportGpxParams params) importGpx}
-	 * Or color hex if gpx has custom color.
-	 */
-	public boolean getGpxColor(GpxColorParams params) {
-		if (mIOsmAndAidlInterface != null) {
-			try {
-				return mIOsmAndAidlInterface.getGpxColor(params);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-		}
 		return false;
 	}
 }
