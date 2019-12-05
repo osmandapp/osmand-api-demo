@@ -26,6 +26,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.title_desc_list_layout.view.*
@@ -527,7 +528,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                             }
                         }
                     })
-                    aidlHelper.registerForNavigationUpdates(true, 0)
+                    callbackKeys[KEY_NAV_INFO_LISTENER] =  aidlHelper.registerForNavigationUpdates(true, 0)
                 }
                 ApiActionType.AIDL_UNREGISTER_FOR_NAV_UPDATES -> {
                     if (callbackKeys.containsKey(KEY_NAV_INFO_LISTENER)) {
@@ -539,6 +540,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     }
                 }
                 ApiActionType.AIDL_ADD_CONTEXT_MENU_BUTTONS -> {
+                    aidlHelper.setContextButtonClickListener(OsmAndAidlHelper.ContextButtonClickListener { buttonId, pointId, layerId ->
+                        runOnUiThread {
+                            val text = "Context menu button clicked! buttonId $buttonId pointId $pointId layerId $layerId"
+                            Toast.makeText(this@MainActivity, text, Toast.LENGTH_SHORT).show()
+                        }
+                    })
                     aidlHelper.addContextMenuButtons(
                         1,
                         "LeftText",
@@ -1302,9 +1309,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 REQUEST_GET_GPX_BITMAP_URI_AIDL -> {
                     Handler().postDelayed({
                         handleFileUri(data!!, GPX_FILE_NAME) { data ->
-                            val mgr = getSystemService(Context.WINDOW_SERVICE)
+                            val mgr: WindowManager? = getSystemService(Context.WINDOW_SERVICE) as WindowManager?
                             if (mgr != null) {
                                 val dm = DisplayMetrics()
+                                mgr.defaultDisplay.getMetrics(dm)
                                 mAidlHelper!!.getBitmapForGpx(data, dm.density, 350, 350, Color.RED)
                             }
                         }
