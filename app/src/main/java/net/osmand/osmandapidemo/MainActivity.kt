@@ -921,6 +921,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             closeAfterCommandDialogFragment.arguments = args
             closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
         }
+        saveGpxButton.setOnClickListener {
+            mOsmAndHelper!!.saveGpxTrack()
+        }
+        clearGpxButton.setOnClickListener {
+            mOsmAndHelper!!.clearGpxTrack()
+        }
         showGpxButton.setOnClickListener {
             val args = Bundle()
             args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_RAW_DATA)
@@ -1357,6 +1363,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(pauseNavigationButton, R.drawable.ic_pause)
         setDrawable(resumeNavigationButton, R.drawable.ic_action_play)
         setDrawable(stopNavigationButton, R.drawable.ic_action_rec_stop)
+        setDrawable(saveGpxButton, R.drawable.ic_type_file)
+        setDrawable(clearGpxButton, R.drawable.ic_action_settings)
         setDrawable(muteNavigationButton, R.drawable.ic_action_micro_dark)
         setDrawable(unmuteNavigationButton, R.drawable.ic_action_micro_dark)
         setDrawable(importFileButton, R.drawable.ic_action_copy)

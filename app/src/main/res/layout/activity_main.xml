@@ -174,6 +174,26 @@
                 android:text="@string/stop_gpx_recording"
                 tools:drawableLeft="@drawable/ic_action_rec_stop"/>
 
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/saveGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save_gpx_track"
+                tools:drawableLeft="@drawable/ic_type_file"/>
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/clearGpxButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_gpx_track"
+                tools:drawableLeft="@drawable/ic_action_settings"/>
+
         </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
