@@ -1970,8 +1970,8 @@ class CloseAfterCommandDialogFragment : DialogFragment() {
                 ActionType.UNDEFINED -> Unit
                 ActionType.START_GPX_REC -> osmandHelper.startGpxRec(close)
                 ActionType.STOP_GPX_REC -> osmandHelper.stopGpxRec(close)
-                ActionType.SAVE_GPX -> osmandHelper.saveCurrentGpx(close)
-                ActionType.CLEAR_GPX -> osmandHelper.clearCurrentGpx(close)
+                ActionType.SAVE_GPX -> osmandHelper.saveGpx(close)
+                ActionType.CLEAR_GPX -> osmandHelper.clearGpx(close)
             }
         }
     }

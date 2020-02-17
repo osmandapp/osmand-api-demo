@@ -63,8 +63,8 @@ public class OsmAndHelper {
 
 	private static final String START_GPX_REC = "start_gpx_rec";
 	private static final String STOP_GPX_REC = "stop_gpx_rec";
-	private static final String SAVE_CURRENT_GPX = "save_current_gpx";
-	private static final String CLEAR_CURRENT_GPX = "clear_current_gpx";
+	private static final String SAVE_GPX = "save_gpx";
+	private static final String CLEAR_GPX = "clear_gpx";
 
 	// Parameters
 	public static final String API_CMD_SUBSCRIBE_VOICE_NOTIFICATIONS = "subscribe_voice_notifications";
@@ -266,27 +266,27 @@ public class OsmAndHelper {
 	}
 
 	/**
-	 * Save current GPX
-	 * 
+	 * Save GPX
+	 *
 	 * @param closeAfterCommand - true if OsmAnd should be close immediately after executing
 	 *                          command. Sent as URI parameter.
 	 */
-	public void saveCurrentGpx(boolean closeAfterCommand) {
+	public void saveGpx(boolean closeAfterCommand) {
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(closeAfterCommand));
-		sendRequest(new OsmAndIntentBuilder(SAVE_CURRENT_GPX).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(SAVE_GPX).setParams(params));
 	}
 
 	/**
-	 * Clear current GPX
-	 * 
+	 * Clear GPX
+	 *
 	 * @param closeAfterCommand - true if OsmAnd should be close immediately after executing
-	 * 	                        command. Sent as URI parameter.
+	 *                          command. Sent as URI parameter.
 	 */
-	public void clearCurrentGpx(boolean closeAfterCommand) {
+	public void clearGpx(boolean closeAfterCommand) {
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(closeAfterCommand));
-		sendRequest(new OsmAndIntentBuilder(CLEAR_CURRENT_GPX).setParams(params));
+		sendRequest(new OsmAndIntentBuilder(CLEAR_GPX).setParams(params));
 	}
 
 	/**
