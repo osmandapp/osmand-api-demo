@@ -922,10 +922,18 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
         }
         saveGpxButton.setOnClickListener {
-            mOsmAndHelper!!.saveGpxTrack()
+            val args = Bundle()
+            args.putString(ACTION_CODE_KEY, ActionType.SAVE_GPX.name)
+            val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
+            closeAfterCommandDialogFragment.arguments = args
+            closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
         }
         clearGpxButton.setOnClickListener {
-            mOsmAndHelper!!.clearGpxTrack()
+            val args = Bundle()
+            args.putString(ACTION_CODE_KEY, ActionType.CLEAR_GPX.name)
+            val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
+            closeAfterCommandDialogFragment.arguments = args
+            closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
         }
         showGpxButton.setOnClickListener {
             val args = Bundle()
@@ -1937,6 +1945,8 @@ class CloseAfterCommandDialogFragment : DialogFragment() {
         UNDEFINED,
         START_GPX_REC,
         STOP_GPX_REC,
+        SAVE_GPX,
+        CLEAR_GPX
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -1960,6 +1970,8 @@ class CloseAfterCommandDialogFragment : DialogFragment() {
                 ActionType.UNDEFINED -> Unit
                 ActionType.START_GPX_REC -> osmandHelper.startGpxRec(close)
                 ActionType.STOP_GPX_REC -> osmandHelper.stopGpxRec(close)
+                ActionType.SAVE_GPX -> osmandHelper.saveCurrentGpx(close)
+                ActionType.CLEAR_GPX -> osmandHelper.clearCurrentGpx(close)
             }
         }
     }

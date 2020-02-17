@@ -63,8 +63,8 @@ public class OsmAndHelper {
 
 	private static final String START_GPX_REC = "start_gpx_rec";
 	private static final String STOP_GPX_REC = "stop_gpx_rec";
-	private static final String SAVE_GPX_TRACK = "save_gpx_track";
-	private static final String CLEAR_GPX_TRACK = "clear_gpx_track";
+	private static final String SAVE_GPX_TRACK = "save_current_gpx";
+	private static final String CLEAR_GPX_TRACK = "clear_current_gpx";
 
 	// Parameters
 	public static final String API_CMD_SUBSCRIBE_VOICE_NOTIFICATIONS = "subscribe_voice_notifications";
@@ -266,17 +266,21 @@ public class OsmAndHelper {
 	}
 
 	/**
-	 * Save current GPX track
+	 * Save current GPX
 	 */
-	public void saveGpxTrack() {
-		sendRequest(new OsmAndIntentBuilder(SAVE_GPX_TRACK));
+	public void saveCurrentGpx(boolean closeAfterCommand) {
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(closeAfterCommand));
+		sendRequest(new OsmAndIntentBuilder(SAVE_GPX_TRACK).setParams(params));
 	}
 
 	/**
-	 * Clear current GPX track
+	 * Clear current GPX
 	 */
-	public void clearGpxTrack() {
-		sendRequest(new OsmAndIntentBuilder(CLEAR_GPX_TRACK));
+	public void clearCurrentGpx(boolean closeAfterCommand) {
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(closeAfterCommand));
+		sendRequest(new OsmAndIntentBuilder(CLEAR_GPX_TRACK).setParams(params));
 	}
 
 	/**
