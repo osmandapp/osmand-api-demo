@@ -23,6 +23,8 @@
     <string name="gpx_recording">GPX recording</string>
     <string name="start_gpx_recording">Start gpx recording</string>
     <string name="stop_gpx_recording">Stop gpx recording</string>
+    <string name="save_gpx_track">Save current track</string>
+    <string name="clear_gpx_track">Clear recorded data</string>
     <string name="gpx_display_navigation">GPX display/navigation</string>
     <string name="show_gpx">Show gpx</string>
     <string name="hide_gpx">Hide gpx</string>
