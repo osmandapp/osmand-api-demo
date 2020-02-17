@@ -267,6 +267,9 @@ public class OsmAndHelper {
 
 	/**
 	 * Save current GPX
+	 * 
+	 * @param closeAfterCommand - true if OsmAnd should be close immediately after executing
+	 * 	 *                          command. Sent as URI parameter.
 	 */
 	public void saveCurrentGpx(boolean closeAfterCommand) {
 		Map<String, String> params = new HashMap<>();
@@ -276,6 +279,9 @@ public class OsmAndHelper {
 
 	/**
 	 * Clear current GPX
+	 * 
+	 * @param closeAfterCommand - true if OsmAnd should be close immediately after executing
+	 * 	 *                          command. Sent as URI parameter.
 	 */
 	public void clearCurrentGpx(boolean closeAfterCommand) {
 		Map<String, String> params = new HashMap<>();
