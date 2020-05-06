@@ -35,6 +35,9 @@ public class OsmAndHelper {
 	public static final int RESULT_CODE_ERROR_PLUGIN_INACTIVE = 1003;
 	public static final int RESULT_CODE_ERROR_GPX_NOT_FOUND = 1004;
 	public static final int RESULT_CODE_ERROR_INVALID_PROFILE = 1005;
+	public static final int RESULT_CODE_ERROR_EMPTY_SEARCH_QUERY = 1006;
+	public static final int RESULT_CODE_ERROR_SEARCH_LOCATION_UNDEFINED = 1007;
+	public static final int RESULT_CODE_ERROR_QUICK_ACTION_NOT_FOUND = 1008;
 
 	// Information
 	private static final String GET_INFO = "get_info";
@@ -65,6 +68,9 @@ public class OsmAndHelper {
 	private static final String STOP_GPX_REC = "stop_gpx_rec";
 	private static final String SAVE_GPX = "save_gpx";
 	private static final String CLEAR_GPX = "clear_gpx";
+
+	public static final String API_CMD_EXECUTE_QUICK_ACTION = "execute_quick_action";
+	public static final String API_CMD_GET_QUICK_ACTION_INFO = "get_quick_action_info";
 
 	// Parameters
 	public static final String API_CMD_SUBSCRIBE_VOICE_NOTIFICATIONS = "subscribe_voice_notifications";
@@ -100,6 +106,11 @@ public class OsmAndHelper {
 	public static final String PARAM_DISTANCE_LEFT = "time_distance_left";
 
 	public static final String PARAM_CLOSE_AFTER_COMMAND = "close_after_command";
+
+	public static final String PARAM_QUICK_ACTION_NAME = "quick_action_name";
+	public static final String PARAM_QUICK_ACTION_TYPE = "quick_action_type";
+	public static final String PARAM_QUICK_ACTION_PARAMS = "quick_action_params";
+	public static final String PARAM_QUICK_ACTION_NUMBER = "quick_action_number";
 
 	private final int mRequestCode;
 	private final Activity mActivity;
@@ -557,6 +568,20 @@ public class OsmAndHelper {
 		List activities = packageManager.queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
 		return activities.size() > 0;
+	}
+
+	public void executeQuickAction(int actionNumber) {
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(false));
+		params.put(PARAM_QUICK_ACTION_NUMBER, String.valueOf(actionNumber));
+		sendRequest(new OsmAndIntentBuilder(API_CMD_EXECUTE_QUICK_ACTION).setParams(params));
+	}
+
+	public void getQuickActionInfo(int actionNumber) {
+		Map<String, String> params = new HashMap<>();
+		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(false));
+		params.put(PARAM_QUICK_ACTION_NUMBER, String.valueOf(actionNumber));
+		sendRequest(new OsmAndIntentBuilder(API_CMD_GET_QUICK_ACTION_INFO).setParams(params));
 	}
 
 	public interface OnOsmandMissingListener {

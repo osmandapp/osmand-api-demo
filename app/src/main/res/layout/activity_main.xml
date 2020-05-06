@@ -354,6 +354,44 @@
 
         <include layout="@layout/card_bottom_divider"/>
 
+        <include layout="@layout/card_top_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/itemBackgroundColor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/quick_actions"/>
+
+            <View style="@style/divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/executeQuickAction"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/execute_quick_action"
+                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/getQuickActionInfo"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/get_quick_action_info"
+                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
+        </LinearLayout>
+
+        <include layout="@layout/card_bottom_divider"/>
+
         <!--AIDL - Markers and Favorites-->
         <include layout="@layout/card_top_divider"/>
 

@@ -969,6 +969,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         unmuteNavigationButton.setOnClickListener { mOsmAndHelper!!.umuteNavigation() }
         getInfoButton.setOnClickListener { mOsmAndHelper!!.getInfo() }
         importFileButton.setOnClickListener { requestChooseFile(REQUEST_IMPORT_FILE) }
+        executeQuickAction.setOnClickListener { mOsmAndHelper!!.executeQuickAction(0) }
+        getQuickActionInfo.setOnClickListener { mOsmAndHelper!!.getQuickActionInfo(1) }
 
         // AIDL
 
@@ -1574,6 +1576,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             OsmAndHelper.RESULT_CODE_ERROR_GPX_NOT_FOUND -> return "GPX not found"
             OsmAndHelper.RESULT_CODE_ERROR_INVALID_PROFILE -> return "Invalid profile"
             OsmAndHelper.RESULT_CODE_ERROR_PLUGIN_INACTIVE -> return "Plugin inactive"
+            OsmAndHelper. RESULT_CODE_ERROR_EMPTY_SEARCH_QUERY -> return "Empty search query"
+            OsmAndHelper. RESULT_CODE_ERROR_SEARCH_LOCATION_UNDEFINED -> return "Search location undefined"
+            OsmAndHelper. RESULT_CODE_ERROR_QUICK_ACTION_NOT_FOUND -> return "Quick action not found"
         }
         return "" + resultCode
     }
