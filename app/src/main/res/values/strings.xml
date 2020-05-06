@@ -1,4 +1,7 @@
 <resources>
+    <string name="get_quick_action_info">Get quick action info</string>
+    <string name="execute_quick_action">Execute quick action</string>
+    <string name="quick_actions">Quick actions</string>
     <string name="set_nav_drawer_items">Set nav drawer items</string>
     <string name="show_map_point">Show map point</string>
     <string name="show_location">Show location</string>
