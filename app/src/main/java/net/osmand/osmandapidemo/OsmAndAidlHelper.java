@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import net.osmand.aidlapi.IOsmAndAidlCallback;
@@ -204,6 +205,11 @@ public class OsmAndAidlHelper {
 			if (voiceRouterNotifyListener != null) {
 				voiceRouterNotifyListener.onVoiceRouterNotify(params);
 			}
+		}
+
+		@Override
+		public void onKeyEvent(KeyEvent keyEvent) throws RemoteException {
+
 		}
 	};
 
@@ -909,11 +915,11 @@ public class OsmAndAidlHelper {
 	 * @param zoom - map zoom level. Set 0 to keep zoom unchanged.
 	 * @param animated - set true to animate changes.
 	 */
-	public boolean setMapLocation(double latitude, double longitude, int zoom, boolean animated) {
+	public boolean setMapLocation(double latitude, double longitude, int zoom, float rotation, boolean animated) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.setMapLocation(
-						new SetMapLocationParams(latitude, longitude, zoom, animated));
+						new SetMapLocationParams(latitude, longitude, zoom, rotation, animated));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

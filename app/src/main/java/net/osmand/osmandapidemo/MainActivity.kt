@@ -781,7 +781,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         aidlHelper.startAudioRecording(location.lat, location.lon)
                     }
                     ApiActionType.AIDL_SET_MAP_LOCATION -> {
-                        aidlHelper.setMapLocation(location.lat, location.lon, 16, true)
+                        aidlHelper.setMapLocation(location.lat, location.lon, 16, 0f, true)
                     }
                     ApiActionType.AIDL_NAVIGATE -> {
                         aidlHelper.navigate(location.name + " start",
