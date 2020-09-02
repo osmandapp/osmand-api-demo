@@ -1288,6 +1288,16 @@
                 android:drawableLeft="@drawable/ic_action_flag_dark"
                 android:text="@string/set_customization"/>
 
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlSetUIMarginsButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/set_ui_margins"/>
+
         </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
