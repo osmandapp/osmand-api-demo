@@ -21,6 +21,7 @@ import net.osmand.aidlapi.contextmenu.RemoveContextMenuButtonsParams;
 import net.osmand.aidlapi.contextmenu.UpdateContextMenuButtonsParams;
 import net.osmand.aidlapi.copyfile.CopyFileParams;
 import net.osmand.aidlapi.customization.CustomizationInfoParams;
+import net.osmand.aidlapi.customization.MapMarginsParams;
 import net.osmand.aidlapi.customization.OsmandSettingsInfoParams;
 import net.osmand.aidlapi.customization.OsmandSettingsParams;
 import net.osmand.aidlapi.customization.SetWidgetsParams;
@@ -380,11 +381,11 @@ public class OsmAndAidlHelper {
 	 *                    "lightgreen", "green", "lightblue", "blue", "purple", "pink", "brown".
 	 * @param visible     - should favorite item be visible after creation.
 	 */
-	public boolean addFavorite(double lat, double lon, String name, String description,
-							   String category, String color, boolean visible) {
+	public boolean addFavorite(double lat, double lon, String name, String description, String address,
+	                           String category, String color, boolean visible) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				AFavorite favorite = new AFavorite(lat, lon, name, description, category, color, visible);
+				AFavorite favorite = new AFavorite(lat, lon, name, description,address, category, color, visible);
 				return mIOsmAndAidlInterface.addFavorite(new AddFavoriteParams(favorite));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -416,8 +417,8 @@ public class OsmAndAidlHelper {
 								  String categoryNew, String colorNew, boolean visibleNew) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				AFavorite favoritePrev = new AFavorite(latPrev, lonPrev, namePrev, "", categoryPrev, "", false);
-				AFavorite favoriteNew = new AFavorite(latNew, lonNew, nameNew, descriptionNew, categoryNew, colorNew, visibleNew);
+				AFavorite favoritePrev = new AFavorite(latPrev, lonPrev, namePrev, "","", categoryPrev, "", false);
+				AFavorite favoriteNew = new AFavorite(latNew, lonNew, nameNew, descriptionNew,"", categoryNew, colorNew, visibleNew);
 				return mIOsmAndAidlInterface.updateFavorite(new UpdateFavoriteParams(favoritePrev, favoriteNew));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -437,7 +438,7 @@ public class OsmAndAidlHelper {
 	public boolean removeFavorite(double lat, double lon, String name, String category) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				AFavorite favorite = new AFavorite(lat, lon, name, "", category, "", false);
+				AFavorite favorite = new AFavorite(lat, lon, name, "","", category, "", false);
 				return mIOsmAndAidlInterface.removeFavorite(new RemoveFavoriteParams(favorite));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -1921,6 +1922,17 @@ public class OsmAndAidlHelper {
 			}
 		}
 
+		return false;
+	}
+
+	public boolean setMapMargins(String appModeKey, int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.setMapMargins(new MapMarginsParams(appModeKey, leftMargin, topMargin, rightMargin, bottomMargin));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 }

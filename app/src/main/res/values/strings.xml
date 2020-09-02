@@ -112,4 +112,5 @@
     <string name="add_second_map_widget">Add 2nd map widget</string>
 	<string name="shared_string_files">Files</string>
     <string name="import_file">Import file to OsmAnd</string>
+    <string name="set_ui_margins">Set UI margins</string>
 </resources>

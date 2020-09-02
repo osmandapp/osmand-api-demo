@@ -33,6 +33,7 @@ import kotlinx.android.synthetic.main.title_desc_list_layout.view.*
 import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.ActionType
 import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
 import main.java.net.osmand.osmandapidemo.MainActivity.Companion.CITIES
+import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper.VoiceRouterNotifyListener
 import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
 import net.osmand.aidlapi.customization.OsmandSettingsParams
@@ -251,6 +252,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_ARE_OSMAND_SETTINGS_CUSTOMIZED,
 
         AIDL_SET_CUSTOMIZATION,
+        AIDL_SET_UI_MARGINS,
 
         AIDL_REGISTER_FOR_VOICE_ROUTE_MESSAGES,
         AIDL_UNREGISTER_FROM_VOICE_ROUTE_MESSAGES,
@@ -628,16 +630,22 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         featuresEnabledIds, featuresDisabledIds, featuresEnabledPatterns, featuresDisabledPatterns
                     )
                 }
+                ApiActionType.AIDL_SET_UI_MARGINS -> {
+                    val profileKey = "car"
+                    val success = aidlHelper.setMapMargins(profileKey, 10, 20, 60, 20)
+                    if (success) {
+                        Toast.makeText(this@MainActivity, "UI margins set for $profileKey", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Failed to set UI margins", Toast.LENGTH_SHORT).show()
+                    }
+                }
                 ApiActionType.AIDL_REGISTER_FOR_VOICE_ROUTE_MESSAGES -> {
-                    aidlHelper.setVoiceRouterNotifyListener(object : OsmAndAidlHelper.VoiceRouterNotifyListener {
-
-                        override fun onVoiceRouterNotify(params: OnVoiceNavigationParams?) {
-                            runOnUiThread {
-                                if (params != null) {
-                                    Toast.makeText(this@MainActivity, "onVoiceRouterNotify " +
-                                            "\ncmds: ${params.commands}" +
-                                            "\nplayed: ${params.played}", Toast.LENGTH_SHORT).show()
-                                }
+                    aidlHelper.setVoiceRouterNotifyListener(VoiceRouterNotifyListener { params ->
+                        runOnUiThread {
+                            if (params != null) {
+                                Toast.makeText(this@MainActivity, "onVoiceRouterNotify " +
+                                        "\ncmds: ${params.commands}" +
+                                        "\nplayed: ${params.played}", Toast.LENGTH_SHORT).show()
                             }
                         }
                     })
@@ -710,7 +718,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 when (apiActionType) {
                     ApiActionType.AIDL_ADD_FAVORITE -> {
                         aidlHelper.addFavorite(location.lat, location.lon, location.name,
-                                location.name + " city", "Cities", "red", true)
+                                location.name + " city", "Cities", "red", "", true)
                     }
                     ApiActionType.AIDL_UPDATE_FAVORITE -> {
                         aidlHelper.updateFavorite(location.lat, location.lon, location.name, "Cities",
@@ -1266,6 +1274,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         aidlSetCustomizationButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_CUSTOMIZATION)
         }
+        aidlSetUIMarginsButton.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_SET_UI_MARGINS)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1465,6 +1476,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(aidlUpdateContextMenuButtonsButton, R.drawable.ic_action_settings)
         setDrawable(aidlAreOsmandSettingsCustomizedButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlSetCustomizationButton, R.drawable.ic_action_settings)
+        setDrawable(aidlSetUIMarginsButton, R.drawable.ic_action_settings)
     }
 
     private fun getDemoIntent(): Intent? {
