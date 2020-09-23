@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     private var progressDialog: ProgressDialog? = null
     private var lastLatitude: Double = 0.0
     private var lastLongitude: Double = 0.0
-    
+
     private val callbackKeys = mutableMapOf<String, Long>()
 
     enum class ApiActionType {
@@ -1346,8 +1346,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     }, delay)
                 }
                 REQUEST_COPY_FILE -> {
-                    handleFileUri(data!!, SQLDB_FILE_NAME) { result -> 
-                        val fileCopiedSuccessfully = mAidlHelper!!.fileImportImpl(result, SQLDB_FILE_NAME) 
+                    handleFileUri(data!!, SQLDB_FILE_NAME) { result ->
+                        val fileCopiedSuccessfully = mAidlHelper!!.fileImportImpl(result, SQLDB_FILE_NAME)
                         Toast.makeText(this, "File copied: $fileCopiedSuccessfully", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -1507,7 +1507,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             handleFileUri(data, it, action)
         }
 	}
-    
+
     private fun handleFileUri(data: Intent, fileName: String, action: (Uri) -> Unit) {
         try {
             val parceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
@@ -1629,6 +1629,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
     private fun getFeaturesDisabledIds(): List<String> {
         return listOf(
+            OsmandCustomizationConstants.LAYERS_HUD_ID,
             OsmandCustomizationConstants.ROUTE_PLANNING_HUD_ID,
             OsmandCustomizationConstants.QUICK_SEARCH_HUD_ID
         )
@@ -1642,6 +1643,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             OsmandCustomizationConstants.DRAWER_BUILDS_ID,
             OsmandCustomizationConstants.DRAWER_DIVIDER_ID,
             OsmandCustomizationConstants.DRAWER_DOWNLOAD_MAPS_ID,
+            OsmandCustomizationConstants.DRAWER_SWITCH_PROFILE_ID,
+            OsmandCustomizationConstants.DRAWER_CONFIGURE_PROFILE_ID,
+            OsmandCustomizationConstants.DRAWER_CONFIGURE_MAP_ID,
             OsmandCustomizationConstants.MAP_CONTEXT_MENU_ACTIONS,
             OsmandCustomizationConstants.CONFIGURE_MAP_ITEM_ID_SCHEME
         )
