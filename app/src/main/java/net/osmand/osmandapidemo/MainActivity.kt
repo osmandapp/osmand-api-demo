@@ -45,8 +45,8 @@ import net.osmand.aidlapi.navdrawer.NavDrawerHeaderParams
 import net.osmand.aidlapi.navdrawer.NavDrawerItem
 import net.osmand.aidlapi.navdrawer.SetNavDrawerItemsParams
 import net.osmand.aidlapi.navigation.ADirectionInfo
-import net.osmand.aidlapi.navigation.OnVoiceNavigationParams
 import net.osmand.aidlapi.plugins.PluginParams
+import net.osmand.aidlapi.profile.ExportSettingsType
 import net.osmand.aidlapi.search.SearchParams
 import net.osmand.aidlapi.search.SearchResult
 import net.osmand.osmandapidemo.R
@@ -84,24 +84,24 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         const val DEMO_INTENT_URI = "osmand_api_demo://main_activity"
 
         val CITIES = arrayOf(
-            Location("Bruxelles - Brussel", 50.8465565, 4.351697, 50.83477, 4.4068823),
-            Location("London", 51.5073219, -0.1276474, 51.52753, -0.07244986),
-            Location("Paris", 48.8566101, 2.3514992, 48.87588, 2.428313),
-            Location("Budapest", 47.4983815, 19.0404707, 47.48031, 19.067793),
-            Location("Moscow", 55.7506828, 37.6174976, 55.769417, 37.698547),
-            Location("Beijing", 39.9059631, 116.391248, 39.88707, 116.43207),
-            Location("Tokyo", 35.6828378, 139.7589667, 35.72936, 139.703),
-            Location("Washington", 38.8949549, -77.0366456, 38.91373, -77.02069),
-            Location("Ottawa", 45.4210328, -75.6900219, 45.386864, -75.783356),
-            Location("Panama", 8.9710438, -79.5340599, 8.992735, -79.5157),
-            Location("Minsk", 53.9072394, 27.5863608, 53.9022545, 27.5619212),
-            Location("Amsterdam", 52.3704312, 4.8904288, 52.3693012, 4.9013307)
+                Location("Bruxelles - Brussel", 50.8465565, 4.351697, 50.83477, 4.4068823),
+                Location("London", 51.5073219, -0.1276474, 51.52753, -0.07244986),
+                Location("Paris", 48.8566101, 2.3514992, 48.87588, 2.428313),
+                Location("Budapest", 47.4983815, 19.0404707, 47.48031, 19.067793),
+                Location("Moscow", 55.7506828, 37.6174976, 55.769417, 37.698547),
+                Location("Beijing", 39.9059631, 116.391248, 39.88707, 116.43207),
+                Location("Tokyo", 35.6828378, 139.7589667, 35.72936, 139.703),
+                Location("Washington", 38.8949549, -77.0366456, 38.91373, -77.02069),
+                Location("Ottawa", 45.4210328, -75.6900219, 45.386864, -75.783356),
+                Location("Panama", 8.9710438, -79.5340599, 8.992735, -79.5157),
+                Location("Minsk", 53.9072394, 27.5863608, 53.9022545, 27.5619212),
+                Location("Amsterdam", 52.3704312, 4.8904288, 52.3693012, 4.9013307)
         )
 
         val GPX_COLORS = arrayOf(
-            "", "red", "orange", "lightblue", "blue", "purple",
-            "translucent_red", "translucent_orange", "translucent_lightblue",
-            "translucent_blue", "translucent_purple"
+                "", "red", "orange", "lightblue", "blue", "purple",
+                "translucent_red", "translucent_orange", "translucent_lightblue",
+                "translucent_blue", "translucent_purple"
         )
 
         private const val APP_MODE_CAR = "car"
@@ -258,6 +258,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_UNREGISTER_FROM_VOICE_ROUTE_MESSAGES,
 
         AIDL_REMOVE_ALL_ACTIVE_MAP_MARKERS,
+
+        AIDL_IMPORT_PROFILE,
+        AIDL_EXPORT_PROFILE,
 
         INTENT_ADD_FAVORITE,
         INTENT_ADD_MAP_MARKER,
@@ -512,8 +515,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                             gpxBitmap = bitmap
                             val gpxDialogFragment = GpxBitmapDialogFragment()
                             supportFragmentManager.beginTransaction()
-                                .add(gpxDialogFragment, null)
-                                .commitAllowingStateLoss()
+                                    .add(gpxDialogFragment, null)
+                                    .commitAllowingStateLoss()
                         }
                     })
                     requestChooseFile(REQUEST_GET_GPX_BITMAP_URI_AIDL)
@@ -530,7 +533,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                             }
                         }
                     })
-                    callbackKeys[KEY_NAV_INFO_LISTENER] =  aidlHelper.registerForNavigationUpdates(true, 0)
+                    callbackKeys[KEY_NAV_INFO_LISTENER] = aidlHelper.registerForNavigationUpdates(true, 0)
                 }
                 ApiActionType.AIDL_UNREGISTER_FOR_NAV_UPDATES -> {
                     if (callbackKeys.containsKey(KEY_NAV_INFO_LISTENER)) {
@@ -549,51 +552,51 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         }
                     })
                     aidlHelper.addContextMenuButtons(
-                        1,
-                        "LeftText",
-                        "RightText",
-                        "ic_action_start_navigation",
-                        "ic_action_start_navigation",
-                        true,
-                        true,
-                        2,
-                        "LeftText4",
-                        "RightText4",
-                        "ic_action_start_navigation",
-                        "ic_action_start_navigation",
-                        true,
-                        true,
-                        "Buttons",
-                        packageName,
-                        MAP_LAYER_ID,
-                        18,
-                        emptyList()
+                            1,
+                            "LeftText",
+                            "RightText",
+                            "ic_action_start_navigation",
+                            "ic_action_start_navigation",
+                            true,
+                            true,
+                            2,
+                            "LeftText4",
+                            "RightText4",
+                            "ic_action_start_navigation",
+                            "ic_action_start_navigation",
+                            true,
+                            true,
+                            "Buttons",
+                            packageName,
+                            MAP_LAYER_ID,
+                            18,
+                            emptyList()
                     )
                 }
                 ApiActionType.AIDL_REMOVE_CONTEXT_MENU_BUTTONS -> {
-                    aidlHelper.removeContextMenuButtons("Buttons",18)
+                    aidlHelper.removeContextMenuButtons("Buttons", 18)
                 }
                 ApiActionType.AIDL_UPDATE_CONTEXT_MENU_BUTTONS -> {
                     aidlHelper.updateContextMenuButtons(
-                        1,
-                        "LeftText2",
-                        "RightText2",
-                        "ic_action_start_navigation",
-                        "ic_action_start_navigation",
-                        true,
-                        true,
-                        2,
-                        "LeftText3",
-                        "RightText3",
-                        "ic_action_start_navigation",
-                        "ic_action_start_navigation",
-                        true,
-                        true,
-                        "Buttons",
-                        packageName,
-                        MAP_LAYER_ID,
-                        18,
-                        emptyList())
+                            1,
+                            "LeftText2",
+                            "RightText2",
+                            "ic_action_start_navigation",
+                            "ic_action_start_navigation",
+                            true,
+                            true,
+                            2,
+                            "LeftText3",
+                            "RightText3",
+                            "ic_action_start_navigation",
+                            "ic_action_start_navigation",
+                            true,
+                            true,
+                            "Buttons",
+                            packageName,
+                            MAP_LAYER_ID,
+                            18,
+                            emptyList())
                 }
                 ApiActionType.AIDL_ARE_OSMAND_SETTINGS_CUSTOMIZED -> {
                     val settingsCustomized = aidlHelper.areOsmandSettingsCustomized(OSMAND_SHARED_PREFERENCES_NAME)
@@ -626,8 +629,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     val pluginParams = arrayListOf(PluginParams(OsmandCustomizationConstants.PLUGIN_RASTER_MAPS, 1))
 
                     aidlHelper.setCustomization(settingsParams, navDrawerHeaderParams, navDrawerFooterParams,
-                        navDrawerItemsParams, visibilityWidgetsParams, availabilityWidgetsParams, pluginParams,
-                        featuresEnabledIds, featuresDisabledIds, featuresEnabledPatterns, featuresDisabledPatterns
+                            navDrawerItemsParams, visibilityWidgetsParams, availabilityWidgetsParams, pluginParams,
+                            featuresEnabledIds, featuresDisabledIds, featuresEnabledPatterns, featuresDisabledPatterns
                     )
                 }
                 ApiActionType.AIDL_SET_UI_MARGINS -> {
@@ -696,6 +699,24 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 ApiActionType.AIDL_UNMUTE_NAVIGATION -> {
                     aidlHelper.unmuteNavigation()
                 }
+                ApiActionType.AIDL_IMPORT_PROFILE -> {
+                    val sharedDir = File(cacheDir, "share")
+                    val file = File(sharedDir, "Driving.osf")
+                    val fileUri = FileProvider.getUriForFile(this, AUTHORITY, file)
+                    val settingsTypeList = arrayListOf(ExportSettingsType.QUICK_ACTIONS)
+                    val replace = true
+                    aidlHelper.importProfile(fileUri, settingsTypeList, replace)
+                }
+                ApiActionType.AIDL_EXPORT_PROFILE -> {
+                    val profileKey = "car"
+                    val settingsTypeList = arrayListOf(ExportSettingsType.QUICK_ACTIONS, ExportSettingsType.MAP_SOURCES)
+                    val success = aidlHelper.exportProfile(profileKey, settingsTypeList)
+                    if (success) {
+                        Toast.makeText(this@MainActivity, "Profile $profileKey is exported", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Failed export profile $profileKey", Toast.LENGTH_SHORT).show()
+                    }
+                }
                 ApiActionType.INTENT_PAUSE_NAVIGATION -> {
                     osmandHelper.pauseNavigation()
                 }
@@ -739,15 +760,15 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     }
                     ApiActionType.AIDL_SHOW_MAP_POINT -> {
                         aidlHelper.showMapPoint(
-                            MAP_LAYER_ID,
-                            "id_" + location.name,
-                            location.name.substring(0, 1),
-                            location.name,
-                            "City",
-                            Color.GREEN,
-                            ALatLon(location.lat, location.lon),
-                            listOf("Big city", "Population: ..."),
-							mapOf(AMapPoint.POINT_SPEED_PARAM to "4.0", AMapPoint.POINT_TYPE_ICON_NAME_PARAM to "ic_type_address")
+                                MAP_LAYER_ID,
+                                "id_" + location.name,
+                                location.name.substring(0, 1),
+                                location.name,
+                                "City",
+                                Color.GREEN,
+                                ALatLon(location.lat, location.lon),
+                                listOf("Big city", "Population: ..."),
+                                mapOf(AMapPoint.POINT_SPEED_PARAM to "4.0", AMapPoint.POINT_TYPE_ICON_NAME_PARAM to "ic_type_address")
                         )
                     }
                     ApiActionType.AIDL_ADD_MAP_POINT -> {
@@ -760,8 +781,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 Color.GREEN,
                                 ALatLon(location.lat, location.lon),
                                 listOf("Big city", "Population: ..."),
-								mapOf(AMapPoint.POINT_SPEED_PARAM to "4.0", AMapPoint.POINT_TYPE_ICON_NAME_PARAM to "ic_type_address")
-						)
+                                mapOf(AMapPoint.POINT_SPEED_PARAM to "4.0", AMapPoint.POINT_TYPE_ICON_NAME_PARAM to "ic_type_address")
+                        )
                     }
                     ApiActionType.AIDL_UPDATE_MAP_POINT -> {
                         aidlHelper.updateMapPoint(
@@ -773,8 +794,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 Color.RED,
                                 ALatLon(location.lat, location.lon),
                                 listOf("Big city", "Population: unknown"),
-								mapOf(AMapPoint.POINT_SPEED_PARAM to "4.0", AMapPoint.POINT_TYPE_ICON_NAME_PARAM to "ic_type_address")
-						)
+                                mapOf(AMapPoint.POINT_SPEED_PARAM to "4.0", AMapPoint.POINT_TYPE_ICON_NAME_PARAM to "ic_type_address")
+                        )
                     }
                     ApiActionType.AIDL_REMOVE_MAP_POINT -> {
                         aidlHelper.removeMapPoint(MAP_LAYER_ID, "id_" + location.name)
@@ -1277,6 +1298,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         aidlSetUIMarginsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_UI_MARGINS)
         }
+        aidlImportProfileButton.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_IMPORT_PROFILE)
+        }
+        aidlExportProfileButton.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_EXPORT_PROFILE)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1295,7 +1322,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     }
                 }
             }
-           showOsmandInfoDialog(sb.toString())
+            showOsmandInfoDialog(sb.toString())
         }
         if (resultCode == RESULT_OK) {
             when (requestCode) {
@@ -1389,6 +1416,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(muteNavigationButton, R.drawable.ic_action_micro_dark)
         setDrawable(unmuteNavigationButton, R.drawable.ic_action_micro_dark)
         setDrawable(importFileButton, R.drawable.ic_action_copy)
+        setDrawable(aidlImportProfileButton, R.drawable.ic_action_import)
+        setDrawable(aidlExportProfileButton, R.drawable.ic_action_export)
 
         setDrawable(aidlAddMapMarkerButton, R.drawable.ic_action_flag_dark)
         setDrawable(aidlRemoveMapMarkerButton, R.drawable.ic_action_flag_dark)
@@ -1501,12 +1530,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         }
     }
 
-	private fun handleFileUri(data: Intent, action: (Uri) -> Unit) {
+    private fun handleFileUri(data: Intent, action: (Uri) -> Unit) {
         val fileName = Utils.getNameFromContentUri(data.data, this)
         fileName?.let {
             handleFileUri(data, it, action)
         }
-	}
+    }
 
     private fun handleFileUri(data: Intent, fileName: String, action: (Uri) -> Unit) {
         try {
@@ -1588,9 +1617,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             OsmAndHelper.RESULT_CODE_ERROR_GPX_NOT_FOUND -> return "GPX not found"
             OsmAndHelper.RESULT_CODE_ERROR_INVALID_PROFILE -> return "Invalid profile"
             OsmAndHelper.RESULT_CODE_ERROR_PLUGIN_INACTIVE -> return "Plugin inactive"
-            OsmAndHelper. RESULT_CODE_ERROR_EMPTY_SEARCH_QUERY -> return "Empty search query"
-            OsmAndHelper. RESULT_CODE_ERROR_SEARCH_LOCATION_UNDEFINED -> return "Search location undefined"
-            OsmAndHelper. RESULT_CODE_ERROR_QUICK_ACTION_NOT_FOUND -> return "Quick action not found"
+            OsmAndHelper.RESULT_CODE_ERROR_EMPTY_SEARCH_QUERY -> return "Empty search query"
+            OsmAndHelper.RESULT_CODE_ERROR_SEARCH_LOCATION_UNDEFINED -> return "Search location undefined"
+            OsmAndHelper.RESULT_CODE_ERROR_QUICK_ACTION_NOT_FOUND -> return "Quick action not found"
         }
         return "" + resultCode
     }
@@ -1618,86 +1647,86 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
     private fun getFeaturesEnabledIds(): List<String> {
         return listOf(
-            OsmandCustomizationConstants.MAP_CONTEXT_MENU_MEASURE_DISTANCE,
-            OsmandCustomizationConstants.GPX_FILES_ID,
-            OsmandCustomizationConstants.MAP_SOURCE_ID,
-            OsmandCustomizationConstants.OVERLAY_MAP,
-            OsmandCustomizationConstants.UNDERLAY_MAP,
-            OsmandCustomizationConstants.CONTOUR_LINES
+                OsmandCustomizationConstants.MAP_CONTEXT_MENU_MEASURE_DISTANCE,
+                OsmandCustomizationConstants.GPX_FILES_ID,
+                OsmandCustomizationConstants.MAP_SOURCE_ID,
+                OsmandCustomizationConstants.OVERLAY_MAP,
+                OsmandCustomizationConstants.UNDERLAY_MAP,
+                OsmandCustomizationConstants.CONTOUR_LINES
         )
     }
 
     private fun getFeaturesDisabledIds(): List<String> {
         return listOf(
-            OsmandCustomizationConstants.LAYERS_HUD_ID,
-            OsmandCustomizationConstants.ROUTE_PLANNING_HUD_ID,
-            OsmandCustomizationConstants.QUICK_SEARCH_HUD_ID
+                OsmandCustomizationConstants.LAYERS_HUD_ID,
+                OsmandCustomizationConstants.ROUTE_PLANNING_HUD_ID,
+                OsmandCustomizationConstants.QUICK_SEARCH_HUD_ID
         )
     }
 
     private fun getFeaturesDisabledPatterns(): List<String> {
         return listOf(
-            OsmandCustomizationConstants.DRAWER_PLUGINS_ID,
-            OsmandCustomizationConstants.DRAWER_SETTINGS_ID,
-            OsmandCustomizationConstants.DRAWER_HELP_ID,
-            OsmandCustomizationConstants.DRAWER_BUILDS_ID,
-            OsmandCustomizationConstants.DRAWER_DIVIDER_ID,
-            OsmandCustomizationConstants.DRAWER_DOWNLOAD_MAPS_ID,
-            OsmandCustomizationConstants.DRAWER_SWITCH_PROFILE_ID,
-            OsmandCustomizationConstants.DRAWER_CONFIGURE_PROFILE_ID,
-            OsmandCustomizationConstants.DRAWER_CONFIGURE_MAP_ID,
-            OsmandCustomizationConstants.MAP_CONTEXT_MENU_ACTIONS,
-            OsmandCustomizationConstants.CONFIGURE_MAP_ITEM_ID_SCHEME
+                OsmandCustomizationConstants.DRAWER_PLUGINS_ID,
+                OsmandCustomizationConstants.DRAWER_SETTINGS_ID,
+                OsmandCustomizationConstants.DRAWER_HELP_ID,
+                OsmandCustomizationConstants.DRAWER_BUILDS_ID,
+                OsmandCustomizationConstants.DRAWER_DIVIDER_ID,
+                OsmandCustomizationConstants.DRAWER_DOWNLOAD_MAPS_ID,
+                OsmandCustomizationConstants.DRAWER_SWITCH_PROFILE_ID,
+                OsmandCustomizationConstants.DRAWER_CONFIGURE_PROFILE_ID,
+                OsmandCustomizationConstants.DRAWER_CONFIGURE_MAP_ID,
+                OsmandCustomizationConstants.MAP_CONTEXT_MENU_ACTIONS,
+                OsmandCustomizationConstants.CONFIGURE_MAP_ITEM_ID_SCHEME
         )
     }
 
     private fun getFeaturesEnabledPatterns(): List<String> {
         return listOf(
-            OsmandCustomizationConstants.DRAWER_DASHBOARD_ID,
-            OsmandCustomizationConstants.DRAWER_SEARCH_ID,
-            OsmandCustomizationConstants.DRAWER_DIRECTIONS_ID,
-            OsmandCustomizationConstants.DRAWER_CONFIGURE_SCREEN_ID,
-            OsmandCustomizationConstants.DRAWER_OSMAND_LIVE_ID,
-            OsmandCustomizationConstants.DRAWER_TRAVEL_GUIDES_ID
+                OsmandCustomizationConstants.DRAWER_DASHBOARD_ID,
+                OsmandCustomizationConstants.DRAWER_SEARCH_ID,
+                OsmandCustomizationConstants.DRAWER_DIRECTIONS_ID,
+                OsmandCustomizationConstants.DRAWER_CONFIGURE_SCREEN_ID,
+                OsmandCustomizationConstants.DRAWER_OSMAND_LIVE_ID,
+                OsmandCustomizationConstants.DRAWER_TRAVEL_GUIDES_ID
         )
     }
 
     private fun getVisibilityWidgetsParams(): java.util.ArrayList<SetWidgetsParams> {
         return arrayListOf(
-            SetWidgetsParams("next_turn", appModesPedestrianBicycle),
-            SetWidgetsParams("next_turn_small", appModesPedestrian),
-            SetWidgetsParams("next_next_turn", appModesPedestrianBicycle),
-            SetWidgetsParams("intermediate_distance", appModesAll),
-            SetWidgetsParams("distance", appModesAll),
-            SetWidgetsParams("time", appModesAll),
-            SetWidgetsParams("intermediate_time", appModesAll),
-            SetWidgetsParams("speed", appModesPedestrianBicycle),
-            SetWidgetsParams("max_speed", listOf(APP_MODE_CAR)),
-            SetWidgetsParams("altitude", appModesPedestrianBicycle),
-            SetWidgetsParams("gps_info", listOf(APP_MODE_BOAT)),
-            SetWidgetsParams("bearing", listOf(APP_MODE_BOAT)),
-            SetWidgetsParams("ruler", appModesAll),
-            SetWidgetsParams("config", appModesNone),
-            SetWidgetsParams("layers", appModesNone),
-            SetWidgetsParams("compass", appModesNone),
-            SetWidgetsParams("street_name", appModesExceptAirBoatDefault),
-            SetWidgetsParams("back_to_location", appModesAll),
-            SetWidgetsParams("monitoring_services", appModesNone),
-            SetWidgetsParams("bgService", appModesNone)
+                SetWidgetsParams("next_turn", appModesPedestrianBicycle),
+                SetWidgetsParams("next_turn_small", appModesPedestrian),
+                SetWidgetsParams("next_next_turn", appModesPedestrianBicycle),
+                SetWidgetsParams("intermediate_distance", appModesAll),
+                SetWidgetsParams("distance", appModesAll),
+                SetWidgetsParams("time", appModesAll),
+                SetWidgetsParams("intermediate_time", appModesAll),
+                SetWidgetsParams("speed", appModesPedestrianBicycle),
+                SetWidgetsParams("max_speed", listOf(APP_MODE_CAR)),
+                SetWidgetsParams("altitude", appModesPedestrianBicycle),
+                SetWidgetsParams("gps_info", listOf(APP_MODE_BOAT)),
+                SetWidgetsParams("bearing", listOf(APP_MODE_BOAT)),
+                SetWidgetsParams("ruler", appModesAll),
+                SetWidgetsParams("config", appModesNone),
+                SetWidgetsParams("layers", appModesNone),
+                SetWidgetsParams("compass", appModesNone),
+                SetWidgetsParams("street_name", appModesExceptAirBoatDefault),
+                SetWidgetsParams("back_to_location", appModesAll),
+                SetWidgetsParams("monitoring_services", appModesNone),
+                SetWidgetsParams("bgService", appModesNone)
         )
     }
 
     private fun getAvailabilityWidgetsParams(): java.util.ArrayList<SetWidgetsParams> {
         return arrayListOf(
-            SetWidgetsParams("next_turn", appModesPedestrianBicycle),
-            SetWidgetsParams("next_turn_small", appModesPedestrianBicycle),
-            SetWidgetsParams("next_next_turn", appModesExceptAirBoatDefault),
-            SetWidgetsParams("intermediate_distance", appModesAll),
-            SetWidgetsParams("distance", appModesAll),
-            SetWidgetsParams("time", appModesAll),
-            SetWidgetsParams("intermediate_time", appModesAll),
-            SetWidgetsParams("map_marker_1st", appModesNone),
-            SetWidgetsParams("map_marker_2nd", appModesNone)
+                SetWidgetsParams("next_turn", appModesPedestrianBicycle),
+                SetWidgetsParams("next_turn_small", appModesPedestrianBicycle),
+                SetWidgetsParams("next_next_turn", appModesExceptAirBoatDefault),
+                SetWidgetsParams("intermediate_distance", appModesAll),
+                SetWidgetsParams("distance", appModesAll),
+                SetWidgetsParams("time", appModesAll),
+                SetWidgetsParams("intermediate_time", appModesAll),
+                SetWidgetsParams("map_marker_1st", appModesNone),
+                SetWidgetsParams("map_marker_2nd", appModesNone)
         )
     }
 
@@ -1798,7 +1827,7 @@ class SearchResultsAdapter(context: Context, resultSet: List<SearchResult>, priv
                 ?: mInflater?.inflate(R.layout.title_desc_list_layout, parent, false)) as LinearLayout
 
         val item = getItem(position)
-        val distance = Utils.getDistance(origLat, origLon,item.latitude,item.longitude)
+        val distance = Utils.getDistance(origLat, origLon, item.latitude, item.longitude)
 
         view.title.text = item.localName
         view.description.text = item.localTypeName

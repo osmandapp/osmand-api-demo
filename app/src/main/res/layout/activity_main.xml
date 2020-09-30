@@ -349,7 +349,27 @@
                 android:layout_height="wrap_content"
                 android:text="@string/import_file"
                 tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-            
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlImportProfileButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/import_profile"
+                tools:drawableLeft="@drawable/ic_action_import"/>
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlExportProfileButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/export_profile"
+                tools:drawableLeft="@drawable/ic_action_export"/>
+
         </LinearLayout>
 
         <include layout="@layout/card_bottom_divider"/>
