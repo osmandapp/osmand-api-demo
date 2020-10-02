@@ -1555,7 +1555,7 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
-	public boolean fileImportImpl(Uri uri, String fileName) {
+	public boolean fileImportImpl(Uri uri, String destinationDir, String fileName) {
 		boolean isError = false;
 		byte[] data = new byte[(int) BUFFER_SIZE];
 		long retryInterval = COPY_FILE_MAX_LOCK_TIME_MS / 3;
@@ -1619,7 +1619,7 @@ public class OsmAndAidlHelper {
 					break;
 				}
 				if (!isError) {
-					response = copyFile(fileName, data, startTime, read == -1);
+					response = copyFile(destinationDir, fileName, data, startTime, read == -1);
 				}
 			}
 			bis.close();
@@ -1635,16 +1635,17 @@ public class OsmAndAidlHelper {
 	 * Method to copy files to OsmAnd part by part. For now supports only sqlitedb format.
 	 * Part size (bytearray) should not exceed 256k.
 	 *
-	 * @param fileName (String) - name of file
-	 * @param filePartData (byte[]) - parts of file, byte[] with size 256k or less.
-	 * @param startTime (long) - timestamp of copying start.
-	 * @param isDone (boolean) - boolean to mark end of copying.
+	 * @param destinationDir (String) - destination folder
+	 * @param fileName       (String) - name of file
+	 * @param filePartData   (byte[]) - parts of file, byte[] with size 256k or less.
+	 * @param startTime      (long) - timestamp of copying start.
+	 * @param isDone         (boolean) - boolean to mark end of copying.
 	 * @return number of last successfully received file part or error.
 	 */
-	public int copyFile(String fileName, byte[] filePartData, long startTime, boolean isDone) {
+	public int copyFile(String destinationDir, String fileName, byte[] filePartData, long startTime, boolean isDone) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.copyFile(new CopyFileParams(fileName, filePartData, startTime, isDone));
+				return mIOsmAndAidlInterface.copyFile(new CopyFileParams(destinationDir, fileName, filePartData, startTime, isDone));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

@@ -1373,8 +1373,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     }, delay)
                 }
                 REQUEST_COPY_FILE -> {
-                    handleFileUri(data!!, SQLDB_FILE_NAME) { result ->
-                        val fileCopiedSuccessfully = mAidlHelper!!.fileImportImpl(result, SQLDB_FILE_NAME)
+                    val fileName = File(data!!.data.path).name
+                    handleFileUri(data, fileName) { result ->
+                        val fileCopiedSuccessfully = mAidlHelper!!.fileImportImpl(result, "", fileName)
                         Toast.makeText(this, "File copied: $fileCopiedSuccessfully", Toast.LENGTH_SHORT).show()
                     }
                 }
