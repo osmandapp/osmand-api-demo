@@ -86,7 +86,7 @@ import net.osmand.aidlapi.note.StopRecordingParams;
 import net.osmand.aidlapi.note.TakePhotoNoteParams;
 import net.osmand.aidlapi.plugins.PluginParams;
 import net.osmand.aidlapi.profile.ExportProfileParams;
-import net.osmand.aidlapi.profile.ExportSettingsType;
+import net.osmand.aidlapi.profile.AExportSettingsType;
 import net.osmand.aidlapi.search.SearchParams;
 import net.osmand.aidlapi.search.SearchResult;
 import net.osmand.aidlapi.tiles.ASqliteDbFile;
@@ -1945,11 +1945,11 @@ public class OsmAndAidlHelper {
 	 *
 	 * @param profileUri       (Uri) - Uri of OsmAnd profile.
 	 * @param settingsTypeList (ArrayList<ExportSettingsType>) - list of types additional profile settings.
-	 *                         See {@link ExportSettingsType ExportSettingsType}
+	 *                         See {@link AExportSettingsType ExportSettingsType}
 	 * @param replace          (boolean) - if true current items with same names will be replaced.
 	 *                         false - imported items will be added with prefix.
 	 */
-	public boolean importProfile(Uri profileUri, ArrayList<ExportSettingsType> settingsTypeList, boolean replace) {
+	public boolean importProfile(Uri profileUri, ArrayList<AExportSettingsType> settingsTypeList, boolean replace) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				app.grantUriPermission(OSMAND_PACKAGE_NAME, profileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -1966,10 +1966,10 @@ public class OsmAndAidlHelper {
 	 * Method to export OsmAnd profile with additional profile settings.
 	 *
 	 * @param profileKey       (String) - StringKey of OsmAnd profile.
-	 * @param settingsTypeList (ArrayList<ExportSettingsType>) - list of types additional profile settings.
-	 *                         See {@link ExportSettingsType ExportSettingsType}
+	 * @param settingsTypeList (ArrayList<AExportSettingsType>) - list of types additional profile settings.
+	 *                         See {@link AExportSettingsType ExportSettingsType}
 	 */
-	public boolean exportProfile(String profileKey, ArrayList<ExportSettingsType> settingsTypeList) {
+	public boolean exportProfile(String profileKey, ArrayList<AExportSettingsType> settingsTypeList) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.exportProfile(new ExportProfileParams(profileKey, settingsTypeList));

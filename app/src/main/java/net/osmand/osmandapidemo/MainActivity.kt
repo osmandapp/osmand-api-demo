@@ -46,7 +46,7 @@ import net.osmand.aidlapi.navdrawer.NavDrawerItem
 import net.osmand.aidlapi.navdrawer.SetNavDrawerItemsParams
 import net.osmand.aidlapi.navigation.ADirectionInfo
 import net.osmand.aidlapi.plugins.PluginParams
-import net.osmand.aidlapi.profile.ExportSettingsType
+import net.osmand.aidlapi.profile.AExportSettingsType
 import net.osmand.aidlapi.search.SearchParams
 import net.osmand.aidlapi.search.SearchResult
 import net.osmand.osmandapidemo.R
@@ -703,13 +703,13 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     val sharedDir = File(cacheDir, "share")
                     val file = File(sharedDir, "Driving.osf")
                     val fileUri = FileProvider.getUriForFile(this, AUTHORITY, file)
-                    val settingsTypeList = arrayListOf(ExportSettingsType.QUICK_ACTIONS)
+                    val settingsTypeList = arrayListOf(AExportSettingsType.QUICK_ACTIONS)
                     val replace = true
                     aidlHelper.importProfile(fileUri, settingsTypeList, replace)
                 }
                 ApiActionType.AIDL_EXPORT_PROFILE -> {
                     val profileKey = "car"
-                    val settingsTypeList = arrayListOf(ExportSettingsType.QUICK_ACTIONS, ExportSettingsType.MAP_SOURCES)
+                    val settingsTypeList = arrayListOf(AExportSettingsType.QUICK_ACTIONS, AExportSettingsType.MAP_SOURCES)
                     val success = aidlHelper.exportProfile(profileKey, settingsTypeList)
                     if (success) {
                         Toast.makeText(this@MainActivity, "Profile $profileKey is exported", Toast.LENGTH_SHORT).show()
@@ -1375,7 +1375,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 REQUEST_COPY_FILE -> {
                     val fileName = File(data!!.data.path).name
                     handleFileUri(data, fileName) { result ->
-                        val fileCopiedSuccessfully = mAidlHelper!!.fileImportImpl(result, "", fileName)
+                        val fileCopiedSuccessfully = mAidlHelper!!.fileImportImpl(result, "tracks/", fileName)
                         Toast.makeText(this, "File copied: $fileCopiedSuccessfully", Toast.LENGTH_SHORT).show()
                     }
                 }
