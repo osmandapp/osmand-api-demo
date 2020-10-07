@@ -24,6 +24,7 @@ import net.osmand.aidlapi.customization.CustomizationInfoParams;
 import net.osmand.aidlapi.customization.MapMarginsParams;
 import net.osmand.aidlapi.customization.OsmandSettingsInfoParams;
 import net.osmand.aidlapi.customization.OsmandSettingsParams;
+import net.osmand.aidlapi.customization.ProfileSettingsParams;
 import net.osmand.aidlapi.customization.SetWidgetsParams;
 import net.osmand.aidlapi.favorite.AFavorite;
 import net.osmand.aidlapi.favorite.AddFavoriteParams;
@@ -84,6 +85,8 @@ import net.osmand.aidlapi.note.StartVideoRecordingParams;
 import net.osmand.aidlapi.note.StopRecordingParams;
 import net.osmand.aidlapi.note.TakePhotoNoteParams;
 import net.osmand.aidlapi.plugins.PluginParams;
+import net.osmand.aidlapi.profile.ExportProfileParams;
+import net.osmand.aidlapi.profile.AExportSettingsType;
 import net.osmand.aidlapi.search.SearchParams;
 import net.osmand.aidlapi.search.SearchResult;
 import net.osmand.aidlapi.tiles.ASqliteDbFile;
@@ -133,23 +136,23 @@ public class OsmAndAidlHelper {
 	interface SearchCompleteListener {
 		void onSearchComplete(List<SearchResult> resultSet);
 	}
-	
+
 	interface UpdateListener {
 		void onUpdatePing();
 	}
-	
+
 	interface OsmandInitializedListener {
 		void onOsmandInitilized();
 	}
-	
+
 	interface GpxBitmapCreatedListener {
 		void onGpxBitmapCreated(Bitmap bitmap);
 	}
-	
+
 	interface NavigationInfoUpdateListener {
-		void onNavigationInfoUpdate(ADirectionInfo directionInfo); 
+		void onNavigationInfoUpdate(ADirectionInfo directionInfo);
 	}
-	
+
 	interface ContextButtonClickListener {
 		void onContextButtonClick(int buttonId, String pointId, String layerId);
 	}
@@ -165,14 +168,14 @@ public class OsmAndAidlHelper {
 				mSearchCompleteListener.onSearchComplete(resultSet);
 			}
 		}
-		
+
 		@Override
 		public void onUpdate() {
 			if (updateListener != null) {
 				updateListener.onUpdatePing();
 			}
 		}
-		
+
 		@Override
 		public void onAppInitialized() {
 			if (osmandInitializedListener != null) {
@@ -1188,7 +1191,7 @@ public class OsmAndAidlHelper {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to register for periodical callbacks from OsmAnd
 	 *
@@ -1258,7 +1261,7 @@ public class OsmAndAidlHelper {
 			}
 		}
 		return false;
-			
+
 	}
 
 	/**
@@ -1358,9 +1361,9 @@ public class OsmAndAidlHelper {
 				e.printStackTrace();
 			}
 		}
-		return false; 
+		return false;
 	}
-	
+
 	/**
 	 * Method to get list of gpx files currently registered (imported or created) in OsmAnd;
 	 *
@@ -1412,7 +1415,7 @@ public class OsmAndAidlHelper {
 				e.printStackTrace();
 			}
 		}
-		return null;	
+		return null;
 	}
 
 	/**
@@ -1495,7 +1498,7 @@ public class OsmAndAidlHelper {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -1536,7 +1539,7 @@ public class OsmAndAidlHelper {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -1552,7 +1555,7 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
-	public boolean fileImportImpl(Uri uri, String fileName) {
+	public boolean fileImportImpl(Uri uri, String destinationDir, String fileName) {
 		boolean isError = false;
 		byte[] data = new byte[(int) BUFFER_SIZE];
 		long retryInterval = COPY_FILE_MAX_LOCK_TIME_MS / 3;
@@ -1585,7 +1588,7 @@ public class OsmAndAidlHelper {
 							data = Arrays.copyOf(data, read);
 						} else if (read <= 0) {
 							data = new byte[0];
-						} 
+						}
 						break;
 					case COPY_FILE_WRITE_LOCK_ERROR :
 						if (retryCounter < MAX_RETRY_COUNT) {
@@ -1597,7 +1600,7 @@ public class OsmAndAidlHelper {
 							isError = true;
 						}
 						break;
-						
+
 					case COPY_FILE_PARAMS_ERROR :
 //						log.error("Illegal parameters");
 						isError = true;
@@ -1616,7 +1619,7 @@ public class OsmAndAidlHelper {
 					break;
 				}
 				if (!isError) {
-					response = copyFile(fileName, data, startTime, read == -1);
+					response = copyFile(destinationDir, fileName, data, startTime, read == -1);
 				}
 			}
 			bis.close();
@@ -1632,16 +1635,17 @@ public class OsmAndAidlHelper {
 	 * Method to copy files to OsmAnd part by part. For now supports only sqlitedb format.
 	 * Part size (bytearray) should not exceed 256k.
 	 *
-	 * @param fileName (String) - name of file
-	 * @param filePartData (byte[]) - parts of file, byte[] with size 256k or less.
-	 * @param startTime (long) - timestamp of copying start.
-	 * @param isDone (boolean) - boolean to mark end of copying.
+	 * @param destinationDir (String) - destination folder
+	 * @param fileName       (String) - name of file
+	 * @param filePartData   (byte[]) - parts of file, byte[] with size 256k or less.
+	 * @param startTime      (long) - timestamp of copying start.
+	 * @param isDone         (boolean) - boolean to mark end of copying.
 	 * @return number of last successfully received file part or error.
 	 */
-	public int copyFile(String fileName, byte[] filePartData, long startTime, boolean isDone) {
+	public int copyFile(String destinationDir, String fileName, byte[] filePartData, long startTime, boolean isDone) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.copyFile(new CopyFileParams(fileName, filePartData, startTime, isDone));
+				return mIOsmAndAidlInterface.copyFile(new CopyFileParams(destinationDir, fileName, filePartData, startTime, isDone));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1655,7 +1659,7 @@ public class OsmAndAidlHelper {
 	 * @param subscribeToUpdates (boolean) - subscribe or unsubscribe from updates
 	 * @param callbackId (long) - id of callback, needed to unsubscribe from updates
 	 * @param callback (IOsmAndAidlCallback) - callback to notify user on navigation data change
-	 * 
+	 *
 	 * @return callbackId (long)
 	 */
 	public long registerForNavigationUpdates(boolean subscribeToUpdates, long callbackId) {
@@ -1684,7 +1688,7 @@ public class OsmAndAidlHelper {
 	 * @param leftIconNameL (String at AContextMenuButton) - name of left-side icon of left button
 	 * @param rightIconNameL (String at AContextMenuButton) - name of right-side icon of left button
 	 * @param needColorizeIconL (booleanat AContextMenuButton) - flag to apply color to icon of left button
-	 * @param enabledL (boolean at AContextMenuButton) - enable left button flag 
+	 * @param enabledL (boolean at AContextMenuButton) - enable left button flag
 	 * @param buttonIdR (int at AContextMenuButton) - id of right button in View
 	 * @param leftTextCaptionR (String at AContextMenuButton) - left-side of right button text
 	 * @param rightTextCaptionR (String at AContextMenuButton) - right-side of right button text
@@ -1706,8 +1710,8 @@ public class OsmAndAidlHelper {
 		int buttonIdR, String leftTextCaptionR, String rightTextCaptionR, String leftIconNameR,
 		String rightIconNameR, boolean needColorizeIconR, boolean enabledR,
 		String id, String appPackage, String layerId, long callbackId, List<String> pointsIds) {
-		
-		
+
+
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				//parameters for left context button, could be null:
@@ -1716,7 +1720,7 @@ public class OsmAndAidlHelper {
 				//parameters for right context button, could be null:
 				AContextMenuButton rightButtonParams = new AContextMenuButton(buttonIdR, leftTextCaptionR,
 					rightTextCaptionR, leftIconNameR, rightIconNameR, needColorizeIconR, enabledR);
-				
+
 				ContextMenuButtonsParams params = new ContextMenuButtonsParams(leftButtonParams,
 					rightButtonParams, id, appPackage, layerId, callbackId, pointsIds);
 
@@ -1746,7 +1750,7 @@ public class OsmAndAidlHelper {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -1891,9 +1895,9 @@ public class OsmAndAidlHelper {
 	/**
 	 * Method to register for Voice Router voice messages during navigation. Notifies user about voice messages.
 	 *
-	 * @params subscribeToUpdates (boolean) - boolean flag to subscribe or unsubscribe from messages
-	 * @params callbackId (long) - id of callback, needed to unsubscribe from messages
-	 * @params callback (IOsmAndAidlCallback) - callback to notify user on voice message
+	 * @param subscribeToUpdates (boolean) - boolean flag to subscribe or unsubscribe from messages
+	 * @param callbackId         (long) - id of callback, needed to unsubscribe from messages
+	 * @param callback           (IOsmAndAidlCallback) - callback to notify user on voice message
 	 */
 	public long registerForVoiceRouterMessages(boolean subscribeToUpdates, long callbackId) {
 		ANavigationVoiceRouterMessageParams params = new ANavigationVoiceRouterMessageParams();
@@ -1929,6 +1933,46 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.setMapMargins(new MapMarginsParams(appModeKey, leftMargin, topMargin, rightMargin, bottomMargin));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to import OsmAnd profile.
+	 *
+	 * @param profileUri       (Uri) - Uri of OsmAnd profile.
+	 * @param settingsTypeList (ArrayList<ExportSettingsType>) - list of types additional profile settings.
+	 *                         See {@link AExportSettingsType ExportSettingsType}
+	 * @param replace          (boolean) - if true current items with same names will be replaced.
+	 *                         false - imported items will be added with prefix.
+	 */
+	public boolean importProfile(Uri profileUri, ArrayList<AExportSettingsType> settingsTypeList, boolean replace) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				app.grantUriPermission(OSMAND_PACKAGE_NAME, profileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				return mIOsmAndAidlInterface.importProfile(new ProfileSettingsParams(profileUri, settingsTypeList,
+						replace, null, -1));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to export OsmAnd profile with additional profile settings.
+	 *
+	 * @param profileKey       (String) - StringKey of OsmAnd profile.
+	 * @param settingsTypeList (ArrayList<AExportSettingsType>) - list of types additional profile settings.
+	 *                         See {@link AExportSettingsType ExportSettingsType}
+	 */
+	public boolean exportProfile(String profileKey, ArrayList<AExportSettingsType> settingsTypeList) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.exportProfile(new ExportProfileParams(profileKey, settingsTypeList));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

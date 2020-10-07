@@ -5,6 +5,8 @@ object OsmandCustomizationConstants {
     // Navigation Drawer:
 
     const val DRAWER_ITEM_ID_SCHEME = "drawer.action."
+    const val DRAWER_SWITCH_PROFILE_ID = DRAWER_ITEM_ID_SCHEME + "switch_profile";
+    const val DRAWER_CONFIGURE_PROFILE_ID = DRAWER_ITEM_ID_SCHEME + "configure_profile";
     const val DRAWER_DASHBOARD_ID = DRAWER_ITEM_ID_SCHEME + "dashboard"
     const val DRAWER_MAP_MARKERS_ID = DRAWER_ITEM_ID_SCHEME + "map_markers"
     const val DRAWER_MY_PLACES_ID = DRAWER_ITEM_ID_SCHEME + "my_places"
