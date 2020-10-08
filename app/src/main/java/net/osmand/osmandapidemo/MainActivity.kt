@@ -1,11 +1,13 @@
 package main.java.net.osmand.osmandapidemo
 
+import android.Manifest.permission_group.LOCATION
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -33,9 +35,9 @@ import kotlinx.android.synthetic.main.title_desc_list_layout.view.*
 import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.ActionType
 import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
 import main.java.net.osmand.osmandapidemo.MainActivity.Companion.CITIES
-import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper.VoiceRouterNotifyListener
 import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
+import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper.VoiceRouterNotifyListener
 import net.osmand.aidlapi.customization.OsmandSettingsParams
 import net.osmand.aidlapi.customization.SetWidgetsParams
 import net.osmand.aidlapi.map.ALatLon
@@ -700,10 +702,23 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     aidlHelper.unmuteNavigation()
                 }
                 ApiActionType.AIDL_IMPORT_PROFILE -> {
+                    val fileName = "Driving_test.osf"
                     val sharedDir = File(cacheDir, "share")
-                    val file = File(sharedDir, "Driving.osf")
+                    val file = File(sharedDir, fileName)
+                    val am: AssetManager = application.getAssets()
+                    val inStream: InputStream = am.open(fileName)
+                    val outStream = FileOutputStream(file)
+                    val buffer = ByteArray(1024)
+                    var length = inStream.read(buffer)
+                    while (length > 0) {
+                        outStream.write(buffer, 0, length)
+                        length = inStream.read(buffer)
+                    }
+                    inStream.close()
+                    outStream.close()
                     val fileUri = FileProvider.getUriForFile(this, AUTHORITY, file)
-                    val settingsTypeList = arrayListOf(AExportSettingsType.QUICK_ACTIONS)
+                    val settingsTypeList = arrayListOf(AExportSettingsType.PROFILE,
+                            AExportSettingsType.QUICK_ACTIONS, AExportSettingsType.MAP_SOURCES)
                     val replace = true
                     aidlHelper.importProfile(fileUri, settingsTypeList, replace)
                 }
