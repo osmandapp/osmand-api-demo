@@ -350,7 +350,21 @@
                 android:text="@string/import_file"
                 tools:drawableLeft="@drawable/ic_action_fav_dark"/>
 
-            <View style="@style/short_divider_style"/>
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/shared_string_aidl_files"/>
+
+            <View style="@style/divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlCopyFileButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/copy_file"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlImportProfileButton"
@@ -759,14 +773,6 @@
                 android:text="@string/get_bitmap_for_gpx"/>
 
             <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlCopyFileButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/copy_file"/>
 
         </LinearLayout>
 
