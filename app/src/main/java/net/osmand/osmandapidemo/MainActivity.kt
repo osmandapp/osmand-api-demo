@@ -717,8 +717,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     inStream.close()
                     outStream.close()
                     val fileUri = FileProvider.getUriForFile(this, AUTHORITY, file)
-                    val settingsTypeList = arrayListOf(AExportSettingsType.PROFILE,
-                            AExportSettingsType.QUICK_ACTIONS, AExportSettingsType.MAP_SOURCES)
+                    val settingsTypeList = arrayListOf(AExportSettingsType.PROFILE)
                     val replace = true
                     aidlHelper.importProfile(fileUri, settingsTypeList, replace)
                 }

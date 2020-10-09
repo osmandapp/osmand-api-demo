@@ -111,6 +111,7 @@
     <string name="add_first_map_widget">Add 1st map widget</string>
     <string name="add_second_map_widget">Add 2nd map widget</string>
     <string name="shared_string_files">Files</string>
+    <string name="shared_string_aidl_files">AIDL - Files</string>
     <string name="import_file">Import file to OsmAnd</string>
     <string name="import_profile">Import profile to OsmAnd</string>
     <string name="export_profile">Export profile from OsmAnd</string>
