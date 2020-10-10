@@ -1058,7 +1058,7 @@
 
         <include layout="@layout/card_bottom_divider"/>
 
-        <!--AIDL - OsmAnd Customization-->
+        <!--AIDL - OsmAnd Customization - run time only -->
         <include layout="@layout/card_top_divider"/>
 
         <LinearLayout
@@ -1072,7 +1072,7 @@
                 style="@style/categoryStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="OsmAnd Customization"/>
+                android:text="@string/osmand_customization" />
 
             <View style="@style/divider_style"/>
 
@@ -1082,9 +1082,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_nav_drawer_items"/>
+                android:text="@string/set_nav_drawer_items" />
+            <View style="@style/short_divider_style" />
 
-            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlHideDrawerProfile"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/hide_drawer_profile" />
+
+            <View style="@style/short_divider_style" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlSetEnabledIdsButton"
@@ -1092,9 +1102,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_enabled_ids"/>
+                android:text="@string/set_enabled_ids" />
 
-            <View style="@style/short_divider_style"/>
+            <View style="@style/short_divider_style" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlSetDisabledIdsButton"
@@ -1123,26 +1133,6 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
                 android:text="@string/set_disabled_patterns"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlRegWidgetVisibilityButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/reg_widget_visibility"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/aidlRegWidgetAvailabilityButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/reg_widget_availability"/>
 
             <View style="@style/short_divider_style"/>
 
@@ -1312,9 +1302,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_customization"/>
+                android:text="@string/set_customization" />
 
-            <View style="@style/short_divider_style"/>
+            <View style="@style/short_divider_style" />
+
+
+        </LinearLayout>
+
+        <include layout="@layout/card_bottom_divider" />
+
+        <!--AIDL - OsmAnd Customization - profile dependent -->
+        <include layout="@layout/card_top_divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/itemBackgroundColor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/osmand_customization_profile_dependent" />
+
+            <View style="@style/divider_style" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlSetUIMarginsButton"
@@ -1322,11 +1335,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_ui_margins"/>
+                android:text="@string/set_ui_margins" />
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlRegWidgetVisibilityButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/reg_widget_visibility"/>
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlRegWidgetAvailabilityButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/reg_widget_availability"/>
 
         </LinearLayout>
 
-        <include layout="@layout/card_bottom_divider"/>
+        <include layout="@layout/card_bottom_divider" />
 
     </LinearLayout>
 
