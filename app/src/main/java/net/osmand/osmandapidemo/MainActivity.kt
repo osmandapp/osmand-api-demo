@@ -640,10 +640,11 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     )
                 }
                 ApiActionType.AIDL_SET_UI_MARGINS -> {
-                    val profileKey = "car"
-                    val success = aidlHelper.setMapMargins(profileKey, 10, 20, 60, 20)
+                    val profileKeys = listOf(APP_MODE_CAR, APP_MODE_BOAT)
+                    val success = aidlHelper.setMapMargins(10, 20, 60, 20,
+                            profileKeys)
                     if (success) {
-                        Toast.makeText(this@MainActivity, "UI margins set for $profileKey", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, "UI margins set for $profileKeys", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this@MainActivity, "Failed to set UI margins", Toast.LENGTH_SHORT).show()
                     }
