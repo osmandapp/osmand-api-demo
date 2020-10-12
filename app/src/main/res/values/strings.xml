@@ -115,5 +115,8 @@
     <string name="import_file">Import file to OsmAnd</string>
     <string name="import_profile">Import profile to OsmAnd</string>
     <string name="export_profile">Export profile from OsmAnd</string>
+    <string name="hide_drawer_profile">Hide drawer profile</string>
     <string name="set_ui_margins">Set UI margins</string>
+    <string name="osmand_customization">OsmAnd Customization (run time only)</string>
+    <string name="osmand_customization_profile_dependent">OsmAnd Customization (profile dependent)</string>
 </resources>

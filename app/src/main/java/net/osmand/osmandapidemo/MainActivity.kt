@@ -1,6 +1,5 @@
 package main.java.net.osmand.osmandapidemo
 
-import android.Manifest.permission_group.LOCATION
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -216,6 +215,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         AIDL_REGISTER_FOR_UPDATES,
         AIDL_UNREGISTER_FORM_UPDATES,
 
+        AIDL_HIDE_DRAWER_PROFILE,
         AIDL_SET_ENABLED_UI_IDS,
         AIDL_SET_DISABLED_UI_IDS,
         AIDL_SET_ENABLED_MENU_PATTERNS,
@@ -394,6 +394,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 ApiActionType.AIDL_REMOVE_GPX -> {
                     aidlHelper.removeGpx(GPX_FILE_NAME)
+                }
+                ApiActionType.AIDL_HIDE_DRAWER_PROFILE -> {
+                    aidlHelper.setDisabledPatterns(listOf(OsmandCustomizationConstants.DRAWER_SWITCH_PROFILE_ID,
+                            OsmandCustomizationConstants.DRAWER_CONFIGURE_PROFILE_ID))
                 }
                 ApiActionType.AIDL_SET_ENABLED_UI_IDS -> {
                     val enabledIds = getFeaturesEnabledIds()
@@ -1242,6 +1246,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FORM_UPDATES)
         }
 
+        aidlHideDrawerProfile.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_HIDE_DRAWER_PROFILE)
+        }
+
         aidlSetEnabledIdsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_ENABLED_UI_IDS)
         }
@@ -1433,6 +1441,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(importFileButton, R.drawable.ic_action_copy)
         setDrawable(aidlImportProfileButton, R.drawable.ic_action_import)
         setDrawable(aidlExportProfileButton, R.drawable.ic_action_export)
+        setDrawable(executeQuickAction, R.drawable.ic_action_play)
+        setDrawable(getQuickActionInfo, R.drawable.ic_action_gabout_dark)
 
         setDrawable(aidlAddMapMarkerButton, R.drawable.ic_action_flag_dark)
         setDrawable(aidlRemoveMapMarkerButton, R.drawable.ic_action_flag_dark)
@@ -1501,6 +1511,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(aidlRegisterForUpdatesButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlUnregisterFromUpdatesButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlSetEnabledIdsButton, R.drawable.ic_action_settings)
+        setDrawable(aidlHideDrawerProfile, R.drawable.ic_action_hide)
         setDrawable(aidlSetDisabledIdsButton, R.drawable.ic_action_settings)
         setDrawable(aidlSetEnabledPatternsButton, R.drawable.ic_action_settings)
         setDrawable(aidlSetDisabledPatternsButton, R.drawable.ic_action_settings)

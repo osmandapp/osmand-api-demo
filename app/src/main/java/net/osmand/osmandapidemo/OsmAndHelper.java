@@ -579,7 +579,7 @@ public class OsmAndHelper {
 
 	public void getQuickActionInfo(int actionNumber) {
 		Map<String, String> params = new HashMap<>();
-		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(false));
+		params.put(PARAM_CLOSE_AFTER_COMMAND, String.valueOf(true));
 		params.put(PARAM_QUICK_ACTION_NUMBER, String.valueOf(actionNumber));
 		sendRequest(new OsmAndIntentBuilder(API_CMD_GET_QUICK_ACTION_INFO).setParams(params));
 	}
