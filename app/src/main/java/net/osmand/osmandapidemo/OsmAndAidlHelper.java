@@ -1332,13 +1332,13 @@ public class OsmAndAidlHelper {
 	/**
 	 * Register OsmAnd widgets for availability.
 	 *
-	 * @param widgetKey (String) - widget id.
-	 * @param appModKeys (List<String>)- ist of OsmAnd Application modes widget active with. Could be "null" for all modes.
+	 * @param widgetKey    (String) - widget id.
+	 * @param appModesKeys (List<String>) - list of OsmAnd Application modes widget active with. Could be "null" for all modes.
 	 */
-	public boolean regWidgetAvailability(String widgetKey, List<String> appModKeys) {
+	public boolean regWidgetAvailability(String widgetKey, List<String> appModesKeys) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.regWidgetAvailability(new SetWidgetsParams(widgetKey, appModKeys));
+				return mIOsmAndAidlInterface.regWidgetAvailability(new SetWidgetsParams(widgetKey, appModesKeys));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1929,10 +1929,21 @@ public class OsmAndAidlHelper {
 		return false;
 	}
 
-	public boolean setMapMargins(String appModeKey, int leftMargin, int topMargin, int rightMargin, int bottomMargin) {
+	/**
+	 * Set map margins.
+	 *
+	 * @param leftMargin   (int) - left margin in pixel.
+	 * @param topMargin    (int) - top margin in pixel.
+	 * @param rightMargin  (int) - right margin in pixel.
+	 * @param bottomMargin (int) - bottom margin in pixel.
+	 * @param appModesKeys (List<String>)- list of OsmAnd Application modes margins active with. Could be "null" for all modes.
+	 */
+	public boolean setMapMargins(int leftMargin, int topMargin, int rightMargin, int bottomMargin,
+	                             List<String> appModesKeys) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.setMapMargins(new MapMarginsParams(appModeKey, leftMargin, topMargin, rightMargin, bottomMargin));
+				return mIOsmAndAidlInterface.setMapMargins(
+						new MapMarginsParams(leftMargin, topMargin, rightMargin, bottomMargin, appModesKeys));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
