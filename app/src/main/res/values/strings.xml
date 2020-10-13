@@ -119,4 +119,6 @@
     <string name="set_ui_margins">Set UI margins</string>
     <string name="osmand_customization">OsmAnd Customization (run time only)</string>
     <string name="osmand_customization_profile_dependent">OsmAnd Customization (profile dependent)</string>
+    <string name="is_fragment_open">Is fragment open</string>
+    <string name="is_menu_open">Is menu open</string>
 </resources>

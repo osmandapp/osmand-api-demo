@@ -1,7 +1,6 @@
 package main.java.net.osmand.osmandapidemo
 
 import android.app.Activity
-import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentResolver
 import android.content.Context
@@ -9,34 +8,26 @@ import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.text.Html
 import android.util.DisplayMetrics
 import android.util.Log
-import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.title_desc_list_layout.view.*
-import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.ActionType
-import main.java.net.osmand.osmandapidemo.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
-import main.java.net.osmand.osmandapidemo.MainActivity.Companion.CITIES
-import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
-import main.java.net.osmand.osmandapidemo.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
+import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment.ActionType
+import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
+import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
+import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper.VoiceRouterNotifyListener
+import main.java.net.osmand.osmandapidemo.dialogs.*
 import net.osmand.aidlapi.customization.OsmandSettingsParams
 import net.osmand.aidlapi.customization.SetWidgetsParams
 import net.osmand.aidlapi.map.ALatLon
@@ -146,142 +137,6 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     private var lastLongitude: Double = 0.0
 
     private val callbackKeys = mutableMapOf<String, Long>()
-
-    enum class ApiActionType {
-        UNDEFINED,
-
-        AIDL_ADD_MAP_MARKER,
-        AIDL_UPDATE_MAP_MARKER,
-        AIDL_REMOVE_MAP_MARKER,
-
-        AIDL_ADD_FIRST_MAP_WIDGET,
-        AIDL_ADD_SECOND_MAP_WIDGET,
-        AIDL_UPDATE_FIRST_MAP_WIDGET,
-        AIDL_UPDATE_SECOND_MAP_WIDGET,
-        AIDL_REMOVE_FIRST_MAP_WIDGET,
-        AIDL_REMOVE_SECOND_MAP_WIDGET,
-
-        AIDL_ADD_MAP_POINT,
-        AIDL_UPDATE_MAP_POINT,
-        AIDL_REMOVE_MAP_POINT,
-
-        AIDL_ADD_MAP_LAYER,
-        AIDL_UPDATE_MAP_LAYER,
-        AIDL_REMOVE_MAP_LAYER,
-
-        AIDL_IMPORT_GPX,
-        AIDL_SHOW_GPX,
-        AIDL_HIDE_GPX,
-        AIDL_GET_ACTIVE_GPX_FILES,
-
-        AIDL_SET_MAP_LOCATION,
-
-        AIDL_REFRESH_MAP,
-
-        AIDL_ADD_FAVORITE_GROUP,
-        AIDL_UPDATE_FAVORITE_GROUP,
-        AIDL_REMOVE_FAVORITE_GROUP,
-
-        AIDL_ADD_FAVORITE,
-        AIDL_UPDATE_FAVORITE,
-        AIDL_REMOVE_FAVORITE,
-
-        AIDL_START_GPX_REC,
-        AIDL_STOP_GPX_REC,
-
-        AIDL_TAKE_PHOTO,
-        AIDL_START_VIDEO_REC,
-        AIDL_START_AUDIO_REC,
-        AIDL_STOP_REC,
-
-        AIDL_NAVIGATE,
-        AIDL_NAVIGATE_GPX,
-
-        AIDL_REMOVE_GPX,
-
-        AIDL_SHOW_MAP_POINT,
-
-        AIDL_SET_NAV_DRAWER_ITEMS,
-
-        AIDL_PAUSE_NAVIGATION,
-        AIDL_RESUME_NAVIGATION,
-        AIDL_STOP_NAVIGATION,
-        AIDL_MUTE_NAVIGATION,
-        AIDL_UNMUTE_NAVIGATION,
-
-        AIDL_SEARCH,
-        AIDL_NAVIGATE_SEARCH,
-
-        AIDL_REGISTER_FOR_UPDATES,
-        AIDL_UNREGISTER_FORM_UPDATES,
-
-        AIDL_HIDE_DRAWER_PROFILE,
-        AIDL_SET_ENABLED_UI_IDS,
-        AIDL_SET_DISABLED_UI_IDS,
-        AIDL_SET_ENABLED_MENU_PATTERNS,
-        AIDL_SET_DISABLED_MENU_PATTERNS,
-        AIDL_REG_WIDGET_VISIBILITY,
-        AIDL_REG_WIDGET_AVAILABILITY,
-
-        AIDL_CUSTOMIZE_OSMAND_SETTINGS,
-
-        AIDL_GET_IMPORTED_GPX_FILES,
-        AIDL_GET_SQLITEDB_FILES,
-        AIDL_GET_ACTIVE_SQLITEDB_FILES,
-        AIDL_SHOW_SQLITEDB_FILE,
-        AIDL_HIDE_SQLITEDB_FILE,
-
-        AIDL_SET_NAV_DRAWER_LOGO,
-        AIDL_SET_NAV_DRAWER_FOOTER,
-
-        AIDL_RESTORE_OSMAND,
-
-        AIDL_CHANGE_PLUGIN_STATE,
-
-        AIDL_REGISTER_FOR_OSMAND_INITIALIZATION,
-
-        AIDL_GET_BITMAP_FOR_GPX,
-
-        AIDL_COPY_FILE_TO_OSMAND,
-
-        AIDL_REGISTER_FOR_NAV_UPDATES,
-        AIDL_UNREGISTER_FOR_NAV_UPDATES,
-
-        AIDL_ADD_CONTEXT_MENU_BUTTONS,
-        AIDL_REMOVE_CONTEXT_MENU_BUTTONS,
-        AIDL_UPDATE_CONTEXT_MENU_BUTTONS,
-
-        AIDL_ARE_OSMAND_SETTINGS_CUSTOMIZED,
-
-        AIDL_SET_CUSTOMIZATION,
-        AIDL_SET_UI_MARGINS,
-
-        AIDL_REGISTER_FOR_VOICE_ROUTE_MESSAGES,
-        AIDL_UNREGISTER_FROM_VOICE_ROUTE_MESSAGES,
-
-        AIDL_REMOVE_ALL_ACTIVE_MAP_MARKERS,
-
-        AIDL_IMPORT_PROFILE,
-        AIDL_EXPORT_PROFILE,
-
-        INTENT_ADD_FAVORITE,
-        INTENT_ADD_MAP_MARKER,
-
-        INTENT_SHOW_LOCATION,
-
-        INTENT_TAKE_PHOTO,
-        INTENT_START_VIDEO_REC,
-        INTENT_START_AUDIO_REC,
-
-        INTENT_NAVIGATE,
-        INTENT_NAVIGATE_SEARCH,
-
-        INTENT_PAUSE_NAVIGATION,
-        INTENT_RESUME_NAVIGATION,
-        INTENT_STOP_NAVIGATION,
-        INTENT_MUTE_NAVIGATION,
-        INTENT_UNMUTE_NAVIGATION
-    }
 
     fun execApiAction(apiActionType: ApiActionType, delayed: Boolean = true, location: Location? = null) {
         if (location != null) {
@@ -734,6 +589,22 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         Toast.makeText(this@MainActivity, "Profile $profileKey is exported", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this@MainActivity, "Failed export profile $profileKey", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                ApiActionType.AIDL_IS_FRAGMENT_OPEN -> {
+                    val open = aidlHelper.isFragmentOpen
+                    if (open) {
+                        Toast.makeText(this@MainActivity, "Fragment is open", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Fragment is closed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                ApiActionType.AIDL_IS_MENU_OPEN -> {
+                    val open = aidlHelper.isMenuOpen
+                    if (open) {
+                        Toast.makeText(this@MainActivity, "Menu is open", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Menu is closed", Toast.LENGTH_SHORT).show()
                     }
                 }
                 ApiActionType.INTENT_PAUSE_NAVIGATION -> {
@@ -1327,6 +1198,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         aidlExportProfileButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_EXPORT_PROFILE)
         }
+        aidlIsFragmentOpen.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_IS_FRAGMENT_OPEN)
+        }
+        aidlIsMenuOpen.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_IS_MENU_OPEN)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1532,6 +1409,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(aidlUpdateContextMenuButtonsButton, R.drawable.ic_action_settings)
         setDrawable(aidlAreOsmandSettingsCustomizedButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlSetCustomizationButton, R.drawable.ic_action_settings)
+        setDrawable(aidlIsFragmentOpen, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlIsMenuOpen, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlSetUIMarginsButton, R.drawable.ic_action_settings)
     }
 
@@ -1671,7 +1550,6 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         searchResultsDialogFragment.show(supportFragmentManager, SearchResultsDialogFragment.TAG)
     }
 
-
     private fun getFeaturesEnabledIds(): List<String> {
         return listOf(
                 OsmandCustomizationConstants.MAP_CONTEXT_MENU_MEASURE_DISTANCE,
@@ -1779,277 +1657,5 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         val infoDialog = OsmAndInfoDialog()
         infoDialog.arguments = args
         supportFragmentManager.beginTransaction().add(infoDialog, null).commitAllowingStateLoss()
-    }
-}
-
-class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, R.layout.simple_list_layout, CITIES) {
-    private val mInflater = LayoutInflater.from(context)
-    val icon: Drawable?
-
-    init {
-        val tempIcon = ContextCompat.getDrawable(context, R.drawable.ic_action_street_name)
-        if (tempIcon != null) {
-            icon = DrawableCompat.wrap(tempIcon)
-            DrawableCompat.setTint(icon, ContextCompat.getColor(context, R.color.iconColor))
-        } else {
-            icon = null
-        }
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = (convertView
-                ?: mInflater?.inflate(R.layout.simple_list_layout, parent, false)) as TextView
-        view.text = getItem(position).name
-        view.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                8f, context.resources.displayMetrics).toInt()
-        view.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
-        return view
-    }
-}
-
-class ChooseLocationDialogFragment : DialogFragment() {
-
-    companion object {
-        const val TAG = "ChooseLocationDialogFragment"
-        const val API_ACTION_CODE_KEY = "api_action_code_key"
-        const val TITLE_KEY = "title_key"
-        const val DELAYED_KEY = "delayed_key"
-    }
-
-    private var apiActionType: MainActivity.ApiActionType = MainActivity.ApiActionType.UNDEFINED
-    private var title: String = ""
-    private var delayed: Boolean = true
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val arguments = arguments
-        if (arguments != null) {
-            apiActionType = MainActivity.ApiActionType.valueOf(arguments.getString(API_ACTION_CODE_KEY, MainActivity.ApiActionType.UNDEFINED.name))
-            title = arguments.getString(TITLE_KEY, "")
-            delayed = arguments.getBoolean(DELAYED_KEY, true)
-        }
-
-        val context = requireActivity()
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(getTitle())
-                .setAdapter(CitiesAdapter(context)) { _, i ->
-                    locationSelectedCallback(CITIES[i])
-                }
-                .setNegativeButton("Cancel", null)
-        return builder.create()
-    }
-
-    private fun locationSelectedCallback(location: Location) {
-        val activity = activity as MainActivity?
-        activity?.execApiAction(apiActionType, delayed, location)
-    }
-
-    private fun getTitle() = title
-}
-
-class SearchResultsAdapter(context: Context, resultSet: List<SearchResult>, private var origLat: Double, private var origLon: Double) : ArrayAdapter<SearchResult>(context, R.layout.title_desc_list_layout, resultSet) {
-    private val mInflater = LayoutInflater.from(context)
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = (convertView
-                ?: mInflater?.inflate(R.layout.title_desc_list_layout, parent, false)) as LinearLayout
-
-        val item = getItem(position)
-        val distance = Utils.getDistance(origLat, origLon, item.latitude, item.longitude)
-
-        view.title.text = item.localName
-        view.description.text = item.localTypeName
-        view.info.text = Utils.getFormattedDistance(distance)
-        return view
-    }
-}
-
-class SearchResultsDialogFragment : DialogFragment() {
-
-    companion object {
-        const val TAG = "SearchResultsDialogFragment"
-        const val RESULT_SET_KEY = "result_set_key"
-        const val LATITUDE_KEY = "latitude_key"
-        const val LONGITUDE_KEY = "longitude_key"
-    }
-
-    private var resultSet: List<SearchResult>? = null
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val arguments = arguments
-        if (arguments != null) {
-            resultSet = arguments.getParcelableArrayList(RESULT_SET_KEY)
-            latitude = arguments.getDouble(LATITUDE_KEY)
-            longitude = arguments.getDouble(LONGITUDE_KEY)
-        }
-
-        val context = requireActivity()
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Search results - ${resultSet?.size}")
-                .setNegativeButton("Cancel", null)
-
-        if (resultSet != null) {
-            builder.setAdapter(SearchResultsAdapter(context, resultSet!!, latitude, longitude)) { _, i ->
-                val item = resultSet!![i]
-                val activity = activity as MainActivity?
-                activity?.execApiAction(MainActivity.ApiActionType.INTENT_SHOW_LOCATION, false,
-                        Location(item.localName, item.latitude, item.longitude, item.latitude, item.longitude))
-            }
-        }
-        return builder.create()
-    }
-}
-
-class OsmAndMissingDialogFragment : DialogFragment() {
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setView(R.layout.dialog_install_osm_and)
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Install") { _, _ ->
-                    val intent = Intent()
-                    intent.data = Uri.parse("market://details?id=net.osmand.plus")
-                    startActivity(intent)
-                }
-        return builder.create()
-    }
-}
-
-class GpxBitmapDialogFragment : DialogFragment() {
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(requireContext())
-        val view: View = LayoutInflater.from(context).inflate(R.layout.dialog_gpx_bitmap_created, null)
-        val activity = activity as MainActivity?
-        val gpxBitmap = activity?.gpxBitmap
-
-        view.findViewById<ImageView>(R.id.gpx_image).setImageBitmap(gpxBitmap)
-        builder.setView(view)
-        builder.setPositiveButton("OK", null)
-
-        return builder.create()
-    }
-}
-
-class OsmAndInfoDialog : DialogFragment() {
-    companion object {
-        const val INFO_KEY = "info_key"
-    }
-
-    @Suppress("deprecation")
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val message = arguments?.getString(INFO_KEY)
-        val builder = AlertDialog.Builder(requireContext())
-        if (message != null) {
-            if (Build.VERSION.SDK_INT < 24) {
-                builder.setMessage(Html.fromHtml(message))
-            } else {
-                builder.setMessage(Html.fromHtml(message, Html.FROM_HTML_MODE_LEGACY))
-            }
-        }
-        builder.setTitle("OsmAnd info:")
-        builder.setPositiveButton("OK", null)
-        return builder.create()
-    }
-}
-
-class OpenGpxDialogFragment : DialogFragment() {
-    companion object {
-        const val TAG = "OpenGpxDialogFragment"
-        const val SEND_AS_RAW_DATA_REQUEST_CODE_KEY = "send_as_raw_data_request_code_key"
-        const val SEND_AS_URI_REQUEST_CODE_KEY = "send_as_uri_request_code_key"
-    }
-
-    private var sendAsRawDataRequestCode: Int? = null
-    private var sendAsUriDataRequestCode: Int? = null
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        sendAsRawDataRequestCode = arguments?.getInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY)
-        sendAsUriDataRequestCode = arguments?.getInt(SEND_AS_URI_REQUEST_CODE_KEY)
-
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Send GPX to OsmAnd as raw data or as URI")
-        builder.setNeutralButton("As raw data") { _, _ -> sendAsRawData() }
-        builder.setPositiveButton("As URI") { _, _ -> sendAsUri() }
-        return builder.create()
-    }
-
-    private fun sendAsRawData() {
-        val sendAsRawDataRequestCode = sendAsRawDataRequestCode
-        if (sendAsRawDataRequestCode != null) {
-            requestChooseGpx(sendAsRawDataRequestCode)
-        }
-    }
-
-    private fun sendAsUri() {
-        val sendAsUriDataRequestCode = sendAsUriDataRequestCode
-        if (sendAsUriDataRequestCode != null) {
-            requestChooseGpx(sendAsUriDataRequestCode)
-        }
-    }
-
-    private fun requestChooseGpx(requestCode: Int) {
-        var intent: Intent
-        if (Build.VERSION.SDK_INT < 19) {
-            intent = Intent(Intent.ACTION_GET_CONTENT)
-        } else {
-            intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-        }
-        intent.type = "*/*"
-        intent = Intent.createChooser(intent, "Choose a file")
-
-        val activity = activity as MainActivity?
-        val osmandHelper = activity?.mOsmAndHelper
-        if (osmandHelper != null && osmandHelper.isIntentSafe(intent)) {
-            getActivity()?.startActivityForResult(intent, requestCode)
-        } else {
-            Toast.makeText(activity, "You need an app capable of selecting files like ES Explorer", Toast.LENGTH_LONG).show()
-        }
-    }
-}
-
-class CloseAfterCommandDialogFragment : DialogFragment() {
-    companion object {
-        const val TAG = "CloseAfterCommandDialogFragment"
-        const val ACTION_CODE_KEY = "action_code_key"
-    }
-
-    private var actionType: ActionType = ActionType.UNDEFINED
-
-    enum class ActionType {
-        UNDEFINED,
-        START_GPX_REC,
-        STOP_GPX_REC,
-        SAVE_GPX,
-        CLEAR_GPX
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val arguments = arguments
-        if (arguments != null) {
-            actionType = ActionType.valueOf(arguments.getString(ACTION_CODE_KEY, ActionType.UNDEFINED.name))
-        }
-
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Close OsmAnd immediately after execution of command?")
-        builder.setNeutralButton("Close") { _, _ -> shouldClose(true) }
-        builder.setPositiveButton("Don't close") { _, _ -> shouldClose(false) }
-        return builder.create()
-    }
-
-    private fun shouldClose(close: Boolean) {
-        val activity = activity as MainActivity?
-        val osmandHelper = activity?.mOsmAndHelper
-        if (osmandHelper != null) {
-            when (actionType) {
-                ActionType.UNDEFINED -> Unit
-                ActionType.START_GPX_REC -> osmandHelper.startGpxRec(close)
-                ActionType.STOP_GPX_REC -> osmandHelper.stopGpxRec(close)
-                ActionType.SAVE_GPX -> osmandHelper.saveGpx(close)
-                ActionType.CLEAR_GPX -> osmandHelper.clearGpx(close)
-            }
-        }
     }
 }
