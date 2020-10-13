@@ -1925,7 +1925,6 @@ public class OsmAndAidlHelper {
 				e.printStackTrace();
 			}
 		}
-
 		return false;
 	}
 
@@ -1984,6 +1983,38 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.exportProfile(new ExportProfileParams(profileKey, settingsTypeList));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to check if map is overlapped by any fragment.
+	 *
+	 * @return boolean - true if mapActivity is overlapped by any fragment
+	 */
+	public boolean isFragmentOpen() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.isFragmentOpen();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to check if context menu is open.
+	 *
+	 * @return boolean - true if context menu open
+	 */
+	public boolean isMenuOpen() {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.isMenuOpen();
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

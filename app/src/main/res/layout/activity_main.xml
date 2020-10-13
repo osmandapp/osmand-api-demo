@@ -1091,7 +1091,8 @@
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:drawableLeft="@drawable/ic_action_hide"
+                android:drawableStart="@drawable/ic_action_hide"
                 android:text="@string/hide_drawer_profile" />
 
             <View style="@style/short_divider_style" />
@@ -1306,6 +1307,27 @@
 
             <View style="@style/short_divider_style" />
 
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlIsFragmentOpen"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_gabout_dark"
+                android:drawableStart="@drawable/ic_action_gabout_dark"
+                android:text="@string/is_fragment_open"/>
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlIsMenuOpen"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_gabout_dark"
+                android:drawableStart="@drawable/ic_action_gabout_dark"
+                android:text="@string/is_menu_open"/>
+
+            <View style="@style/short_divider_style" />
 
         </LinearLayout>
 
