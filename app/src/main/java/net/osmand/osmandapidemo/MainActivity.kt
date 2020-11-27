@@ -564,6 +564,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 ApiActionType.AIDL_IMPORT_PROFILE -> {
                     val fileName = "Driving_test.osf"
                     val sharedDir = File(cacheDir, "share")
+                    if (!sharedDir.exists()) {
+                        sharedDir.mkdir()
+                    }
                     val file = File(sharedDir, fileName)
                     val am: AssetManager = application.getAssets()
                     val inStream: InputStream = am.open(fileName)
