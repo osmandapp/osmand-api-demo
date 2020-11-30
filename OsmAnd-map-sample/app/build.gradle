@@ -62,14 +62,23 @@ android {
 		}
 	}
 
+	signingConfigs {
+		publishing {
+			storeFile file("/var/lib/jenkins/osmand_key")
+			storePassword System.getenv("OSMAND_APK_PASSWORD")
+			keyAlias "osmand"
+			keyPassword System.getenv("OSMAND_APK_PASSWORD")
+		}
+	}
+
 	buildTypes {
 		debug {
 			signingConfig android.signingConfigs.debug
 		}
 		release {
-			signingConfig android.signingConfigs.debug
 			minifyEnabled false
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			signingConfig signingConfigs.publishing
 		}
 	}
 }
