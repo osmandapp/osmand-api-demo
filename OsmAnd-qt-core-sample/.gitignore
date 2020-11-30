@@ -6,7 +6,6 @@ aarDependencies
 libs/android*.jar
 libs/com.*.jar
 libs/net.osmand-*.jar
-gradle
 # Gradle
 .gradle
 /local.properties
