@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MainActivity">
+
+	<FrameLayout
+		android:id="@+id/MapViewWithLayers"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical">
+
+		<net.osmand.plus.views.OsmAndMapSurfaceView
+			android:id="@+id/MapView"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:contentDescription="@string/shared_string_map"
+			android:visibility="gone" />
+
+	</FrameLayout>
+
+	<FrameLayout
+		android:id="@+id/MapHudButtonsOverlay"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fitsSystemWindows="true">
+
+		<LinearLayout
+			android:id="@+id/MapHudButtonsOverlayBottom"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom"
+			android:orientation="vertical">
+
+			<FrameLayout
+				android:id="@+id/bottom_controls_container"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<include
+					layout="@layout/map_hud_controls"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom|end"
+					android:layout_marginEnd="@dimen/map_button_margin"
+					android:layout_marginRight="@dimen/map_button_margin"
+					android:layout_marginBottom="@dimen/map_button_margin" />
+
+			</FrameLayout>
+
+		</LinearLayout>
+
+	</FrameLayout>
+
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom">
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1px" />
+
+	</FrameLayout>
+
+</FrameLayout>

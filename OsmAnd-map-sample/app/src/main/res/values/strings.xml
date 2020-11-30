@@ -1,0 +1,9 @@
+<resources>
+	<string name="app_name">OsmAnd-map-sample</string>
+	<string name="install_maps_title">Install maps</string>
+	<string name="install_maps_desc">You do not have maps in the OsmAnd application. Please download map(s) and restart the Sample.\n\nDo not forget to set OsmAnd General settings > Data storage folder to Shared memory.</string>
+	<string name="restart_app">Restart app</string>
+	<string name="install_osmand_title">Install OsmAnd</string>
+	<string name="install_osmand_q">The OsmAnd application not found. Please install OsmAnd and download maps.</string>
+	<string name="install_osmand_note">NOTE: After OsmAnd will be installed, you need to set OsmAnd General settings > Data storage folder to Shared memory</string>
+</resources>
