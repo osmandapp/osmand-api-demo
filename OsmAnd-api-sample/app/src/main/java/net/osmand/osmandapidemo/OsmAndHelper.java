@@ -88,6 +88,7 @@ public class OsmAndHelper {
 	public static final String PARAM_DATA = "data";
 	public static final String PARAM_FORCE = "force";
 	public static final String PARAM_SEARCH_PARAMS = "search_params";
+	public static final String PARAM_LOCATION_PERMISSION = "location_permission";
 
 	public static final String PARAM_START_NAME = "start_name";
 	public static final String PARAM_DEST_NAME = "dest_name";
@@ -416,7 +417,7 @@ public class OsmAndHelper {
 	 */
 	public void navigate(String startName, double startLat, double startLon,
 						 String destName, double destLat, double destLon,
-						 String profile, boolean force) {
+						 String profile, boolean force, boolean needLocationPermission) {
 		// test navigate
 		Map<String, String> params = new HashMap<>();
 		params.put(PARAM_START_LAT, String.valueOf(startLat));
@@ -427,6 +428,7 @@ public class OsmAndHelper {
 		params.put(PARAM_DEST_NAME, destName);
 		params.put(PARAM_PROFILE, profile);
 		params.put(PARAM_FORCE, String.valueOf(force));
+		params.put(PARAM_LOCATION_PERMISSION, String.valueOf(needLocationPermission));
 		sendRequest(new OsmAndIntentBuilder(NAVIGATE).setParams(params));
 	}
 

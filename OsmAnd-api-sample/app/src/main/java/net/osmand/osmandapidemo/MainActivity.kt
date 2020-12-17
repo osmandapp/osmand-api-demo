@@ -709,7 +709,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         aidlHelper.navigate(location.name + " start",
                                 location.latStart, location.lonStart,
                                 location.name + " finish", location.lat, location.lon,
-                                "bicycle", true)
+                                "bicycle", true, true)
                     }
                     ApiActionType.AIDL_NAVIGATE_SEARCH -> {
                         val alert = AlertDialog.Builder(this)
@@ -722,7 +722,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 aidlHelper.navigateSearch(location.name + " start",
                                         location.latStart, location.lonStart,
                                         text, location.latStart, location.lonStart,
-                                        "car", true)
+                                        "car", true, true)
                             }, delay)
                         }
                         alert.setNegativeButton("Cancel", null)
@@ -765,7 +765,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         osmandHelper.navigate(location.name + " start",
                                 location.latStart, location.lonStart,
                                 location.name + " finish", location.lat, location.lon,
-                                "bicycle", true)
+                                "bicycle", true, true)
                     }
                     ApiActionType.INTENT_NAVIGATE_SEARCH -> {
                         val alert = AlertDialog.Builder(this)
@@ -1255,12 +1255,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL -> {
                     Handler().postDelayed({
-                        handleGpxFileAsString(data!!) { data -> mAidlHelper!!.navigateGpxFromData(data, true) }
+                        handleGpxFileAsString(data!!) { data -> mAidlHelper!!.navigateGpxFromData(data, true, true) }
                     }, delay)
                 }
                 REQUEST_NAVIGATE_GPX_URI_AIDL -> {
                     Handler().postDelayed({
-                        handleFileUri(data!!, GPX_FILE_NAME) { data -> mAidlHelper!!.navigateGpxFromUri(data, true) }
+                        handleFileUri(data!!, GPX_FILE_NAME) { data -> mAidlHelper!!.navigateGpxFromUri(data, true, true) }
                     }, delay)
                 }
                 REQUEST_GET_GPX_BITMAP_URI_AIDL -> {
