@@ -68,15 +68,18 @@ import net.osmand.aidlapi.navdrawer.NavDrawerFooterParams;
 import net.osmand.aidlapi.navdrawer.NavDrawerHeaderParams;
 import net.osmand.aidlapi.navdrawer.NavDrawerItem;
 import net.osmand.aidlapi.navdrawer.SetNavDrawerItemsParams;
+import net.osmand.aidlapi.navigation.ABlockedRoad;
 import net.osmand.aidlapi.navigation.ADirectionInfo;
 import net.osmand.aidlapi.navigation.ANavigationUpdateParams;
 import net.osmand.aidlapi.navigation.ANavigationVoiceRouterMessageParams;
+import net.osmand.aidlapi.navigation.AddBlockedRoadParams;
 import net.osmand.aidlapi.navigation.MuteNavigationParams;
 import net.osmand.aidlapi.navigation.NavigateGpxParams;
 import net.osmand.aidlapi.navigation.NavigateParams;
 import net.osmand.aidlapi.navigation.NavigateSearchParams;
 import net.osmand.aidlapi.navigation.OnVoiceNavigationParams;
 import net.osmand.aidlapi.navigation.PauseNavigationParams;
+import net.osmand.aidlapi.navigation.RemoveBlockedRoadParams;
 import net.osmand.aidlapi.navigation.ResumeNavigationParams;
 import net.osmand.aidlapi.navigation.StopNavigationParams;
 import net.osmand.aidlapi.navigation.UnmuteNavigationParams;
@@ -1676,6 +1679,39 @@ public class OsmAndAidlHelper {
 			}
 		}
 		return -1L;
+	}
+
+	public boolean getBlockedRoads(List<ABlockedRoad> blockedRoads) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.getBlockedRoads(blockedRoads);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean addRoadBlock(ABlockedRoad blockedRoad) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.addRoadBlock(new AddBlockedRoadParams(blockedRoad));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean removeRoadBlock(ABlockedRoad blockedRoad) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.removeRoadBlock(new RemoveBlockedRoadParams(blockedRoad));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 
 	/**

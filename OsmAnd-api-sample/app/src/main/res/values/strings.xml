@@ -121,4 +121,7 @@
     <string name="osmand_customization_profile_dependent">OsmAnd Customization (profile dependent)</string>
     <string name="is_fragment_open">Is fragment open</string>
     <string name="is_menu_open">Is menu open</string>
+    <string name="aidl_get_blocked_roads">Get blocked roads</string>
+    <string name="aidl_add_blocked_road">Add blocked road</string>
+    <string name="aidl_remove_blocked_road">Remove blocked road</string>
 </resources>
