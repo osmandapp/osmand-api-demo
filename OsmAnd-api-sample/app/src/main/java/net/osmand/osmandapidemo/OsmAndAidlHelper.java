@@ -68,15 +68,18 @@ import net.osmand.aidlapi.navdrawer.NavDrawerFooterParams;
 import net.osmand.aidlapi.navdrawer.NavDrawerHeaderParams;
 import net.osmand.aidlapi.navdrawer.NavDrawerItem;
 import net.osmand.aidlapi.navdrawer.SetNavDrawerItemsParams;
+import net.osmand.aidlapi.navigation.ABlockedRoad;
 import net.osmand.aidlapi.navigation.ADirectionInfo;
 import net.osmand.aidlapi.navigation.ANavigationUpdateParams;
 import net.osmand.aidlapi.navigation.ANavigationVoiceRouterMessageParams;
+import net.osmand.aidlapi.navigation.AddBlockedRoadParams;
 import net.osmand.aidlapi.navigation.MuteNavigationParams;
 import net.osmand.aidlapi.navigation.NavigateGpxParams;
 import net.osmand.aidlapi.navigation.NavigateParams;
 import net.osmand.aidlapi.navigation.NavigateSearchParams;
 import net.osmand.aidlapi.navigation.OnVoiceNavigationParams;
 import net.osmand.aidlapi.navigation.PauseNavigationParams;
+import net.osmand.aidlapi.navigation.RemoveBlockedRoadParams;
 import net.osmand.aidlapi.navigation.ResumeNavigationParams;
 import net.osmand.aidlapi.navigation.StopNavigationParams;
 import net.osmand.aidlapi.navigation.UnmuteNavigationParams;
@@ -794,11 +797,11 @@ public class OsmAndAidlHelper {
 	 * @param gpxUri - URI created by FileProvider.
 	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
 	 */
-	public boolean navigateGpxFromUri(Uri gpxUri, boolean force) {
+	public boolean navigateGpxFromUri(Uri gpxUri, boolean force, boolean needLocationPermission) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(gpxUri, force));
+				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(gpxUri, force, needLocationPermission));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -833,10 +836,10 @@ public class OsmAndAidlHelper {
 	 * @param data - gpx file content.
 	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
 	 */
-	public boolean navigateGpxFromData(String data, boolean force) {
+	public boolean navigateGpxFromData(String data, boolean force, boolean needLocationPermission) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(data, force));
+				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(data, force, needLocationPermission));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1036,10 +1039,11 @@ public class OsmAndAidlHelper {
 	 * @param profile - One of: "default", "car", "bicycle", "pedestrian", "aircraft", "boat", "hiking", "motorcycle", "truck". Nullable (default).
 	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
 	 */
-	public boolean navigate(String startName, double startLat, double startLon, String destName, double destLat, double destLon, String profile, boolean force) {
+	public boolean navigate(String startName, double startLat, double startLon, String destName, double destLat,
+							double destLon, String profile, boolean force, boolean needLocationPermission) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.navigate(new NavigateParams(startName, startLat, startLon, destName, destLat, destLon, profile, force));
+				return mIOsmAndAidlInterface.navigate(new NavigateParams(startName, startLat, startLon, destName, destLat, destLon, profile, force, needLocationPermission));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1061,11 +1065,11 @@ public class OsmAndAidlHelper {
 	 */
 	public boolean navigateSearch(String startName, double startLat, double startLon,
 								  String searchQuery, double searchLat, double searchLon,
-								  String profile, boolean force) {
+								  String profile, boolean force, boolean needLocationPermission) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				return mIOsmAndAidlInterface.navigateSearch(new NavigateSearchParams(
-						startName, startLat, startLon, searchQuery, searchLat, searchLon, profile, force));
+						startName, startLat, startLon, searchQuery, searchLat, searchLon, profile, force, needLocationPermission));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -1675,6 +1679,39 @@ public class OsmAndAidlHelper {
 			}
 		}
 		return -1L;
+	}
+
+	public boolean getBlockedRoads(List<ABlockedRoad> blockedRoads) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.getBlockedRoads(blockedRoads);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean addRoadBlock(ABlockedRoad blockedRoad) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.addRoadBlock(new AddBlockedRoadParams(blockedRoad));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean removeRoadBlock(ABlockedRoad blockedRoad) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.removeRoadBlock(new RemoveBlockedRoadParams(blockedRoad));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 
 	/**

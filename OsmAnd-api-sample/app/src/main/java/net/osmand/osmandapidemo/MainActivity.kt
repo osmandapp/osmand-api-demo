@@ -17,17 +17,18 @@ import android.support.v4.content.FileProvider
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.SpannableStringBuilder
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.WindowManager
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
+import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper.VoiceRouterNotifyListener
+import main.java.net.osmand.osmandapidemo.dialogs.*
 import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment.ActionType
 import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
 import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
-import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper.VoiceRouterNotifyListener
-import main.java.net.osmand.osmandapidemo.dialogs.*
 import net.osmand.aidlapi.customization.OsmandSettingsParams
 import net.osmand.aidlapi.customization.SetWidgetsParams
 import net.osmand.aidlapi.map.ALatLon
@@ -36,6 +37,7 @@ import net.osmand.aidlapi.navdrawer.NavDrawerFooterParams
 import net.osmand.aidlapi.navdrawer.NavDrawerHeaderParams
 import net.osmand.aidlapi.navdrawer.NavDrawerItem
 import net.osmand.aidlapi.navdrawer.SetNavDrawerItemsParams
+import net.osmand.aidlapi.navigation.ABlockedRoad
 import net.osmand.aidlapi.navigation.ADirectionInfo
 import net.osmand.aidlapi.plugins.PluginParams
 import net.osmand.aidlapi.profile.AExportSettingsType
@@ -405,6 +407,21 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         Toast.makeText(this@MainActivity, "You need first to subscribe for updates from OsmAnd", Toast.LENGTH_SHORT).show()
                     }
                 }
+               ApiActionType.AIDL_GET_AVOID_ROADS -> {
+                    val list = arrayListOf<ABlockedRoad>()
+                    aidlHelper.getBlockedRoads(list)
+                    val text = SpannableStringBuilder("Avoid roads size: ${list.size} \n")
+                    for (i in list) {
+                        text.append(i.name).append("\n")
+                    }
+                    Toast.makeText(this@MainActivity, text, Toast.LENGTH_SHORT).show()
+                }
+               ApiActionType.AIDL_ADD_AVOID_ROAD -> {
+                    aidlHelper.addRoadBlock(ABlockedRoad(0,52.37391, 4.90193, 0.0, "Api road block", "car"  ))
+                }
+               ApiActionType.AIDL_REMOVE_AVOID_ROAD -> {
+                    aidlHelper.removeRoadBlock(ABlockedRoad(0,52.37391, 4.90193, 0.0, "Api road block", "car"  ))
+                }
                 ApiActionType.AIDL_ADD_CONTEXT_MENU_BUTTONS -> {
                     aidlHelper.setContextButtonClickListener(OsmAndAidlHelper.ContextButtonClickListener { buttonId, pointId, layerId ->
                         runOnUiThread {
@@ -709,7 +726,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         aidlHelper.navigate(location.name + " start",
                                 location.latStart, location.lonStart,
                                 location.name + " finish", location.lat, location.lon,
-                                "bicycle", true)
+                                "bicycle", true, true)
                     }
                     ApiActionType.AIDL_NAVIGATE_SEARCH -> {
                         val alert = AlertDialog.Builder(this)
@@ -722,7 +739,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                                 aidlHelper.navigateSearch(location.name + " start",
                                         location.latStart, location.lonStart,
                                         text, location.latStart, location.lonStart,
-                                        "car", true)
+                                        "car", true, true)
                             }, delay)
                         }
                         alert.setNegativeButton("Cancel", null)
@@ -765,7 +782,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                         osmandHelper.navigate(location.name + " start",
                                 location.latStart, location.lonStart,
                                 location.name + " finish", location.lat, location.lon,
-                                "bicycle", true)
+                                "bicycle", true, true)
                     }
                     ApiActionType.INTENT_NAVIGATE_SEARCH -> {
                         val alert = AlertDialog.Builder(this)
@@ -1079,6 +1096,15 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         aidlUnregisterForNavigationUpdatesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FOR_NAV_UPDATES)
         }
+        aidlGetBlockedRoads.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_GET_AVOID_ROADS)
+        }
+        aidlAddBlockedRoad.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_ADD_AVOID_ROAD)
+        }
+        aidlRemoveBlockedRoads.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_REMOVE_AVOID_ROAD)
+        }
 
         aidlRegisterForVoiceRouterMessagesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REGISTER_FOR_VOICE_ROUTE_MESSAGES)
@@ -1255,12 +1281,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL -> {
                     Handler().postDelayed({
-                        handleGpxFileAsString(data!!) { data -> mAidlHelper!!.navigateGpxFromData(data, true) }
+                        handleGpxFileAsString(data!!) { data -> mAidlHelper!!.navigateGpxFromData(data, true, true) }
                     }, delay)
                 }
                 REQUEST_NAVIGATE_GPX_URI_AIDL -> {
                     Handler().postDelayed({
-                        handleFileUri(data!!, GPX_FILE_NAME) { data -> mAidlHelper!!.navigateGpxFromUri(data, true) }
+                        handleFileUri(data!!, GPX_FILE_NAME) { data -> mAidlHelper!!.navigateGpxFromUri(data, true, true) }
                     }, delay)
                 }
                 REQUEST_GET_GPX_BITMAP_URI_AIDL -> {
@@ -1379,6 +1405,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(aidlNavigateSearchButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(aidlRegisterForNavigationUpdatesButton, R.drawable.ic_action_gdirections_dark)
         setDrawable(aidlUnregisterForNavigationUpdatesButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(aidlGetBlockedRoads, R.drawable.ic_action_gdirections_dark)
+        setDrawable(aidlAddBlockedRoad, R.drawable.ic_action_gdirections_dark)
+        setDrawable(aidlRemoveBlockedRoads, R.drawable.ic_action_gdirections_dark)
         setDrawable(aidlRegisterForVoiceRouterMessagesButton, R.drawable.ic_action_micro_dark)
         setDrawable(aidlUnRegisterForVoiceRouterMessagesButton, R.drawable.ic_action_micro_dark)
 
