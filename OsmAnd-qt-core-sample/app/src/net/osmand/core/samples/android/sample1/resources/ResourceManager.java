@@ -45,7 +45,7 @@ public class ResourceManager {
 
 		for (File f : files) {
 			try {
-				BinaryMapIndexReader reader = cachedOsmandIndexes.getReader(f);
+				BinaryMapIndexReader reader = cachedOsmandIndexes.getReader(f, true);
 				if (reader.containsPoiData()) {
 					amenityRepositories.put(f.getName(), new AmenityIndexRepositoryBinary(reader));
 				}

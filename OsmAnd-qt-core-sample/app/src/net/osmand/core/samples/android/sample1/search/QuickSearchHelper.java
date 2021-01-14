@@ -63,7 +63,7 @@ public class QuickSearchHelper {
 		List<BinaryMapIndexReader> readers = new ArrayList<>();
 		for (File f : files) {
 			try {
-				BinaryMapIndexReader reader = cachedOsmandIndexes.getReader(f);
+				BinaryMapIndexReader reader = cachedOsmandIndexes.getReader(f, true);
 				readers.add(reader);
 			} catch (IOException e) {
 				e.printStackTrace();

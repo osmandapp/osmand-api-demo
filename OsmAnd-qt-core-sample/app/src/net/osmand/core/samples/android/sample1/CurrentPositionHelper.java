@@ -60,7 +60,7 @@ public class CurrentPositionHelper {
 		readers.clear();
 		for (File f : files) {
 			try {
-				BinaryMapIndexReader reader = cachedOsmandIndexes.getReader(f);
+				BinaryMapIndexReader reader = cachedOsmandIndexes.getReader(f, true);
 				readers.add(reader);
 			} catch (IOException e) {
 				e.printStackTrace();
