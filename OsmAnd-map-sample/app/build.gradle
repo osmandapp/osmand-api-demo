@@ -122,6 +122,7 @@ dependencies {
 		exclude group: "com.fasterxml.jackson.core"
 	}
 	implementation 'com.jaredrummler:colorpicker:1.1.0'
+	implementation 'com.google.android.gms:play-services-location:17.1.0'
 
 	testImplementation 'junit:junit:4.+'
 	androidTestImplementation 'androidx.test.ext:junit:1.1.1'

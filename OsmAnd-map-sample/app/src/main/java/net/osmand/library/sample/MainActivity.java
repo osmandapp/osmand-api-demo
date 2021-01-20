@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import net.osmand.AndroidUtils;
+import net.osmand.Location;
 import net.osmand.SecondSplashScreenFragment;
 import net.osmand.data.LatLon;
 import net.osmand.data.QuadPoint;
@@ -46,6 +47,7 @@ import net.osmand.plus.views.OsmandMapTileView;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
@@ -138,11 +140,19 @@ public class MainActivity extends AppCompatActivity implements OnScrollEventList
 
 		if (!settings.isLastKnownMapLocation()) {
 			// show first time when application ran
-			net.osmand.Location location = app.getLocationProvider().getFirstTimeRunDefaultLocation();
+			final WeakReference<MainActivity> activityRef = new WeakReference<>(this);
+			net.osmand.Location location = app.getLocationProvider().getFirstTimeRunDefaultLocation(new OsmAndLocationProvider.OsmAndLocationListener() {
+				@Override
+				public void updateLocation(Location location) {
+					MainActivity a = activityRef.get();
+					if (AndroidUtils.isActivityNotDestroyed(a) && app.getLocationProvider().getLastKnownLocation() == null) {
+						setMapInitialLatLon(a.mapView, location);
+					}
+				}
+			});
 			mapViewTrackingUtilities.setMapLinkedToLocation(true);
 			if (location != null) {
-				mapView.setLatLon(location.getLatitude(), location.getLongitude());
-				mapView.setIntZoom(14);
+				setMapInitialLatLon(mapView, location);
 			}
 		}
 		mapView.refreshMap(true);
@@ -150,6 +160,13 @@ public class MainActivity extends AppCompatActivity implements OnScrollEventList
 		if (!InstallOsmandAppDialog.show(getSupportFragmentManager(), this)
 				&& externalStoragePermissionGranted) {
 			checkMapsInstalled();
+		}
+	}
+
+	private void setMapInitialLatLon(@NonNull OsmandMapTileView mapView, @Nullable Location location) {
+		if (location != null) {
+			mapView.setLatLon(location.getLatitude(), location.getLongitude());
+			mapView.setIntZoom(14);
 		}
 	}
 
