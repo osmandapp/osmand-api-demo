@@ -1996,12 +1996,12 @@ public class OsmAndAidlHelper {
 	 * @param replace          (boolean) - if true current items with same names will be replaced.
 	 *                         false - imported items will be added with prefix.
 	 */
-	public boolean importProfile(Uri profileUri, ArrayList<AExportSettingsType> settingsTypeList, boolean replace) {
+	public boolean importProfile(Uri profileUri, ArrayList<AExportSettingsType> settingsTypeList, boolean replace, boolean silent) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				app.grantUriPermission(OSMAND_PACKAGE_NAME, profileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 				return mIOsmAndAidlInterface.importProfile(new ProfileSettingsParams(profileUri, settingsTypeList,
-						replace, null, -1));
+						replace, silent, null, -1));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
