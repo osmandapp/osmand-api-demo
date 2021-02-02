@@ -599,7 +599,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     val fileUri = FileProvider.getUriForFile(this, AUTHORITY, file)
                     val settingsTypeList = arrayListOf(AExportSettingsType.PROFILE)
                     val replace = true
-                    aidlHelper.importProfile(fileUri, settingsTypeList, replace)
+                    val silent = true
+                    aidlHelper.importProfile(fileUri, settingsTypeList, replace, silent)
                 }
                 ApiActionType.AIDL_EXPORT_PROFILE -> {
                     val profileKey = "car"
