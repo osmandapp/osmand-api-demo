@@ -278,6 +278,11 @@ public class MainActivity extends AppCompatActivity implements OnScrollEventList
 			initListener = new AppInitializeListener() {
 
 				@Override
+				public void onStart(AppInitializer init) {
+
+				}
+
+				@Override
 				public void onProgress(AppInitializer init, AppInitializer.InitEvents event) {
 					if (event == AppInitializer.InitEvents.MAPS_INITIALIZED) {
 						mapView.refreshMap(false);
