@@ -1243,7 +1243,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             if (data != null) {
                 val extras = data.extras
                 if (extras != null && extras.size() > 0) {
-                    for (key in data.extras.keySet()) {
+                    for (key in extras.keySet()) {
                         val value = extras.get(key)
                         if (sb.isNotEmpty()) {
                             sb.append("<br>")
@@ -1303,7 +1303,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     }, delay)
                 }
                 REQUEST_COPY_FILE -> {
-                    val fileName = File(data!!.data.path).name
+                    val fileName = File(data!!.data!!.path!!).name
                     handleFileUri(data, fileName) { result ->
                         val fileCopiedSuccessfully = mAidlHelper!!.fileImportImpl(result, "tracks/", fileName)
                         Toast.makeText(this, "File copied: $fileCopiedSuccessfully", Toast.LENGTH_SHORT).show()
@@ -1456,8 +1456,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
     private fun handleGpxFileAsString(data: Intent, action: (String) -> Unit) {
         try {
-            val gpxParceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
-            val fileDescriptor = gpxParceDescriptor.fileDescriptor
+            val gpxParceDescriptor = contentResolver.openFileDescriptor(data.data!!, "r")
+            val fileDescriptor = gpxParceDescriptor?.fileDescriptor
             val inputStreamReader = InputStreamReader(FileInputStream(fileDescriptor))
             val bufferedReader = BufferedReader(inputStreamReader)
             val stringBuilder = StringBuilder()
@@ -1470,7 +1470,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     }
 
     private fun handleFileUri(data: Intent, action: (Uri) -> Unit) {
-        val fileName = Utils.getNameFromContentUri(data.data, this)
+        val fileName = Utils.getNameFromContentUri(data.data!!, this)
         fileName?.let {
             handleFileUri(data, it, action)
         }
@@ -1478,8 +1478,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
     private fun handleFileUri(data: Intent, fileName: String, action: (Uri) -> Unit) {
         try {
-            val parceDescriptor = contentResolver.openFileDescriptor(data.data, "r")
-            val fileDescriptor = parceDescriptor.fileDescriptor
+            val parceDescriptor = contentResolver.openFileDescriptor(data.data!!, "r")
+            val fileDescriptor = parceDescriptor?.fileDescriptor
             val inputStream = FileInputStream(fileDescriptor)
             val sharedDir = File(cacheDir, "share")
             if (!sharedDir.exists()) {

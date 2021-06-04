@@ -56,16 +56,17 @@ class SearchResultsDialogFragment : DialogFragment() {
 class SearchResultsAdapter(context: Context, resultSet: List<SearchResult>, private var origLat: Double, private var origLon: Double) : ArrayAdapter<SearchResult>(context, R.layout.title_desc_list_layout, resultSet) {
     private val mInflater = LayoutInflater.from(context)
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = (convertView
                 ?: mInflater?.inflate(R.layout.title_desc_list_layout, parent, false)) as LinearLayout
 
         val item = getItem(position)
-        val distance = Utils.getDistance(origLat, origLon, item.latitude, item.longitude)
-
-        view.title.text = item.localName
-        view.description.text = item.localTypeName
-        view.info.text = Utils.getFormattedDistance(distance)
+        if (item != null) {
+            val distance = Utils.getDistance(origLat, origLon, item.latitude, item.longitude)
+            view.title.text = item.localName
+            view.description.text = item.localTypeName
+            view.info.text = Utils.getFormattedDistance(distance)
+        }
         return view
     }
 }

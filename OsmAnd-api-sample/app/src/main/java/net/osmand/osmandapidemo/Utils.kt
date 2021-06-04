@@ -5,6 +5,10 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.OpenableColumns
 import java.text.MessageFormat
+import kotlin.math.asin
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 object Utils {
 
@@ -21,9 +25,9 @@ object Utils {
 		val R = 6372.8 // for haversine use R = 6372.8 km instead of 6371 km
 		val dLat = toRadians(lat2 - lat1)
 		val dLon = toRadians(lon2 - lon1)
-		val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
-				Math.sin(dLon / 2) * Math.sin(dLon / 2)
-		return 2.0 * R * 1000.0 * Math.asin(Math.sqrt(a))
+		val a = sin(dLat / 2) * sin(dLat / 2) + cos(toRadians(lat1)) * cos(toRadians(lat2)) *
+				sin(dLon / 2) * sin(dLon / 2)
+		return 2.0 * R * 1000.0 * asin(sqrt(a))
 	}
 
 	fun getFormattedDistance(meters: Double): String {
@@ -56,21 +60,20 @@ object Utils {
 	}
 
 	fun getNameFromContentUri(contentUri : Uri, ctx : Context) : String? {
-		val name : String?
-		val returnCursor : Cursor = ctx.getContentResolver().query(contentUri, null, null, null, null);
-		if (returnCursor != null && returnCursor.moveToFirst()) {
-			var columnIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+		val returnCursor : Cursor? = ctx.contentResolver.query(contentUri, null, null, null, null)
+		val name = if (returnCursor != null && returnCursor.moveToFirst()) {
+			val columnIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
 			if (columnIndex != -1) {
-				name = returnCursor.getString(columnIndex)
+				returnCursor.getString(columnIndex)
 			} else {
-				name = contentUri.getLastPathSegment()
+				contentUri.lastPathSegment
 			}
 		} else {
-			name = null;
+			null
 		}
-		if (returnCursor != null && !returnCursor.isClosed()) {
-			returnCursor.close();
+		if (returnCursor != null && !returnCursor.isClosed) {
+			returnCursor.close()
 		}
-		return name;
+		return name
 	}
 }

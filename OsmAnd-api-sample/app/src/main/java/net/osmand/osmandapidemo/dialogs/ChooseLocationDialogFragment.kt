@@ -60,7 +60,7 @@ class ChooseLocationDialogFragment : DialogFragment() {
 
 class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, R.layout.simple_list_layout, MainActivity.CITIES) {
     private val mInflater = LayoutInflater.from(context)
-    val icon: Drawable?
+    private val icon: Drawable?
 
     init {
         val tempIcon = ContextCompat.getDrawable(context, R.drawable.ic_action_street_name)
@@ -72,10 +72,10 @@ class CitiesAdapter(context: Context) : ArrayAdapter<Location>(context, R.layout
         }
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = (convertView
                 ?: mInflater?.inflate(R.layout.simple_list_layout, parent, false)) as TextView
-        view.text = getItem(position).name
+        view.text = getItem(position)?.name
         view.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 8f, context.resources.displayMetrics).toInt()
         view.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
