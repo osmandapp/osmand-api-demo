@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements OnScrollEventList
 					mapView.refreshMap(false);
 				}
 			};
-			getMyApplication().checkApplicationIsBeingInitialized(this, initListener);
+			getMyApplication().checkApplicationIsBeingInitialized(initListener);
 		} else {
 			setupMapView();
 		}
