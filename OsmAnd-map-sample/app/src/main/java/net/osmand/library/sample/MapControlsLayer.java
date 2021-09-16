@@ -39,6 +39,7 @@ public class MapControlsLayer extends OsmandMapLayer {
 	private MapHudButton mapZoomIn;
 
 	public MapControlsLayer(MainActivity activity) {
+		super(activity);
 		this.activity = activity;
 	}
 

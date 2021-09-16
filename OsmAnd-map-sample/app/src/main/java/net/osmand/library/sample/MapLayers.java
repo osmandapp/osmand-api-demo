@@ -42,11 +42,11 @@ public class MapLayers {
 		OsmandApplication app = getApplication();
 		RoutingHelper routingHelper = app.getRoutingHelper();
 		// first create to make accessible
-		mapTextLayer = new MapTextLayer();
+		mapTextLayer = new MapTextLayer(activity);
 		// 5.95 all labels
 		mapView.addLayer(mapTextLayer, 5.95f);
 
-		mapTileLayer = new MapTileLayer(true);
+		mapTileLayer = new MapTileLayer(activity, true);
 		mapView.addLayer(mapTileLayer, 0.0f);
 		mapView.setMainLayer(mapTileLayer);
 
@@ -55,7 +55,7 @@ public class MapLayers {
 		mapView.addLayer(mapVectorLayer, 0.5f);
 
 		// 6. point location layer
-		locationLayer = new PointLocationLayer(app.getMapViewTrackingUtilities());
+		locationLayer = new PointLocationLayer(activity);
 		mapView.addLayer(locationLayer, 6);
 
 		// 11. map controls layer
