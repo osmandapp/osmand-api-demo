@@ -17,6 +17,13 @@ buildscript {
 
 allprojects {
     repositories {
+        ivy {
+            name = "OsmAndBinariesIvy"
+            url = "https://builder.osmand.net"
+            layout "pattern", {
+                artifact "ivy/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
+            }
+        }
         google()
         mavenCentral()
         maven {
