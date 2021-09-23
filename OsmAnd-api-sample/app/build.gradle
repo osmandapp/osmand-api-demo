@@ -47,8 +47,8 @@ android {
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	debugImplementation "net.osmand:OsmAnd:0.1-SNAPSHOT:debug@aar"
-	releaseImplementation "net.osmand:OsmAnd:0.1-SNAPSHOT:release@aar"
+	// debugImplementation "net.osmand:OsmAnd:0.1-SNAPSHOT:debug@aar"
+	implementation "net.osmand:android-aidl-lib:master-snapshot@aar"
 	implementation 'androidx.appcompat:appcompat:1.2.0'
 	// implementation "com.android.support:appcompat-v7:27.1.1"
 	// implementation "com.android.support:design:27.1.1"
