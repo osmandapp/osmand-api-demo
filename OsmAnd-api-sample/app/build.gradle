@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "net.osmand.osmandapidemo"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode System.getenv("APK_NUMBER_VERSION") ? System.getenv("APK_NUMBER_VERSION").toInteger() : 100
 	versionName System.getenv("APK_VERSION")? System.getenv("APK_VERSION").toString(): "1.0-dev"
