@@ -47,7 +47,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "net.osmand:OsmAnd:0.1-SNAPSHOT"
+    implementation "net.osmand:OsmAnd:0.1-SNAPSHOT:debug"
     implementation "com.android.support:appcompat-v7:27.1.1"
     implementation "com.android.support:design:27.1.1"
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
