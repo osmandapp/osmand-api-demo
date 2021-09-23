@@ -4,16 +4,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
-
-    defaultConfig {
-        applicationId "net.osmand.osmandapidemo"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode System.getenv("APK_NUMBER_VERSION") ? System.getenv("APK_NUMBER_VERSION").toInteger() : 100
-	versionName System.getenv("APK_VERSION")? System.getenv("APK_VERSION").toString(): "1.0-dev"
-    }
-    signingConfigs {
+	compileSdkVersion 29
+	buildToolsVersion "29.0.3"
+	defaultConfig {
+		applicationId "net.osmand.osmandapidemo"
+		minSdkVersion 21
+		targetSdkVersion 29
+		versionCode System.getenv("APK_NUMBER_VERSION") ? System.getenv("APK_NUMBER_VERSION").toInteger() : 100
+		versionName System.getenv("APK_VERSION")? System.getenv("APK_VERSION").toString(): "1.0-dev"
+	}
+	signingConfigs {
 		development {
 			storeFile file("/var/lib/jenkins/debug.keystore")
 			storePassword "android"
@@ -30,25 +30,27 @@ android {
 	}
 
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.publishing
-        }
-    }
-    sourceSets {
-        main {
-            aidl.srcDirs = ["src"]
-            java.srcDirs = ["src"]
-        }
-    }
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+			signingConfig signingConfigs.publishing
+		}
+	}
+	sourceSets {
+		main {
+			aidl.srcDirs = ["src"]
+			java.srcDirs = ["src"]
+		}
+	}
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation group : "net.osmand", name : "OsmAnd", version : "0.1-SNAPSHOT", classifier : "release", ext : "aar"
-    implementation "com.android.support:appcompat-v7:27.1.1"
-    implementation "com.android.support:design:27.1.1"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+	debugImplementation "net.osmand:OsmAnd:0.1-SNAPSHOT:debug@aar"
+	releaseImplementation "net.osmand:OsmAnd:0.1-SNAPSHOT:release@aar"
+	implementation 'androidx.appcompat:appcompat:1.2.0'
+	// implementation "com.android.support:appcompat-v7:27.1.1"
+	// implementation "com.android.support:design:27.1.1"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
