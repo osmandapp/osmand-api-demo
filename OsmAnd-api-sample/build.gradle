@@ -21,7 +21,7 @@ allprojects {
             name = "OsmAndBinariesIvy"
             url = "https://builder.osmand.net"
             layout "pattern", {
-                artifact "ivy/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
+                artifact "ivy/[organisation]/[module]/[revision]/[artifact]-[revision][classifier].[ext]"
             }
         }
         google()
