@@ -113,10 +113,11 @@ public class MainActivity extends AppCompatActivity implements OnScrollEventList
 		int h = dm.heightPixels - statusBarHeight;
 
 		mapView = new OsmandMapTileView(this, w, h);
-		if (app.getAppInitializer().checkAppVersionChanged() && WhatsNewDialogFragment.SHOW) {
-			SecondSplashScreenFragment.SHOW = false;
-			WhatsNewDialogFragment.SHOW = false;
-			new WhatsNewDialogFragment().show(getSupportFragmentManager(), null);
+		if (WhatsNewDialogFragment.shouldShowDialog(app)) {
+			boolean showed = WhatsNewDialogFragment.showInstance(getSupportFragmentManager());
+			if (showed) {
+				SecondSplashScreenFragment.SHOW = false;
+			}
 		}
 		mapLayers = new MapLayers(this);
 
