@@ -1,5 +1,7 @@
 package net.osmand.core.samples.android.sample1;
 
+import static net.osmand.router.RoutingConfiguration.*;
+
 import android.os.AsyncTask;
 
 import net.osmand.IndexConstants;
@@ -19,9 +21,7 @@ import net.osmand.util.MapUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -130,8 +130,8 @@ public class CurrentPositionHelper {
 	private void initCtx(SampleApplication app, List<BinaryMapIndexReader> checkReaders) {
 		BinaryMapIndexReader[] rs = checkReaders.toArray(new BinaryMapIndexReader[0]);
 		if (rs.length > 0) {
-			RoutingConfiguration defCfg = RoutingConfiguration.getDefault().build("geocoding", 10,
-					new HashMap<String, String>());
+			RoutingMemoryLimits memoryLimit = new RoutingMemoryLimits(DEFAULT_MEMORY_LIMIT, DEFAULT_NATIVE_MEMORY_LIMIT);
+			RoutingConfiguration defCfg = getDefault().build("geocoding", memoryLimit, new HashMap<>());
 			defCtx = new RoutePlannerFrontEnd().buildRoutingContext(defCfg, null, rs);
 		} else {
 			defCtx = null;
