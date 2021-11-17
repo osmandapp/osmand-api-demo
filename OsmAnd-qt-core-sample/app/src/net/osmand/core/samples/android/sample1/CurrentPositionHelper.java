@@ -130,7 +130,9 @@ public class CurrentPositionHelper {
 	private void initCtx(SampleApplication app, List<BinaryMapIndexReader> checkReaders) {
 		BinaryMapIndexReader[] rs = checkReaders.toArray(new BinaryMapIndexReader[0]);
 		if (rs.length > 0) {
-			RoutingConfiguration defCfg = RoutingConfiguration.getDefault().build("geocoding", 10,
+			RoutingMemoryLimits memoryLimit = new RoutingMemoryLimits(RoutingConfiguration.DEFAULT_MEMORY_LIMIT,
+					RoutingConfiguration.DEFAULT_NATIVE_MEMORY_LIMIT);
+			RoutingConfiguration defCfg = RoutingConfiguration.getDefault().build("geocoding", memoryLimit,
 					new HashMap<String, String>());
 			defCtx = new RoutePlannerFrontEnd().buildRoutingContext(defCfg, null, rs);
 		} else {
