@@ -124,4 +124,5 @@
     <string name="aidl_get_blocked_roads">Get blocked roads</string>
     <string name="aidl_add_blocked_road">Add blocked road</string>
     <string name="aidl_remove_blocked_road">Remove blocked road</string>
+    <string name="shared_string_all_languages">All languages</string>
 </resources>

@@ -239,6 +239,10 @@ public class SampleApplication extends Application {
 				return getEnTranslation(type.getIconKeyName());
 			}
 
+			@Override
+			public String getAllLanguagesTranslationSuffix() {
+				return app.getString(R.string.shared_string_all_languages).toLowerCase();
+			}
 
 			@Override
 			public String getEnTranslation(String keyName) {
