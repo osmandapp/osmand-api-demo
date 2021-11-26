@@ -241,7 +241,7 @@ public class SampleApplication extends Application {
 
 			@Override
 			public String getAllLanguagesTranslationSuffix() {
-				return app.getString(R.string.shared_string_all_languages).toLowerCase();
+				return getString("shared_string_all_languages").toLowerCase();
 			}
 
 			@Override
