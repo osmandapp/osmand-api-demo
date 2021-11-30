@@ -29,6 +29,7 @@ import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragmen
 import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
 import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
+import net.osmand.aidlapi.OsmAndCustomizationConstants
 import net.osmand.aidlapi.customization.OsmandSettingsParams
 import net.osmand.aidlapi.customization.SetWidgetsParams
 import net.osmand.aidlapi.map.ALatLon
@@ -253,8 +254,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     aidlHelper.removeGpx(GPX_FILE_NAME)
                 }
                 ApiActionType.AIDL_HIDE_DRAWER_PROFILE -> {
-                    aidlHelper.setDisabledPatterns(listOf(OsmandCustomizationConstants.DRAWER_SWITCH_PROFILE_ID,
-                            OsmandCustomizationConstants.DRAWER_CONFIGURE_PROFILE_ID))
+                    aidlHelper.setDisabledPatterns(listOf(OsmAndCustomizationConstants.DRAWER_SWITCH_PROFILE_ID,
+                            OsmAndCustomizationConstants.DRAWER_CONFIGURE_PROFILE_ID))
                 }
                 ApiActionType.AIDL_SET_ENABLED_UI_IDS -> {
                     val enabledIds = getFeaturesEnabledIds()
@@ -360,7 +361,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     aidlHelper.restoreOsmand()
                 }
                 ApiActionType.AIDL_CHANGE_PLUGIN_STATE -> {
-                    aidlHelper.changePluginState(OsmandCustomizationConstants.PLUGIN_RASTER_MAPS, 1)
+                    aidlHelper.changePluginState(OsmAndCustomizationConstants.PLUGIN_RASTER_MAPS, 1)
                 }
                 ApiActionType.AIDL_REGISTER_FOR_OSMAND_INITIALIZATION -> {
                     aidlHelper.setOsmandInitializedListener(object : OsmAndAidlHelper.OsmandInitializedListener {
@@ -504,7 +505,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     val visibilityWidgetsParams = getVisibilityWidgetsParams()
                     val availabilityWidgetsParams = getAvailabilityWidgetsParams()
                     val settingsParams = getCustomOsmandSettingsParams()
-                    val pluginParams = arrayListOf(PluginParams(OsmandCustomizationConstants.PLUGIN_RASTER_MAPS, 1))
+                    val pluginParams = arrayListOf(PluginParams(OsmAndCustomizationConstants.PLUGIN_RASTER_MAPS, 1))
 
                     aidlHelper.setCustomization(settingsParams, navDrawerHeaderParams, navDrawerFooterParams,
                             navDrawerItemsParams, visibilityWidgetsParams, availabilityWidgetsParams, pluginParams,
@@ -1585,47 +1586,51 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
     private fun getFeaturesEnabledIds(): List<String> {
         return listOf(
-                OsmandCustomizationConstants.MAP_CONTEXT_MENU_MEASURE_DISTANCE,
-                OsmandCustomizationConstants.GPX_FILES_ID,
-                OsmandCustomizationConstants.MAP_SOURCE_ID,
-                OsmandCustomizationConstants.OVERLAY_MAP,
-                OsmandCustomizationConstants.UNDERLAY_MAP,
-                OsmandCustomizationConstants.CONTOUR_LINES
+                OsmAndCustomizationConstants.MAP_CONTEXT_MENU_MEASURE_DISTANCE,
+                OsmAndCustomizationConstants.GPX_FILES_ID,
+                OsmAndCustomizationConstants.MAP_SOURCE_ID,
+                OsmAndCustomizationConstants.OVERLAY_MAP,
+                OsmAndCustomizationConstants.UNDERLAY_MAP,
+                OsmAndCustomizationConstants.CONTOUR_LINES
         )
     }
 
     private fun getFeaturesDisabledIds(): List<String> {
         return listOf(
-                OsmandCustomizationConstants.LAYERS_HUD_ID,
-                OsmandCustomizationConstants.ROUTE_PLANNING_HUD_ID,
-                OsmandCustomizationConstants.QUICK_SEARCH_HUD_ID
+                OsmAndCustomizationConstants.LAYERS_HUD_ID,
+                OsmAndCustomizationConstants.ROUTE_PLANNING_HUD_ID,
+                OsmAndCustomizationConstants.QUICK_SEARCH_HUD_ID,
+                OsmAndCustomizationConstants.SETTINGS_NAVIGATION_ID,
+                OsmAndCustomizationConstants.SETTINGS_CONFIGURE_PROFILE_ID,
+                OsmAndCustomizationConstants.NAVIGATION_SOUND_ID,
+                OsmAndCustomizationConstants.NAVIGATION_OTHER_SETTINGS_ID
         )
     }
 
     private fun getFeaturesDisabledPatterns(): List<String> {
         return listOf(
-                OsmandCustomizationConstants.DRAWER_PLUGINS_ID,
-                OsmandCustomizationConstants.DRAWER_SETTINGS_ID,
-                OsmandCustomizationConstants.DRAWER_HELP_ID,
-                OsmandCustomizationConstants.DRAWER_BUILDS_ID,
-                OsmandCustomizationConstants.DRAWER_DIVIDER_ID,
-                OsmandCustomizationConstants.DRAWER_DOWNLOAD_MAPS_ID,
-                OsmandCustomizationConstants.DRAWER_SWITCH_PROFILE_ID,
-                OsmandCustomizationConstants.DRAWER_CONFIGURE_PROFILE_ID,
-                OsmandCustomizationConstants.DRAWER_CONFIGURE_MAP_ID,
-                OsmandCustomizationConstants.MAP_CONTEXT_MENU_ACTIONS,
-                OsmandCustomizationConstants.CONFIGURE_MAP_ITEM_ID_SCHEME
+                OsmAndCustomizationConstants.DRAWER_PLUGINS_ID,
+                OsmAndCustomizationConstants.DRAWER_SETTINGS_ID,
+                OsmAndCustomizationConstants.DRAWER_HELP_ID,
+                OsmAndCustomizationConstants.DRAWER_BUILDS_ID,
+                OsmAndCustomizationConstants.DRAWER_DIVIDER_ID,
+                OsmAndCustomizationConstants.DRAWER_DOWNLOAD_MAPS_ID,
+                OsmAndCustomizationConstants.DRAWER_SWITCH_PROFILE_ID,
+                OsmAndCustomizationConstants.DRAWER_CONFIGURE_PROFILE_ID,
+                OsmAndCustomizationConstants.DRAWER_CONFIGURE_MAP_ID,
+                OsmAndCustomizationConstants.MAP_CONTEXT_MENU_ACTIONS,
+                OsmAndCustomizationConstants.CONFIGURE_MAP_ITEM_ID_SCHEME
         )
     }
 
     private fun getFeaturesEnabledPatterns(): List<String> {
         return listOf(
-                OsmandCustomizationConstants.DRAWER_DASHBOARD_ID,
-                OsmandCustomizationConstants.DRAWER_SEARCH_ID,
-                OsmandCustomizationConstants.DRAWER_DIRECTIONS_ID,
-                OsmandCustomizationConstants.DRAWER_CONFIGURE_SCREEN_ID,
-                OsmandCustomizationConstants.DRAWER_OSMAND_LIVE_ID,
-                OsmandCustomizationConstants.DRAWER_TRAVEL_GUIDES_ID
+                OsmAndCustomizationConstants.DRAWER_DASHBOARD_ID,
+                OsmAndCustomizationConstants.DRAWER_SEARCH_ID,
+                OsmAndCustomizationConstants.DRAWER_DIRECTIONS_ID,
+                OsmAndCustomizationConstants.DRAWER_CONFIGURE_SCREEN_ID,
+                OsmAndCustomizationConstants.DRAWER_OSMAND_LIVE_ID,
+                OsmAndCustomizationConstants.DRAWER_TRAVEL_GUIDES_ID
         )
     }
 
