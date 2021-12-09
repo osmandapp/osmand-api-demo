@@ -2,14 +2,14 @@ package net.osmand.library.sample;
 
 import net.osmand.map.ITileSource;
 import net.osmand.plus.OsmandApplication;
-import net.osmand.plus.SQLiteTileSource;
-import net.osmand.plus.render.MapVectorLayer;
+import net.osmand.plus.resources.SQLiteTileSource;
 import net.osmand.plus.routing.RoutingHelper;
-import net.osmand.plus.settings.backend.CommonPreference;
 import net.osmand.plus.settings.backend.OsmandSettings;
-import net.osmand.plus.views.MapTileLayer;
+import net.osmand.plus.settings.backend.preferences.CommonPreference;
 import net.osmand.plus.views.OsmandMapTileView;
 import net.osmand.plus.views.layers.MapTextLayer;
+import net.osmand.plus.views.layers.MapTileLayer;
+import net.osmand.plus.views.layers.MapVectorLayer;
 import net.osmand.plus.views.layers.PointLocationLayer;
 import net.osmand.plus.views.mapwidgets.MapWidgetRegistry;
 
