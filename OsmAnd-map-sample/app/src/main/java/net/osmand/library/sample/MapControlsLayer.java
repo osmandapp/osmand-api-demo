@@ -8,20 +8,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.app.ActivityCompat;
-
-import net.osmand.AndroidUtils;
 import net.osmand.Location;
 import net.osmand.data.RotatedTileBox;
 import net.osmand.plus.OsmAndLocationProvider;
 import net.osmand.plus.OsmandApplication;
-import net.osmand.plus.views.OsmandMapLayer;
+import net.osmand.plus.utils.AndroidUtils;
 import net.osmand.plus.views.OsmandMapTileView;
+import net.osmand.plus.views.layers.base.OsmandMapLayer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.app.ActivityCompat;
 
 import static net.osmand.library.sample.MainActivity.PERMISSION_REQUEST_LOCATION_ON_BUTTON;
 
