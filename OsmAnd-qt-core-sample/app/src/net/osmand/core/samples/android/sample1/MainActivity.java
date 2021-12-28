@@ -352,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements SampleLocationLis
 		myLocMarkerBuilder.setIsHidden(true);
 		Bitmap myLocationBitmap = OsmandResources.getBitmap("map_pedestrian_location");
 		if (myLocationBitmap != null) {
-			myLocMarkerBuilder.setPinIcon(SwigUtilities.createSkBitmapARGB888With(
+			myLocMarkerBuilder.setPinIcon(SwigUtilities.createSkImageARGB888With(
 					myLocationBitmap.getWidth(), myLocationBitmap.getHeight(),
 					SampleUtils.getBitmapAsByteArray(myLocationBitmap)));
 		}
@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements SampleLocationLis
 		contextMarkerBuilder.setIsHidden(true);
 		Bitmap pinBitmap = OsmandResources.getBitmap("map_pin_context_menu");
 		if (pinBitmap != null) {
-			contextMarkerBuilder.setPinIcon(SwigUtilities.createSkBitmapARGB888With(
+			contextMarkerBuilder.setPinIcon(SwigUtilities.createSkImageARGB888With(
 					pinBitmap.getWidth(), pinBitmap.getHeight(),
 					SampleUtils.getBitmapAsByteArray(pinBitmap)));
 			contextMarkerBuilder.setPinIconVerticalAlignment(MapMarker.PinIconVerticalAlignment.Top);
