@@ -26,6 +26,7 @@ import net.osmand.aidlapi.customization.OsmandSettingsInfoParams;
 import net.osmand.aidlapi.customization.OsmandSettingsParams;
 import net.osmand.aidlapi.customization.ProfileSettingsParams;
 import net.osmand.aidlapi.customization.SetWidgetsParams;
+import net.osmand.aidlapi.exit.ExitAppParams;
 import net.osmand.aidlapi.favorite.AFavorite;
 import net.osmand.aidlapi.favorite.AddFavoriteParams;
 import net.osmand.aidlapi.favorite.RemoveFavoriteParams;
@@ -44,6 +45,7 @@ import net.osmand.aidlapi.gpx.RemoveGpxParams;
 import net.osmand.aidlapi.gpx.ShowGpxParams;
 import net.osmand.aidlapi.gpx.StartGpxRecordingParams;
 import net.osmand.aidlapi.gpx.StopGpxRecordingParams;
+import net.osmand.aidlapi.info.GetTextParams;
 import net.osmand.aidlapi.map.ALatLon;
 import net.osmand.aidlapi.map.SetMapLocationParams;
 import net.osmand.aidlapi.maplayer.AMapLayer;
@@ -101,6 +103,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import main.java.net.osmand.osmandapidemo.OsmAndHelper.OnOsmandMissingListener;
@@ -2057,5 +2060,44 @@ public class OsmAndAidlHelper {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Method to kill application process.
+	 *
+	 * @param shouldRestart (boolean) - if true OsmAnd tries to restart.
+	 *
+	 * @return boolean - true if app will exit
+	 */
+	public boolean exitApp(boolean shouldRestart) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.exitApp(new ExitAppParams(shouldRestart));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method to get string from localized resources.
+	 *
+	 * @param key (String) - id of string resource
+	 * @param locale (Locale) - used for selection of string resource by language
+	 *
+	 * @return String - found text
+	 */
+	public String getText(String key, Locale locale) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				GetTextParams params = new GetTextParams(key, locale);
+				 mIOsmAndAidlInterface.getText(params);
+				 return params.getValue();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 }

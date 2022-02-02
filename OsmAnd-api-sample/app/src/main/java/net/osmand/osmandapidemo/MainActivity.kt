@@ -46,6 +46,8 @@ import net.osmand.aidlapi.search.SearchParams
 import net.osmand.aidlapi.search.SearchResult
 import net.osmand.osmandapidemo.R
 import java.io.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
@@ -644,6 +646,13 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 ApiActionType.INTENT_UNMUTE_NAVIGATION -> {
                     osmandHelper.umuteNavigation()
                 }
+                ApiActionType.AIDL_EXIT_APP -> {
+                    aidlHelper.exitApp(false)
+                }
+                ApiActionType.AIDL_GET_TEXT -> {
+                    val text =  aidlHelper.getText("daynight_mode_auto", Locale.GERMAN)
+                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                }
                 else -> Unit
             }
             // location depended types
@@ -1235,6 +1244,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         aidlIsMenuOpen.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_IS_MENU_OPEN)
         }
+        aidlExitAppButton.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_EXIT_APP)
+        }
+        aidlGetTextButton.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_GET_TEXT)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1446,6 +1461,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(aidlIsFragmentOpen, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlIsMenuOpen, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlSetUIMarginsButton, R.drawable.ic_action_settings)
+
+        setDrawable(aidlExitAppButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlGetTextButton, R.drawable.ic_action_gabout_dark)
     }
 
     private fun getDemoIntent(): Intent? {
