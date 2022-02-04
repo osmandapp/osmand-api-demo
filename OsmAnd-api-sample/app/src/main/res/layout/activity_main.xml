@@ -4,7 +4,7 @@
     android:id="@+id/main_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.osmand.osmandapidemo.MainActivity">
+    tools:context="main.java.net.osmand.osmandapidemo.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -1412,6 +1412,46 @@
         </LinearLayout>
 
         <include layout="@layout/card_bottom_divider" />
+
+        <!--AIDL - Utils-->
+        <include layout="@layout/card_top_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/itemBackgroundColor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/categoryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AIDL - Utils"/>
+
+            <View style="@style/divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlExitAppButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/exit_app"/>
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlGetTextButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/get_string_resource"/>
+
+            <View style="@style/short_divider_style"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
