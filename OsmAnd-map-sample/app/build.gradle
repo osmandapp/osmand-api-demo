@@ -92,13 +92,12 @@ dependencies {
 	implementation 'androidx.gridlayout:gridlayout:1.0.0'
 	implementation 'androidx.cardview:cardview:1.0.0'
 	implementation 'androidx.appcompat:appcompat:1.2.0'
-	implementation 'com.google.android.material:material:1.2.1'
+	implementation 'com.google.android.material:material:1.4.0'
 	implementation 'androidx.browser:browser:1.0.0'
 	implementation 'androidx.preference:preference:1.1.0'
 
 	implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
 	implementation 'commons-codec:commons-codec:1.11'
-	implementation 'it.unibo.alice.tuprolog:tuprolog:3.2.1'
 	implementation 'org.apache.commons:commons-compress:1.17'
 	implementation 'com.moparisthebest:junidecode:0.1.1'
 	implementation 'org.immutables:gson:2.5.0'
@@ -122,7 +121,7 @@ dependencies {
 		exclude group: "com.fasterxml.jackson.core"
 	}
 	implementation 'com.jaredrummler:colorpicker:1.1.0'
-	implementation 'com.google.android.gms:play-services-location:17.1.0'
+	implementation 'com.google.android.gms:play-services-location:19.0.1'
 
 	testImplementation 'junit:junit:4.+'
 	androidTestImplementation 'androidx.test.ext:junit:1.1.1'
