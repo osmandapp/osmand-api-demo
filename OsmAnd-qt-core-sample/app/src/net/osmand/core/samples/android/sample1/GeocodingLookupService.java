@@ -1,7 +1,6 @@
 package net.osmand.core.samples.android.sample1;
 
 import android.os.AsyncTask;
-import android.os.Build;
 
 import net.osmand.Location;
 import net.osmand.ResultMatcher;
@@ -40,7 +39,7 @@ public class GeocodingLookupService {
 		private OnAddressLookupProgress uiProgressCallback;
 
 		public AddressLookupRequest(LatLon latLon, OnAddressLookupResult uiResultCallback,
-									OnAddressLookupProgress uiProgressCallback) {
+		                            OnAddressLookupProgress uiProgressCallback) {
 			this.latLon = latLon;
 			this.uiResultCallback = uiResultCallback;
 			this.uiProgressCallback = uiProgressCallback;
@@ -135,7 +134,6 @@ public class GeocodingLookupService {
 							boolean transliterate = SampleApplication.TRANSLITERATE;
 
 							String geocodingResult = "";
-							double relevantDistance = -1;
 
 							if (object.building != null) {
 								String bldName = object.building.getName(lang, transliterate);
@@ -146,7 +144,6 @@ public class GeocodingLookupService {
 										+ object.city.getName(lang, transliterate);
 							} else if (object.street != null) {
 								geocodingResult = object.street.getName(lang, transliterate) + ", " + object.city.getName(lang, transliterate);
-								relevantDistance = object.getDistanceP();
 							} else if (object.city != null) {
 								geocodingResult = object.city.getName(lang, transliterate);
 							} else if (object.point != null) {
@@ -163,14 +160,11 @@ public class GeocodingLookupService {
 									sname += ref;
 								}
 								geocodingResult = sname;
-								relevantDistance = object.getDistanceP();
 							}
 
 							result = geocodingResult;
-							if (relevantDistance == -1) {
-								relevantDistance = object.getDistance();
-							}
 
+							double relevantDistance = object.getDistance();
 							if (!Algorithms.isEmpty(result) && relevantDistance > 100) {
 								result = app.getString("shared_string_near") + " " + result;
 							}
