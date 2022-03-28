@@ -47,7 +47,6 @@ import net.osmand.aidlapi.search.SearchResult
 import net.osmand.osmandapidemo.R
 import java.io.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
@@ -653,6 +652,16 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     val text =  aidlHelper.getText("daynight_mode_auto", Locale.GERMAN)
                     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                 }
+                ApiActionType.AIDL_GET_PREFERENCE -> {
+                    val prefId = "show_map_markers"
+                    val appMode = "car"
+                    val value = aidlHelper.getPreferenceValue(prefId, appMode)
+                    val text = "Preference Id: $prefId profile: $appMode value: $value"
+                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                }
+                ApiActionType.AIDL_SET_PREFERENCE -> {
+                    aidlHelper.setPreferenceValue("show_map_markers", true.toString(), "car")
+                }
                 else -> Unit
             }
             // location depended types
@@ -1226,6 +1235,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             execApiActionImpl(ApiActionType.AIDL_ARE_OSMAND_SETTINGS_CUSTOMIZED)
         }
 
+        aidlGetPreferenceButton.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_GET_PREFERENCE)
+        }
+        aidlSetPreferenceButton.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_SET_PREFERENCE)
+        }
         aidlSetCustomizationButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_CUSTOMIZATION)
         }
@@ -1461,6 +1476,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(aidlIsFragmentOpen, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlIsMenuOpen, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlSetUIMarginsButton, R.drawable.ic_action_settings)
+        setDrawable(aidlGetPreferenceButton, R.drawable.ic_action_settings)
+        setDrawable(aidlSetPreferenceButton, R.drawable.ic_action_settings)
 
         setDrawable(aidlExitAppButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlGetTextButton, R.drawable.ic_action_gabout_dark)

@@ -1328,6 +1328,26 @@
             <View style="@style/short_divider_style"/>
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlGetPreferenceButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/get_preference"/>
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlSetPreferenceButton"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/set_preference"/>
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/aidlSetCustomizationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
