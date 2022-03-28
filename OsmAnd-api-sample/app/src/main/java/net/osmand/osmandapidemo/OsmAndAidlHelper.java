@@ -1,5 +1,14 @@
 package main.java.net.osmand.osmandapidemo;
 
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_IO_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_MAX_LOCK_TIME_MS;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_PARAMS_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_PART_SIZE_LIMIT;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_PART_SIZE_LIMIT_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_UNSUPPORTED_FILE_TYPE_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_WRITE_LOCK_ERROR;
+import static net.osmand.aidlapi.OsmandAidlConstants.OK_RESPONSE;
+
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,6 +33,7 @@ import net.osmand.aidlapi.customization.CustomizationInfoParams;
 import net.osmand.aidlapi.customization.MapMarginsParams;
 import net.osmand.aidlapi.customization.OsmandSettingsInfoParams;
 import net.osmand.aidlapi.customization.OsmandSettingsParams;
+import net.osmand.aidlapi.customization.PreferenceParams;
 import net.osmand.aidlapi.customization.ProfileSettingsParams;
 import net.osmand.aidlapi.customization.SetWidgetsParams;
 import net.osmand.aidlapi.exit.ExitAppParams;
@@ -90,8 +100,8 @@ import net.osmand.aidlapi.note.StartVideoRecordingParams;
 import net.osmand.aidlapi.note.StopRecordingParams;
 import net.osmand.aidlapi.note.TakePhotoNoteParams;
 import net.osmand.aidlapi.plugins.PluginParams;
-import net.osmand.aidlapi.profile.ExportProfileParams;
 import net.osmand.aidlapi.profile.AExportSettingsType;
+import net.osmand.aidlapi.profile.ExportProfileParams;
 import net.osmand.aidlapi.search.SearchParams;
 import net.osmand.aidlapi.search.SearchResult;
 import net.osmand.aidlapi.tiles.ASqliteDbFile;
@@ -107,15 +117,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import main.java.net.osmand.osmandapidemo.OsmAndHelper.OnOsmandMissingListener;
-
-import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_IO_ERROR;
-import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_MAX_LOCK_TIME_MS;
-import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_PARAMS_ERROR;
-import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_PART_SIZE_LIMIT;
-import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_PART_SIZE_LIMIT_ERROR;
-import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_UNSUPPORTED_FILE_TYPE_ERROR;
-import static net.osmand.aidlapi.OsmandAidlConstants.COPY_FILE_WRITE_LOCK_ERROR;
-import static net.osmand.aidlapi.OsmandAidlConstants.OK_RESPONSE;
 
 public class OsmAndAidlHelper {
 
@@ -2099,5 +2100,33 @@ public class OsmAndAidlHelper {
 			}
 		}
 		return null;
+	}
+
+	public String getPreferenceValue(String preferenceId, String appModeKey) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				PreferenceParams params = new PreferenceParams(preferenceId);
+				params.setAppModeKey(appModeKey);
+				mIOsmAndAidlInterface.getPreference(params);
+				return params.getValue();
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public boolean setPreferenceValue(String preferenceId, String value, String appModeKey) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				PreferenceParams params = new PreferenceParams(preferenceId);
+				params.setAppModeKey(appModeKey);
+				params.setValue(value);
+				return mIOsmAndAidlInterface.setPreference(params);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 }
