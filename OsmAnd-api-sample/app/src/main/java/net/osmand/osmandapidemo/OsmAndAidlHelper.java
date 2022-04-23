@@ -56,6 +56,7 @@ import net.osmand.aidlapi.gpx.ShowGpxParams;
 import net.osmand.aidlapi.gpx.StartGpxRecordingParams;
 import net.osmand.aidlapi.gpx.StopGpxRecordingParams;
 import net.osmand.aidlapi.info.GetTextParams;
+import net.osmand.aidlapi.logcat.OnLogcatMessageParams;
 import net.osmand.aidlapi.map.ALatLon;
 import net.osmand.aidlapi.map.SetMapLocationParams;
 import net.osmand.aidlapi.maplayer.AMapLayer;
@@ -168,7 +169,7 @@ public class OsmAndAidlHelper {
 		void onVoiceRouterNotify(OnVoiceNavigationParams params);
 	}
 
-	private IOsmAndAidlCallback.Stub mIOsmAndAidlCallback = new IOsmAndAidlCallback.Stub() {
+	private final IOsmAndAidlCallback.Stub mIOsmAndAidlCallback = new IOsmAndAidlCallback.Stub() {
 		@Override
 		public void onSearchComplete(List<SearchResult> resultSet) throws RemoteException {
 			if (mSearchCompleteListener != null) {
@@ -220,6 +221,11 @@ public class OsmAndAidlHelper {
 
 		@Override
 		public void onKeyEvent(KeyEvent keyEvent) throws RemoteException {
+
+		}
+
+		@Override
+		public void onLogcatMessage(OnLogcatMessageParams params) throws RemoteException {
 
 		}
 	};
