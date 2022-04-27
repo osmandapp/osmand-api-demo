@@ -56,6 +56,7 @@ import net.osmand.aidlapi.gpx.ShowGpxParams;
 import net.osmand.aidlapi.gpx.StartGpxRecordingParams;
 import net.osmand.aidlapi.gpx.StopGpxRecordingParams;
 import net.osmand.aidlapi.info.GetTextParams;
+import net.osmand.aidlapi.logcat.ALogcatListenerParams;
 import net.osmand.aidlapi.logcat.OnLogcatMessageParams;
 import net.osmand.aidlapi.map.ALatLon;
 import net.osmand.aidlapi.map.SetMapLocationParams;
@@ -139,6 +140,7 @@ public class OsmAndAidlHelper {
 	private NavigationInfoUpdateListener navigationInfoUpdateListener;
 	private ContextButtonClickListener contextButtonClickListener;
 	private VoiceRouterNotifyListener voiceRouterNotifyListener;
+	private LogcatMessageListener logcatMessageListener;
 
 
 	interface SearchCompleteListener {
@@ -167,6 +169,10 @@ public class OsmAndAidlHelper {
 
 	interface VoiceRouterNotifyListener {
 		void onVoiceRouterNotify(OnVoiceNavigationParams params);
+	}
+
+	interface LogcatMessageListener {
+		void onNewLogcatMessage(OnLogcatMessageParams params);
 	}
 
 	private final IOsmAndAidlCallback.Stub mIOsmAndAidlCallback = new IOsmAndAidlCallback.Stub() {
@@ -226,7 +232,9 @@ public class OsmAndAidlHelper {
 
 		@Override
 		public void onLogcatMessage(OnLogcatMessageParams params) throws RemoteException {
-
+			if (logcatMessageListener != null) {
+				logcatMessageListener.onNewLogcatMessage(params);
+			}
 		}
 	};
 
@@ -256,6 +264,10 @@ public class OsmAndAidlHelper {
 
 	public void setVoiceRouterNotifyListener(VoiceRouterNotifyListener voiceRouterNotifyListener) {
 		this.voiceRouterNotifyListener = voiceRouterNotifyListener;
+	}
+
+	public void setLogcatMessageListener(LogcatMessageListener logcatMessageListener) {
+		this.logcatMessageListener = logcatMessageListener;
 	}
 
 	/**
@@ -2134,5 +2146,33 @@ public class OsmAndAidlHelper {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Method to register for Logcat messages. Notifies user about new logs in application.
+	 *
+	 * @param subscribeToUpdates (boolean) - boolean flag to subscribe or unsubscribe from messages
+	 * @param callbackId (long) - id of callback, needed to unsubscribe from messages
+	 * @param filterLevel (String) determines which type of logs will be returned by callback
+	 * Must be one of the values below:
+	 * - "D" (debug)
+	 * - "I" (info)
+	 * - "W" (warn)
+	 * - "E" (error)
+	 * @param callback (IOsmAndAidlCallback) - callback to notify user on new OsmAnd logs
+	 */
+	long registerForLogcatMessages(boolean subscribeToUpdates, long callbackId, String filterLevel) {
+		ALogcatListenerParams params = new ALogcatListenerParams();
+		params.setCallbackId(callbackId);
+		params.setSubscribeToUpdates(subscribeToUpdates);
+		params.setFilterLevel(filterLevel);
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.registerForLogcatMessages(params, mIOsmAndAidlCallback);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return -1L;
 	}
 }
