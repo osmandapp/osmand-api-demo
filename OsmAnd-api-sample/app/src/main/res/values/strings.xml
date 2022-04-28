@@ -1,4 +1,6 @@
 <resources>
+    <string name="stop_listen_to_osmand_logs">Stop listen to Logcat messages</string>
+    <string name="listen_to_osmand_logs">Listen to Logcat messages</string>
     <string name="set_preference">Set preference</string>
     <string name="get_preference">Get preference</string>
     <string name="get_string_resource">Get string resource</string>

@@ -29,6 +29,7 @@ import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragmen
 import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
 import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
+import main.java.net.osmand.osmandapidemo.util.ToastQueue
 import net.osmand.aidlapi.OsmAndCustomizationConstants
 import net.osmand.aidlapi.customization.OsmandSettingsParams
 import net.osmand.aidlapi.customization.SetWidgetsParams
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         const val KEY_NAV_INFO_LISTENER = "on_nav_info_update"
         const val KEY_NAV_VOICE_INFO_LISTENER = "on_nav_voice_info_update"
         const val KEY_CONTEXT_BTN_LISTENER = "on_ctx_btn_click"
+        const val KEY_OSMAND_LOGCAT_LISTENER = "osmand_logcat_listener"
 
         const val DEMO_INTENT_URI = "osmand_api_demo://main_activity"
 
@@ -141,6 +143,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     private var lastLongitude: Double = 0.0
 
     private val callbackKeys = mutableMapOf<String, Long>()
+
+    private val logcatToastQueue = ToastQueue()
 
     fun execApiAction(apiActionType: ApiActionType, delayed: Boolean = true, location: Location? = null) {
         if (location != null) {
@@ -661,6 +665,45 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 ApiActionType.AIDL_SET_PREFERENCE -> {
                     aidlHelper.setPreferenceValue("show_map_markers", true.toString(), "car")
+                }
+                ApiActionType.AIDL_REGISTER_FOR_LISTEN_LOGS -> {
+                    val titles = arrayOf("Debug", "Info", "Warn", "Error")
+                    val values = arrayOf("D", "I", "W", "E")
+                    var checkedIndex = 0
+
+                    val alert = AlertDialog.Builder(this)
+                    alert.setTitle("Choose Logs Level")
+                    alert.setSingleChoiceItems(titles, checkedIndex) { _, which ->
+                        checkedIndex = which
+                    }
+
+                    alert.setPositiveButton("OK") { _, _ ->
+                        val checkedLogsLevel = values[checkedIndex]
+                        aidlHelper.setLogcatMessageListener(OsmAndAidlHelper.LogcatMessageListener { params ->
+                            runOnUiThread {
+                                if (params != null) {
+                                    var fullMessage = ""
+                                    for (message in params.logs) {
+                                        fullMessage += "\n" + message
+                                    }
+                                    logcatToastQueue.showToast(this, "Logcat (${params.filterLevel}):${fullMessage}")
+                                }
+                            }
+                        })
+                        callbackKeys[KEY_OSMAND_LOGCAT_LISTENER] = aidlHelper.registerForLogcatMessages(true, 0, checkedLogsLevel)
+                    }
+                    alert.setNegativeButton("Cancel", null)
+                    alert.show()
+                }
+                ApiActionType.AIDL_UNREGISTER_FROM_LISTEN_LOGS -> {
+                    logcatToastQueue.cancelAll()
+                    if (callbackKeys.containsKey(KEY_OSMAND_LOGCAT_LISTENER)) {
+                        aidlHelper.registerForLogcatMessages(false, callbackKeys[KEY_OSMAND_LOGCAT_LISTENER]!!, "")
+                        callbackKeys.remove(KEY_OSMAND_LOGCAT_LISTENER)
+                        logcatToastQueue.showToast(this@MainActivity, "Unsubscribed from Logcat messages")
+                    } else {
+                        logcatToastQueue.showToast(this@MainActivity, "You need first to subscribe to OsmAnd Logcat")
+                    }
                 }
                 else -> Unit
             }
@@ -1265,6 +1308,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         aidlGetTextButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_GET_TEXT)
         }
+        aidlListenToOsmAndLogs.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_REGISTER_FOR_LISTEN_LOGS)
+        }
+        aidlStopListenToOsmAndLogs.setOnClickListener {
+            execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FROM_LISTEN_LOGS)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1481,6 +1530,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
         setDrawable(aidlExitAppButton, R.drawable.ic_action_gabout_dark)
         setDrawable(aidlGetTextButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlListenToOsmAndLogs, R.drawable.ic_action_gabout_dark)
+        setDrawable(aidlStopListenToOsmAndLogs, R.drawable.ic_action_gabout_dark)
     }
 
     private fun getDemoIntent(): Intent? {

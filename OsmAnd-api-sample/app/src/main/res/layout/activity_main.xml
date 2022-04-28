@@ -1377,8 +1377,6 @@
                 android:drawableStart="@drawable/ic_action_gabout_dark"
                 android:text="@string/is_menu_open"/>
 
-            <View style="@style/short_divider_style" />
-
         </LinearLayout>
 
         <include layout="@layout/card_bottom_divider" />
@@ -1470,6 +1468,24 @@
                 android:text="@string/get_string_resource"/>
 
             <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlListenToOsmAndLogs"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/listen_to_osmand_logs"/>
+
+            <View style="@style/short_divider_style"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/aidlStopListenToOsmAndLogs"
+                style="@style/row_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_flag_dark"
+                android:text="@string/stop_listen_to_osmand_logs"/>
 
         </LinearLayout>
 
