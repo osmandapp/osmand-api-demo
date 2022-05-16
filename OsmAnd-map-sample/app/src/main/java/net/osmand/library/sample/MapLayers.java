@@ -38,7 +38,6 @@ public class MapLayers {
 	}
 
 	public void createLayers(OsmandMapTileView mapView) {
-
 		OsmandApplication app = getApplication();
 		RoutingHelper routingHelper = app.getRoutingHelper();
 		// first create to make accessible
@@ -55,7 +54,7 @@ public class MapLayers {
 		mapView.addLayer(mapVectorLayer, 0.5f);
 
 		// 6. point location layer
-		locationLayer = new PointLocationLayer(activity);
+		locationLayer = new PointLocationLayer(activity, -206000);
 		mapView.addLayer(locationLayer, 6);
 
 		// 11. map controls layer
