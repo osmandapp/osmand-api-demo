@@ -114,7 +114,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-    implementation "net.osmand:OsmAnd-java:1.0:android@jar"
+    implementation "net.osmand:OsmAnd-java:master-snapshot:android@jar"
 
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -124,10 +124,10 @@ dependencies {
 
     implementation fileTree(include:  ['gnu-trove-osmand.jar', 'icu4j-49_1_patched.jar'], dir: 'libs')
 
-    implementation "net.osmand:OsmAndCore_android:0.1-SNAPSHOT@aar"
-    debugImplementation "net.osmand:OsmAndCore_androidNativeRelease:0.1-SNAPSHOT@aar"
-    nativeDebugImplementation "net.osmand:OsmAndCore_androidNativeDebug:0.1-SNAPSHOT@aar"
-    releaseImplementation "net.osmand:OsmAndCore_androidNativeRelease:0.1-SNAPSHOT@aar"
+    implementation "net.osmand:OsmAndCore_android:master-snapshot@aar"
+    debugImplementation "net.osmand:OsmAndCore_androidNativeRelease:master-snapshot@aar"
+    nativeDebugImplementation "net.osmand:OsmAndCore_androidNativeDebug:master-snapshot@aar"
+    releaseImplementation "net.osmand:OsmAndCore_androidNativeRelease:master-snapshot@aar"
 
     implementation files('libs/QtAndroid.jar')
     implementation files('libs/QtAndroidBearer.jar')
