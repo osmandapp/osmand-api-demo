@@ -84,9 +84,9 @@ android {
 }
 
 dependencies {
-	implementation "net.osmand:OsmAnd-java:1.0:android@jar"
-	debugImplementation "net.osmand:OsmAnd:0.1-SNAPSHOT:debug@aar"
-	releaseImplementation "net.osmand:OsmAnd:0.1-SNAPSHOT:release@aar"
+	implementation "net.osmand:OsmAnd-java:master-snapshot:android@jar"
+	debugImplementation "net.osmand:OsmAnd:master-snapshot:debug@aar"
+	releaseImplementation "net.osmand:OsmAnd:master-snapshot:release@aar"
 
 	implementation 'androidx.multidex:multidex:2.0.1'
 	implementation 'androidx.gridlayout:gridlayout:1.0.0'
