@@ -39,6 +39,13 @@ android {
         }
     }
 
+    packagingOptions {
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+    }
+    
     flavorDimensions "abi"
 
     productFlavors {
@@ -62,9 +69,9 @@ android {
         }
         fat {
             dimension "abi"
-			ndk {
-				abiFilters 'arm64-v8a', 'x86', 'armeabi-v7a'
-			}
+            ndk {
+                abiFilters 'arm64-v8a', 'x86', 'armeabi-v7a'
+            }
         }
     }
 
@@ -115,14 +122,31 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     implementation "net.osmand:OsmAnd-java:master-snapshot:android@jar"
+    debugImplementation "net.osmand:OsmAnd:master-snapshot:debug@aar"
+//    releaseImplementation "net.osmand:OsmAnd:master-snapshot:release@aar"
 
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'commons-logging:commons-logging-api:1.1'
     implementation 'com.moparisthebest:junidecode:0.1.1'
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'androidx.browser:browser:1.0.0'
 
-    implementation fileTree(include:  ['gnu-trove-osmand.jar', 'icu4j-49_1_patched.jar'], dir: 'libs')
+    implementation ("com.getkeepsafe.taptargetview:taptargetview:1.13.2"){
+        exclude group: 'com.android.support'
+    }
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+    implementation ("com.github.HITGIF:TextFieldBoxes:1.4.5"){
+        exclude group: 'com.android.support'
+    }
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
+
+//    implementation fileTree(include: ['gnu-trove-osmand.jar', 'icu4j-49_1_patched.jar'], dir: 'libs')
 
     implementation "net.osmand:OsmAndCore_android:master-snapshot@aar"
     debugImplementation "net.osmand:OsmAndCore_androidNativeRelease:master-snapshot@aar"

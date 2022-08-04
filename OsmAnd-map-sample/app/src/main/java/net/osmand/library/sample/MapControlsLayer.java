@@ -1,12 +1,16 @@
 package net.osmand.library.sample;
 
-import android.Manifest;
+//import static net.osmand.library.sample.MainActivity.PERMISSION_REQUEST_LOCATION_ON_BUTTON;
+
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import net.osmand.Location;
 import net.osmand.data.RotatedTileBox;
@@ -18,12 +22,6 @@ import net.osmand.plus.views.layers.base.OsmandMapLayer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.app.ActivityCompat;
-
-import static net.osmand.library.sample.MainActivity.PERMISSION_REQUEST_LOCATION_ON_BUTTON;
 
 public class MapControlsLayer extends OsmandMapLayer {
 
@@ -65,7 +63,7 @@ public class MapControlsLayer extends OsmandMapLayer {
 	}
 
 	public SampleApplication getApplication() {
-		return activity.getMyApplication();
+		return (SampleApplication) activity.getMyApplication();
 	}
 
 	private void initControls() {
@@ -97,9 +95,9 @@ public class MapControlsLayer extends OsmandMapLayer {
 		if (OsmAndLocationProvider.isLocationPermissionAvailable(activity)) {
 			getApplication().getMapViewTrackingUtilities().backToLocationImpl();
 		} else {
-			ActivityCompat.requestPermissions(activity,
-					new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-					PERMISSION_REQUEST_LOCATION_ON_BUTTON);
+//			ActivityCompat.requestPermissions(activity,
+//					new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+//					PERMISSION_REQUEST_LOCATION_ON_BUTTON);
 		}
 	}
 
@@ -109,7 +107,7 @@ public class MapControlsLayer extends OsmandMapLayer {
 		zoomOutButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				activity.changeZoom(-1, System.currentTimeMillis());
+//				activity.changeZoom(-1, System.currentTimeMillis());
 			}
 		});
 		controls.add(mapZoomOutButton);
@@ -123,11 +121,11 @@ public class MapControlsLayer extends OsmandMapLayer {
 		zoomInButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (activity.getMapView().isZooming()) {
-					activity.changeZoom(2, System.currentTimeMillis());
-				} else {
-					activity.changeZoom(1, System.currentTimeMillis());
-				}
+//				if (activity.getMapView().isZooming()) {
+//					activity.changeZoom(2, System.currentTimeMillis());
+//				} else {
+//					activity.changeZoom(1, System.currentTimeMillis());
+//				}
 			}
 		});
 		controls.add(mapZoomInButton);

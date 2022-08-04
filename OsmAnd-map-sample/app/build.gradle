@@ -15,6 +15,15 @@ android {
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 	}
 
+
+
+	packagingOptions {
+		pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+		pickFirst 'lib/arm64-v8a/libc++_shared.so'
+		pickFirst 'lib/x86_64/libc++_shared.so'
+		pickFirst 'lib/x86/libc++_shared.so'
+	}
+
 	lintOptions {
 		lintConfig file("lint.xml")
 		abortOnError false
@@ -60,6 +69,14 @@ android {
 		legacy {
 			dimension "coreversion"
 		}
+		// Build that includes 3D OpenGL release
+		opengl {
+			dimension "coreversion"
+		}
+		// Build that includes 3D OpenGL debug
+		opengldebug {
+			dimension "coreversion"
+		}
 	}
 
 	signingConfigs {
@@ -87,6 +104,19 @@ dependencies {
 	implementation "net.osmand:OsmAnd-java:master-snapshot:android@jar"
 	debugImplementation "net.osmand:OsmAnd:master-snapshot:debug@aar"
 	releaseImplementation "net.osmand:OsmAnd:master-snapshot:release@aar"
+
+	openglImplementation fileTree(include:  ['QtAndroid.jar', 'QtAndroidBearer.jar'], dir: 'libs')
+	opengldebugImplementation fileTree(include:  ['QtAndroid.jar', 'QtAndroidBearer.jar'], dir: 'libs')
+
+	// Uncomment for local debug
+	//opengldebugImplementation files('../../core/wrappers/android/build/outputs/aar/OsmAndCore_android-debug.aar')
+
+	// Comment for local debug
+	opengldebugImplementation "net.osmand:OsmAndCore_androidNativeDebug:master-snapshot@aar"
+	opengldebugImplementation "net.osmand:OsmAndCore_android:master-snapshot@aar"
+
+	openglImplementation "net.osmand:OsmAndCore_androidNativeRelease:master-snapshot@aar"
+	openglImplementation "net.osmand:OsmAndCore_android:master-snapshot@aar"
 
 	implementation 'androidx.multidex:multidex:2.0.1'
 	implementation 'androidx.gridlayout:gridlayout:1.0.0'
