@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 29
-	buildToolsVersion "29.0.3"
+	compileSdkVersion 31
+	buildToolsVersion "30.0.3"
 
 	defaultConfig {
 		applicationId "net.osmand.library.sample"
 		minSdkVersion 21
-		targetSdkVersion 29
+		targetSdkVersion 30
 		versionCode 1
 		versionName "1.0"
 		multiDexEnabled true
@@ -15,7 +15,11 @@ android {
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 	}
 
-
+	// This is from OsmAndCore_android.aar - for some reason it's not inherited
+	aaptOptions {
+		// Don't compress any embedded resources
+		noCompress "qz", "png"
+	}
 
 	packagingOptions {
 		pickFirst 'lib/armeabi-v7a/libc++_shared.so'
