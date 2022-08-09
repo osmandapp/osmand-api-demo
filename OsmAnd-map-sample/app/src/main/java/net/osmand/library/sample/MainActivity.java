@@ -11,6 +11,7 @@ import net.osmand.plus.AppInitializer;
 import net.osmand.plus.AppInitializer.AppInitializeListener;
 import net.osmand.plus.AppInitializer.InitEvents;
 import net.osmand.plus.OsmandApplication;
+import net.osmand.plus.activities.MapActivity;
 import net.osmand.plus.activities.RestartActivity;
 import net.osmand.plus.views.MapViewWithLayers;
 import net.osmand.plus.views.OsmandMap.OsmandMapListener;
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements OsmandMapListener
 	protected void onResume() {
 		super.onResume();
 		mapViewWithLayers.onResume();
-//		app.getOsmandMap().getMapView().setupTouchDetectors(this);
 	}
 
 	@Override
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements OsmandMapListener
 	@Override
 	public void onSetupOpenGLView(boolean b) {
 		mapViewWithLayers.setupOpenGLView(b);
+		app.getOsmandMap().getMapView().setupTouchDetectors(this);
 	}
 
 	private void checkAppInitialization() {
