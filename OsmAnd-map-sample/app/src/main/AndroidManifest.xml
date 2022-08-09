@@ -4,18 +4,15 @@
 	package="net.osmand.library.sample">
 
 	<application
-		android:allowBackup="true"
-		android:icon="@mipmap/ic_launcher"
-		android:label="@string/app_name"
 		android:name=".SampleApplication"
-		android:roundIcon="@mipmap/ic_launcher_round"
+		android:allowBackup="true"
 		android:configChanges="locale"
-		android:restoreAnyVersion="true"
+		android:icon="@mipmap/sample_app"
+		android:label="@string/app_name"
 		android:largeHeap="true"
-		android:supportsRtl="true"
-		android:usesCleartextTraffic="true"
-		android:hasFragileUserData="true"
 		android:requestLegacyExternalStorage="true"
+		android:restoreAnyVersion="true"
+		android:supportsRtl="true"
 		android:theme="@style/Theme.OsmAndLibrarysample">
 
 		<provider
@@ -28,13 +25,26 @@
 				android:resource="@xml/paths" />
 		</provider>
 
-		<activity android:name=".MainActivity">
+		<activity
+			android:name=".MainActivity"
+			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
+
 				<category android:name="android.intent.category.LAUNCHER" />
 				<category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
 			</intent-filter>
 		</activity>
+
+		<!--used for restart after switch between opengl and legacy renderer-->
+		<activity
+			android:name="net.osmand.plus.activities.RestartActivity"
+			android:exported="false"
+			android:process=":restart"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+		<!--used for maps downloading-->
+		<activity android:name="net.osmand.plus.download.DownloadActivity" />
 
 	</application>
 

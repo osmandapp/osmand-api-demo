@@ -1,18 +1,31 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 29
-	buildToolsVersion "29.0.3"
+	compileSdkVersion 31
+	buildToolsVersion "30.0.3"
 
 	defaultConfig {
 		applicationId "net.osmand.library.sample"
 		minSdkVersion 21
-		targetSdkVersion 29
+		targetSdkVersion 30
 		versionCode 1
 		versionName "1.0"
 		multiDexEnabled true
 
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+	}
+
+	// This is from OsmAndCore_android.aar - for some reason it's not inherited
+	aaptOptions {
+		// Don't compress any embedded resources
+		noCompress "qz", "png"
+	}
+
+	packagingOptions {
+		pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+		pickFirst 'lib/arm64-v8a/libc++_shared.so'
+		pickFirst 'lib/x86_64/libc++_shared.so'
+		pickFirst 'lib/x86/libc++_shared.so'
 	}
 
 	lintOptions {
@@ -60,6 +73,14 @@ android {
 		legacy {
 			dimension "coreversion"
 		}
+		// Build that includes 3D OpenGL release
+		opengl {
+			dimension "coreversion"
+		}
+		// Build that includes 3D OpenGL debug
+		opengldebug {
+			dimension "coreversion"
+		}
 	}
 
 	signingConfigs {
@@ -87,6 +108,19 @@ dependencies {
 	implementation "net.osmand:OsmAnd-java:master-snapshot:android@jar"
 	debugImplementation "net.osmand:OsmAnd:master-snapshot:debug@aar"
 	releaseImplementation "net.osmand:OsmAnd:master-snapshot:release@aar"
+
+	openglImplementation fileTree(include:  ['QtAndroid.jar', 'QtAndroidBearer.jar'], dir: 'libs')
+	opengldebugImplementation fileTree(include:  ['QtAndroid.jar', 'QtAndroidBearer.jar'], dir: 'libs')
+
+	// Uncomment for local debug
+	//opengldebugImplementation files('../../core/wrappers/android/build/outputs/aar/OsmAndCore_android-debug.aar')
+
+	// Comment for local debug
+	opengldebugImplementation "net.osmand:OsmAndCore_androidNativeDebug:master-snapshot@aar"
+	opengldebugImplementation "net.osmand:OsmAndCore_android:master-snapshot@aar"
+
+	openglImplementation "net.osmand:OsmAndCore_androidNativeRelease:master-snapshot@aar"
+	openglImplementation "net.osmand:OsmAndCore_android:master-snapshot@aar"
 
 	implementation 'androidx.multidex:multidex:2.0.1'
 	implementation 'androidx.gridlayout:gridlayout:1.0.0'
@@ -122,8 +156,4 @@ dependencies {
 	}
 	implementation 'com.jaredrummler:colorpicker:1.1.0'
 	implementation 'com.google.android.gms:play-services-location:19.0.1'
-
-	testImplementation 'junit:junit:4.+'
-	androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-	androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
