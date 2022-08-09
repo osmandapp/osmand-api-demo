@@ -77,10 +77,7 @@ android {
 		opengl {
 			dimension "coreversion"
 		}
-		// Build that includes 3D OpenGL debug
-		opengldebug {
-			dimension "coreversion"
-		}
+
 	}
 
 	signingConfigs {
