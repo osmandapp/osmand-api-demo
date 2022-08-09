@@ -1,67 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".MainActivity">
 
-	<FrameLayout
-		android:id="@+id/MapViewWithLayers"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:orientation="vertical">
-
-		<net.osmand.plus.views.OsmAndMapSurfaceView
-			android:id="@+id/MapView"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:contentDescription="@string/shared_string_map"
-			android:visibility="gone" />
-
-	</FrameLayout>
-
-	<FrameLayout
-		android:id="@+id/MapHudButtonsOverlay"
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:fitsSystemWindows="true">
+		android:orientation="vertical">
 
-		<LinearLayout
-			android:id="@+id/MapHudButtonsOverlayBottom"
+		<androidx.appcompat.widget.SwitchCompat
+			android:id="@+id/opengl_switch"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_gravity="bottom"
-			android:orientation="vertical">
+			android:paddingHorizontal="@dimen/content_padding"
+			android:saveEnabled="false"
+			android:text="@string/use_opengl_render" />
 
-			<FrameLayout
-				android:id="@+id/bottom_controls_container"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<include
-					layout="@layout/map_hud_controls"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="bottom|end"
-					android:layout_marginEnd="@dimen/map_button_margin"
-					android:layout_marginRight="@dimen/map_button_margin"
-					android:layout_marginBottom="@dimen/map_button_margin" />
-
-			</FrameLayout>
-
-		</LinearLayout>
-
-	</FrameLayout>
-
-	<FrameLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_gravity="bottom">
-
-		<View
+		<androidx.appcompat.widget.AppCompatButton
+			android:id="@+id/download_maps_button"
 			android:layout_width="match_parent"
-			android:layout_height="1px" />
+			android:text="@string/downloads"
+			android:layout_height="wrap_content" />
 
-	</FrameLayout>
+		<net.osmand.plus.views.MapViewWithLayers
+			android:id="@+id/map_view_with_layers"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:orientation="vertical" />
+
+	</LinearLayout>
+
+	<include
+		layout="@layout/map_hud_controls"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|end"
+		android:layout_margin="@dimen/map_button_margin" />
 
 </FrameLayout>
