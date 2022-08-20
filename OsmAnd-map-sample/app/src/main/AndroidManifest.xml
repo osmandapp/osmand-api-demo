@@ -36,6 +36,11 @@
 			</intent-filter>
 		</activity>
 
+		<activity android:name=".SimpleMapActivity" />
+		<activity android:name=".NavigateMapActivity" />
+		<activity android:name=".PointsOnMapActivity" />
+		<activity android:name=".FullMapActivity" />
+
 		<!--used for restart after switch between opengl and legacy renderer-->
 		<activity
 			android:name="net.osmand.plus.activities.RestartActivity"
