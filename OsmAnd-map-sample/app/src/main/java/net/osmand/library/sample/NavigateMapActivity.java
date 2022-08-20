@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import net.osmand.data.LatLon;
 import net.osmand.data.PointDescription;
-import net.osmand.data.RotatedTileBox;
 import net.osmand.plus.AppInitializer;
 import net.osmand.plus.AppInitializer.AppInitializeListener;
 import net.osmand.plus.AppInitializer.InitEvents;
@@ -24,7 +23,6 @@ import net.osmand.plus.helpers.TargetPointsHelper;
 import net.osmand.plus.routing.RoutingHelper;
 import net.osmand.plus.settings.backend.ApplicationMode;
 import net.osmand.plus.settings.backend.OsmandSettings;
-import net.osmand.plus.utils.NativeUtilities;
 import net.osmand.plus.views.MapViewWithLayers;
 import net.osmand.plus.views.OsmandMap.OsmandMapListener;
 import net.osmand.plus.views.OsmandMapTileView;
@@ -92,8 +90,7 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 			clickListener = new OnLongClickListener() {
 				@Override
 				public boolean onLongPressEvent(PointF point) {
-					RotatedTileBox tileBox = mapTileView.getCurrentRotatedTileBox();
-					LatLon latLon = NativeUtilities.getLatLonFromPixel(mapTileView.getMapRenderer(), tileBox, point.x, point.y);
+					LatLon latLon = mapTileView.getLatLonFromPixel(point.x, point.y);
 					if (start == null) {
 						start = latLon;
 						app.showShortToastMessage("Start point " + latLon.getLatitude() + " " + latLon.getLongitude());
