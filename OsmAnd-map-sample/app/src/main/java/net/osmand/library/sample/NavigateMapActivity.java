@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import net.osmand.core.android.MapRendererView;
 import net.osmand.data.LatLon;
 import net.osmand.data.PointDescription;
 import net.osmand.data.RotatedTileBox;
@@ -94,9 +93,7 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 				@Override
 				public boolean onLongPressEvent(PointF point) {
 					RotatedTileBox tileBox = mapTileView.getCurrentRotatedTileBox();
-					MapRendererView mapRendererView = mapTileView.getMapRenderer();
-
-					LatLon latLon = NativeUtilities.getLatLonFromPixel(mapRendererView, tileBox, point.x, point.y);
+					LatLon latLon = NativeUtilities.getLatLonFromPixel(mapTileView.getMapRenderer(), tileBox, point.x, point.y);
 					if (start == null) {
 						start = latLon;
 						app.showShortToastMessage("Start point " + latLon.getLatitude() + " " + latLon.getLongitude());
