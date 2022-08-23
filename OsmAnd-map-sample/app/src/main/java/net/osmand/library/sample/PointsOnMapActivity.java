@@ -10,21 +10,17 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import net.osmand.data.FavouritePoint;
-import net.osmand.plus.AppInitializer;
 import net.osmand.plus.AppInitializer.AppInitializeListener;
-import net.osmand.plus.AppInitializer.InitEvents;
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.activities.RestartActivity;
 import net.osmand.plus.myplaces.FavouritesHelper;
 import net.osmand.plus.views.MapViewWithLayers;
-import net.osmand.plus.views.OsmandMap.OsmandMapListener;
 import net.osmand.plus.views.OsmandMapTileView;
-import net.osmand.plus.views.corenative.NativeCoreContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PointsOnMapActivity extends AppCompatActivity implements OsmandMapListener {
+public class PointsOnMapActivity extends AppCompatActivity {
 
 	private OsmandApplication app;
 	private OsmandMapTileView mapTileView;
@@ -39,7 +35,6 @@ public class PointsOnMapActivity extends AppCompatActivity implements OsmandMapL
 		mapViewWithLayers = findViewById(R.id.map_view_with_layers);
 
 		app = (OsmandApplication) getApplication();
-		app.getOsmandMap().addListener(this);
 
 		mapTileView = app.getOsmandMap().getMapView();
 		mapTileView.setupOpenGLView();
@@ -92,22 +87,6 @@ public class PointsOnMapActivity extends AppCompatActivity implements OsmandMapL
 	protected void onDestroy() {
 		super.onDestroy();
 		mapViewWithLayers.onDestroy();
-		app.getOsmandMap().removeListener(this);
-	}
-
-	@Override
-	public void onChangeZoom(int i) {
-
-	}
-
-	@Override
-	public void onSetMapElevation(float v) {
-		mapViewWithLayers.onSetMapElevation(v);
-	}
-
-	@Override
-	public void onSetupOpenGLView(boolean b) {
-		mapViewWithLayers.setupOpenGLView(b);
 	}
 
 	private List<FavouritePoint> getFavouritePoints() {
@@ -123,7 +102,7 @@ public class PointsOnMapActivity extends AppCompatActivity implements OsmandMapL
 		points.add(new FavouritePoint(45.4210328, -75.6900219, "Ottawa", "cities"));
 		points.add(new FavouritePoint(8.9710438, -79.5340599, "Panama", "cities"));
 		points.add(new FavouritePoint(53.9072394, 27.5863608, "Minsk", "cities"));
-		points.add(new FavouritePoint(52.5162303,13.3777309, "Berlin", "cities"));
+		points.add(new FavouritePoint(52.5162303, 13.3777309, "Berlin", "cities"));
 		points.add(new FavouritePoint(52.3704312, 4.8904288, "Amsterdam", "cities"));
 
 		return points;

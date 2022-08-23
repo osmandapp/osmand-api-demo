@@ -26,7 +26,7 @@ import net.osmand.plus.views.OsmandMap.OsmandMapListener;
 import net.osmand.plus.views.OsmandMapTileView;
 import net.osmand.plus.views.OsmandMapTileView.OnLongClickListener;
 
-public class NavigateMapActivity extends AppCompatActivity implements OsmandMapListener {
+public class NavigateMapActivity extends AppCompatActivity  {
 
 	private OsmandApplication app;
 	private OsmandMapTileView mapTileView;
@@ -45,7 +45,6 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 		mapViewWithLayers = findViewById(R.id.map_view_with_layers);
 
 		app = (OsmandApplication) getApplication();
-		app.getOsmandMap().addListener(this);
 
 		mapTileView = app.getOsmandMap().getMapView();
 		mapTileView.setupOpenGLView();
@@ -144,21 +143,5 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 	protected void onDestroy() {
 		super.onDestroy();
 		mapViewWithLayers.onDestroy();
-		app.getOsmandMap().removeListener(this);
-	}
-
-	@Override
-	public void onChangeZoom(int i) {
-
-	}
-
-	@Override
-	public void onSetMapElevation(float v) {
-		mapViewWithLayers.onSetMapElevation(v);
-	}
-
-	@Override
-	public void onSetupOpenGLView(boolean b) {
-		mapViewWithLayers.setupOpenGLView(b);
 	}
 }

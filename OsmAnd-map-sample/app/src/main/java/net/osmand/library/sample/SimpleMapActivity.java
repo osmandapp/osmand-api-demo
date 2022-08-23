@@ -13,11 +13,9 @@ import net.osmand.plus.AppInitializer.AppInitializeListener;
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.activities.RestartActivity;
 import net.osmand.plus.views.MapViewWithLayers;
-import net.osmand.plus.views.OsmandMap;
-import net.osmand.plus.views.OsmandMap.OsmandMapListener;
 import net.osmand.plus.views.OsmandMapTileView;
 
-public class SimpleMapActivity extends AppCompatActivity implements OsmandMapListener {
+public class SimpleMapActivity extends AppCompatActivity {
 
 	private OsmandApplication app;
 	private OsmandMapTileView mapTileView;
@@ -32,7 +30,6 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 		mapViewWithLayers = findViewById(R.id.map_view_with_layers);
 
 		app = (OsmandApplication) getApplication();
-		app.getOsmandMap().addListener(this);
 
 		mapTileView = app.getOsmandMap().getMapView();
 		mapTileView.setupOpenGLView();
@@ -80,21 +77,5 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 	protected void onDestroy() {
 		super.onDestroy();
 		mapViewWithLayers.onDestroy();
-		app.getOsmandMap().removeListener(this);
-	}
-
-	@Override
-	public void onChangeZoom(int i) {
-
-	}
-
-	@Override
-	public void onSetMapElevation(float v) {
-		mapViewWithLayers.onSetMapElevation(v);
-	}
-
-	@Override
-	public void onSetupOpenGLView(boolean b) {
-		mapViewWithLayers.setupOpenGLView(b);
 	}
 }
