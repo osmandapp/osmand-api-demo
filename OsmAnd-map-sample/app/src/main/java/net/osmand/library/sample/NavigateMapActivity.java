@@ -13,9 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import net.osmand.data.LatLon;
 import net.osmand.data.PointDescription;
-import net.osmand.plus.AppInitializer;
 import net.osmand.plus.AppInitializer.AppInitializeListener;
-import net.osmand.plus.AppInitializer.InitEvents;
 import net.osmand.plus.OsmAndLocationProvider;
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.activities.RestartActivity;
@@ -27,11 +25,11 @@ import net.osmand.plus.views.MapViewWithLayers;
 import net.osmand.plus.views.OsmandMap.OsmandMapListener;
 import net.osmand.plus.views.OsmandMapTileView;
 import net.osmand.plus.views.OsmandMapTileView.OnLongClickListener;
-import net.osmand.plus.views.corenative.NativeCoreContext;
 
 public class NavigateMapActivity extends AppCompatActivity implements OsmandMapListener {
 
 	private OsmandApplication app;
+	private OsmandMapTileView mapTileView;
 
 	private MapViewWithLayers mapViewWithLayers;
 	private AppInitializeListener initListener;
@@ -63,7 +61,11 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 			RestartActivity.doRestart(this);
 		});
 
-		checkAppInitialization();
+		mapTileView = app.getOsmandMap().getMapView();
+		mapTileView.setupOpenGLView();
+
+		mapTileView.setIntZoom(14);
+		mapTileView.setLatLon(52.3704312, 4.8904288);
 	}
 
 	@Override
@@ -79,14 +81,11 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 	protected void onResume() {
 		super.onResume();
 		mapViewWithLayers.onResume();
-
-		OsmandMapTileView mapTileView = app.getOsmandMap().getMapView();
 		mapTileView.setOnLongClickListener(getClickListener());
 	}
 
 	private OnLongClickListener getClickListener() {
 		if (clickListener == null) {
-			OsmandMapTileView mapTileView = app.getOsmandMap().getMapView();
 			clickListener = new OnLongClickListener() {
 				@Override
 				public boolean onLongPressEvent(PointF point) {
@@ -137,8 +136,6 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 	protected void onPause() {
 		super.onPause();
 		mapViewWithLayers.onPause();
-
-		OsmandMapTileView mapTileView = app.getOsmandMap().getMapView();
 		mapTileView.setOnLongClickListener(null);
 	}
 
@@ -164,44 +161,5 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 	public void onSetupOpenGLView(boolean b) {
 		mapViewWithLayers.setupOpenGLView(b);
 		app.getOsmandMap().getMapView().setupTouchDetectors(this);
-	}
-
-	private void checkAppInitialization() {
-		if (app.isApplicationInitializing()) {
-			initListener = new AppInitializeListener() {
-				boolean openGlSetup;
-
-				@Override
-				public void onStart(AppInitializer init) {
-
-				}
-
-				@Override
-				public void onProgress(AppInitializer init, InitEvents event) {
-					boolean openGlInitialized = event == InitEvents.NATIVE_OPEN_GL_INITIALIZED && NativeCoreContext.isInit();
-					if ((openGlInitialized || event == InitEvents.NATIVE_INITIALIZED) && !openGlSetup) {
-						app.getOsmandMap().setupOpenGLView(false);
-						openGlSetup = true;
-					}
-					if (event == InitEvents.MAPS_INITIALIZED) {
-						app.getOsmandMap().getMapView().refreshMap(false);
-					}
-					if (event == InitEvents.FAVORITES_INITIALIZED) {
-						app.getOsmandMap().refreshMap();
-					}
-				}
-
-				@Override
-				public void onFinish(AppInitializer init) {
-					if (!openGlSetup) {
-						app.getOsmandMap().setupOpenGLView(false);
-					}
-					app.getOsmandMap().getMapView().refreshMap(false);
-				}
-			};
-			app.checkApplicationIsBeingInitialized(initListener);
-		} else {
-			app.getOsmandMap().setupOpenGLView(true);
-		}
 	}
 }

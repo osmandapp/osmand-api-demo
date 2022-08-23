@@ -9,18 +9,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import net.osmand.plus.AppInitializer;
 import net.osmand.plus.AppInitializer.AppInitializeListener;
-import net.osmand.plus.AppInitializer.InitEvents;
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.activities.RestartActivity;
 import net.osmand.plus.views.MapViewWithLayers;
+import net.osmand.plus.views.OsmandMap;
 import net.osmand.plus.views.OsmandMap.OsmandMapListener;
-import net.osmand.plus.views.corenative.NativeCoreContext;
+import net.osmand.plus.views.OsmandMapTileView;
 
 public class SimpleMapActivity extends AppCompatActivity implements OsmandMapListener {
 
 	private OsmandApplication app;
+	private OsmandMapTileView mapTileView;
 
 	private MapViewWithLayers mapViewWithLayers;
 	private AppInitializeListener initListener;
@@ -32,7 +32,10 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 		mapViewWithLayers = findViewById(R.id.map_view_with_layers);
 
 		app = (OsmandApplication) getApplication();
-		app.getOsmandMap().addListener(this);
+		OsmandMap osmandMap = app.getOsmandMap();
+		osmandMap.addListener(this);
+
+		mapTileView = osmandMap.getMapView();
 
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
@@ -48,7 +51,10 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 			RestartActivity.doRestart(this);
 		});
 
-		checkAppInitialization();
+		mapTileView.setupOpenGLView();
+
+		mapTileView.setIntZoom(14);
+		mapTileView.setLatLon(52.3704312, 4.8904288);
 	}
 
 	@Override
@@ -76,7 +82,7 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 		super.onDestroy();
 		mapViewWithLayers.onDestroy();
 		app.getOsmandMap().removeListener(this);
-		app.getOsmandMap().getMapView().clearTouchDetectors();
+		mapTileView.clearTouchDetectors();
 	}
 
 	@Override
@@ -92,45 +98,6 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 	@Override
 	public void onSetupOpenGLView(boolean b) {
 		mapViewWithLayers.setupOpenGLView(b);
-		app.getOsmandMap().getMapView().setupTouchDetectors(this);
-	}
-
-	private void checkAppInitialization() {
-		if (app.isApplicationInitializing()) {
-			initListener = new AppInitializeListener() {
-				boolean openGlSetup;
-
-				@Override
-				public void onStart(AppInitializer init) {
-
-				}
-
-				@Override
-				public void onProgress(AppInitializer init, InitEvents event) {
-					boolean openGlInitialized = event == InitEvents.NATIVE_OPEN_GL_INITIALIZED && NativeCoreContext.isInit();
-					if ((openGlInitialized || event == InitEvents.NATIVE_INITIALIZED) && !openGlSetup) {
-						app.getOsmandMap().setupOpenGLView(false);
-						openGlSetup = true;
-					}
-					if (event == InitEvents.MAPS_INITIALIZED) {
-						app.getOsmandMap().getMapView().refreshMap(false);
-					}
-					if (event == InitEvents.FAVORITES_INITIALIZED) {
-						app.getOsmandMap().refreshMap();
-					}
-				}
-
-				@Override
-				public void onFinish(AppInitializer init) {
-					if (!openGlSetup) {
-						app.getOsmandMap().setupOpenGLView(false);
-					}
-					app.getOsmandMap().getMapView().refreshMap(false);
-				}
-			};
-			app.checkApplicationIsBeingInitialized(initListener);
-		} else {
-			app.getOsmandMap().setupOpenGLView(true);
-		}
+		mapTileView.setupTouchDetectors(this);
 	}
 }
