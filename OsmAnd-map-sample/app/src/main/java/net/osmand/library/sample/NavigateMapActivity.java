@@ -47,6 +47,9 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 		app = (OsmandApplication) getApplication();
 		app.getOsmandMap().addListener(this);
 
+		mapTileView = app.getOsmandMap().getMapView();
+		mapTileView.setupOpenGLView();
+
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
 			actionBar.setTitle("Navigate map");
@@ -61,9 +64,7 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 			RestartActivity.doRestart(this);
 		});
 
-		mapTileView = app.getOsmandMap().getMapView();
-		mapTileView.setupOpenGLView();
-
+		//set start location and zoom for map
 		mapTileView.setIntZoom(14);
 		mapTileView.setLatLon(52.3704312, 4.8904288);
 	}
@@ -144,7 +145,6 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 		super.onDestroy();
 		mapViewWithLayers.onDestroy();
 		app.getOsmandMap().removeListener(this);
-		app.getOsmandMap().getMapView().clearTouchDetectors();
 	}
 
 	@Override
@@ -160,6 +160,5 @@ public class NavigateMapActivity extends AppCompatActivity implements OsmandMapL
 	@Override
 	public void onSetupOpenGLView(boolean b) {
 		mapViewWithLayers.setupOpenGLView(b);
-		app.getOsmandMap().getMapView().setupTouchDetectors(this);
 	}
 }

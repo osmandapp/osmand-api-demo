@@ -32,10 +32,10 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 		mapViewWithLayers = findViewById(R.id.map_view_with_layers);
 
 		app = (OsmandApplication) getApplication();
-		OsmandMap osmandMap = app.getOsmandMap();
-		osmandMap.addListener(this);
+		app.getOsmandMap().addListener(this);
 
-		mapTileView = osmandMap.getMapView();
+		mapTileView = app.getOsmandMap().getMapView();
+		mapTileView.setupOpenGLView();
 
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
@@ -51,8 +51,7 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 			RestartActivity.doRestart(this);
 		});
 
-		mapTileView.setupOpenGLView();
-
+		//set start location and zoom for map
 		mapTileView.setIntZoom(14);
 		mapTileView.setLatLon(52.3704312, 4.8904288);
 	}
@@ -82,7 +81,6 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 		super.onDestroy();
 		mapViewWithLayers.onDestroy();
 		app.getOsmandMap().removeListener(this);
-		mapTileView.clearTouchDetectors();
 	}
 
 	@Override
@@ -98,6 +96,5 @@ public class SimpleMapActivity extends AppCompatActivity implements OsmandMapLis
 	@Override
 	public void onSetupOpenGLView(boolean b) {
 		mapViewWithLayers.setupOpenGLView(b);
-		mapTileView.setupTouchDetectors(this);
 	}
 }
