@@ -30,9 +30,7 @@ public class NavigateMapActivity extends AppCompatActivity  {
 
 	private OsmandApplication app;
 	private OsmandMapTileView mapTileView;
-
 	private MapViewWithLayers mapViewWithLayers;
-	private AppInitializeListener initListener;
 	private OnLongClickListener clickListener;
 
 	private LatLon start;

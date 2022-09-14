@@ -24,9 +24,8 @@ public class PointsOnMapActivity extends AppCompatActivity {
 
 	private OsmandApplication app;
 	private OsmandMapTileView mapTileView;
-
 	private MapViewWithLayers mapViewWithLayers;
-	private AppInitializeListener initListener;
+	private CustomPointsLayer customPointsLayer;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +37,9 @@ public class PointsOnMapActivity extends AppCompatActivity {
 
 		mapTileView = app.getOsmandMap().getMapView();
 		mapTileView.setupOpenGLView();
+
+		customPointsLayer = new CustomPointsLayer(this, getFavouritePoints());
+		mapTileView.addLayer(customPointsLayer, 5.5f);
 
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
@@ -52,11 +54,6 @@ public class PointsOnMapActivity extends AppCompatActivity {
 			app.getSettings().USE_OPENGL_RENDER.set(isChecked);
 			RestartActivity.doRestart(this);
 		});
-
-		FavouritesHelper favouritesHelper = app.getFavoritesHelper();
-		for (FavouritePoint point : getFavouritePoints()) {
-			favouritesHelper.addFavourite(point);
-		}
 
 		//set start location and zoom for map
 		mapTileView.setIntZoom(14);
@@ -87,6 +84,7 @@ public class PointsOnMapActivity extends AppCompatActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		mapViewWithLayers.onDestroy();
+		mapTileView.removeLayer(customPointsLayer);
 	}
 
 	private List<FavouritePoint> getFavouritePoints() {
