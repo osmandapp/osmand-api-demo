@@ -19,9 +19,7 @@ public class SimpleMapActivity extends AppCompatActivity {
 
 	private OsmandApplication app;
 	private OsmandMapTileView mapTileView;
-
 	private MapViewWithLayers mapViewWithLayers;
-	private AppInitializeListener initListener;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
