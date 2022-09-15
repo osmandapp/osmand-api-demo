@@ -89,8 +89,8 @@ dependencies {
 
 	implementation fileTree(include:  ['QtAndroid.jar', 'QtAndroidBearer.jar'], dir: 'libs')
 
-	releaseImplementation "net.osmand:OsmAndCore_androidNativeRelease:master-snapshot@aar"
-	debugImplementation "net.osmand:OsmAndCore_android:master-snapshot@aar"
+	implementation "net.osmand:OsmAndCore_androidNativeRelease:master-snapshot@aar"
+	implementation "net.osmand:OsmAndCore_android:master-snapshot@aar"
 
 	implementation 'androidx.multidex:multidex:2.0.1'
 	implementation 'androidx.gridlayout:gridlayout:1.0.0'
