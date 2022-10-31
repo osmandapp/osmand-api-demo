@@ -107,7 +107,7 @@ dependencies {
 	implementation 'org.immutables:gson:2.5.0'
 	implementation 'com.vividsolutions:jts-core:1.14.0'
 	implementation 'com.google.openlocationcode:openlocationcode:1.0.4'
-	implementation 'com.android.billingclient:billing:3.0.2'
+	implementation 'com.android.billingclient:billing:5.0.0'
 
 	implementation 'com.squareup.picasso:picasso:2.71828'
 	implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
@@ -125,5 +125,6 @@ dependencies {
 		exclude group: "com.fasterxml.jackson.core"
 	}
 	implementation 'com.jaredrummler:colorpicker:1.1.0'
-	implementation 'com.google.android.gms:play-services-location:19.0.1'
+	implementation 'com.google.android.gms:play-services-location:20.0.0'
+	implementation "net.osmand:antpluginlib:3.8.0@aar"
 }
