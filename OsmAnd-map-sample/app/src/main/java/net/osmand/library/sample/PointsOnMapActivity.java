@@ -10,10 +10,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import net.osmand.data.FavouritePoint;
-import net.osmand.plus.AppInitializer.AppInitializeListener;
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.activities.RestartActivity;
-import net.osmand.plus.myplaces.FavouritesHelper;
 import net.osmand.plus.views.MapViewWithLayers;
 import net.osmand.plus.views.OsmandMapTileView;
 
@@ -36,7 +34,7 @@ public class PointsOnMapActivity extends AppCompatActivity {
 		app = (OsmandApplication) getApplication();
 
 		mapTileView = app.getOsmandMap().getMapView();
-		mapTileView.setupOpenGLView();
+		mapTileView.setupRenderingView();
 
 		customPointsLayer = new CustomPointsLayer(this, getFavouritePoints());
 		mapTileView.addLayer(customPointsLayer, 5.5f);

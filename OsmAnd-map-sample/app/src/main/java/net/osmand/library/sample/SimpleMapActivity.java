@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import net.osmand.plus.AppInitializer.AppInitializeListener;
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.activities.RestartActivity;
 import net.osmand.plus.views.MapViewWithLayers;
@@ -30,7 +29,7 @@ public class SimpleMapActivity extends AppCompatActivity {
 		app = (OsmandApplication) getApplication();
 
 		mapTileView = app.getOsmandMap().getMapView();
-		mapTileView.setupOpenGLView();
+		mapTileView.setupRenderingView();
 
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {

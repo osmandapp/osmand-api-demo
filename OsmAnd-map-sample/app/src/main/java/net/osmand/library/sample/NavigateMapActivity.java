@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import net.osmand.data.LatLon;
 import net.osmand.data.PointDescription;
-import net.osmand.plus.AppInitializer.AppInitializeListener;
 import net.osmand.plus.OsmAndLocationProvider;
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.activities.RestartActivity;
@@ -22,11 +21,10 @@ import net.osmand.plus.routing.RoutingHelper;
 import net.osmand.plus.settings.backend.ApplicationMode;
 import net.osmand.plus.settings.backend.OsmandSettings;
 import net.osmand.plus.views.MapViewWithLayers;
-import net.osmand.plus.views.OsmandMap.OsmandMapListener;
 import net.osmand.plus.views.OsmandMapTileView;
 import net.osmand.plus.views.OsmandMapTileView.OnLongClickListener;
 
-public class NavigateMapActivity extends AppCompatActivity  {
+public class NavigateMapActivity extends AppCompatActivity {
 
 	private OsmandApplication app;
 	private OsmandMapTileView mapTileView;
@@ -45,7 +43,7 @@ public class NavigateMapActivity extends AppCompatActivity  {
 		app = (OsmandApplication) getApplication();
 
 		mapTileView = app.getOsmandMap().getMapView();
-		mapTileView.setupOpenGLView();
+		mapTileView.setupRenderingView();
 
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
