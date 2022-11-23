@@ -2,6 +2,11 @@
 <manifest package="net.osmand.osmandapidemo"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <queries>
+        <package android:name="net.osmand" />
+        <package android:name="net.osmand.plus" />
+    </queries>
+          
     <application
         android:allowBackup="true"
         android:icon="@mipmap/api_app"
