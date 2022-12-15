@@ -86,6 +86,9 @@ public class NavigateMapActivity extends AppCompatActivity {
 				@Override
 				public boolean onLongPressEvent(PointF point) {
 					LatLon latLon = mapTileView.getLatLonFromPixel(point.x, point.y);
+					if (latLon == null) {
+						return false;
+					}
 					if (start == null) {
 						start = latLon;
 						app.showShortToastMessage("Start point " + latLon.getLatitude() + " " + latLon.getLongitude());
