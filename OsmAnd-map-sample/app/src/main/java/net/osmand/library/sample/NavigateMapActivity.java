@@ -11,8 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import net.osmand.core.android.MapRendererView;
 import net.osmand.data.LatLon;
 import net.osmand.data.PointDescription;
+import net.osmand.data.RotatedTileBox;
 import net.osmand.plus.OsmAndLocationProvider;
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.activities.RestartActivity;
@@ -20,6 +22,7 @@ import net.osmand.plus.helpers.TargetPointsHelper;
 import net.osmand.plus.routing.RoutingHelper;
 import net.osmand.plus.settings.backend.ApplicationMode;
 import net.osmand.plus.settings.backend.OsmandSettings;
+import net.osmand.plus.utils.NativeUtilities;
 import net.osmand.plus.views.MapViewWithLayers;
 import net.osmand.plus.views.OsmandMapTileView;
 import net.osmand.plus.views.OsmandMapTileView.OnLongClickListener;
@@ -85,19 +88,24 @@ public class NavigateMapActivity extends AppCompatActivity {
 			clickListener = new OnLongClickListener() {
 				@Override
 				public boolean onLongPressEvent(PointF point) {
-					LatLon latLon = mapTileView.getLatLonFromPixel(point.x, point.y);
-					if (latLon == null) {
-						return false;
+					MapRendererView rendererView = mapTileView.getMapRenderer();
+					if (rendererView != null) {
+						RotatedTileBox tileBox = mapTileView.getCurrentRotatedTileBox();
+						LatLon latLon = NativeUtilities.getLatLonFromPixel(rendererView, tileBox, point.x, point.y);
+
+						if (latLon != null) {
+							if (start == null) {
+								start = latLon;
+								app.showShortToastMessage("Start point " + latLon.getLatitude() + " " + latLon.getLongitude());
+							} else if (finish == null) {
+								finish = latLon;
+								app.showShortToastMessage("Finish point " + latLon.getLatitude() + " " + latLon.getLongitude());
+								startNavigation();
+							}
+							return true;
+						}
 					}
-					if (start == null) {
-						start = latLon;
-						app.showShortToastMessage("Start point " + latLon.getLatitude() + " " + latLon.getLongitude());
-					} else if (finish == null) {
-						finish = latLon;
-						app.showShortToastMessage("Finish point " + latLon.getLatitude() + " " + latLon.getLongitude());
-						startNavigation();
-					}
-					return true;
+					return false;
 				}
 			};
 		}
