@@ -1,44 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="net.osmand.osmandapidemo"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="net.osmand.osmandapidemo">
 
-    <queries>
-        <package android:name="net.osmand" />
-        <package android:name="net.osmand.plus" />
-    </queries>
-          
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/api_app"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="main.java.net.osmand.osmandapidemo.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+	<queries>
+		<package android:name="net.osmand" />
+		<package android:name="net.osmand.plus" />
+	</queries>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/api_app"
+		android:label="@string/app_name"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme">
 
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+		<activity
+			android:name="main.java.net.osmand.osmandapidemo.MainActivity"
+			android:exported="true">
 
-                <category android:name="android.intent.category.DEFAULT" />
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
 
-                <data
-                    android:host="main_activity"
-                    android:scheme="osmand_api_demo" />
-            </intent-filter>
-        </activity>
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="net.osmand.osmandapidemo.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
-        </provider>
-    </application>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data
+					android:host="main_activity"
+					android:scheme="osmand_api_demo" />
+			</intent-filter>
+
+		</activity>
+
+		<provider
+			android:name="android.support.v4.content.FileProvider"
+			android:authorities="net.osmand.osmandapidemo.fileprovider"
+			android:exported="false"
+			android:grantUriPermissions="true">
+
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/filepaths" />
+
+		</provider>
+
+	</application>
 
 </manifest>
