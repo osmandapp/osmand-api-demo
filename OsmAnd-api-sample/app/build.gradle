@@ -49,7 +49,7 @@ dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 	implementation "net.osmand:android-aidl-lib:master-snapshot@aar"
 	// implementation 'androidx.appcompat:appcompat:1.2.0'
-	implementation "com.android.support:appcompat-v7:27.1.1"
-	implementation "com.android.support:design:27.1.1"
+	implementation 'androidx.appcompat:appcompat:1.2.0'
+	implementation 'com.google.android.material:material:1.4.0'
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

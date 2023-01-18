@@ -2,11 +2,10 @@ package main.java.net.osmand.osmandapidemo.dialogs
 
 import android.app.Dialog
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import main.java.net.osmand.osmandapidemo.MainActivity
 
 class OpenGpxDialogFragment : DialogFragment() {
@@ -45,13 +44,8 @@ class OpenGpxDialogFragment : DialogFragment() {
     }
 
     private fun requestChooseGpx(requestCode: Int) {
-        var intent: Intent
-        if (Build.VERSION.SDK_INT < 19) {
-            intent = Intent(Intent.ACTION_GET_CONTENT)
-        } else {
-            intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-        }
+        var intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.type = "*/*"
         intent = Intent.createChooser(intent, "Choose a file")
 

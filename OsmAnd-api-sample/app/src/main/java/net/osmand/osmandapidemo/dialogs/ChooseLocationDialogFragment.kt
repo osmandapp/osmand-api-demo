@@ -4,10 +4,10 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v7.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.appcompat.app.AlertDialog
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
