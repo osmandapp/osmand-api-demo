@@ -30,7 +30,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addFavoriteButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -40,7 +40,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addMapMarkerButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -69,7 +69,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/showLocationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -98,7 +98,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/startAudioRecButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -108,7 +108,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/startVideoRecButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -118,7 +118,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/stopRecButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -128,7 +128,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/takePhotoButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -156,7 +156,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/startGpxRecButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -166,7 +166,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/stopGpxRecButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -176,7 +176,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/saveGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -186,7 +186,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/clearGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -215,7 +215,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/showGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -225,7 +225,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/navigateGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -253,7 +253,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/navigateButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -261,7 +261,7 @@
                 android:text="@string/navigate"
                 tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/navigateSearchButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -269,7 +269,7 @@
                 android:text="@string/search_navigate"
                 tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/pauseNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -277,7 +277,7 @@
                 android:text="@string/pause_navigation"
                 tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/resumeNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -285,7 +285,7 @@
                 android:text="@string/resume_navigation"
                 tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/stopNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -293,7 +293,7 @@
                 android:text="@string/stop_navigation"
                 tools:drawableLeft="@drawable/ic_action_rec_stop"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/muteNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -301,7 +301,7 @@
                 android:text="@string/mute_navigation"
                 tools:drawableLeft="@drawable/ic_action_micro_dark"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/unmuteNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -311,7 +311,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/getInfoButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -342,7 +342,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/importFileButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -358,7 +358,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlCopyFileButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -366,7 +366,7 @@
                 android:drawableLeft="@drawable/ic_action_flag_dark"
                 android:text="@string/copy_file"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlImportProfileButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -376,7 +376,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlExportProfileButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -405,7 +405,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/executeQuickAction"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -415,7 +415,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/getQuickActionInfo"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -444,7 +444,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAddMapMarkerButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -454,7 +454,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUpdateMapMarkerButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -464,7 +464,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveMapMarkerButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -474,7 +474,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveAllActiveMapMarkersButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -484,7 +484,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAddFavoriteGroupButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -494,7 +494,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUpdateFavoriteGroupButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -504,7 +504,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveFavoriteGroupButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -514,7 +514,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAddFavoriteButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -524,7 +524,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveFavoriteButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -534,7 +534,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUpdateFavoriteButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -564,7 +564,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAddMapLayerButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -574,7 +574,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveMapLayerButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -584,7 +584,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUpdateMapLayerButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -594,7 +594,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlShowMapPointButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -604,7 +604,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAddMapPointButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -614,7 +614,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveMapPointButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -624,7 +624,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUpdateMapPointButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -634,7 +634,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRefreshMapButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -664,7 +664,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlImportGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -674,7 +674,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlShowGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -684,7 +684,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlHideGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -694,7 +694,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlGetActiveGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -704,7 +704,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -714,7 +714,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlGetImportedGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -724,7 +724,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlGetSqliteDbFilesButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -734,7 +734,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlGetActiveSqliteDbFilesButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -744,7 +744,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlShowSqliteDbFileButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -754,7 +754,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlHideSqliteDbFileButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -764,7 +764,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlGetBitmapForGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -796,7 +796,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetMapLocationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -806,7 +806,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlStartGpxRecordingButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -816,7 +816,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlStopGpxRecordingButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -846,7 +846,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlTakePhotoNoteButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -856,7 +856,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlStartVideoRecordingButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -866,7 +866,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlStartAudioRecordingButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -876,7 +876,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlStopRecordingButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -906,7 +906,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlNavigateButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -916,7 +916,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlNavigateGpxButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -926,7 +926,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlPauseNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -936,7 +936,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlResumeNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -946,7 +946,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlStopNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -956,7 +956,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlMuteNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -966,7 +966,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUnmuteNavigationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -976,7 +976,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSearchButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -986,7 +986,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlNavigateSearchButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -996,7 +996,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRegisterForVoiceRouterMessagesButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1006,7 +1006,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUnRegisterForVoiceRouterMessagesButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1016,7 +1016,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRegisterForUpdatesButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1026,7 +1026,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUnregisterFromUpdatesButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1036,7 +1036,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRegisterForNavigationUpdatesButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1046,7 +1046,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUnregisterForNavigationUpdatesButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1056,7 +1056,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlGetBlockedRoads"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1066,7 +1066,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAddBlockedRoad"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1076,7 +1076,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveBlockedRoads"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1106,7 +1106,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetNavDrawerItemsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1116,7 +1116,7 @@
             <View style="@style/short_divider_style" />
 
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlHideDrawerProfile"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1127,7 +1127,7 @@
 
             <View style="@style/short_divider_style" />
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetEnabledIdsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1137,7 +1137,7 @@
 
             <View style="@style/short_divider_style" />
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetDisabledIdsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1147,7 +1147,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetEnabledPatternsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1157,7 +1157,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetDisabledPatternsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1167,7 +1167,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlCustomizeOsmandSettingsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1177,7 +1177,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetNavDrawerLogoButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1187,7 +1187,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetNavDrawerFooterButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1197,7 +1197,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRestoreOsmandButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1207,7 +1207,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlChangePluginStateButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1217,7 +1217,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAddFirstMapWidgetButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1227,7 +1227,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAddSecondMapWidgetButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1237,7 +1237,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveFirstMapWidgetButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1247,7 +1247,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveSecondMapWidgetButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1257,7 +1257,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUpdateFirstMapWidgetButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1267,7 +1267,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUpdateSecondMapWidgetButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1277,7 +1277,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRegisterForOsmandInitListenerButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1287,7 +1287,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAddContextMenuButtonsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1297,7 +1297,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRemoveContextMenuButtonsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1307,7 +1307,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlUpdateContextMenuButtonsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1317,7 +1317,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlAreOsmandSettingsCustomizedButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1327,7 +1327,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlGetPreferenceButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1337,7 +1337,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetPreferenceButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1347,7 +1347,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetCustomizationButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1357,7 +1357,7 @@
 
             <View style="@style/short_divider_style" />
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlIsFragmentOpen"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1368,7 +1368,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlIsMenuOpen"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1399,7 +1399,7 @@
 
             <View style="@style/divider_style" />
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlSetUIMarginsButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1409,7 +1409,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRegWidgetVisibilityButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1419,7 +1419,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlRegWidgetAvailabilityButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1449,7 +1449,7 @@
 
             <View style="@style/divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlExitAppButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1459,7 +1459,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlGetTextButton"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1469,7 +1469,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlListenToOsmAndLogs"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
@@ -1479,7 +1479,7 @@
 
             <View style="@style/short_divider_style"/>
 
-            <android.support.v7.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/aidlStopListenToOsmAndLogs"
                 style="@style/row_item_style"
                 android:layout_width="match_parent"
