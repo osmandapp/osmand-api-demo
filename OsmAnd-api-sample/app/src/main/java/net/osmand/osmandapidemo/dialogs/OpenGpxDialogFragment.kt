@@ -23,9 +23,17 @@ class OpenGpxDialogFragment : DialogFragment() {
         sendAsUriDataRequestCode = arguments?.getInt(SEND_AS_URI_REQUEST_CODE_KEY)
 
         val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Send GPX to OsmAnd as raw data or as URI")
+        builder.setTitle("Send GPX to OsmAnd as raw data or as URI")
         builder.setNeutralButton("As raw data") { _, _ -> sendAsRawData() }
         builder.setPositiveButton("As URI") { _, _ -> sendAsUri() }
+        val items = arrayOf("Navigation from start", "Navigation from nearest point")
+        var checkedItem = 0
+        val activity = activity as MainActivity?
+        activity!!.passWholeRoute = true
+        builder.setSingleChoiceItems(items, checkedItem) { _, which ->
+            checkedItem = which
+            activity.passWholeRoute = checkedItem == 0
+        }
         return builder.create()
     }
 

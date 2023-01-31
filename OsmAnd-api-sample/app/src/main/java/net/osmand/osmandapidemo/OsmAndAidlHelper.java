@@ -816,14 +816,16 @@ public class OsmAndAidlHelper {
 	/**
 	 * Start navigation using gpx file.
 	 *
-	 * @param gpxUri - URI created by FileProvider.
-	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
+	 * @param gpxUri         - URI created by FileProvider.
+	 * @param force          - ask to stop current navigation if any. False - ask. True - don't ask.
+	 * @param passWholeRoute - True - build gpx route from start of the track.
+	 *                         False - build gpx route from the current location.
 	 */
-	public boolean navigateGpxFromUri(Uri gpxUri, boolean force, boolean needLocationPermission) {
+	public boolean navigateGpxFromUri(Uri gpxUri, boolean force, boolean needLocationPermission, boolean passWholeRoute) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(gpxUri, force, needLocationPermission));
+				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(gpxUri, force, needLocationPermission, passWholeRoute));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -855,13 +857,15 @@ public class OsmAndAidlHelper {
 	/**
 	 * Start navigation using gpx file content.
 	 *
-	 * @param data - gpx file content.
-	 * @param force - ask to stop current navigation if any. False - ask. True - don't ask.
+	 * @param data           - gpx file content.
+	 * @param force          - ask to stop current navigation if any. False - ask. True - don't ask.
+	 * @param passWholeRoute - True - build gpx route from start of the track.
+	 *                         False - build gpx route from the current location.
 	 */
-	public boolean navigateGpxFromData(String data, boolean force, boolean needLocationPermission) {
+	public boolean navigateGpxFromData(String data, boolean force, boolean needLocationPermission, boolean passWholeRoute) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(data, force, needLocationPermission));
+				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(data, force, needLocationPermission, passWholeRoute));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
