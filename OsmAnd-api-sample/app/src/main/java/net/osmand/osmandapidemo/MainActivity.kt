@@ -134,6 +134,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
     private var counter = 1
     private var delay: Long = 5000
+    var passWholeRoute = false
     var mOsmAndHelper: OsmAndHelper? = null
     var gpxBitmap: Bitmap? = null
     private var mAidlHelper: OsmAndAidlHelper? = null
@@ -1362,12 +1363,16 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 REQUEST_NAVIGATE_GPX_RAW_DATA_AIDL -> {
                     Handler().postDelayed({
-                        handleGpxFileAsString(data!!) { data -> mAidlHelper!!.navigateGpxFromData(data, true, true) }
+                        handleGpxFileAsString(data!!) { data ->
+                            mAidlHelper!!.navigateGpxFromData(data, true, true, passWholeRoute)
+                        }
                     }, delay)
                 }
                 REQUEST_NAVIGATE_GPX_URI_AIDL -> {
                     Handler().postDelayed({
-                        handleFileUri(data!!, GPX_FILE_NAME) { data -> mAidlHelper!!.navigateGpxFromUri(data, true, true) }
+                        handleFileUri(data!!, GPX_FILE_NAME) { data ->
+                            mAidlHelper!!.navigateGpxFromUri(data, true, true, passWholeRoute)
+                        }
                     }, delay)
                 }
                 REQUEST_GET_GPX_BITMAP_URI_AIDL -> {
