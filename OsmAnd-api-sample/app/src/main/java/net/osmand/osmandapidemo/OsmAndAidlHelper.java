@@ -825,7 +825,9 @@ public class OsmAndAidlHelper {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(gpxUri, force, needLocationPermission, passWholeRoute));
+				NavigateGpxParams navigateGpxParams = new NavigateGpxParams(gpxUri, force, needLocationPermission);
+				navigateGpxParams.setPassWholeRoute(passWholeRoute);
+				return mIOsmAndAidlInterface.navigateGpx(navigateGpxParams);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -865,7 +867,9 @@ public class OsmAndAidlHelper {
 	public boolean navigateGpxFromData(String data, boolean force, boolean needLocationPermission, boolean passWholeRoute) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				return mIOsmAndAidlInterface.navigateGpx(new NavigateGpxParams(data, force, needLocationPermission, passWholeRoute));
+				NavigateGpxParams navigateGpxParams = new NavigateGpxParams(data, force, needLocationPermission);
+				navigateGpxParams.setPassWholeRoute(passWholeRoute);
+				return mIOsmAndAidlInterface.navigateGpx(navigateGpxParams);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
