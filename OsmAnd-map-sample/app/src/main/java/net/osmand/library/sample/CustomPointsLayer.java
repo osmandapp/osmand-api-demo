@@ -164,11 +164,6 @@ public class CustomPointsLayer extends OsmandMapLayer implements IContextMenuPro
 	}
 
 	@Override
-	public boolean isObjectClickable(Object o) {
-		return o instanceof FavouritePoint;
-	}
-
-	@Override
 	public boolean runExclusiveAction(Object o, boolean unknownLocation) {
 		return false;
 	}
@@ -179,7 +174,8 @@ public class CustomPointsLayer extends OsmandMapLayer implements IContextMenuPro
 	}
 
 	@Override
-	public void collectObjectsFromPoint(PointF point, RotatedTileBox tileBox, List<Object> res, boolean unknownLocation) {
+	public void collectObjectsFromPoint(PointF point, RotatedTileBox tileBox, List<Object> res, boolean unknownLocation,
+	                                    boolean excludeUntouchableObjects) {
 
 	}
 
