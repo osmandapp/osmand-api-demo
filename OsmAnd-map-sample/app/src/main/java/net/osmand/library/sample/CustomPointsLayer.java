@@ -86,9 +86,7 @@ public class CustomPointsLayer extends OsmandMapLayer implements IContextMenuPro
 		mapLayerProvider = new FavoritesTileProvider(getContext(), getBaseOrder(), true, textStyle, view.getDensity());
 
 		for (FavouritePoint favoritePoint : favouritePoints) {
-			double lat = favoritePoint.getLatitude();
-			double lon = favoritePoint.getLongitude();
-			mapLayerProvider.addToData(favoritePoint, defaultColor, true, false, textScale, lat, lon);
+			mapLayerProvider.addToData(favoritePoint, defaultColor, true, false, textScale);
 		}
 		mapLayerProvider.drawSymbols(mapRenderer);
 	}
