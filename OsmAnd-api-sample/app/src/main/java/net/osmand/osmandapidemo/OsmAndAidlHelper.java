@@ -816,17 +816,25 @@ public class OsmAndAidlHelper {
 	/**
 	 * Start navigation using gpx file.
 	 *
-	 * @param gpxUri         - URI created by FileProvider.
-	 * @param force          - ask to stop current navigation if any. False - ask. True - don't ask.
-	 * @param passWholeRoute - True - build gpx route from start of the track.
-	 *                         False - build gpx route from the current location.
+	 * @param gpxUri              - URI created by FileProvider.
+	 * @param force               - ask to stop current navigation if any. False - ask. True - don't ask.
+	 * @param passWholeRoute      - True - build gpx route from start of the track.
+	 *                              False - build gpx route from the current location.
+	 * @param snapToRoad          - True - attach the gpx to the roads before starting navigation.
+	 * @param snapToRoadModeKey   - String key of application mode that will be used to snap track to the roads.
+	 * @param snapToRoadThreshold - Maximum distance in meters from the track line to the road that is possible to bind.
+	 *                              The higher this value is, the more distant roads will be consider in the binding process.
 	 */
-	public boolean navigateGpxFromUri(Uri gpxUri, boolean force, boolean needLocationPermission, boolean passWholeRoute) {
+	public boolean navigateGpxFromUri(Uri gpxUri, boolean force, boolean needLocationPermission, boolean passWholeRoute,
+	                                  boolean snapToRoad, String snapToRoadModeKey, int snapToRoadThreshold) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 				NavigateGpxParams navigateGpxParams = new NavigateGpxParams(gpxUri, force, needLocationPermission);
 				navigateGpxParams.setPassWholeRoute(passWholeRoute);
+				navigateGpxParams.setSnapToRoad(snapToRoad);
+				navigateGpxParams.setSnapToRoadMode(snapToRoadModeKey);
+				navigateGpxParams.setSnapToRoadThreshold(snapToRoadThreshold);
 				return mIOsmAndAidlInterface.navigateGpx(navigateGpxParams);
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -859,16 +867,24 @@ public class OsmAndAidlHelper {
 	/**
 	 * Start navigation using gpx file content.
 	 *
-	 * @param data           - gpx file content.
-	 * @param force          - ask to stop current navigation if any. False - ask. True - don't ask.
-	 * @param passWholeRoute - True - build gpx route from start of the track.
-	 *                         False - build gpx route from the current location.
+	 * @param data                - gpx file content.
+	 * @param force               - ask to stop current navigation if any. False - ask. True - don't ask.
+	 * @param passWholeRoute      - True - build gpx route from start of the track.
+	 *                              False - build gpx route from the current location.
+	 * @param snapToRoad          - True - attach the gpx to the roads before starting navigation.
+	 * @param snapToRoadModeKey   - String key of application mode that will be used to snap track to the roads.
+	 * @param snapToRoadThreshold - Maximum distance in meters from the track line to the road that is possible to bind.
+	 *                              The higher this value is, the more distant roads will be consider in the binding process.
 	 */
-	public boolean navigateGpxFromData(String data, boolean force, boolean needLocationPermission, boolean passWholeRoute) {
+	public boolean navigateGpxFromData(String data, boolean force, boolean needLocationPermission, boolean passWholeRoute,
+	                                   boolean snapToRoad, String snapToRoadModeKey, int snapToRoadThreshold) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
 				NavigateGpxParams navigateGpxParams = new NavigateGpxParams(data, force, needLocationPermission);
 				navigateGpxParams.setPassWholeRoute(passWholeRoute);
+				navigateGpxParams.setSnapToRoad(snapToRoad);
+				navigateGpxParams.setSnapToRoadMode(snapToRoadModeKey);
+				navigateGpxParams.setSnapToRoadThreshold(snapToRoadThreshold);
 				return mIOsmAndAidlInterface.navigateGpx(navigateGpxParams);
 			} catch (RemoteException e) {
 				e.printStackTrace();
