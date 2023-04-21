@@ -33,5 +33,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with: 
         name: debug-api-sample-apk
-        path: app/build/outputs/apk/debug/*.apk
+        path: OsmAnd-api-sample/app/build/outputs/apk/debug/*.apk
         retention-days: 90
