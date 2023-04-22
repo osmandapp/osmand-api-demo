@@ -28,11 +28,9 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew assembleDebug
-    - name: Rename APK
-      run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/OsmAnd-map-sample-debug-$(git log -n 1 --format='%h').apk
     - name: Archive APK
       uses: actions/upload-artifact@v3
       with: 
         name: debug-map-sample-apk
-        path: OsmAnd-map-sample/app/build/outputs/apk/debug/*.apk
+        path: OsmAnd-map-sample/app/build/outputs/apk/*/debug/*.apk
         retention-days: 90
