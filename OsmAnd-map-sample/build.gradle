@@ -20,7 +20,7 @@ allprojects {
 			name = "OsmAndBinariesIvy"
 			url = "https://creator.osmand.net"
 			patternLayout {
-				artifact "/var/www-download/ivy/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"
+				artifact "ivy/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"
 			}
 		}
 		google()
