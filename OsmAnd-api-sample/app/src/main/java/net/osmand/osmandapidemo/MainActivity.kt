@@ -667,6 +667,12 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 ApiActionType.AIDL_SET_PREFERENCE -> {
                     aidlHelper.setPreferenceValue("show_map_markers", true.toString(), "car")
+
+                    aidlHelper.setPreferenceValue("impassable_road_points", "", null)
+                    aidlHelper.setPreferenceValue("impassable_roads_ids", "", null)
+                    aidlHelper.setPreferenceValue("impassable_roads_directions", "", null)
+                    aidlHelper.setPreferenceValue("impassable_roads_descriptions", "", null)
+                    aidlHelper.setPreferenceValue("impassable_roads_app_mode_keys", "", null)
                 }
                 ApiActionType.AIDL_REGISTER_FOR_LISTEN_LOGS -> {
                     val titles = arrayOf("Debug", "Info", "Warn", "Error")
