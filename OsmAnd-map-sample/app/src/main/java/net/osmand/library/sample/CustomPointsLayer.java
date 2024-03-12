@@ -18,6 +18,7 @@ import net.osmand.data.QuadTree;
 import net.osmand.data.RotatedTileBox;
 import net.osmand.plus.views.OsmandMapTileView;
 import net.osmand.plus.views.PointImageDrawable;
+import net.osmand.plus.views.PointImageUtils;
 import net.osmand.plus.views.layers.ContextMenuLayer.IContextMenuProvider;
 import net.osmand.plus.views.layers.MapTextLayer;
 import net.osmand.plus.views.layers.base.OsmandMapLayer;
@@ -120,8 +121,7 @@ public class CustomPointsLayer extends OsmandMapLayer implements IContextMenuPro
 				float y = tileBox.getPixYFromLatLon(lat, lon);
 
 				if (intersects(boundIntersections, x, y, iconSize, iconSize)) {
-					PointImageDrawable pointImageDrawable = PointImageDrawable.getFromFavorite(
-							getContext(), defaultColor, true, point);
+					PointImageDrawable pointImageDrawable = PointImageUtils.getFromPoint(getContext(), defaultColor, true, point);
 					pointImageDrawable.drawSmallPoint(canvas, x, y, textScale);
 					smallObjectsLatLon.add(new LatLon(lat, lon));
 				} else {
@@ -134,7 +134,7 @@ public class CustomPointsLayer extends OsmandMapLayer implements IContextMenuPro
 			float x = tileBox.getPixXFromLatLon(favoritePoint.getLatitude(), favoritePoint.getLongitude());
 			float y = tileBox.getPixYFromLatLon(favoritePoint.getLatitude(), favoritePoint.getLongitude());
 
-			PointImageDrawable pointImageDrawable = PointImageDrawable.getFromFavorite(getContext(), defaultColor, true, favoritePoint);
+			PointImageDrawable pointImageDrawable = PointImageUtils.getFromPoint(getContext(), defaultColor, true, favoritePoint);
 			pointImageDrawable.drawPoint(canvas, x, y, textScale, false);
 		}
 		this.fullObjectsLatLon = fullObjectsLatLon;
