@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 34
-	buildToolsVersion "34.0.0"
+	compileSdkVersion 33
+	buildToolsVersion "33.0.2"
 
 	defaultConfig {
 		applicationId "net.osmand.library.sample"
@@ -99,7 +99,7 @@ dependencies {
 	implementation 'com.google.android.material:material:1.4.0'
 	implementation 'androidx.browser:browser:1.0.0'
 	implementation 'androidx.preference:preference:1.1.0'
-	implementation 'androidx.lifecycle:lifecycle-process:2.7.0'
+	implementation 'androidx.lifecycle:lifecycle-process:2.6.0'
 
 	implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
 	implementation 'commons-codec:commons-codec:1.11'
