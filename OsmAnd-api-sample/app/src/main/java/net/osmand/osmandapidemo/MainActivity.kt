@@ -12,23 +12,30 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.text.SpannableStringBuilder
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.WindowManager
-import android.widget.*
-import kotlinx.android.synthetic.main.activity_main.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.core.graphics.drawable.DrawableCompat
 import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper.VoiceRouterNotifyListener
-import main.java.net.osmand.osmandapidemo.dialogs.*
+import main.java.net.osmand.osmandapidemo.dialogs.ChooseLocationDialogFragment
+import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment
 import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment.ActionType
 import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment.Companion.ACTION_CODE_KEY
+import main.java.net.osmand.osmandapidemo.dialogs.GpxBitmapDialogFragment
+import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment
 import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_RAW_DATA_REQUEST_CODE_KEY
 import main.java.net.osmand.osmandapidemo.dialogs.OpenGpxDialogFragment.Companion.SEND_AS_URI_REQUEST_CODE_KEY
+import main.java.net.osmand.osmandapidemo.dialogs.OsmAndInfoDialog
+import main.java.net.osmand.osmandapidemo.dialogs.OsmAndMissingDialogFragment
+import main.java.net.osmand.osmandapidemo.dialogs.SearchResultsDialogFragment
 import main.java.net.osmand.osmandapidemo.util.ToastQueue
 import net.osmand.aidlapi.OsmAndCustomizationConstants
 import net.osmand.aidlapi.customization.OsmandSettingsParams
@@ -46,8 +53,15 @@ import net.osmand.aidlapi.profile.AExportSettingsType
 import net.osmand.aidlapi.search.SearchParams
 import net.osmand.aidlapi.search.SearchResult
 import net.osmand.osmandapidemo.R
-import java.io.*
-import java.util.*
+import net.osmand.osmandapidemo.databinding.ActivityMainBinding
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.util.Locale
 
 class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
@@ -131,6 +145,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         private val appModesPedestrianBicycle = listOf(APP_MODE_PEDESTRIAN, APP_MODE_BICYCLE)
         private val appModesExceptAirBoatDefault = listOf(APP_MODE_CAR, APP_MODE_BICYCLE, APP_MODE_PEDESTRIAN)
     }
+
+    private lateinit var binding: ActivityMainBinding
 
     private var counter = 1
     private var delay: Long = 5000
@@ -890,62 +906,62 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
         progressDialog = ProgressDialog(this)
 
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupButtonsIcons()
 
         // Intents
-
-        addFavoriteButton.setOnClickListener {
+        binding.addFavoriteButton.setOnClickListener {
             showChooseLocationDialogFragment("Add favourite", ApiActionType.INTENT_ADD_FAVORITE, false)
         }
-        addMapMarkerButton.setOnClickListener {
+        binding.addMapMarkerButton.setOnClickListener {
             showChooseLocationDialogFragment("Add map marker", ApiActionType.INTENT_ADD_MAP_MARKER, false)
         }
 
-        showLocationButton.setOnClickListener {
+        binding.showLocationButton.setOnClickListener {
             showChooseLocationDialogFragment("Show location", ApiActionType.INTENT_SHOW_LOCATION, false)
         }
 
-        startAudioRecButton.setOnClickListener {
+        binding.startAudioRecButton.setOnClickListener {
             showChooseLocationDialogFragment("Start audio recording", ApiActionType.INTENT_START_AUDIO_REC, false)
         }
-        startVideoRecButton.setOnClickListener {
+        binding.startVideoRecButton.setOnClickListener {
             showChooseLocationDialogFragment("Start video recording", ApiActionType.INTENT_START_VIDEO_REC, false)
         }
-        takePhotoButton.setOnClickListener {
+        binding.takePhotoButton.setOnClickListener {
             showChooseLocationDialogFragment("Take photo", ApiActionType.INTENT_TAKE_PHOTO, false)
         }
-        stopRecButton.setOnClickListener { mOsmAndHelper!!.stopAvRec() }
-        startGpxRecButton.setOnClickListener {
+        binding.stopRecButton.setOnClickListener { mOsmAndHelper!!.stopAvRec() }
+        binding.startGpxRecButton.setOnClickListener {
             val args = Bundle()
             args.putString(ACTION_CODE_KEY, ActionType.START_GPX_REC.name)
             val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
             closeAfterCommandDialogFragment.arguments = args
             closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
         }
-        stopGpxRecButton.setOnClickListener {
+        binding.stopGpxRecButton.setOnClickListener {
             val args = Bundle()
             args.putString(ACTION_CODE_KEY, ActionType.STOP_GPX_REC.name)
             val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
             closeAfterCommandDialogFragment.arguments = args
             closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
         }
-        saveGpxButton.setOnClickListener {
+        binding.saveGpxButton.setOnClickListener {
             val args = Bundle()
             args.putString(ACTION_CODE_KEY, ActionType.SAVE_GPX.name)
             val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
             closeAfterCommandDialogFragment.arguments = args
             closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
         }
-        clearGpxButton.setOnClickListener {
+        binding.clearGpxButton.setOnClickListener {
             val args = Bundle()
             args.putString(ACTION_CODE_KEY, ActionType.CLEAR_GPX.name)
             val closeAfterCommandDialogFragment = CloseAfterCommandDialogFragment()
             closeAfterCommandDialogFragment.arguments = args
             closeAfterCommandDialogFragment.show(supportFragmentManager, CloseAfterCommandDialogFragment.TAG)
         }
-        showGpxButton.setOnClickListener {
+        binding.showGpxButton.setOnClickListener {
             val args = Bundle()
             args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_RAW_DATA)
             args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_SHOW_GPX_URI)
@@ -953,7 +969,7 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             openGpxDialogFragment.arguments = args
             openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
         }
-        navigateGpxButton.setOnClickListener {
+        binding.navigateGpxButton.setOnClickListener {
             val args = Bundle()
             args.putInt(SEND_AS_RAW_DATA_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_RAW_DATA)
             args.putInt(SEND_AS_URI_REQUEST_CODE_KEY, REQUEST_NAVIGATE_GPX_URI)
@@ -961,365 +977,365 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
             openGpxDialogFragment.arguments = args
             openGpxDialogFragment.show(supportFragmentManager, OpenGpxDialogFragment.TAG)
         }
-        navigateButton.setOnClickListener {
+        binding.navigateButton.setOnClickListener {
             showChooseLocationDialogFragment("Navigate to", ApiActionType.INTENT_NAVIGATE, false)
         }
-        navigateSearchButton.setOnClickListener {
+        binding.navigateSearchButton.setOnClickListener {
             showChooseLocationDialogFragment("Search and Navigate", ApiActionType.INTENT_NAVIGATE_SEARCH, false)
         }
-        pauseNavigationButton.setOnClickListener {
+        binding.pauseNavigationButton.setOnClickListener {
             mOsmAndHelper!!.pauseNavigation()
         }
 
-        resumeNavigationButton.setOnClickListener {
+        binding.resumeNavigationButton.setOnClickListener {
             mOsmAndHelper!!.resumeNavigation()
         }
-        stopNavigationButton.setOnClickListener { mOsmAndHelper!!.stopNavigation() }
-        muteNavigationButton.setOnClickListener { mOsmAndHelper!!.muteNavigation() }
-        unmuteNavigationButton.setOnClickListener { mOsmAndHelper!!.umuteNavigation() }
-        getInfoButton.setOnClickListener { mOsmAndHelper!!.getInfo() }
-        importFileButton.setOnClickListener { requestChooseFile(REQUEST_IMPORT_FILE) }
-        executeQuickAction.setOnClickListener { mOsmAndHelper!!.executeQuickAction(0) }
-        getQuickActionInfo.setOnClickListener { mOsmAndHelper!!.getQuickActionInfo(1) }
+        binding.stopNavigationButton.setOnClickListener { mOsmAndHelper!!.stopNavigation() }
+        binding.muteNavigationButton.setOnClickListener { mOsmAndHelper!!.muteNavigation() }
+        binding.unmuteNavigationButton.setOnClickListener { mOsmAndHelper!!.umuteNavigation() }
+        binding.getInfoButton.setOnClickListener { mOsmAndHelper!!.getInfo() }
+        binding.importFileButton.setOnClickListener { requestChooseFile(REQUEST_IMPORT_FILE) }
+        binding.executeQuickAction.setOnClickListener { mOsmAndHelper!!.executeQuickAction(0) }
+        binding.getQuickActionInfo.setOnClickListener { mOsmAndHelper!!.getQuickActionInfo(1) }
 
         // AIDL
 
 
         // Markers and Favorites
 
-        aidlAddMapMarkerButton.setOnClickListener {
+        binding.aidlAddMapMarkerButton.setOnClickListener {
             showChooseLocationDialogFragment("Add map marker", ApiActionType.AIDL_ADD_MAP_MARKER)
         }
-        aidlRemoveMapMarkerButton.setOnClickListener {
+        binding.aidlRemoveMapMarkerButton.setOnClickListener {
             showChooseLocationDialogFragment("Remove map marker", ApiActionType.AIDL_REMOVE_MAP_MARKER)
         }
-        aidlUpdateMapMarkerButton.setOnClickListener {
+        binding.aidlUpdateMapMarkerButton.setOnClickListener {
             showChooseLocationDialogFragment("Update map marker", ApiActionType.AIDL_UPDATE_MAP_MARKER)
         }
-        aidlRemoveAllActiveMapMarkersButton.setOnClickListener {
+        binding.aidlRemoveAllActiveMapMarkersButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REMOVE_ALL_ACTIVE_MAP_MARKERS)
         }
 
-        aidlAddFavoriteGroupButton.setOnClickListener {
+        binding.aidlAddFavoriteGroupButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_ADD_FAVORITE_GROUP)
         }
-        aidlUpdateFavoriteGroupButton.setOnClickListener {
+        binding.aidlUpdateFavoriteGroupButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_UPDATE_FAVORITE_GROUP)
         }
-        aidlRemoveFavoriteGroupButton.setOnClickListener {
+        binding.aidlRemoveFavoriteGroupButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_REMOVE_FAVORITE_GROUP)
         }
 
-        aidlAddFavoriteButton.setOnClickListener {
+        binding.aidlAddFavoriteButton.setOnClickListener {
             showChooseLocationDialogFragment("Add favourite", ApiActionType.AIDL_ADD_FAVORITE)
         }
-        aidlRemoveFavoriteButton.setOnClickListener {
+        binding.aidlRemoveFavoriteButton.setOnClickListener {
             showChooseLocationDialogFragment("Remove favourite", ApiActionType.AIDL_REMOVE_FAVORITE)
         }
-        aidlUpdateFavoriteButton.setOnClickListener {
+        binding.aidlUpdateFavoriteButton.setOnClickListener {
             showChooseLocationDialogFragment("Update favourite", ApiActionType.AIDL_UPDATE_FAVORITE)
         }
 
 
         // Map layers and points
 
-        aidlAddMapPointButton.setOnClickListener {
+        binding.aidlAddMapPointButton.setOnClickListener {
             showChooseLocationDialogFragment("Add map point", ApiActionType.AIDL_ADD_MAP_POINT)
         }
-        aidlRemoveMapPointButton.setOnClickListener {
+        binding.aidlRemoveMapPointButton.setOnClickListener {
             showChooseLocationDialogFragment("Remove map point", ApiActionType.AIDL_REMOVE_MAP_POINT)
         }
-        aidlUpdateMapPointButton.setOnClickListener {
+        binding.aidlUpdateMapPointButton.setOnClickListener {
             showChooseLocationDialogFragment("Update map point", ApiActionType.AIDL_UPDATE_MAP_POINT)
         }
-        aidlShowMapPointButton.setOnClickListener {
+        binding.aidlShowMapPointButton.setOnClickListener {
             showChooseLocationDialogFragment("Show map point", ApiActionType.AIDL_SHOW_MAP_POINT)
         }
 
-        aidlAddMapLayerButton.setOnClickListener {
+        binding.aidlAddMapLayerButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_ADD_MAP_LAYER)
         }
-        aidlRemoveMapLayerButton.setOnClickListener {
+        binding.aidlRemoveMapLayerButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_REMOVE_MAP_LAYER)
         }
-        aidlUpdateMapLayerButton.setOnClickListener {
+        binding.aidlUpdateMapLayerButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_UPDATE_MAP_LAYER)
         }
-        aidlRefreshMapButton.setOnClickListener {
+        binding.aidlRefreshMapButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_REFRESH_MAP)
         }
 
         // GPX and SQLITEDB Files
 
-        aidlImportGpxButton.setOnClickListener {
+        binding.aidlImportGpxButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_IMPORT_GPX, false)
         }
-        aidlShowGpxButton.setOnClickListener {
+        binding.aidlShowGpxButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_SHOW_GPX)
         }
-        aidlHideGpxButton.setOnClickListener {
+        binding.aidlHideGpxButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_HIDE_GPX)
         }
-        aidlGetActiveGpxButton.setOnClickListener {
+        binding.aidlGetActiveGpxButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_GET_ACTIVE_GPX_FILES, false)
         }
-        aidlGetImportedGpxButton.setOnClickListener {
+        binding.aidlGetImportedGpxButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_GET_IMPORTED_GPX_FILES)
         }
 
-        aidlRemoveGpxButton.setOnClickListener {
+        binding.aidlRemoveGpxButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_REMOVE_GPX)
         }
 
-        aidlGetSqliteDbFilesButton.setOnClickListener {
+        binding.aidlGetSqliteDbFilesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_GET_SQLITEDB_FILES)
         }
 
-        aidlGetActiveSqliteDbFilesButton.setOnClickListener {
+        binding.aidlGetActiveSqliteDbFilesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_GET_ACTIVE_SQLITEDB_FILES)
         }
 
-        aidlShowSqliteDbFileButton.setOnClickListener {
+        binding.aidlShowSqliteDbFileButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SHOW_SQLITEDB_FILE)
         }
 
-        aidlHideSqliteDbFileButton.setOnClickListener {
+        binding.aidlHideSqliteDbFileButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_HIDE_SQLITEDB_FILE)
         }
 
-        aidlGetBitmapForGpxButton.setOnClickListener {
+        binding.aidlGetBitmapForGpxButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_GET_BITMAP_FOR_GPX)
         }
 
-        aidlCopyFileButton.setOnClickListener {
+        binding.aidlCopyFileButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_COPY_FILE_TO_OSMAND)
         }
 
 
         // Location
 
-        aidlSetMapLocationButton.setOnClickListener {
+        binding.aidlSetMapLocationButton.setOnClickListener {
             showChooseLocationDialogFragment("Set map location", ApiActionType.AIDL_SET_MAP_LOCATION)
         }
-        aidlStartGpxRecordingButton.setOnClickListener {
+        binding.aidlStartGpxRecordingButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_START_GPX_REC)
         }
-        aidlStopGpxRecordingButton.setOnClickListener {
+        binding.aidlStopGpxRecordingButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_STOP_GPX_REC)
         }
 
         // Saving photo/audio/video
 
-        aidlTakePhotoNoteButton.setOnClickListener {
+        binding.aidlTakePhotoNoteButton.setOnClickListener {
             showChooseLocationDialogFragment("Take photo", ApiActionType.AIDL_TAKE_PHOTO)
         }
-        aidlStartVideoRecordingButton.setOnClickListener {
+        binding.aidlStartVideoRecordingButton.setOnClickListener {
             showChooseLocationDialogFragment("Start video recording", ApiActionType.AIDL_START_VIDEO_REC)
         }
-        aidlStartAudioRecordingButton.setOnClickListener {
+        binding.aidlStartAudioRecordingButton.setOnClickListener {
             showChooseLocationDialogFragment("Start audio recording", ApiActionType.AIDL_START_AUDIO_REC)
         }
-        aidlStopRecordingButton.setOnClickListener {
+        binding.aidlStopRecordingButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_STOP_REC)
         }
 
 
         // Navigation
 
-        aidlNavigateButton.setOnClickListener {
+        binding.aidlNavigateButton.setOnClickListener {
             showChooseLocationDialogFragment("Navigate to", ApiActionType.AIDL_NAVIGATE)
         }
-        aidlNavigateGpxButton.setOnClickListener {
+        binding.aidlNavigateGpxButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_NAVIGATE_GPX, delayed = false)
         }
 
-        aidlPauseNavigationButton.setOnClickListener {
+        binding.aidlPauseNavigationButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_PAUSE_NAVIGATION)
         }
 
-        aidlResumeNavigationButton.setOnClickListener {
+        binding.aidlResumeNavigationButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_RESUME_NAVIGATION)
         }
 
-        aidlStopNavigationButton.setOnClickListener {
+        binding.aidlStopNavigationButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_STOP_NAVIGATION)
         }
 
-        aidlMuteNavigationButton.setOnClickListener {
+        binding.aidlMuteNavigationButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_MUTE_NAVIGATION)
         }
 
-        aidlUnmuteNavigationButton.setOnClickListener {
+        binding.aidlUnmuteNavigationButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_UNMUTE_NAVIGATION)
         }
 
-        aidlSearchButton.setOnClickListener {
+        binding.aidlSearchButton.setOnClickListener {
             showChooseLocationDialogFragment("Search here", ApiActionType.AIDL_SEARCH, false)
         }
 
-        aidlNavigateSearchButton.setOnClickListener {
+        binding.aidlNavigateSearchButton.setOnClickListener {
             showChooseLocationDialogFragment("Search and navigate to", ApiActionType.AIDL_NAVIGATE_SEARCH, false)
         }
 
-        aidlRegisterForNavigationUpdatesButton.setOnClickListener {
+        binding.aidlRegisterForNavigationUpdatesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REGISTER_FOR_NAV_UPDATES)
         }
-        aidlUnregisterForNavigationUpdatesButton.setOnClickListener {
+        binding.aidlUnregisterForNavigationUpdatesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FOR_NAV_UPDATES)
         }
-        aidlGetBlockedRoads.setOnClickListener {
+        binding.aidlGetBlockedRoads.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_GET_AVOID_ROADS)
         }
-        aidlAddBlockedRoad.setOnClickListener {
+        binding.aidlAddBlockedRoad.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_ADD_AVOID_ROAD)
         }
-        aidlRemoveBlockedRoads.setOnClickListener {
+        binding.aidlRemoveBlockedRoads.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REMOVE_AVOID_ROAD)
         }
 
-        aidlRegisterForVoiceRouterMessagesButton.setOnClickListener {
+        binding.aidlRegisterForVoiceRouterMessagesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REGISTER_FOR_VOICE_ROUTE_MESSAGES)
         }
-        aidlUnRegisterForVoiceRouterMessagesButton.setOnClickListener {
+        binding.aidlUnRegisterForVoiceRouterMessagesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FROM_VOICE_ROUTE_MESSAGES)
         }
         // OsmAnd Customization
 
 
-        aidlAddFirstMapWidgetButton.setOnClickListener {
+        binding.aidlAddFirstMapWidgetButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_ADD_FIRST_MAP_WIDGET)
         }
-        aidlAddSecondMapWidgetButton.setOnClickListener {
+        binding.aidlAddSecondMapWidgetButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_ADD_SECOND_MAP_WIDGET)
         }
-        aidlUpdateFirstMapWidgetButton.setOnClickListener {
+        binding.aidlUpdateFirstMapWidgetButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_UPDATE_FIRST_MAP_WIDGET)
         }
-        aidlUpdateSecondMapWidgetButton.setOnClickListener {
+        binding.aidlUpdateSecondMapWidgetButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_UPDATE_SECOND_MAP_WIDGET)
         }
-        aidlRemoveFirstMapWidgetButton.setOnClickListener {
+        binding.aidlRemoveFirstMapWidgetButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_REMOVE_FIRST_MAP_WIDGET)
         }
-        aidlRemoveSecondMapWidgetButton.setOnClickListener {
+        binding.aidlRemoveSecondMapWidgetButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_REMOVE_SECOND_MAP_WIDGET)
         }
 
 
-        aidlSetNavDrawerItemsButton.setOnClickListener {
+        binding.aidlSetNavDrawerItemsButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_SET_NAV_DRAWER_ITEMS)
         }
 
-        aidlRegisterForUpdatesButton.setOnClickListener {
+        binding.aidlRegisterForUpdatesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REGISTER_FOR_UPDATES)
         }
 
-        aidlUnregisterFromUpdatesButton.setOnClickListener {
+        binding.aidlUnregisterFromUpdatesButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FORM_UPDATES)
         }
 
-        aidlHideDrawerProfile.setOnClickListener {
+        binding.aidlHideDrawerProfile.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_HIDE_DRAWER_PROFILE)
         }
 
-        aidlSetEnabledIdsButton.setOnClickListener {
+        binding.aidlSetEnabledIdsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_ENABLED_UI_IDS)
         }
 
-        aidlSetDisabledIdsButton.setOnClickListener {
+        binding.aidlSetDisabledIdsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_DISABLED_UI_IDS)
         }
 
-        aidlSetEnabledPatternsButton.setOnClickListener {
+        binding.aidlSetEnabledPatternsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_ENABLED_MENU_PATTERNS)
         }
 
-        aidlSetDisabledPatternsButton.setOnClickListener {
+        binding.aidlSetDisabledPatternsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_DISABLED_MENU_PATTERNS)
         }
 
-        aidlRegWidgetVisibilityButton.setOnClickListener {
+        binding.aidlRegWidgetVisibilityButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REG_WIDGET_VISIBILITY)
         }
 
-        aidlRegWidgetAvailabilityButton.setOnClickListener {
+        binding.aidlRegWidgetAvailabilityButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REG_WIDGET_AVAILABILITY)
         }
 
-        aidlCustomizeOsmandSettingsButton.setOnClickListener {
+        binding.aidlCustomizeOsmandSettingsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_CUSTOMIZE_OSMAND_SETTINGS)
         }
 
-        aidlSetNavDrawerLogoButton.setOnClickListener {
+        binding.aidlSetNavDrawerLogoButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_NAV_DRAWER_LOGO)
         }
 
-        aidlSetNavDrawerFooterButton.setOnClickListener {
+        binding.aidlSetNavDrawerFooterButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_NAV_DRAWER_FOOTER)
         }
 
-        aidlRestoreOsmandButton.setOnClickListener {
+        binding.aidlRestoreOsmandButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_RESTORE_OSMAND)
         }
 
-        aidlChangePluginStateButton.setOnClickListener {
+        binding.aidlChangePluginStateButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_CHANGE_PLUGIN_STATE)
         }
 
-        aidlRegisterForOsmandInitListenerButton.setOnClickListener {
+        binding.aidlRegisterForOsmandInitListenerButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REGISTER_FOR_OSMAND_INITIALIZATION)
         }
 
-        aidlAddContextMenuButtonsButton.setOnClickListener {
+        binding.aidlAddContextMenuButtonsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_ADD_CONTEXT_MENU_BUTTONS)
         }
 
-        aidlRemoveContextMenuButtonsButton.setOnClickListener {
+        binding.aidlRemoveContextMenuButtonsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REMOVE_CONTEXT_MENU_BUTTONS)
         }
 
-        aidlUpdateContextMenuButtonsButton.setOnClickListener {
+        binding.aidlUpdateContextMenuButtonsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_UPDATE_CONTEXT_MENU_BUTTONS)
         }
 
-        aidlAreOsmandSettingsCustomizedButton.setOnClickListener {
+        binding.aidlAreOsmandSettingsCustomizedButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_ARE_OSMAND_SETTINGS_CUSTOMIZED)
         }
 
-        aidlGetPreferenceButton.setOnClickListener {
+        binding.aidlGetPreferenceButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_GET_PREFERENCE)
         }
-        aidlSetPreferenceButton.setOnClickListener {
+        binding.aidlSetPreferenceButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_PREFERENCE)
         }
-        aidlSetCustomizationButton.setOnClickListener {
+        binding.aidlSetCustomizationButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_CUSTOMIZATION)
         }
-        aidlSetUIMarginsButton.setOnClickListener {
+        binding.aidlSetUIMarginsButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_SET_UI_MARGINS)
         }
-        aidlImportProfileButton.setOnClickListener {
+        binding.aidlImportProfileButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_IMPORT_PROFILE)
         }
-        aidlExportProfileButton.setOnClickListener {
+        binding.aidlExportProfileButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_EXPORT_PROFILE)
         }
-        aidlIsFragmentOpen.setOnClickListener {
+        binding.aidlIsFragmentOpen.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_IS_FRAGMENT_OPEN)
         }
-        aidlIsMenuOpen.setOnClickListener {
+        binding.aidlIsMenuOpen.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_IS_MENU_OPEN)
         }
-        aidlExitAppButton.setOnClickListener {
+        binding.aidlExitAppButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_EXIT_APP)
         }
-        aidlGetTextButton.setOnClickListener {
+        binding.aidlGetTextButton.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_GET_TEXT)
         }
-        aidlListenToOsmAndLogs.setOnClickListener {
+        binding.aidlListenToOsmAndLogs.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_REGISTER_FOR_LISTEN_LOGS)
         }
-        aidlStopListenToOsmAndLogs.setOnClickListener {
+        binding.aidlStopListenToOsmAndLogs.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FROM_LISTEN_LOGS)
         }
     }
@@ -1417,133 +1433,133 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     }
 
     private fun setupButtonsIcons() {
-        setDrawable(addFavoriteButton, R.drawable.ic_action_fav_dark)
-        setDrawable(addMapMarkerButton, R.drawable.ic_action_flag_dark)
-        setDrawable(showLocationButton, R.drawable.ic_action_flag_dark)
-        setDrawable(startAudioRecButton, R.drawable.ic_action_micro_dark)
-        setDrawable(startVideoRecButton, R.drawable.ic_action_video_dark)
-        setDrawable(stopRecButton, R.drawable.ic_action_rec_stop)
-        setDrawable(takePhotoButton, R.drawable.ic_action_photo_dark)
-        setDrawable(startGpxRecButton, R.drawable.ic_action_play)
-        setDrawable(stopGpxRecButton, R.drawable.ic_action_rec_stop)
-        setDrawable(showGpxButton, R.drawable.ic_action_polygom_dark)
-        setDrawable(navigateGpxButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(navigateButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(navigateSearchButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(getInfoButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(pauseNavigationButton, R.drawable.ic_pause)
-        setDrawable(resumeNavigationButton, R.drawable.ic_action_play)
-        setDrawable(stopNavigationButton, R.drawable.ic_action_rec_stop)
-        setDrawable(saveGpxButton, R.drawable.ic_type_file)
-        setDrawable(clearGpxButton, R.drawable.ic_action_settings)
-        setDrawable(muteNavigationButton, R.drawable.ic_action_micro_dark)
-        setDrawable(unmuteNavigationButton, R.drawable.ic_action_micro_dark)
-        setDrawable(importFileButton, R.drawable.ic_action_copy)
-        setDrawable(aidlImportProfileButton, R.drawable.ic_action_import)
-        setDrawable(aidlExportProfileButton, R.drawable.ic_action_export)
-        setDrawable(executeQuickAction, R.drawable.ic_action_play)
-        setDrawable(getQuickActionInfo, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.addFavoriteButton, R.drawable.ic_action_fav_dark)
+        setDrawable(binding.addMapMarkerButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.showLocationButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.startAudioRecButton, R.drawable.ic_action_micro_dark)
+        setDrawable(binding.startVideoRecButton, R.drawable.ic_action_video_dark)
+        setDrawable(binding.stopRecButton, R.drawable.ic_action_rec_stop)
+        setDrawable(binding.takePhotoButton, R.drawable.ic_action_photo_dark)
+        setDrawable(binding.startGpxRecButton, R.drawable.ic_action_play)
+        setDrawable(binding.stopGpxRecButton, R.drawable.ic_action_rec_stop)
+        setDrawable(binding.showGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(binding.navigateGpxButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.navigateButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.navigateSearchButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.getInfoButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.pauseNavigationButton, R.drawable.ic_pause)
+        setDrawable(binding.resumeNavigationButton, R.drawable.ic_action_play)
+        setDrawable(binding.stopNavigationButton, R.drawable.ic_action_rec_stop)
+        setDrawable(binding.saveGpxButton, R.drawable.ic_type_file)
+        setDrawable(binding.clearGpxButton, R.drawable.ic_action_settings)
+        setDrawable(binding.muteNavigationButton, R.drawable.ic_action_micro_dark)
+        setDrawable(binding.unmuteNavigationButton, R.drawable.ic_action_micro_dark)
+        setDrawable(binding.importFileButton, R.drawable.ic_action_copy)
+        setDrawable(binding.aidlImportProfileButton, R.drawable.ic_action_import)
+        setDrawable(binding.aidlExportProfileButton, R.drawable.ic_action_export)
+        setDrawable(binding.executeQuickAction, R.drawable.ic_action_play)
+        setDrawable(binding.getQuickActionInfo, R.drawable.ic_action_gabout_dark)
 
-        setDrawable(aidlAddMapMarkerButton, R.drawable.ic_action_flag_dark)
-        setDrawable(aidlRemoveMapMarkerButton, R.drawable.ic_action_flag_dark)
-        setDrawable(aidlUpdateMapMarkerButton, R.drawable.ic_action_flag_dark)
-        setDrawable(aidlRemoveAllActiveMapMarkersButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.aidlAddMapMarkerButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.aidlRemoveMapMarkerButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.aidlUpdateMapMarkerButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.aidlRemoveAllActiveMapMarkersButton, R.drawable.ic_action_flag_dark)
 
-        setDrawable(aidlAddFavoriteGroupButton, R.drawable.ic_action_fav_dark)
-        setDrawable(aidlRemoveFavoriteGroupButton, R.drawable.ic_action_fav_dark)
-        setDrawable(aidlUpdateFavoriteGroupButton, R.drawable.ic_action_fav_dark)
-        setDrawable(aidlAddFavoriteButton, R.drawable.ic_action_fav_dark)
-        setDrawable(aidlRemoveFavoriteButton, R.drawable.ic_action_fav_dark)
-        setDrawable(aidlUpdateFavoriteButton, R.drawable.ic_action_fav_dark)
+        setDrawable(binding.aidlAddFavoriteGroupButton, R.drawable.ic_action_fav_dark)
+        setDrawable(binding.aidlRemoveFavoriteGroupButton, R.drawable.ic_action_fav_dark)
+        setDrawable(binding.aidlUpdateFavoriteGroupButton, R.drawable.ic_action_fav_dark)
+        setDrawable(binding.aidlAddFavoriteButton, R.drawable.ic_action_fav_dark)
+        setDrawable(binding.aidlRemoveFavoriteButton, R.drawable.ic_action_fav_dark)
+        setDrawable(binding.aidlUpdateFavoriteButton, R.drawable.ic_action_fav_dark)
 
-        setDrawable(aidlAddMapPointButton, R.drawable.ic_action_flag_dark)
-        setDrawable(aidlRemoveMapPointButton, R.drawable.ic_action_flag_dark)
-        setDrawable(aidlUpdateMapPointButton, R.drawable.ic_action_flag_dark)
-        setDrawable(aidlShowMapPointButton, R.drawable.ic_action_flag_dark)
-        setDrawable(aidlAddMapLayerButton, R.drawable.ic_action_layers_dark)
-        setDrawable(aidlRemoveMapLayerButton, R.drawable.ic_action_layers_dark)
-        setDrawable(aidlUpdateMapLayerButton, R.drawable.ic_action_layers_dark)
-        setDrawable(aidlRefreshMapButton, R.drawable.ic_action_refresh_dark)
+        setDrawable(binding.aidlAddMapPointButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.aidlRemoveMapPointButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.aidlUpdateMapPointButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.aidlShowMapPointButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.aidlAddMapLayerButton, R.drawable.ic_action_layers_dark)
+        setDrawable(binding.aidlRemoveMapLayerButton, R.drawable.ic_action_layers_dark)
+        setDrawable(binding.aidlUpdateMapLayerButton, R.drawable.ic_action_layers_dark)
+        setDrawable(binding.aidlRefreshMapButton, R.drawable.ic_action_refresh_dark)
 
-        setDrawable(aidlImportGpxButton, R.drawable.ic_action_polygom_dark)
-        setDrawable(aidlShowGpxButton, R.drawable.ic_action_polygom_dark)
-        setDrawable(aidlHideGpxButton, R.drawable.ic_action_polygom_dark)
-        setDrawable(aidlGetActiveGpxButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlGetImportedGpxButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlGetBitmapForGpxButton, R.drawable.ic_action_polygom_dark)
-        setDrawable(aidlGetSqliteDbFilesButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlGetActiveSqliteDbFilesButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlShowSqliteDbFileButton, R.drawable.ic_type_file)
-        setDrawable(aidlHideSqliteDbFileButton, R.drawable.ic_type_file)
-        setDrawable(aidlCopyFileButton, R.drawable.ic_action_copy)
+        setDrawable(binding.aidlImportGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(binding.aidlShowGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(binding.aidlHideGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(binding.aidlGetActiveGpxButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlGetImportedGpxButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlGetBitmapForGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(binding.aidlGetSqliteDbFilesButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlGetActiveSqliteDbFilesButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlShowSqliteDbFileButton, R.drawable.ic_type_file)
+        setDrawable(binding.aidlHideSqliteDbFileButton, R.drawable.ic_type_file)
+        setDrawable(binding.aidlCopyFileButton, R.drawable.ic_action_copy)
 
-        setDrawable(aidlSetMapLocationButton, R.drawable.ic_action_flag_dark)
-        setDrawable(aidlStartGpxRecordingButton, R.drawable.ic_action_play)
-        setDrawable(aidlStopGpxRecordingButton, R.drawable.ic_action_rec_stop)
+        setDrawable(binding.aidlSetMapLocationButton, R.drawable.ic_action_flag_dark)
+        setDrawable(binding.aidlStartGpxRecordingButton, R.drawable.ic_action_play)
+        setDrawable(binding.aidlStopGpxRecordingButton, R.drawable.ic_action_rec_stop)
 
-        setDrawable(aidlTakePhotoNoteButton, R.drawable.ic_action_photo_dark)
-        setDrawable(aidlStartVideoRecordingButton, R.drawable.ic_action_video_dark)
-        setDrawable(aidlStartAudioRecordingButton, R.drawable.ic_action_micro_dark)
-        setDrawable(aidlStopRecordingButton, R.drawable.ic_action_rec_stop)
+        setDrawable(binding.aidlTakePhotoNoteButton, R.drawable.ic_action_photo_dark)
+        setDrawable(binding.aidlStartVideoRecordingButton, R.drawable.ic_action_video_dark)
+        setDrawable(binding.aidlStartAudioRecordingButton, R.drawable.ic_action_micro_dark)
+        setDrawable(binding.aidlStopRecordingButton, R.drawable.ic_action_rec_stop)
 
-        setDrawable(aidlNavigateButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlNavigateGpxButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlRemoveGpxButton, R.drawable.ic_action_polygom_dark)
-        setDrawable(aidlPauseNavigationButton, R.drawable.ic_pause)
-        setDrawable(aidlResumeNavigationButton, R.drawable.ic_action_play)
-        setDrawable(aidlStopNavigationButton, R.drawable.ic_action_rec_stop)
-        setDrawable(aidlMuteNavigationButton, R.drawable.ic_action_micro_dark)
-        setDrawable(aidlUnmuteNavigationButton, R.drawable.ic_action_micro_dark)
-        setDrawable(aidlSearchButton, R.drawable.ic_action_search_dark)
-        setDrawable(aidlNavigateSearchButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlRegisterForNavigationUpdatesButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlUnregisterForNavigationUpdatesButton, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlGetBlockedRoads, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlAddBlockedRoad, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlRemoveBlockedRoads, R.drawable.ic_action_gdirections_dark)
-        setDrawable(aidlRegisterForVoiceRouterMessagesButton, R.drawable.ic_action_micro_dark)
-        setDrawable(aidlUnRegisterForVoiceRouterMessagesButton, R.drawable.ic_action_micro_dark)
+        setDrawable(binding.aidlNavigateButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.aidlNavigateGpxButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.aidlRemoveGpxButton, R.drawable.ic_action_polygom_dark)
+        setDrawable(binding.aidlPauseNavigationButton, R.drawable.ic_pause)
+        setDrawable(binding.aidlResumeNavigationButton, R.drawable.ic_action_play)
+        setDrawable(binding.aidlStopNavigationButton, R.drawable.ic_action_rec_stop)
+        setDrawable(binding.aidlMuteNavigationButton, R.drawable.ic_action_micro_dark)
+        setDrawable(binding.aidlUnmuteNavigationButton, R.drawable.ic_action_micro_dark)
+        setDrawable(binding.aidlSearchButton, R.drawable.ic_action_search_dark)
+        setDrawable(binding.aidlNavigateSearchButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.aidlRegisterForNavigationUpdatesButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.aidlUnregisterForNavigationUpdatesButton, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.aidlGetBlockedRoads, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.aidlAddBlockedRoad, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.aidlRemoveBlockedRoads, R.drawable.ic_action_gdirections_dark)
+        setDrawable(binding.aidlRegisterForVoiceRouterMessagesButton, R.drawable.ic_action_micro_dark)
+        setDrawable(binding.aidlUnRegisterForVoiceRouterMessagesButton, R.drawable.ic_action_micro_dark)
 
-        setDrawable(aidlAddFirstMapWidgetButton, R.drawable.ic_action_settings)
-        setDrawable(aidlRemoveFirstMapWidgetButton, R.drawable.ic_action_settings)
-        setDrawable(aidlUpdateFirstMapWidgetButton, R.drawable.ic_action_settings)
-        setDrawable(aidlAddSecondMapWidgetButton, R.drawable.ic_action_settings)
-        setDrawable(aidlRemoveSecondMapWidgetButton, R.drawable.ic_action_settings)
-        setDrawable(aidlUpdateSecondMapWidgetButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlAddFirstMapWidgetButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRemoveFirstMapWidgetButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlUpdateFirstMapWidgetButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlAddSecondMapWidgetButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRemoveSecondMapWidgetButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlUpdateSecondMapWidgetButton, R.drawable.ic_action_settings)
 
-        setDrawable(aidlRegisterForUpdatesButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlUnregisterFromUpdatesButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlSetEnabledIdsButton, R.drawable.ic_action_settings)
-        setDrawable(aidlHideDrawerProfile, R.drawable.ic_action_hide)
-        setDrawable(aidlSetDisabledIdsButton, R.drawable.ic_action_settings)
-        setDrawable(aidlSetEnabledPatternsButton, R.drawable.ic_action_settings)
-        setDrawable(aidlSetDisabledPatternsButton, R.drawable.ic_action_settings)
-        setDrawable(aidlRegWidgetVisibilityButton, R.drawable.ic_action_settings)
-        setDrawable(aidlRegWidgetAvailabilityButton, R.drawable.ic_action_settings)
-        setDrawable(aidlCustomizeOsmandSettingsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRegisterForUpdatesButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlUnregisterFromUpdatesButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlSetEnabledIdsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlHideDrawerProfile, R.drawable.ic_action_hide)
+        setDrawable(binding.aidlSetDisabledIdsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlSetEnabledPatternsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlSetDisabledPatternsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRegWidgetVisibilityButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRegWidgetAvailabilityButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlCustomizeOsmandSettingsButton, R.drawable.ic_action_settings)
 
-        setDrawable(aidlSetNavDrawerLogoButton, R.drawable.ic_action_settings)
-        setDrawable(aidlSetNavDrawerFooterButton, R.drawable.ic_action_settings)
-        setDrawable(aidlSetNavDrawerItemsButton, R.drawable.ic_navigation_drawer)
-        setDrawable(aidlRestoreOsmandButton, R.drawable.ic_action_settings)
-        setDrawable(aidlChangePluginStateButton, R.drawable.ic_action_settings)
-        setDrawable(aidlRegisterForOsmandInitListenerButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlSetNavDrawerLogoButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlSetNavDrawerFooterButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlSetNavDrawerItemsButton, R.drawable.ic_navigation_drawer)
+        setDrawable(binding.aidlRestoreOsmandButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlChangePluginStateButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRegisterForOsmandInitListenerButton, R.drawable.ic_action_gabout_dark)
 
-        setDrawable(aidlAddContextMenuButtonsButton, R.drawable.ic_action_settings)
-        setDrawable(aidlRemoveContextMenuButtonsButton, R.drawable.ic_action_settings)
-        setDrawable(aidlUpdateContextMenuButtonsButton, R.drawable.ic_action_settings)
-        setDrawable(aidlAreOsmandSettingsCustomizedButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlSetCustomizationButton, R.drawable.ic_action_settings)
-        setDrawable(aidlIsFragmentOpen, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlIsMenuOpen, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlSetUIMarginsButton, R.drawable.ic_action_settings)
-        setDrawable(aidlGetPreferenceButton, R.drawable.ic_action_settings)
-        setDrawable(aidlSetPreferenceButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlAddContextMenuButtonsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRemoveContextMenuButtonsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlUpdateContextMenuButtonsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlAreOsmandSettingsCustomizedButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlSetCustomizationButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlIsFragmentOpen, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlIsMenuOpen, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlSetUIMarginsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlGetPreferenceButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlSetPreferenceButton, R.drawable.ic_action_settings)
 
-        setDrawable(aidlExitAppButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlGetTextButton, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlListenToOsmAndLogs, R.drawable.ic_action_gabout_dark)
-        setDrawable(aidlStopListenToOsmAndLogs, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlExitAppButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlGetTextButton, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlListenToOsmAndLogs, R.drawable.ic_action_gabout_dark)
+        setDrawable(binding.aidlStopListenToOsmAndLogs, R.drawable.ic_action_gabout_dark)
     }
 
     private fun getDemoIntent(): Intent? {

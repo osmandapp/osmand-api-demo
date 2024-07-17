@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 33
-	buildToolsVersion "33.0.2"
+	compileSdk 34
+	buildToolsVersion = "34.0.0"
+
+	namespace = "net.osmand.library.sample"
 
 	defaultConfig {
 		applicationId "net.osmand.library.sample"
 		minSdkVersion 24
-		targetSdkVersion 31
+		targetSdkVersion 34
 		versionCode 1
 		versionName "1.0"
 		multiDexEnabled true
@@ -39,6 +41,7 @@ android {
 		armonly {
 			dimension "abi"
 			ndk {
+				//noinspection ChromeOsAbiSupport
 				abiFilters 'arm64-v8a', 'armeabi-v7a'
 			}
 		}
@@ -127,6 +130,6 @@ dependencies {
 		exclude group: "com.fasterxml.jackson.core"
 	}
 	implementation 'com.jaredrummler:colorpicker:1.1.0'
-	implementation 'com.google.android.gms:play-services-location:21.0.1'
+	implementation 'com.google.android.gms:play-services-location:21.3.0'
 	implementation "net.osmand:antpluginlib:3.8.0@aar"
 }

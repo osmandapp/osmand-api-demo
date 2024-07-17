@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.title_desc_list_layout.view.*
+import android.widget.TextView
 import main.java.net.osmand.osmandapidemo.*
 import net.osmand.aidlapi.search.SearchResult
 import net.osmand.osmandapidemo.R
@@ -63,9 +63,9 @@ class SearchResultsAdapter(context: Context, resultSet: List<SearchResult>, priv
         val item = getItem(position)
         if (item != null) {
             val distance = Utils.getDistance(origLat, origLon, item.latitude, item.longitude)
-            view.title.text = item.localName
-            view.description.text = item.localTypeName
-            view.info.text = Utils.getFormattedDistance(distance)
+            view.findViewById<TextView>(R.id.title).text = item.localName
+            view.findViewById<TextView>(R.id.description).text = item.localTypeName
+            view.findViewById<TextView>(R.id.info).text = Utils.getFormattedDistance(distance)
         }
         return view
     }

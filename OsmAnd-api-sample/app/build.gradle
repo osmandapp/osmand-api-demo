@@ -1,16 +1,16 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
-	compileSdkVersion 33
-	buildToolsVersion "33.0.2"
+	compileSdk 34
+	buildToolsVersion = "34.0.0"
+
+	namespace = "net.osmand.osmandapidemo"
 
 	defaultConfig {
 		applicationId "net.osmand.osmandapidemo"
-		minSdkVersion 21
-		targetSdkVersion 33
+		minSdkVersion 24
+		targetSdkVersion 34
 		versionCode System.getenv("APK_NUMBER_VERSION") ? System.getenv("APK_NUMBER_VERSION").toInteger() : 100
 		versionName System.getenv("APK_VERSION")? System.getenv("APK_VERSION").toString(): "1.0-dev"
 	}
@@ -30,6 +30,15 @@ android {
 		}
 	}
 
+	compileOptions {
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
+	}
+
+	buildFeatures {
+		aidl true
+		viewBinding true
+	}
 
 	buildTypes {
 		release {
