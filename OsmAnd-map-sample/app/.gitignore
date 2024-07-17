@@ -20,3 +20,4 @@ gradlew.bat
 # Output
 /build
 /captures
+/openglFat

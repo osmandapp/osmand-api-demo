@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="net.osmand.osmandapidemo">
+	package="net.osmand.osmandapidemo"
+	android:versionCode="12"
+	android:versionName="1.2">
 
 	<queries>
 		<package android:name="net.osmand" />
