@@ -46,8 +46,8 @@ public class CustomPointsLayer extends OsmandMapLayer implements IContextMenuPro
 	}
 
 	@Override
-	public void initLayer(@NonNull OsmandMapTileView view) {
-		super.initLayer(view);
+	public void initLayer() {
+		super.initLayer();
 		defaultColor = view.getResources().getColor(net.osmand.plus.R.color.profile_icon_color_green_light);
 	}
 
