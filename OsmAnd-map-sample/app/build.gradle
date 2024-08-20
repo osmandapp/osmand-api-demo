@@ -90,6 +90,9 @@ dependencies {
 	debugImplementation "net.osmand:OsmAnd:master-snapshot:debug@aar"
 	releaseImplementation "net.osmand:OsmAnd:master-snapshot:release@aar"
 
+	implementation "net.osmand.shared:OsmAnd-shared-android:master-snapshot@jar"
+	implementation "net.osmand.shared:OsmAnd-shared-android:master-snapshot@aar"
+
 	implementation fileTree(include:  ['QtAndroid.jar', 'QtAndroidBearer.jar'], dir: 'libs')
 
 	implementation "net.osmand:OsmAndCore_androidNativeRelease:master-snapshot@aar"
@@ -132,4 +135,19 @@ dependencies {
 	implementation 'com.jaredrummler:colorpicker:1.1.0'
 	implementation 'com.google.android.gms:play-services-location:21.3.0'
 	implementation "net.osmand:antpluginlib:3.8.0@aar"
+
+	implementation "androidx.core:core:1.13.1"
+	implementation "androidx.car.app:app:1.4.0"
+	implementation "androidx.car.app:app-projected:1.4.0"
+
+	//implementation("org.jetbrains.kotlin:kotlin-stdlib")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
+	implementation("com.squareup.okio:okio:3.9.0")
+
+	implementation("androidx.sqlite:sqlite:2.3.1")
+	implementation("androidx.sqlite:sqlite-framework:2.3.1")
+	implementation("net.sf.kxml:kxml2:2.3.0")
 }
