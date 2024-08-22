@@ -90,8 +90,8 @@ dependencies {
 	debugImplementation "net.osmand:OsmAnd:master-snapshot:debug@aar"
 	releaseImplementation "net.osmand:OsmAnd:master-snapshot:release@aar"
 
-	implementation "net.osmand.shared:OsmAnd-shared-android:master-snapshot@jar"
-	implementation "net.osmand.shared:OsmAnd-shared-android:master-snapshot@aar"
+	debugImplementation "net.osmand.shared:OsmAnd-shared-android:master-snapshot:debug@aar"
+	releaseImplementation "net.osmand.shared:OsmAnd-shared-android:master-snapshot:release@aar"
 
 	implementation fileTree(include:  ['QtAndroid.jar', 'QtAndroidBearer.jar'], dir: 'libs')
 
