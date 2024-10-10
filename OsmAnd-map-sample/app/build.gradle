@@ -140,12 +140,12 @@ dependencies {
 	implementation "androidx.car.app:app:1.4.0"
 	implementation "androidx.car.app:app-projected:1.4.0"
 
-	//implementation("org.jetbrains.kotlin:kotlin-stdlib")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
 	implementation("com.squareup.okio:okio:3.9.0")
+	implementation("co.touchlab:stately-concurrent-collections:2.1.0")
 
 	implementation("androidx.sqlite:sqlite:2.3.1")
 	implementation("androidx.sqlite:sqlite-framework:2.3.1")
