@@ -135,6 +135,7 @@ dependencies {
 	implementation 'com.jaredrummler:colorpicker:1.1.0'
 	implementation 'com.google.android.gms:play-services-location:21.3.0'
 	implementation "net.osmand:antpluginlib:3.8.0@aar"
+	implementation 'com.google.android.play:review:2.0.1'
 
 	implementation "androidx.core:core:1.13.1"
 	implementation "androidx.car.app:app:1.4.0"
