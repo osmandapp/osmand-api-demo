@@ -151,4 +151,5 @@ dependencies {
 	implementation("androidx.sqlite:sqlite:2.3.1")
 	implementation("androidx.sqlite:sqlite-framework:2.3.1")
 	implementation("net.sf.kxml:kxml2:2.3.0")
+	implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
 }
