@@ -9,4 +9,7 @@
     <color name="itemBackgroundColor">#FFF</color>
     <color name="iconColor">#727272</color>
     <color name="dialogTitleBackgroundColor">#2f7af5</color>
+
+    <color name="active_buttons_and_links_text_light">#ffffff</color>
+
 </resources>
