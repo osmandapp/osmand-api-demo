@@ -1,19 +1,37 @@
 package net.osmand.library.sample;
 
+import static net.osmand.plus.utils.InsetsUtils.InsetSide.BOTTOM;
+import static net.osmand.plus.utils.InsetsUtils.InsetSide.LEFT;
+import static net.osmand.plus.utils.InsetsUtils.InsetSide.RIGHT;
+import static net.osmand.plus.utils.InsetsUtils.InsetSide.TOP;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import net.osmand.plus.OsmandApplication;
+import net.osmand.plus.activities.OsmandActionBarActivity;
+import net.osmand.plus.helpers.AndroidUiHelper;
+import net.osmand.plus.utils.AndroidUtils;
+import net.osmand.plus.utils.InsetsUtils;
+import net.osmand.plus.utils.InsetsUtils.InsetSide;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
+public class MainActivity extends OsmandActionBarActivity {
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		toolbar.setTitle(getString(R.string.app_name));
 
 		OsmandApplication app = (OsmandApplication) getApplication();
 
@@ -41,5 +59,21 @@ public class MainActivity extends AppCompatActivity {
 			Intent newIntent = new Intent(MainActivity.this, FullMapActivity.class);
 			startActivity(newIntent);
 		});
+	}
+
+	public void updateStatusBarColor() {
+		int color = AndroidUtils.getColorFromAttr(this, android.R.attr.colorPrimary);
+		if (color != -1) {
+			AndroidUiHelper.setStatusBarColor(this, color);
+		}
+	}
+
+	@Override
+	public void onContentChanged() {
+		super.onContentChanged();
+
+		View root = findViewById(R.id.root);
+		List<InsetSide> sides = Arrays.asList(LEFT, TOP, RIGHT, BOTTOM);
+		InsetsUtils.setWindowInsetsListener(root, new HashSet<>(sides));
 	}
 }
