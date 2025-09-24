@@ -15,6 +15,7 @@ import android.os.Handler
 import android.text.SpannableStringBuilder
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
@@ -24,6 +25,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.OnApplyWindowInsetsListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import main.java.net.osmand.osmandapidemo.OsmAndAidlHelper.VoiceRouterNotifyListener
 import main.java.net.osmand.osmandapidemo.dialogs.ChooseLocationDialogFragment
 import main.java.net.osmand.osmandapidemo.dialogs.CloseAfterCommandDialogFragment
@@ -1338,6 +1342,41 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         binding.aidlStopListenToOsmAndLogs.setOnClickListener {
             execApiActionImpl(ApiActionType.AIDL_UNREGISTER_FROM_LISTEN_LOGS)
         }
+    }
+
+    override fun onContentChanged() {
+        super.onContentChanged()
+
+        val root: View? = findViewById(R.id.root)
+        if (root != null && isEdgeToEdgeSupported()) {
+            ViewCompat.setOnApplyWindowInsetsListener(
+                root,
+                OnApplyWindowInsetsListener { v: View, insets: WindowInsetsCompat ->
+                    val appbar: View? = findViewById(R.id.appbar)
+                    val scrollView: View? = findViewById(R.id.scroll_view)
+                    val sysBars = insets.getInsets(
+                        WindowInsetsCompat.Type.systemBars()
+                                or WindowInsetsCompat.Type.displayCutout()
+                    )
+
+                    appbar?.setPadding(sysBars.left, sysBars.top, sysBars.right, 0)
+                    scrollView?.setPadding(sysBars.left, 0, sysBars.right, sysBars.bottom)
+
+                    WindowInsetsCompat.CONSUMED
+                })
+            ViewCompat.requestApplyInsets(root)
+        }
+    }
+
+    fun applyPadding(view: View, insets: WindowInsetsCompat) {
+        if (isEdgeToEdgeSupported()) {
+            val sysBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            view.setPadding(sysBars.left, sysBars.top, sysBars.right, sysBars.bottom)
+        }
+    }
+
+    fun isEdgeToEdgeSupported(): Boolean {
+        return Build.VERSION.SDK_INT >= 30
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

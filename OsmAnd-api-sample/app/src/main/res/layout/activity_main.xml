@@ -1,1494 +1,1519 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="main.java.net.osmand.osmandapidemo.MainActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/my_places"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addFavoriteButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_favorite"
-                tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addMapMarkerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_map_marker"
-                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/map"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/showLocationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/show_location"
-                tools:drawableLeft="@drawable/ic_action_flag_dark"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/audio_video_plugin"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/startAudioRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/start_audio_recording"
-                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/startVideoRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/start_video_recording"
-                tools:drawableLeft="@drawable/ic_action_video_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/stopRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stop_recording"
-                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/takePhotoButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/take_photo"
-                tools:drawableLeft="@drawable/ic_action_photo_dark"/>
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/gpx_recording"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/startGpxRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/start_gpx_recording"
-                tools:drawableLeft="@drawable/ic_action_play"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/stopGpxRecButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stop_gpx_recording"
-                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/saveGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/save_gpx_track"
-                tools:drawableLeft="@drawable/ic_type_file"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/clearGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/clear_gpx_track"
-                tools:drawableLeft="@drawable/ic_action_settings"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/gpx_display_navigation"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/showGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/show_gpx"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/navigateGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/navigate_gpx"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/navigation"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/navigateButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/navigate"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/navigateSearchButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/search_navigate"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/pauseNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/pause_navigation"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/resumeNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/resume_navigation"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/stopNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stop_navigation"
-                tools:drawableLeft="@drawable/ic_action_rec_stop"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/muteNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/mute_navigation"
-                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/unmuteNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/unmute_navigation"
-                tools:drawableLeft="@drawable/ic_action_micro_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/getInfoButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/get_info"
-                tools:drawableLeft="@drawable/ic_action_gabout_dark"/>
-
-            <View style="@style/short_divider_style"/>
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <!--AIDL - Markers and Favorites-->
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/shared_string_files"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/importFileButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/import_file"
-                tools:drawableLeft="@drawable/ic_action_fav_dark"/>
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/shared_string_aidl_files"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlCopyFileButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/copy_file"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlImportProfileButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/import_profile"
-                tools:drawableLeft="@drawable/ic_action_import"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlExportProfileButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/export_profile"
-                tools:drawableLeft="@drawable/ic_action_export"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/quick_actions"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/executeQuickAction"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/execute_quick_action"
-                tools:drawableLeft="@drawable/ic_action_polygom_dark"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/getQuickActionInfo"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/get_quick_action_info"
-                tools:drawableLeft="@drawable/ic_action_gdirections_dark"/>
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <!--AIDL - Markers and Favorites-->
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="AIDL - Markers and Favorites"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAddMapMarkerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_map_marker"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUpdateMapMarkerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_map_marker"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveMapMarkerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_map_marker"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveAllActiveMapMarkersButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_all_active_map_markers"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAddFavoriteGroupButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_favorite_group"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUpdateFavoriteGroupButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_favorite_group"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveFavoriteGroupButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_favorite_group"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAddFavoriteButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_favorite"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveFavoriteButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_favorite"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUpdateFavoriteButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_favorite"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <!--AIDL - Map layers and points-->
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="AIDL - Map layers and points"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAddMapLayerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_map_layer"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveMapLayerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_map_layer"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUpdateMapLayerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_map_layer"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlShowMapPointButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/show_map_point"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAddMapPointButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_map_point"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveMapPointButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_map_point"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUpdateMapPointButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_map_point"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRefreshMapButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/refresh_map"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <!--AIDL - GPX and SQLITEDB Files-->
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="AIDL - GPX and SQLITEDB Files"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlImportGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/import_gpx"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlShowGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/show_gpx"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlHideGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/hide_gpx"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlGetActiveGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/get_active_gpx_list"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_gpx"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlGetImportedGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/get_imported_gpx"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlGetSqliteDbFilesButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/get_sqlitedb_files"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlGetActiveSqliteDbFilesButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/get_active_sqlitedb_files"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlShowSqliteDbFileButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/show_sqlitedb_file"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlHideSqliteDbFileButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/hide_sqlitedb_file"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlGetBitmapForGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/get_bitmap_for_gpx"/>
-
-            <View style="@style/short_divider_style"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <!--AIDL - Location-->
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="AIDL - Location"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetMapLocationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_polygom_dark"
-                android:text="@string/set_map_location"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlStartGpxRecordingButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_play"
-                android:text="@string/start_gpx_recording"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlStopGpxRecordingButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_rec_stop"
-                android:text="@string/stop_gpx_recording"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <!--AIDL - Saving photo/audio/video-->
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="AIDL - Saving photo/audio/video"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlTakePhotoNoteButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/take_photo_note"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlStartVideoRecordingButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/start_video_recording"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlStartAudioRecordingButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/start_audio_recording"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlStopRecordingButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/stop_recording"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <!--AIDL - Navigation-->
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="AIDL - Navigation"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlNavigateButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/navigate"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlNavigateGpxButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/navigate_gpx"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlPauseNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/pause_navigation"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlResumeNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/resume_navigation"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlStopNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/stop_navigation"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlMuteNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/mute_navigation"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUnmuteNavigationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/unmute_navigation"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSearchButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/search"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlNavigateSearchButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/navigate_search"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRegisterForVoiceRouterMessagesButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/register_for_voice_router_messages"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUnRegisterForVoiceRouterMessagesButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/unregister_for_voice_router_messages"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRegisterForUpdatesButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/register_for_updates"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUnregisterFromUpdatesButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/unregister_from_updates"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRegisterForNavigationUpdatesButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/register_for_navigation_updates"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUnregisterForNavigationUpdatesButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/unregister_for_navigation_updates"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlGetBlockedRoads"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/aidl_get_blocked_roads"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAddBlockedRoad"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/aidl_add_blocked_road"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveBlockedRoads"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/aidl_remove_blocked_road"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider"/>
-
-        <!--AIDL - OsmAnd Customization - run time only -->
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/osmand_customization" />
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetNavDrawerItemsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_nav_drawer_items" />
-            <View style="@style/short_divider_style" />
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlHideDrawerProfile"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_hide"
-                android:drawableStart="@drawable/ic_action_hide"
-                android:text="@string/hide_drawer_profile" />
-
-            <View style="@style/short_divider_style" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetEnabledIdsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_enabled_ids" />
-
-            <View style="@style/short_divider_style" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetDisabledIdsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_disabled_ids"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetEnabledPatternsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_enabled_patterns"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetDisabledPatternsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_disabled_patterns"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlCustomizeOsmandSettingsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/customize_osmand_settings"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetNavDrawerLogoButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_nav_drawer_logo"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetNavDrawerFooterButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_nav_drawer_footer"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRestoreOsmandButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/restore_osmand"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlChangePluginStateButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/change_plugin_state"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAddFirstMapWidgetButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_first_map_widget"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAddSecondMapWidgetButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_second_map_widget"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveFirstMapWidgetButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_first_map_widget"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveSecondMapWidgetButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_second_map_widget"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUpdateFirstMapWidgetButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_first_map_widget"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUpdateSecondMapWidgetButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_second_map_widget"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRegisterForOsmandInitListenerButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/register_for_osmand_init_listener"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAddContextMenuButtonsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/add_context_menu_buttons"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRemoveContextMenuButtonsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/remove_context_menu_buttons"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlUpdateContextMenuButtonsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/update_context_menu_buttons"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlAreOsmandSettingsCustomizedButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/are_osmand_settings_customized"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlGetPreferenceButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/get_preference"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetPreferenceButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_preference"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetCustomizationButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_customization" />
-
-            <View style="@style/short_divider_style" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlIsFragmentOpen"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_gabout_dark"
-                android:drawableStart="@drawable/ic_action_gabout_dark"
-                android:text="@string/is_fragment_open"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlIsMenuOpen"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_gabout_dark"
-                android:drawableStart="@drawable/ic_action_gabout_dark"
-                android:text="@string/is_menu_open"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider" />
-
-        <!--AIDL - OsmAnd Customization - profile dependent -->
-        <include layout="@layout/card_top_divider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/osmand_customization_profile_dependent" />
-
-            <View style="@style/divider_style" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlSetUIMarginsButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/set_ui_margins" />
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRegWidgetVisibilityButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/reg_widget_visibility"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlRegWidgetAvailabilityButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/reg_widget_availability"/>
-
-        </LinearLayout>
-
-        <include layout="@layout/card_bottom_divider" />
-
-        <!--AIDL - Utils-->
-        <include layout="@layout/card_top_divider"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itemBackgroundColor"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/categoryStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="AIDL - Utils"/>
-
-            <View style="@style/divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlExitAppButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/exit_app"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlGetTextButton"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/get_string_resource"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlListenToOsmAndLogs"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/listen_to_osmand_logs"/>
-
-            <View style="@style/short_divider_style"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/aidlStopListenToOsmAndLogs"
-                style="@style/row_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_flag_dark"
-                android:text="@string/stop_listen_to_osmand_logs"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/root"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appbar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:elevation="5dp">
+
+		<androidx.appcompat.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="?attr/colorPrimary"
+			android:minHeight="56dp"
+			app:title="@string/app_name"
+			app:titleTextColor="@color/active_buttons_and_links_text_light" />
+
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<ScrollView
+		android:id="@+id/scroll_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:clipToPadding="false"
+		tools:context="main.java.net.osmand.osmandapidemo.MainActivity">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="10dp"
+			android:gravity="center_horizontal"
+			android:orientation="vertical">
+
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/my_places" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/addFavoriteButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/add_favorite"
+					tools:drawableStart="@drawable/ic_action_fav_dark" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/addMapMarkerButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/add_map_marker"
+					tools:drawableStart="@drawable/ic_action_flag_dark" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/map" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/showLocationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/show_location"
+					tools:drawableStart="@drawable/ic_action_flag_dark" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/audio_video_plugin" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/startAudioRecButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/start_audio_recording"
+					tools:drawableStart="@drawable/ic_action_micro_dark" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/startVideoRecButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/start_video_recording"
+					tools:drawableStart="@drawable/ic_action_video_dark" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/stopRecButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/stop_recording"
+					tools:drawableStart="@drawable/ic_action_rec_stop" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/takePhotoButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/take_photo"
+					tools:drawableStart="@drawable/ic_action_photo_dark" />
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/gpx_recording" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/startGpxRecButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/start_gpx_recording"
+					tools:drawableStart="@drawable/ic_action_play" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/stopGpxRecButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/stop_gpx_recording"
+					tools:drawableStart="@drawable/ic_action_rec_stop" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/saveGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/save_gpx_track"
+					tools:drawableStart="@drawable/ic_type_file" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/clearGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/clear_gpx_track"
+					tools:drawableStart="@drawable/ic_action_settings" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/gpx_display_navigation" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/showGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/show_gpx"
+					tools:drawableStart="@drawable/ic_action_polygom_dark" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/navigateGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/navigate_gpx"
+					tools:drawableStart="@drawable/ic_action_gdirections_dark" />
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/navigation" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/navigateButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/navigate"
+					tools:drawableStart="@drawable/ic_action_gdirections_dark" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/navigateSearchButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/search_navigate"
+					tools:drawableStart="@drawable/ic_action_gdirections_dark" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/pauseNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/pause_navigation"
+					tools:drawableStart="@drawable/ic_action_gdirections_dark" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/resumeNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/resume_navigation"
+					tools:drawableStart="@drawable/ic_action_gdirections_dark" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/stopNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/stop_navigation"
+					tools:drawableStart="@drawable/ic_action_rec_stop" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/muteNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/mute_navigation"
+					tools:drawableStart="@drawable/ic_action_micro_dark" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/unmuteNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/unmute_navigation"
+					tools:drawableStart="@drawable/ic_action_micro_dark" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/getInfoButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/get_info"
+					tools:drawableStart="@drawable/ic_action_gabout_dark" />
+
+				<View style="@style/short_divider_style" />
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - Markers and Favorites-->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/shared_string_files" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/importFileButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/import_file"
+					tools:drawableStart="@drawable/ic_action_fav_dark" />
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/shared_string_aidl_files" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlCopyFileButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/copy_file" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlImportProfileButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/import_profile"
+					tools:drawableStart="@drawable/ic_action_import" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlExportProfileButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/export_profile"
+					tools:drawableStart="@drawable/ic_action_export" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/quick_actions" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/executeQuickAction"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/execute_quick_action"
+					tools:drawableStart="@drawable/ic_action_polygom_dark" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/getQuickActionInfo"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/get_quick_action_info"
+					tools:drawableStart="@drawable/ic_action_gdirections_dark" />
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - Markers and Favorites-->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="AIDL - Markers and Favorites" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddMapMarkerButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/add_map_marker" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUpdateMapMarkerButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/update_map_marker" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveMapMarkerButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_map_marker" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveAllActiveMapMarkersButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_all_active_map_markers" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddFavoriteGroupButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/add_favorite_group" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUpdateFavoriteGroupButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/update_favorite_group" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveFavoriteGroupButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_favorite_group" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddFavoriteButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/add_favorite" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveFavoriteButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_favorite" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUpdateFavoriteButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/update_favorite" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - Map layers and points-->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="AIDL - Map layers and points" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddMapLayerButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/add_map_layer" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveMapLayerButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_map_layer" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUpdateMapLayerButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/update_map_layer" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlShowMapPointButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/show_map_point" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddMapPointButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/add_map_point" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveMapPointButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_map_point" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUpdateMapPointButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/update_map_point" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRefreshMapButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/refresh_map" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - GPX and SQLITEDB Files-->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="AIDL - GPX and SQLITEDB Files" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlImportGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/import_gpx" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlShowGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/show_gpx" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlHideGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/hide_gpx" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlGetActiveGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/get_active_gpx_list" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_gpx" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlGetImportedGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/get_imported_gpx" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlGetSqliteDbFilesButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/get_sqlitedb_files" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlGetActiveSqliteDbFilesButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/get_active_sqlitedb_files" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlShowSqliteDbFileButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/show_sqlitedb_file" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlHideSqliteDbFileButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/hide_sqlitedb_file" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlGetBitmapForGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/get_bitmap_for_gpx" />
+
+				<View style="@style/short_divider_style" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - Location-->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="AIDL - Location" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetMapLocationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_polygom_dark"
+					android:text="@string/set_map_location" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlStartGpxRecordingButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_play"
+					android:text="@string/start_gpx_recording" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlStopGpxRecordingButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_rec_stop"
+					android:text="@string/stop_gpx_recording" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - Saving photo/audio/video-->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="AIDL - Saving photo/audio/video" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlTakePhotoNoteButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/take_photo_note" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlStartVideoRecordingButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/start_video_recording" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlStartAudioRecordingButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/start_audio_recording" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlStopRecordingButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/stop_recording" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - Navigation-->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="AIDL - Navigation" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlNavigateButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/navigate" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlNavigateGpxButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/navigate_gpx" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlPauseNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/pause_navigation" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlResumeNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/resume_navigation" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlStopNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/stop_navigation" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlMuteNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/mute_navigation" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUnmuteNavigationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/unmute_navigation" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSearchButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/search" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlNavigateSearchButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/navigate_search" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRegisterForVoiceRouterMessagesButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/register_for_voice_router_messages" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUnRegisterForVoiceRouterMessagesButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/unregister_for_voice_router_messages" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRegisterForUpdatesButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/register_for_updates" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUnregisterFromUpdatesButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/unregister_from_updates" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRegisterForNavigationUpdatesButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/register_for_navigation_updates" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUnregisterForNavigationUpdatesButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/unregister_for_navigation_updates" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlGetBlockedRoads"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/aidl_get_blocked_roads" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddBlockedRoad"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/aidl_add_blocked_road" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveBlockedRoads"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/aidl_remove_blocked_road" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - OsmAnd Customization - run time only -->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/osmand_customization" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetNavDrawerItemsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_nav_drawer_items" />
+
+				<View style="@style/short_divider_style" />
+
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlHideDrawerProfile"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_hide"
+					android:text="@string/hide_drawer_profile" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetEnabledIdsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_enabled_ids" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetDisabledIdsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_disabled_ids" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetEnabledPatternsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_enabled_patterns" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetDisabledPatternsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_disabled_patterns" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlCustomizeOsmandSettingsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/customize_osmand_settings" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetNavDrawerLogoButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_nav_drawer_logo" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetNavDrawerFooterButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_nav_drawer_footer" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRestoreOsmandButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/restore_osmand" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlChangePluginStateButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/change_plugin_state" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddFirstMapWidgetButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/add_first_map_widget" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddSecondMapWidgetButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/add_second_map_widget" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveFirstMapWidgetButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_first_map_widget" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveSecondMapWidgetButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_second_map_widget" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUpdateFirstMapWidgetButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/update_first_map_widget" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUpdateSecondMapWidgetButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/update_second_map_widget" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRegisterForOsmandInitListenerButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/register_for_osmand_init_listener" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddContextMenuButtonsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/add_context_menu_buttons" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRemoveContextMenuButtonsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/remove_context_menu_buttons" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlUpdateContextMenuButtonsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/update_context_menu_buttons" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAreOsmandSettingsCustomizedButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/are_osmand_settings_customized" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlGetPreferenceButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/get_preference" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetPreferenceButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_preference" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetCustomizationButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_customization" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlIsFragmentOpen"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_gabout_dark"
+					android:text="@string/is_fragment_open" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlIsMenuOpen"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_gabout_dark"
+					android:text="@string/is_menu_open" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - OsmAnd Customization - profile dependent -->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/osmand_customization_profile_dependent" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlSetUIMarginsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/set_ui_margins" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRegWidgetVisibilityButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/reg_widget_visibility" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlRegWidgetAvailabilityButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/reg_widget_availability" />
+
+			</LinearLayout>
+
+			<include layout="@layout/card_bottom_divider" />
+
+			<!--AIDL - Utils-->
+			<include layout="@layout/card_top_divider" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/itemBackgroundColor"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/categoryStyle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="AIDL - Utils" />
+
+				<View style="@style/divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlExitAppButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/exit_app" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlGetTextButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/get_string_resource" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlListenToOsmAndLogs"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/listen_to_osmand_logs" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlStopListenToOsmAndLogs"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/stop_listen_to_osmand_logs" />
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+</LinearLayout>
