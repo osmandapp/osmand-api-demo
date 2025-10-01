@@ -21,6 +21,7 @@ import net.osmand.plus.views.PointImageDrawable;
 import net.osmand.plus.views.PointImageUtils;
 import net.osmand.plus.views.layers.ContextMenuLayer.IContextMenuProvider;
 import net.osmand.plus.views.layers.MapSelectionResult;
+import net.osmand.plus.views.layers.MapSelectionRules;
 import net.osmand.plus.views.layers.MapTextLayer;
 import net.osmand.plus.views.layers.base.OsmandMapLayer;
 import net.osmand.plus.views.layers.core.FavoritesTileProvider;
@@ -174,7 +175,7 @@ public class CustomPointsLayer extends OsmandMapLayer implements IContextMenuPro
 
 	@Override
 	public void collectObjectsFromPoint(@NonNull MapSelectionResult mapSelectionResult,
-			boolean unknownLocation, boolean excludeUntouchableObjects) {
+			@NonNull MapSelectionRules mapSelectionRules) {
 
 	}
 
