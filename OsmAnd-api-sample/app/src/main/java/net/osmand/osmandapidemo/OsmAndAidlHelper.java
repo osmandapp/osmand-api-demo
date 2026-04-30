@@ -14,13 +14,18 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import net.osmand.aidlapi.IOsmAndAidlCallback;
 import net.osmand.aidlapi.IOsmAndAidlInterface;
@@ -124,7 +129,9 @@ public class OsmAndAidlHelper {
 
 	private static final String OSMAND_FREE_PACKAGE_NAME = "net.osmand";
 	private static final String OSMAND_PLUS_PACKAGE_NAME = "net.osmand.plus";
-	private static final String OSMAND_PACKAGE_NAME = OSMAND_PLUS_PACKAGE_NAME;
+	private static final String OSMAND_NIGHTLY_PACKAGE_NAME = "net.osmand.dev";
+
+	private String osmandPackageName = null;
 
 	private static final int MAX_RETRY_COUNT = 10;
 	private static final long BUFFER_SIZE = COPY_FILE_PART_SIZE_LIMIT;
@@ -173,6 +180,30 @@ public class OsmAndAidlHelper {
 
 	interface LogcatMessageListener {
 		void onNewLogcatMessage(OnLogcatMessageParams params);
+	}
+
+
+	@Nullable
+	private String getInstalledOsmandPackage(Context context) {
+		if (osmandPackageName != null) {
+			return osmandPackageName;
+		}
+		String[] prioritizedPackages = {
+				OSMAND_PLUS_PACKAGE_NAME,
+				OSMAND_FREE_PACKAGE_NAME,
+				OSMAND_NIGHTLY_PACKAGE_NAME
+		};
+		PackageManager manager = context.getPackageManager();
+		for (String pkg : prioritizedPackages) {
+			try {
+				manager.getPackageInfo(pkg, 0);
+				osmandPackageName = pkg;
+				return pkg;
+			} catch (NameNotFoundException e) {
+				// Not installed, move to the next one
+			}
+		}
+		return null;
 	}
 
 	private final IOsmAndAidlCallback.Stub mIOsmAndAidlCallback = new IOsmAndAidlCallback.Stub() {
@@ -300,9 +331,19 @@ public class OsmAndAidlHelper {
 
 	private boolean bindService() {
 		if (mIOsmAndAidlInterface == null) {
+			String targetPackage = getInstalledOsmandPackage(app);
+			if (targetPackage == null) {
+				Toast.makeText(app, "OsmAnd is not installed on this device", Toast.LENGTH_LONG).show();
+				mOsmandMissingListener.osmandMissing();
+				return false;
+			}
 			Intent intent = new Intent("net.osmand.aidl.OsmandAidlServiceV2");
-			intent.setPackage(OSMAND_PACKAGE_NAME);
-			boolean res = app.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+			intent.setPackage(targetPackage);
+			int flags = Context.BIND_AUTO_CREATE;
+			if (Build.VERSION.SDK_INT >= 34) {
+				flags |= Context.BIND_ALLOW_ACTIVITY_STARTS;
+			}
+			boolean res = app.bindService(intent, mConnection, flags);
 			if (res) {
 				Toast.makeText(app, "OsmAnd service bind", Toast.LENGTH_SHORT).show();
 				return true;
@@ -804,7 +845,7 @@ public class OsmAndAidlHelper {
 	public boolean importGpxFromUri(Uri gpxUri, String fileName, String color, boolean show) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				app.grantUriPermission(osmandPackageName, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 				return mIOsmAndAidlInterface.importGpx(new ImportGpxParams(gpxUri, fileName, color, show));
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -829,7 +870,7 @@ public class OsmAndAidlHelper {
 	                                  boolean snapToRoad, String snapToRoadModeKey, int snapToRoadThreshold) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				app.grantUriPermission(osmandPackageName, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 				NavigateGpxParams navigateGpxParams = new NavigateGpxParams(gpxUri, force, needLocationPermission);
 				navigateGpxParams.setPassWholeRoute(passWholeRoute);
 				navigateGpxParams.setSnapToRoad(snapToRoad);
@@ -1583,7 +1624,7 @@ public class OsmAndAidlHelper {
 	public boolean getBitmapForGpx(Uri gpxUri, float density, int widthPixels, int heightPixels, int color) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				app.grantUriPermission(OSMAND_PACKAGE_NAME, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				app.grantUriPermission(osmandPackageName, gpxUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 				return mIOsmAndAidlInterface.getBitmapForGpx(new CreateGpxBitmapParams(gpxUri, density, widthPixels, heightPixels, color), mIOsmAndAidlCallback);
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -2045,7 +2086,7 @@ public class OsmAndAidlHelper {
 	public boolean importProfile(Uri profileUri, ArrayList<AExportSettingsType> settingsTypeList, boolean replace, boolean silent) {
 		if (mIOsmAndAidlInterface != null) {
 			try {
-				app.grantUriPermission(OSMAND_PACKAGE_NAME, profileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				app.grantUriPermission(osmandPackageName, profileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 				return mIOsmAndAidlInterface.importProfile(new ProfileSettingsParams(profileUri, settingsTypeList,
 						replace, silent, null, -1));
 			} catch (RemoteException e) {
