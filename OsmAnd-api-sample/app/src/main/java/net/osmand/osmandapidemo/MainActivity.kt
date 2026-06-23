@@ -585,6 +585,19 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 ApiActionType.AIDL_REMOVE_SECOND_MAP_WIDGET -> {
                     aidlHelper.removeMapWidget("222")
                 }
+                ApiActionType.AIDL_ADD_WIDGET_GROUP -> {
+                    val groupId = "aidl_demo_group"
+                    aidlHelper.addWidgetGroup(groupId, "AIDL Sensors", "Widgets group from OsmAnd API demo", "widget_developer_day", "widget_developer_night")
+                    aidlHelper.addMapWidget("g_speed", "ic_action_speed", "AIDL Speed", "widget_speed_day", "widget_speed_night", "10", "km/h", 60, getDemoIntent(), groupId)
+                    aidlHelper.addMapWidget("g_time", "ic_action_time", "AIDL Time", "widget_time_day", "widget_time_night", getTimeStr(), "", 61, getDemoIntent(), groupId)
+                    aidlHelper.addMapWidget("g_altitude", "ic_action_altitude", "AIDL Altitude", "widget_altitude_day", "widget_altitude_night", "100", "m", 62, getDemoIntent(), groupId)
+                }
+                ApiActionType.AIDL_REMOVE_WIDGET_GROUP -> {
+                    aidlHelper.removeWidgetGroup("aidl_demo_group")
+                }
+                ApiActionType.AIDL_REMOVE_WIDGET_GROUP_WITH_WIDGETS -> {
+                    aidlHelper.removeWidgetGroupWithWidgets("aidl_demo_group")
+                }
                 ApiActionType.AIDL_UPDATE_FIRST_MAP_WIDGET -> {
                     aidlHelper.updateMapWidget("111", "ic_action_speed", "AIDL Speed", "widget_speed_day", "widget_speed_night", "1" + counter++, "km/h", 50, getDemoIntent())
                 }
@@ -1224,6 +1237,15 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         binding.aidlRemoveSecondMapWidgetButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_REMOVE_SECOND_MAP_WIDGET)
         }
+        binding.aidlAddWidgetGroupButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_ADD_WIDGET_GROUP)
+        }
+        binding.aidlRemoveWidgetGroupButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_REMOVE_WIDGET_GROUP)
+        }
+        binding.aidlRemoveWidgetGroupWithWidgetsButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_REMOVE_WIDGET_GROUP_WITH_WIDGETS)
+        }
 
 
         binding.aidlSetNavDrawerItemsButton.setOnClickListener {
@@ -1565,6 +1587,9 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(binding.aidlAddSecondMapWidgetButton, R.drawable.ic_action_settings)
         setDrawable(binding.aidlRemoveSecondMapWidgetButton, R.drawable.ic_action_settings)
         setDrawable(binding.aidlUpdateSecondMapWidgetButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlAddWidgetGroupButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRemoveWidgetGroupButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRemoveWidgetGroupWithWidgetsButton, R.drawable.ic_action_settings)
 
         setDrawable(binding.aidlRegisterForUpdatesButton, R.drawable.ic_action_gabout_dark)
         setDrawable(binding.aidlUnregisterFromUpdatesButton, R.drawable.ic_action_gabout_dark)

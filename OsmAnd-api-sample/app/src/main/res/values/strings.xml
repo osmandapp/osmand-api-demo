@@ -116,6 +116,9 @@
     <string name="remove_second_map_widget">Remove 2nd map widget</string>
     <string name="add_first_map_widget">Add 1st map widget</string>
     <string name="add_second_map_widget">Add 2nd map widget</string>
+    <string name="add_widget_group">Add widget group</string>
+    <string name="remove_widget_group">Remove widget group (keep widgets)</string>
+    <string name="remove_widget_group_with_widgets">Remove widget group with widgets</string>
     <string name="shared_string_files">Files</string>
     <string name="shared_string_aidl_files">AIDL - Files</string>
     <string name="import_file">Import file to OsmAnd</string>
