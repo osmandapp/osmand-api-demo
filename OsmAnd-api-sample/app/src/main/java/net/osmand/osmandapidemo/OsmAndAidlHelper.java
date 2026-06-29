@@ -83,6 +83,9 @@ import net.osmand.aidlapi.mapwidget.AMapWidget;
 import net.osmand.aidlapi.mapwidget.AddMapWidgetParams;
 import net.osmand.aidlapi.mapwidget.RemoveMapWidgetParams;
 import net.osmand.aidlapi.mapwidget.UpdateMapWidgetParams;
+import net.osmand.aidlapi.mapwidget.AWidgetGroup;
+import net.osmand.aidlapi.mapwidget.AddWidgetGroupParams;
+import net.osmand.aidlapi.mapwidget.RemoveWidgetGroupParams;
 import net.osmand.aidlapi.navdrawer.NavDrawerFooterParams;
 import net.osmand.aidlapi.navdrawer.NavDrawerHeaderParams;
 import net.osmand.aidlapi.navdrawer.NavDrawerItem;
@@ -600,6 +603,111 @@ public class OsmAndAidlHelper {
 				AMapWidget widget = new AMapWidget(id, menuIconName, menuTitle, lightIconName,
 						darkIconName, text, description, order, intentOnClick);
 				return mIOsmAndAidlInterface.addMapWidget(new AddMapWidgetParams(widget));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Add map widget assigned to a group
+	 * All widgets sharing the same groupId are shown together in OsmAnd's
+	 * "Configure screen" as a single group. Register the group itself via
+	 * {@link #addWidgetGroup} to set its title/description/icons
+	 *
+	 * @param groupId - id of the group this widget belongs to
+	 */
+	public boolean addMapWidget(String id, String menuIconName, String menuTitle,
+								String lightIconName, String darkIconName, String text, String description,
+								int order, Intent intentOnClick, String groupId) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				AMapWidget widget = new AMapWidget(id, menuIconName, menuTitle, lightIconName,
+						darkIconName, text, description, order, intentOnClick);
+				widget.setGroupId(groupId);
+				return mIOsmAndAidlInterface.addMapWidget(new AddMapWidgetParams(widget));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Add map widget with custom icons supplied as content URIs.
+	 * URIs take precedence over resource-name icons; the demo grants OsmAnd read
+	 * access to the URIs (see MainActivity.iconUri)
+	 */
+	public boolean addMapWidget(String id, String menuIconName, String menuTitle,
+								String lightIconName, String darkIconName, String text, String description,
+								int order, Intent intentOnClick, String groupId,
+								String menuIconUri, String lightIconUri, String darkIconUri) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				AMapWidget widget = new AMapWidget(id, menuIconName, menuTitle, lightIconName,
+						darkIconName, text, description, order, intentOnClick);
+				widget.setGroupId(groupId);
+				widget.setIconUris(menuIconUri, lightIconUri, darkIconUri);
+				return mIOsmAndAidlInterface.addMapWidget(new AddMapWidgetParams(widget));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Register or update a widget group. Widgets reference it via the groupId
+	 * passed to {@link #addMapWidget}. Icons are referenced by OsmAnd resource names.
+	 * Call again with the same id to update name/description/icons
+	 */
+	public boolean addWidgetGroup(String id, String name, String description,
+								  String dayIconName, String nightIconName) {
+		return addWidgetGroup(id, name, description, dayIconName, nightIconName, null, null);
+	}
+
+	/**
+	 * Register or update a widget group with custom icons supplied as content URIs.
+	 * URIs take precedence over resource-name icons
+	 */
+	public boolean addWidgetGroup(String id, String name, String description,
+								  String dayIconName, String nightIconName,
+								  String dayIconUri, String nightIconUri) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				AWidgetGroup group = new AWidgetGroup(id, name, description);
+				group.setIconNames(dayIconName, nightIconName);
+				group.setIconUris(dayIconUri, nightIconUri);
+				return mIOsmAndAidlInterface.addWidgetGroup(new AddWidgetGroupParams(group));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Remove a widget group. Its widgets are kept but become ungrouped
+	 */
+	public boolean removeWidgetGroup(String id) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.removeWidgetGroup(new RemoveWidgetGroupParams(id, false));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Remove a widget group together with all of its widgets
+	 */
+	public boolean removeWidgetGroupWithWidgets(String id) {
+		if (mIOsmAndAidlInterface != null) {
+			try {
+				return mIOsmAndAidlInterface.removeWidgetGroup(new RemoveWidgetGroupParams(id, true));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

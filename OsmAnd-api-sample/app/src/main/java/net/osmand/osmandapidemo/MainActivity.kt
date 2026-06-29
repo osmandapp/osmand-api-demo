@@ -66,6 +66,7 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.Locale
+import androidx.core.graphics.createBitmap
 
 class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
 
@@ -584,6 +585,29 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 ApiActionType.AIDL_REMOVE_SECOND_MAP_WIDGET -> {
                     aidlHelper.removeMapWidget("222")
+                }
+                ApiActionType.AIDL_ADD_WIDGET_GROUP -> {
+                    val groupId = "aidl_demo_group"
+                    aidlHelper.addWidgetGroup(groupId, "AIDL Sensors", "Widgets group from OsmAnd API demo", "widget_developer_day", "widget_developer_night")
+                    aidlHelper.addMapWidget("g_speed", "ic_action_speed", "AIDL Speed", "widget_speed_day", "widget_speed_night", "10", "km/h", 60, getDemoIntent(), groupId)
+                    aidlHelper.addMapWidget("g_time", "ic_action_time", "AIDL Time", "widget_time_day", "widget_time_night", getTimeStr(), "", 61, getDemoIntent(), groupId)
+                    aidlHelper.addMapWidget("g_altitude", "ic_action_altitude", "AIDL Altitude", "widget_altitude_day", "widget_altitude_night", "100", "m", 62, getDemoIntent(), groupId)
+                }
+                ApiActionType.AIDL_ADD_WIDGET_GROUP_CUSTOM_ICONS -> {
+                    val groupId = "aidl_custom_icon_group"
+                    val groupDayUri = iconUri(R.mipmap.api_app, "group_day")
+                    val groupNightUri = iconUri(R.mipmap.api_app, "group_night")
+                    aidlHelper.addWidgetGroup(groupId, "AIDL Custom Icons", "Group with custom URI icons", "widget_developer_day", "widget_developer_night", groupDayUri, groupNightUri)
+                    val w1Uri = iconUri(R.mipmap.api_app, "custom_widget1")
+                    aidlHelper.addMapWidget("c_widget1", "ic_action_speed", "Custom Icon 1", "widget_speed_day", "widget_speed_night", "1", "uri", 70, getDemoIntent(), groupId, w1Uri, w1Uri, w1Uri)
+                    val w2Uri = iconUri(R.mipmap.api_app, "custom_widget2")
+                    aidlHelper.addMapWidget("c_widget2", "ic_action_time", "Custom Icon 2", "widget_time_day", "widget_time_night", "2", "uri", 71, getDemoIntent(), groupId, w2Uri, w2Uri, w2Uri)
+                }
+                ApiActionType.AIDL_REMOVE_WIDGET_GROUP -> {
+                    aidlHelper.removeWidgetGroup("aidl_demo_group")
+                }
+                ApiActionType.AIDL_REMOVE_WIDGET_GROUP_WITH_WIDGETS -> {
+                    aidlHelper.removeWidgetGroupWithWidgets("aidl_demo_group")
                 }
                 ApiActionType.AIDL_UPDATE_FIRST_MAP_WIDGET -> {
                     aidlHelper.updateMapWidget("111", "ic_action_speed", "AIDL Speed", "widget_speed_day", "widget_speed_night", "1" + counter++, "km/h", 50, getDemoIntent())
@@ -1224,6 +1248,18 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         binding.aidlRemoveSecondMapWidgetButton.setOnClickListener {
             execApiAction(ApiActionType.AIDL_REMOVE_SECOND_MAP_WIDGET)
         }
+        binding.aidlAddWidgetGroupButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_ADD_WIDGET_GROUP)
+        }
+        binding.aidlAddWidgetGroupCustomIconsButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_ADD_WIDGET_GROUP_CUSTOM_ICONS)
+        }
+        binding.aidlRemoveWidgetGroupButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_REMOVE_WIDGET_GROUP)
+        }
+        binding.aidlRemoveWidgetGroupWithWidgetsButton.setOnClickListener {
+            execApiAction(ApiActionType.AIDL_REMOVE_WIDGET_GROUP_WITH_WIDGETS)
+        }
 
 
         binding.aidlSetNavDrawerItemsButton.setOnClickListener {
@@ -1565,6 +1601,10 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         setDrawable(binding.aidlAddSecondMapWidgetButton, R.drawable.ic_action_settings)
         setDrawable(binding.aidlRemoveSecondMapWidgetButton, R.drawable.ic_action_settings)
         setDrawable(binding.aidlUpdateSecondMapWidgetButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlAddWidgetGroupButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlAddWidgetGroupCustomIconsButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRemoveWidgetGroupButton, R.drawable.ic_action_settings)
+        setDrawable(binding.aidlRemoveWidgetGroupWithWidgetsButton, R.drawable.ic_action_settings)
 
         setDrawable(binding.aidlRegisterForUpdatesButton, R.drawable.ic_action_gabout_dark)
         setDrawable(binding.aidlUnregisterFromUpdatesButton, R.drawable.ic_action_gabout_dark)
@@ -1606,6 +1646,39 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         startDemoIntent?.addCategory(Intent.CATEGORY_LAUNCHER)
 
         return startDemoIntent
+    }
+
+    // OsmAnd packages we grant temporary read access to icon URIs.
+    private val osmandPackages = listOf("net.osmand", "net.osmand.plus", "net.osmand.dev")
+
+    /**
+     * Renders a drawable resource to a PNG in the app cache and returns a
+     * content:// URI for it (via FileProvider), granting OsmAnd read access.
+     * Used to demonstrate custom widget/group icons.
+     */
+    private fun iconUri(resId: Int, name: String): String? {
+        return try {
+            val drawable = ContextCompat.getDrawable(this, resId) ?: return null
+            val size = 96
+            val bitmap = createBitmap(size, size)
+            val canvas = android.graphics.Canvas(bitmap)
+            drawable.setBounds(0, 0, size, size)
+            drawable.draw(canvas)
+            val dir = File(cacheDir, "icons").apply { mkdirs() }
+            val file = File(dir, "$name.png")
+            FileOutputStream(file).use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
+            val uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
+            for (pkg in osmandPackages) {
+                try {
+                    grantUriPermission(pkg, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                } catch (_: Exception) {
+                }
+            }
+            uri.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     private fun handleGpxFileAsString(data: Intent, action: (String) -> Unit) {
