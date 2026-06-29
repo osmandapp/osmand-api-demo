@@ -1273,6 +1273,16 @@
 				<View style="@style/short_divider_style" />
 
 				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/aidlAddWidgetGroupCustomIconsButton"
+					style="@style/row_item_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_action_flag_dark"
+					android:text="@string/add_widget_group_custom_icons" />
+
+				<View style="@style/short_divider_style" />
+
+				<androidx.appcompat.widget.AppCompatButton
 					android:id="@+id/aidlRemoveWidgetGroupButton"
 					style="@style/row_item_style"
 					android:layout_width="match_parent"
