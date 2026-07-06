@@ -576,14 +576,22 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                 }
                 ApiActionType.AIDL_ADD_FIRST_MAP_WIDGET -> {
                     aidlHelper.addMapWidget("111", "ic_action_speed", "AIDL Speed", "widget_speed_day", "widget_speed_night", "10", "km/h", 50, getDemoIntent())
+                    trackWidget("111") {
+                        aidlHelper.updateMapWidget("111", "ic_action_speed", "AIDL Speed", "widget_speed_day", "widget_speed_night", widgetTick.toString(), "sec", 50, getDemoIntent())
+                    }
                 }
                 ApiActionType.AIDL_ADD_SECOND_MAP_WIDGET -> {
                     aidlHelper.addMapWidget("222", "ic_action_time", "AIDL Time", "widget_time_day", "widget_time_night", getTimeStr(), "", 51, getDemoIntent())
+                    trackWidget("222") {
+                        aidlHelper.updateMapWidget("222", "ic_action_time", "AIDL Time", "widget_time_day", "widget_time_night", getTimeStr(), "", 51, getDemoIntent())
+                    }
                 }
                 ApiActionType.AIDL_REMOVE_FIRST_MAP_WIDGET -> {
+                    untrackWidgets("111")
                     aidlHelper.removeMapWidget("111")
                 }
                 ApiActionType.AIDL_REMOVE_SECOND_MAP_WIDGET -> {
+                    untrackWidgets("222")
                     aidlHelper.removeMapWidget("222")
                 }
                 ApiActionType.AIDL_ADD_WIDGET_GROUP -> {
@@ -592,21 +600,38 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
                     aidlHelper.addMapWidget("g_speed", "ic_action_speed", "AIDL Speed", "widget_speed_day", "widget_speed_night", "10", "km/h", 60, getDemoIntent(), groupId)
                     aidlHelper.addMapWidget("g_time", "ic_action_time", "AIDL Time", "widget_time_day", "widget_time_night", getTimeStr(), "", 61, getDemoIntent(), groupId)
                     aidlHelper.addMapWidget("g_altitude", "ic_action_altitude", "AIDL Altitude", "widget_altitude_day", "widget_altitude_night", "100", "m", 62, getDemoIntent(), groupId)
+                    trackWidget("g_speed") {
+                        aidlHelper.addMapWidget("g_speed", "ic_action_speed", "AIDL Speed", "widget_speed_day", "widget_speed_night", widgetTick.toString(), "km/h", 60, getDemoIntent(), groupId)
+                    }
+                    trackWidget("g_time") {
+                        aidlHelper.addMapWidget("g_time", "ic_action_time", "AIDL Time", "widget_time_day", "widget_time_night", getTimeStr(), "", 61, getDemoIntent(), groupId)
+                    }
+                    trackWidget("g_altitude") {
+                        aidlHelper.addMapWidget("g_altitude", "ic_action_altitude", "AIDL Altitude", "widget_altitude_day", "widget_altitude_night", (100 + widgetTick).toString(), "m", 62, getDemoIntent(), groupId)
+                    }
                 }
                 ApiActionType.AIDL_ADD_WIDGET_GROUP_CUSTOM_ICONS -> {
                     val groupId = "aidl_custom_icon_group"
                     val groupDayUri = iconUri(R.mipmap.api_app, "group_day")
                     val groupNightUri = iconUri(R.mipmap.api_app, "group_night")
-                    aidlHelper.addWidgetGroup(groupId, "AIDL Custom Icons", "Group with custom URI icons", "widget_developer_day", "widget_developer_night", groupDayUri, groupNightUri)
+                    aidlHelper.addWidgetGroup(groupId, "AIDL Custom Icons", "Group with custom URI icon widgets", "widget_developer_day", "widget_developer_night", groupDayUri, groupNightUri)
                     val w1Uri = iconUri(R.mipmap.api_app, "custom_widget1")
-                    aidlHelper.addMapWidget("c_widget1", "ic_action_speed", "Custom Icon 1", "widget_speed_day", "widget_speed_night", "1", "uri", 70, getDemoIntent(), groupId, w1Uri, w1Uri, w1Uri)
+                    aidlHelper.addMapWidget("c_widget1", "ic_action_speed", "Custom Icon Widget 1", "widget_speed_day", "widget_speed_night", "1", "uri", 70, getDemoIntent(), groupId, w1Uri, w1Uri, w1Uri)
                     val w2Uri = iconUri(R.mipmap.api_app, "custom_widget2")
-                    aidlHelper.addMapWidget("c_widget2", "ic_action_time", "Custom Icon 2", "widget_time_day", "widget_time_night", "2", "uri", 71, getDemoIntent(), groupId, w2Uri, w2Uri, w2Uri)
+                    aidlHelper.addMapWidget("c_widget2", "ic_action_time", "Custom Icon Widget 2", "widget_time_day", "widget_time_night", "2", "uri", 71, getDemoIntent(), groupId, w2Uri, w2Uri, w2Uri)
+                    trackWidget("c_widget1") {
+                        aidlHelper.addMapWidget("c_widget1", "ic_action_speed", "Custom Icon Widget 1", "widget_speed_day", "widget_speed_night", widgetTick.toString(), "uri", 70, getDemoIntent(), groupId, w1Uri, w1Uri, w1Uri)
+                    }
+                    trackWidget("c_widget2") {
+                        aidlHelper.addMapWidget("c_widget2", "ic_action_time", "Custom Icon Widget 2", "widget_time_day", "widget_time_night", widgetTick.toString(), "uri", 71, getDemoIntent(), groupId, w2Uri, w2Uri, w2Uri)
+                    }
                 }
                 ApiActionType.AIDL_REMOVE_WIDGET_GROUP -> {
+                    untrackWidgets("g_speed", "g_time", "g_altitude")
                     aidlHelper.removeWidgetGroup("aidl_demo_group")
                 }
                 ApiActionType.AIDL_REMOVE_WIDGET_GROUP_WITH_WIDGETS -> {
+                    untrackWidgets("g_speed", "g_time", "g_altitude")
                     aidlHelper.removeWidgetGroupWithWidgets("aidl_demo_group")
                 }
                 ApiActionType.AIDL_UPDATE_FIRST_MAP_WIDGET -> {
@@ -1503,6 +1528,8 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
     }
 
     override fun onDestroy() {
+        widgetUpdateHandler.removeCallbacks(widgetUpdateRunnable)
+        activeWidgetUpdaters.clear()
         mAidlHelper!!.cleanupResources()
         super.onDestroy()
     }
@@ -1678,6 +1705,39 @@ class MainActivity : AppCompatActivity(), OsmAndHelper.OnOsmandMissingListener {
         } catch (e: Exception) {
             e.printStackTrace()
             null
+        }
+    }
+
+    private val widgetUpdateHandler = Handler(android.os.Looper.getMainLooper())
+    private val activeWidgetUpdaters = LinkedHashMap<String, () -> Unit>()
+    private var widgetUpdaterScheduled = false
+    private var widgetTick = 0
+
+    private val widgetUpdateRunnable = object : Runnable {
+        override fun run() {
+            widgetTick++
+            for (updater in ArrayList(activeWidgetUpdaters.values)) {
+                updater()
+            }
+            if (activeWidgetUpdaters.isNotEmpty()) {
+                widgetUpdateHandler.postDelayed(this, 1000)
+            } else {
+                widgetUpdaterScheduled = false
+            }
+        }
+    }
+
+    private fun trackWidget(id: String, updater: () -> Unit) {
+        activeWidgetUpdaters[id] = updater
+        if (!widgetUpdaterScheduled) {
+            widgetUpdaterScheduled = true
+            widgetUpdateHandler.postDelayed(widgetUpdateRunnable, 1000)
+        }
+    }
+
+    private fun untrackWidgets(vararg ids: String) {
+        for (id in ids) {
+            activeWidgetUpdaters.remove(id)
         }
     }
 
