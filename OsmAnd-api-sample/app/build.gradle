@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-	compileSdk 35
-	buildToolsVersion = "35.0.0"
+	compileSdk 36
+	buildToolsVersion = "36.0.0"
 
 	namespace = "net.osmand.osmandapidemo"
 
 	defaultConfig {
 		applicationId "net.osmand.osmandapidemo"
 		minSdkVersion 24
-		targetSdkVersion 35
+		targetSdkVersion 36
 		versionCode System.getenv("APK_NUMBER_VERSION") ? System.getenv("APK_NUMBER_VERSION").toInteger() : 100
 		versionName System.getenv("APK_VERSION")? System.getenv("APK_VERSION").toString(): "1.0-dev"
 	}
@@ -62,6 +62,6 @@ android {
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 	implementation "net.osmand:android-aidl-lib:master-snapshot@aar"
-	implementation 'androidx.appcompat:appcompat:1.6.1'
-	implementation 'com.google.android.material:material:1.9.0'
+	implementation 'androidx.appcompat:appcompat:1.7.1'
+	implementation 'com.google.android.material:material:1.14.0'
 }

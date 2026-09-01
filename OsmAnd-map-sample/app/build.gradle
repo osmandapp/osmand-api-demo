@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdk 35
-	buildToolsVersion = "35.0.0"
+	compileSdk 36
+	buildToolsVersion = "36.0.0"
 
 	namespace = "net.osmand.library.sample"
 
 	defaultConfig {
 		applicationId "net.osmand.library.sample"
 		minSdkVersion 24
-		targetSdkVersion 35
+		targetSdkVersion 36
 		versionCode 1
 		versionName "1.0"
 		multiDexEnabled true
@@ -105,10 +105,10 @@ dependencies {
 	implementation "net.osmand:OsmAndCore_android:master-snapshot@aar"
 
 	implementation 'androidx.multidex:multidex:2.0.1'
-	implementation 'androidx.gridlayout:gridlayout:1.0.0'
+	implementation 'androidx.gridlayout:gridlayout:1.1.0'
 	implementation 'androidx.cardview:cardview:1.0.0'
-	implementation 'androidx.appcompat:appcompat:1.6.1'
-	implementation 'com.google.android.material:material:1.9.0'
+	implementation 'androidx.appcompat:appcompat:1.7.1'
+	implementation 'com.google.android.material:material:1.14.0'
 	implementation 'androidx.browser:browser:1.0.0'
 	implementation 'androidx.preference:preference:1.1.0'
 	implementation 'androidx.lifecycle:lifecycle-process:2.6.0'
@@ -128,7 +128,7 @@ dependencies {
 	// JS core
 	implementation group: 'org.mozilla', name: 'rhino', version: '1.7.9'
 
-	implementation ("com.getkeepsafe.taptargetview:taptargetview:1.13.2"){
+	implementation ("com.getkeepsafe.taptargetview:taptargetview:1.15.0"){
 		exclude group: 'com.android.support'
 	}
 	debugImplementation "net.osmand:MPAndroidChart:custom-snapshot-debug@aar"
@@ -142,16 +142,18 @@ dependencies {
 	implementation 'com.jaredrummler:colorpicker:1.1.0'
 	implementation 'com.google.android.gms:play-services-location:21.3.0'
 	implementation "net.osmand:antpluginlib:3.8.0@aar"
-	implementation 'com.google.android.play:review:2.0.1'
+	implementation 'com.google.android.play:review:2.0.2'
 
-	implementation "androidx.core:core:1.13.1"
-	implementation "androidx.car.app:app:1.4.0"
-	implementation "androidx.car.app:app-projected:1.4.0"
+	implementation "androidx.core:core:1.16.0"
+	implementation "androidx.car.app:app:1.7.0"
+	implementation "androidx.car.app:app-projected:1.7.0"
 
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+	implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+	implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
+	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
 	implementation("com.squareup.okio:okio:3.9.0")
 	implementation("co.touchlab:stately-concurrent-collections:2.1.0")
 
